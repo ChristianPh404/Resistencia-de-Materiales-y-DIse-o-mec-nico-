@@ -1,0 +1,1 @@
+# Resistencia-de-Materiales-y-DIse-o-mec-nico-
