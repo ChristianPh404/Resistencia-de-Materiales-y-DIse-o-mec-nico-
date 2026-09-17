@@ -97,7 +97,9 @@
 % TCOLORBOX SETUPS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\setlength{\parindent}{1cm}
+\setlength{\parindent}{0pt}
+\raggedright
+
 %================================
 % THEOREM BOX
 %================================
@@ -158,7 +160,7 @@
 }
 
 %================================
-% Corolario
+% Corolario e Importante
 %================================
 \tcbuselibrary{theorems,skins,hooks}
 \newtcbtheorem[number within=section]{Corolario}{Corolario}
@@ -198,6 +200,23 @@
     ,segmentation style={solid, myp!85!black}
 }
 {th}
+
+\newtcolorbox{ImportanteBox}[1][]{%
+    enhanced
+    ,breakable
+    ,colback = myp!10
+    ,frame hidden
+    ,boxrule = 0sp
+    ,borderline west = {2pt}{0pt}{myp!85!black}
+    ,sharp corners
+    ,detach title
+    ,before upper = \tcbtitle\par\smallskip
+    ,coltitle = myp!85!black
+    ,fonttitle = \bfseries\sffamily
+    ,description font = \mdseries
+    ,title = ¡IMPORTANTE!
+    ,#1
+}
 
 
 %================================
@@ -632,6 +651,7 @@
 
 \newcommand{\thm}[2]{\begin{Theorem}{#1}{}#2\end{Theorem}}
 \newcommand{\cor}[2]{\begin{Corolario}{#1}{}#2\end{Corolario}}
+\newcommand{\imp}[1]{\begin{ImportanteBox}#1\end{ImportanteBox}}
 \newcommand{\mlenma}[2]{\begin{Lenma}{#1}{}#2\end{Lenma}}
 \newcommand{\mprop}[2]{\begin{Prop}{#1}{}#2\end{Prop}}
 \newcommand{\clm}[3]{\begin{claim}{#1}{#2}#3\end{claim}}

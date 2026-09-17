@@ -1,7 +1,6 @@
 \chapter{Propiedades Mecánicas y Ensayos de Materiales}
 
 \section{Introducción y Criterios de Selección}
-
 Para la construcción de un equipo o instalación en la industria química se ha de elegir un material capaz de soportar las condiciones exigentes en las que prestará su servicio (presión, temperatura, fluidos agresivos, esfuerzos mecánicos y vibraciones).
 
 En términos generales, los \textbf{materiales más resistentes a la corrosión y al ataque de agentes químicos presentan una baja resistencia mecánica} o un coste económico excesivamente elevado. Si la elección se realiza atendiendo exclusivamente a la resistencia química, las soluciones suelen resultar inviables económicamente. Por ello, se debe alcanzar una \textbf{solución de compromiso} de modo que el coste global del equipo sea asumible a lo largo de su vida útil.
@@ -15,7 +14,7 @@ Un \textbf{material ideal para la construcción de una planta química} debe sat
     \item \textbf{Resistencia mecánica adecuada:} Soportar tensiones estáticas, cíclicas o de impacto a las temperaturas de operación.
     \item \textbf{Viabilidad económica y tecnológica:} Coste de adquisición asumible y facilidad para ser conformado, soldado y mecanizado.
 \end{itemize}
-
+\nt{Es decir, los materiales deben ser resistentes a la corrosión y a su vez que tengan una resistencia mecanica elevada, debido a que es realmente inusual que cumpla ambas lo que se hace es llegar a un compromiso basandonos en la economia y en la viabilidad tecnologica que cumplan ambos criterios, se seleccionara el espesor calculado del material y ademas se le añadira un espesor por corrosión calculado para los años de vida util es decir que el espesor final seleccionado sera la suma de ambos}
 \section{Propiedades Mecánicas de los Materiales}
 
 Dentro del conjunto de propiedades de los materiales (mecánicas, térmicas, eléctricas, químicas, etc.), son las \textbf{propiedades mecánicas de resistencia, mecánicas superficiales, tecnológicas y la resistencia química} los factores determinantes en el diseño mecánico de equipos e instalaciones de proceso.
@@ -25,62 +24,77 @@ El \textbf{comportamiento mecánico} refleja la relación funcional entre la fue
 \subsection{Factores influyentes en el comportamiento bajo carga}
 A la hora de llevar a cabo los ensayos mecánicos y evaluar el servicio de los materiales se deben considerar cuatro factores fundamentales:
 \begin{enumerate}
-    \item \textbf{Naturaleza de la carga aplicada:} 
-    \begin{itemize}
-        \item \textit{Tracción:} Fuerzas colineales que tienden a estirar el elemento longitudinalmente.
-        \item \textit{Compresión:} Fuerzas que tienden a acortar el elemento en la dirección de aplicación.
-        \item \textit{Pandeo:} Inestabilidad elástica por compresión en elementos esbeltos.
-        \item \textit{Flexión:} Momentos flectores que generan tracción en una cara y compresión en la opuesta.
-        \item \textit{Torsión:} Momentos torsores que provocan tensiones cortantes alrededor del eje longitudinal.
-        \item \textit{Corte o cizalladura:} Fuerzas paralelas y coplanares a la sección resistente que tienden a deslizar planos adyacentes.
-    \end{itemize}
-    \item \textbf{Superficie y distribución de aplicación:} Carga concentrada (puntual), uniformemente distribuida o uniformemente variada.
-    \item \textbf{Tiempo y régimen de duración:}
-    \begin{itemize}
-        \item \textit{Carga constante o estática:} Aplicada de forma suave y mantenida en el tiempo.
-        \item \textit{Carga progresiva:} Crecimiento lento y continuo de la solicitación.
-        \item \textit{Carga repetitiva o cíclica:} Cargas variables en el tiempo que oscilan o fluctúan (origen de la fatiga).
-        \item \textit{Carga alternativa:} Fluctuación completa del sentido de la carga (de $+P$ a $-P$).
-        \item \textit{Carga de choque o impacto:} Aplicación brusca en fracciones de segundo con elevada transferencia de energía cinética.
-    \end{itemize}
-    \item \textbf{Condiciones ambientales y del medio:} Temperatura de servicio (criogénica o elevada), exposición a atmósferas húmedas, salinas o fluidos corrosivos bajo tensión.
-\end{enumerate}
+    \item \textbf{Naturaleza de la carga aplicada:}
+          \begin{itemize}
+              \item \textit{Tracción:} Fuerzas colineales que tienden a estirar el elemento longitudinalmente.
+              \item \textit{Compresión:} Fuerzas que tienden a acortar el elemento en la dirección de aplicación.
+              \item \textit{Pandeo:} Inestabilidad elástica por compresión en elementos esbeltos (Se da cuando la relación longitud respecto sección es elevada).
+              \item \textit{Flexión:} Momentos flectores que generan tracción en una cara y compresión en la opuesta.
+              \item \textit{Torsión:} Momentos torsores que provocan tensiones cortantes alrededor del eje longitudinal.
+              \item \textit{Corte o cizalladura:} Fuerzas paralelas y coplanares a la sección resistente que tienden a deslizar planos adyacentes.
+          \end{itemize}
 
-Las propiedades mecánicas se dividen en tres grandes categorías:
+          \begin{figure}[H]
+              \centering
+              \includegraphics[width=0.7\textwidth]{Tipos_carga.png}
+              \caption{Fuente: Transparencias Asignatura}
+              \label{fig:tipos_carga}
+          \end{figure}
+
+    \item \textbf{Superficie y distribución de aplicación:} Carga concentrada (puntual), uniformemente distribuida o uniformemente variada.
+          \begin{figure}[H]
+              \centering
+              \includegraphics[width=0.7\textwidth]{superficie_aplicacion.png}
+              \caption{Fuente: Transparencias Asignatura}
+              \label{fig:superficie_aplicacion}
+          \end{figure}
+    \item \textbf{Tiempo y régimen de duración:}
+          \begin{itemize}
+              \item \textit{Carga constante o estática:} Aplicada de forma suave y mantenida en el tiempo.
+              \item \textit{Carga progresiva:} Crecimiento lento y continuo de la solicitación.
+              \item \textit{Carga repetitiva o cíclica:} Cargas variables en el tiempo que oscilan o fluctúan (origen de la fatiga).
+              \item \textit{Carga alternativa:} Fluctuación completa del sentido de la carga (de $+P$ a $-P$).
+              \item \textit{Carga de choque o impacto:} Aplicación brusca en fracciones de segundo con elevada transferencia de energía cinética.
+          \end{itemize}
+    \item \textbf{Condiciones del medio:} Temperatura de servicio (criogénica o elevada), exposición a atmósferas húmedas, salinas o fluidos corrosivos bajo tensión.
+\end{enumerate}
+\subsection{propiedades mecánicas}
+El comportamiento mecánico de un material refleja la relación entre la fuerza aplicada y la respuesta del material a su deformación (resistencia que ofrece a la aplicación de la carga).
+Las propiedades mecánicas de los materiales se determinan realizando ensayos normalizados que permiten comparar entre si el comportamiento de distintos materiales.
 \begin{itemize}
     \item \textbf{Propiedades mecánicas de resistencia:} Comportamiento frente a esfuerzos axiales, cortantes o flectores (tracción, compresión, fatiga, termofluencia).
     \item \textbf{Propiedades mecánicas superficiales:} Resistencia a la deformación plástica localizada, penetración y rayado (dureza y resistencia al desgaste abrasivo).
     \item \textbf{Propiedades tecnológicas:} Capacidad del material para someterse a procesos de conformado y transformación (soldabilidad, flexión, embutición, abocardado).
 \end{itemize}
-
+Algunas normativas que lo regulan son ASME, ASTM y ISO.
 \subsection{Conceptos Básicos de Elasticidad y Deformación}
 
 \subsubsection{Tensión o Esfuerzo ($\sigma$)}
-La \textbf{tensión o esfuerzo nominal} producido por la aplicación de una carga uniaxial representa la resistencia interna por unidad de superficie que ofrece una sección del material frente a las fuerzas exteriores aplicadas.
+\dfn{Tensión o esfuerzo nominal}{Es la resistencia interna que ofrece una sección del material perpendicular a la carga aplicada. La tensión o esfuerzo que sufre un elemento ($\sigma$) es igual al cociente entre la fuerza uniaxial media y la sección transversal original de la barra.}
 
 Considerando una barra o probeta prismática/cilíndrica de longitud inicial $l_0$ y sección transversal inicial $A_0$ sometida a una fuerza uniaxial normal $P$, la tensión $\sigma$ viene dada por:
 \begin{equation}
     \sigma = \frac{P}{A_0}
     \label{eq:tension_nominal}
 \end{equation}
-
+\nt{La tensión ingenieriel siempre esta referida a la sección inicial}
 \textbf{Unidades de tensión y esfuerzo habituales en ingeniería:}
 \begin{itemize}
     \item \textbf{Sistema Internacional (SI):} Pascal ($\text{Pa} = \text{N}/\text{m}^2$). En ingeniería mecánica se emplean los múltiplos:
-    \begin{equation*}
-        1\text{ MPa} = 10^6\text{ Pa} = 1\text{ N}/\text{mm}^2, \qquad 1\text{ GPa} = 10^9\text{ Pa} = 10^3\text{ N}/\text{mm}^2
-    \end{equation*}
+          \begin{equation*}
+              1\text{ MPa} = 10^6\text{ Pa} = 1\text{ N}/\text{mm}^2, \qquad 1\text{ GPa} = 10^9\text{ Pa} = 10^3\text{ N}/\text{mm}^2
+          \end{equation*}
     \item \textbf{Sistema Técnico:} Kilogramo-fuerza por centímetro cuadrado ($\text{kgf}/\text{cm}^2$) o por milímetro cuadrado ($\text{kgf}/\text{mm}^2$), donde $1\text{ kgf} \approx 9.80665\text{ N}$.
     \item \textbf{Sistema Anglosajón (U.S. Customary Units):} Libra-fuerza por pulgada cuadrada ($\text{psi} = \text{lbf}/\text{in}^2$) o miles de psi ($\text{ksi} = 10^3\text{ psi}$):
-    \begin{equation*}
-        1\text{ psi} \approx 6.89476 \times 10^3\text{ Pa}, \qquad 1\text{ ksi} \approx 6.89476\text{ MPa}
-    \end{equation*}
+          \begin{equation*}
+              1\text{ psi} \approx 6.89476 \times 10^3\text{ Pa}, \qquad 1\text{ ksi} \approx 6.89476\text{ MPa}
+          \end{equation*}
 \end{itemize}
 
 \subsubsection{Deformación y Deformación Unitaria ($\varepsilon$)}
-Al aplicar una carga uniaxial $P$, el elemento experimenta una variación dimensional en la dirección longitudinal de la fuerza denominada alargamiento o deformación total $\delta = l - l_0$. 
+\dfn{Deformación}{Al aplicar una carga uniaxial $P$, el elemento experimenta una variación dimensional en la dirección longitudinal de la fuerza denominada alargamiento o deformación total $\delta = l - l_0$. Es decir es el incremento de la longitud de la barra o probeta inicial. }
 
-En ingeniería se define la \textbf{deformación unitaria nominal} ($\varepsilon$) como el cociente entre el incremento de longitud y la longitud inicial de referencia:
+\dfn{Deformación Unitaria}{En ingeniería se define la \textbf{deformación unitaria nominal} ($\varepsilon$) como el cociente entre el incremento de longitud y la longitud inicial de referencia:}
 \begin{equation}
     \varepsilon = \frac{\delta}{l_0} = \frac{l - l_0}{l_0} \quad [\text{adimensional, habitualmente expresada en } \% \text{ o en } \text{mm}/\text{mm}]
     \label{eq:deformacion_unitaria}
@@ -101,12 +115,12 @@ Para un material idealmente incompresible bajo deformación elástica (sin varia
     \centering
     \begin{tabular}{lc lc}
         \toprule
-        \textbf{Metal / Aleación} & \textbf{Coeficiente $\nu$} & \textbf{Metal / Aleación} & \textbf{Coeficiente $\nu$} \\
+        \textbf{Metal / Aleación} & \textbf{Coeficiente $\nu$} & \textbf{Metal / Aleación}     & \textbf{Coeficiente $\nu$} \\
         \midrule
-        Aluminio & 0.33 & Latón & 0.35 \\
-        Cobre & 0.35 & Magnesio & 0.29 \\
-        Níquel & 0.31 & Acero ordinario / estructural & 0.27 -- 0.30 \\
-        Titanio & 0.36 & Tungsteno (Wolframio) & 0.28 \\
+        Aluminio                  & 0.33                       & Latón                         & 0.35                       \\
+        Cobre                     & 0.35                       & Magnesio                      & 0.29                       \\
+        Níquel                    & 0.31                       & Acero ordinario / estructural & 0.27 -- 0.30               \\
+        Titanio                   & 0.36                       & Tungsteno (Wolframio)         & 0.28                       \\
         \bottomrule
     \end{tabular}
     \caption{Coeficientes de Poisson característicos para metales y aleaciones habituales.}
@@ -114,39 +128,76 @@ Para un material idealmente incompresible bajo deformación elástica (sin varia
 \end{table}
 
 \subsubsection{Deformación Elástica frente a Deformación Plástica}
-\begin{itemize}
-    \item \textbf{Deformación elástica:} Si al retirar la carga el material recupera instantáneamente sus dimensiones iniciales $l_0$. A escala atómica, los enlaces químicos interatómicos se alargan o comprimen ligeramente sin que los átomos abandonen sus posiciones de equilibrio en la red cristalina.
-    \item \textbf{Deformación plástica:} Si al retirar la carga el material experimenta una deformación permanente y residual. Se produce un desplazamiento irreversible de átomos mediante el movimiento colectivo de dislocaciones o deslizamiento de planos cristalográficos, alterando de forma permanente la microestructura del metal.
-\end{itemize}
+Al someter a una fuerza de tensión uniaxial $\sigma$, el material sufre deformación, dependiendo de como quede el material despues de retirarla podemos hablar de:
 
+\begin{itemize}
+    \item \textbf{Deformación elástica:} Si al retirar la carga el material recupera instantáneamente sus dimensiones iniciales $l_0$.
+    \item \textbf{Deformación plástica:} Si al retirar la carga el material experimenta una deformación permanente y residual. Durante esta deformación se ha producido una reorganización estructural del material y los atomos se han desplazado de sus posiciones de equilibrio.
+\end{itemize}
+\newpage
 \section{Ensayo de Tracción}
 
-El ensayo de tracción uniaxial es el procedimiento estándar más importante para determinar cuantitativamente las propiedades mecánicas de resistencia y deformabilidad de los materiales. 
+El ensayo de tracción uniaxial es el procedimiento estándar más importante para determinar cuantitativamente las propiedades mecánicas de resistencia y deformabilidad de los materiales.
 
-Consiste en someter una probeta normalizada a un estiramiento axial continuo y cuasiestático mediante un equipo de tracción servo-hidráulico o electromecánico dotado de célula de carga y extensómetro de contacto o láser, registrando en tiempo real la fuerza $P$ desarrollada y el alargamiento $\delta$ en la longitud calibrada.
+Se someten a un lento estiramiento mediante una equipo de ensayo \ref{fig:ensayo_traccion_esquema}, observándose la carga resultante y la deformación unitaria obtenida hasta el momento de la rotura final de la pieza. Debido a que las tensiones son monoaxiales y no poliaxiales tal y como se dan en la realidad
+este ensayo \textbf{No proporciona conclusiones definitivas, Pero es clave para comparar diferentes materiales entre si, ademas las condiciones a las que se realiza el ensayo deben estar normalizadas} es decir se usan probetas de dimensiones establecidas, ademas de a una velocidad y temperatura prefijadas.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{ensayo_traccion.png}
+    \caption{Esquema del ensayo de tracción.\\ Fuente: Transparencias Asignatura}
+    \label{fig:ensayo_traccion_esquema}
+\end{figure}
 
 \subsection{Probetas Normalizadas (Norma ASTM)}
 Para garantizar la reproducibilidad y comparación interlaboratorio, el ensayo se realiza bajo condiciones normalizadas (velocidad de deformación controlada y temperatura ambiente controlada). La Sociedad Americana de Ensayos de Materiales (\textbf{ASTM}) especifica geometrías estandarizadas:
 \begin{itemize}
-    \item \textbf{Probetas de sección circular:} Utilizadas comúnmente en piezas forjadas, barras y fundiciones. Presentan una longitud calibrada central reducida de diámetro $d_0 = 0.500'' \pm 0.010''$ ($12.7\text{ mm}$) y una longitud de calibración $L_0 = 2.000'' \pm 0.005''$ ($50.8\text{ mm}$). En general, se exige la condición geométrica:
-    \begin{equation}
-        \frac{L_0}{d_0} \leqslant 4
-    \end{equation}
+    \item \textbf{Probetas de sección circular:} Utilizadas comúnmente en piezas forjadas, barras y fundiciones. Presentan una longitud calibrada central reducida de diámetro $d_0 = 0.500'' \pm 0.010''$ ($12.7\text{ mm}$) y una longitud de calibración $L_0 = 2.000'' \pm 0.005''$ ($50.8\text{ mm}$). \textcolor{red}{En general, se exige la condición geométrica:} \nt{En caso de que la relación sea mayor}
+          \begin{equation}
+              \frac{L_0}{d_0} \leqslant 4
+          \end{equation}
     \item \textbf{Probetas de sección rectangular:} Utilizadas para ensayos de chapas, perfiles y láminas laminadas, adaptando el espesor al del producto comercial y con transiciones curvas amplias hacia los cabezales de amarre.
 \end{itemize}
 Los extremos ensanchados de la probeta se sujetan mediante mordazas de cuña, asegurando que la rotura ocurra siempre en la zona central calibrada y no en las proximidades de las mordazas donde se generan concentraciones locales de tensiones.
 
 \subsection{Curva Tensión-Deformación y Puntos Característicos}
 
-A partir de los registros continuos de carga $P$ y alargamiento $\delta$, se calculan la tensión nominal $\sigma = P/A_0$ y la deformación unitaria nominal $\varepsilon = \delta/L_0$. El perfil resultante define el comportamiento intrínseco del material:
-\begin{itemize}
-    \item \textbf{Materiales dúctiles} (ej. aceros de bajo carbono, cobre, aluminio recocido): Presentan un alargamiento elástico inicial lineal, una clara zona de deformación plástica uniforme generalizada, estricción localizada y un elevado alargamiento total antes de la fractura.
-    \item \textbf{Materiales frágiles} (ej. fundiciones grises, cerámicos, aceros de altísima dureza): Prácticamente no exhiben deformación plástica; la rotura se produce de manera repentina poco después de superado el régimen elástico lineal, con deformación a rotura insignificante.
-    \item \textbf{Materiales elastoméricos / polímeros termoplásticos:} Muestran curvas no lineales con grandes deformaciones, orientación molecular y estiramiento en frío.
-\end{itemize}
+Si se coloca la probeta en la máquina de ensayo de tracción y compresión y se aplica gradualmente \textbf{fuerzas de tracción} en los extremos, se puede medir \textbf{el alargamiento total en la longitud patrón para cualquier incremento predeterminado de la carga axial.} Las máquinas llevan generalmente un dispositivo que representa en un diagrama \textbf{la relación entre la carga (P) y el alargamiento ($\delta$).} Normalmente en los diagramas tensióndeformación se representa el \textbf{esfuerzo desarrollado en la probeta ($\sigma$) frente a la deformación unitaria ($\epsilon$)}
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{diagrama_tension_deformacion.png}
+    \caption{Diagrama tensión-deformación para distintos materiales. Fuente: Transparencias Asignatura}
+    \label{fig:diagrama_tension_deformacion}
+\end{figure}
+\begin{itemize}
+    \item \textbf{Materiales dúctiles (a)} (ej. aceros de bajo carbono, cobre, aluminio recocido): Presentan un alargamiento elástico inicial lineal, una clara zona de deformación plástica uniforme generalizada, estricción localizada y un elevado alargamiento total antes de la fractura (Punto de rotura).
+    \item \textbf{Materiales frágiles (b)} (ej. fundiciones grises, cerámicos, aceros de altísima dureza): Prácticamente no exhiben deformación plástica; la rotura se produce de manera repentina poco después de superado el régimen elástico lineal, con deformación a rotura insignificante.
+    \item \textbf{Materiales elastoméricos / polímeros termoplásticos (c):} Muestran curvas no lineales con grandes deformaciones como se aprecia en la gráfica.
+\end{itemize}
+\nt{En el eje y siempre debe ir la tensión ingenieril es decir respecto a la sección inicial}
+Del diagrama se pueden obtener una serie de puntos claves que caracterizan a los materiales como son:
+\begin{multicols}{2}
+    \begin{itemize}
+        \item Límite de proporcionalidad elástico
+        \item Límite elástico
+        \item Puntos de fluencia
+        \item Resistencia máxima a la tracción
+        \item Punto de rotura
+        \item Ductilidad
+        \item Resiliencia
+        \item Tenacidad
+    \end{itemize}
+\end{multicols}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\textwidth]{puntos_diagrama_tension_deformacion.png}
+    \caption{Puntos característicos de la curva tensión-deformación del acero.\\ Fuente: Transparencias Asignatura}
+    \label{fig:puntos_diagrama_tension_deformacion}
+\end{figure}
+Estos puntos son importantes, ya que nos permiten determinar la tensión maxima para el diseño del equipo, aunque dependiendo del caso se optará por unos puntos u otros.
 \subsubsection{Módulo de Young ($E$) y Límite de Proporcionalidad ($\sigma_{LP}$)}
-En el tramo inicial de la curva, el esfuerzo y la deformación crecen de forma estrictamente proporcional cumpliéndose la \textbf{Ley de Hooke}:
+Es la relacion entre la tensión $\sigma$ y la deformación $\varepsilon$, se calcula en el tramo inicial de la curva donde la relación es estrictamente proporcional cumpliéndose la \textbf{Ley de Hooke}:
 \begin{equation}
     \sigma = E \, \varepsilon \quad \Longleftrightarrow \quad \frac{P}{A_0} = E \, \frac{\delta}{L_0}
     \label{eq:hooke_law}
@@ -161,70 +212,85 @@ La constante de proporcionalidad $E$ se denomina \textbf{Módulo de Elasticidad 
     \centering
     \begin{tabular}{lccc}
         \toprule
-        \textbf{Material} & \textbf{$E$ ($\text{psi}$)} & \textbf{$E$ ($\text{GPa}$)} & \textbf{$E$ ($\text{Pa}$)} \\
+        \textbf{Material}                  & \textbf{$E$ ($\text{psi}$)} & \textbf{$E$ ($\text{GPa}$)} & \textbf{$E$ ($\text{Pa}$)} \\
         \midrule
-        Cobre recocido & $16 \times 10^6$ & $110$ & $1.1 \times 10^{11}$ \\
-        Acero ordinario y de baja aleación & $29 \times 10^6$ & $200$ & $2.0 \times 10^{11}$ \\
-        Aleaciones de aluminio estructural & $10 \times 10^6$ & $70$ & $0.7 \times 10^{11}$ \\
-        Titanio comercial puro & $15 \times 10^6$ & $105$ & $1.05 \times 10^{11}$ \\
+        Cobre recocido                     & $16 \times 10^6$            & $110$                       & $1.1 \times 10^{11}$       \\
+        Acero ordinario y de baja aleación & $29 \times 10^6$            & $200$                       & $2.0 \times 10^{11}$       \\
+        Aleaciones de aluminio estructural & $10 \times 10^6$            & $70$                        & $0.7 \times 10^{11}$       \\
+        Titanio comercial puro             & $15 \times 10^6$            & $105$                       & $1.05 \times 10^{11}$      \\
         \bottomrule
     \end{tabular}
     \caption{Módulos de Young característicos para distintos metales de uso en ingeniería.}
     \label{tab:modulos_young}
 \end{table}
 
-El \textbf{límite de proporcionalidad} ($\sigma_{LP}$) representa el nivel máximo de tensión a partir del cual la relación lineal deja de cumplirse:
+\dfn{Límite de proporcionalidad ($\sigma_{LP}$)}{El \textbf{límite de proporcionalidad} ($\sigma_{LP}$) representa el nivel máximo de tensión a partir del cual la relación lineal deja de cumplirse:}
 \begin{equation}
     \sigma_{LP} = \frac{P_{LP}}{A_0}
 \end{equation}
+\imp{La tensión en el límite de proporcionalidad ($\sigma_{LP}$) es la correspondiente al punto donde deja de existir una relación lineal entre el esfuerzo aplicado y la deformación unitaria. $P_{LP}$ es la carga aplicada en el límite de proporcionalidad.}
 \textbf{Método de Johnson para determinar $\sigma_{LP}$:} Dado que la desviación de la linealidad puede ser gradual y difícil de discernir visualmente, se emplea el método gráfico de Johnson: se traza una recta $OE$ tangente a la curva en el origen con pendiente $E$, y se define otra recta $OD$ con una pendiente un $50\%$ inferior respecto al eje de esfuerzos (es decir, en una paralela horizontal a distancia $FD = 1.5 \, FE$). Trazando una paralela a $OD$ que sea tangente a la curva de tracción, el punto de tangencia define con rigor el límite de proporcionalidad.
-
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{Gemini_Generated_Image_a8mnpsa8mnpsa8mn.jpg}
+    \caption{Método de Johnson para determinar $\sigma_{LP}$. Fuente: Transparencias Asignatura}
+    \label{fig:metodo_johnson}
+\end{figure}
 \subsubsection{Límite de Elasticidad ($\sigma_{LE}$)}
-Es la tensión máxima admisible sin que se produzcan deformaciones permanentes al cesar la carga. Si la carga supera $\sigma_{LE}$, al descargar el material queda una deformación plástica irreversible. En la práctica coincide de forma muy aproximada con el límite de proporcionalidad:
+Es la tensión máxima admisible sin que se produzcan deformaciones permanentes al cesar la carga. Generalmente coincide con el límite de proporcionalidad y se evalúa a partir de la siguiente expresión:
 \begin{equation}
     \sigma_{LE} = \frac{P_{LE}}{A_0}
 \end{equation}
+donde \textbf{$P_{LE}$ es la carga aplicada en el límite de elasticidad.} Si al material ensayado se le aplica una carga superior sufrira una deformación plástica, por lo general se suele trabajar por debajo del limite de elasticidad (teniendo tambien en cuenta un coeficiente de seguridad).
 
 \subsubsection{Límite o Punto de Fluencia / Cedencia ($\sigma_{LF}$ o $\sigma_A$)}
-Es el valor de tensión a partir del cual el material experimenta un alargamiento considerable sin necesidad de aumentar la carga exterior. 
+Es el valor de tensión a partir del cual el material experimenta un alargamiento considerable sin necesidad de aumentar la carga exterior.
 
-En los aceros suaves de bajo contenido en carbono se aprecian dos puntos de fluencia característicos:
+Algunas veces la fluencia viene acompañada de un descenso en la tensión y en ese caso se aprecian dos puntos de fluencia:
 \begin{itemize}
-    \item \textbf{Punto de fluencia superior ($\sigma_{LFs} = P_A/A_0$):} Depende marcadamente de la velocidad de aplicación del ensayo y de la geometría de la probeta.
-    \item \textbf{Punto de fluencia inferior ($\sigma_{LFi} = P_B/A_0$):} Es una propiedad intrínseca y constante del material, gobernada por el desanclaje de dislocaciones de las atmósferas de impurezas intersticiales (atmósferas de Cottrell).
+    \item \textbf{Punto de fluencia superior ($\sigma_{LFs} = P_A/A_0$):} \textbf{Depende de la forma con la que se realiza el ensayo}, es decir de la geometría de la probeta y de la velocidad de aplicación del ensayo.
+    \item \textbf{Punto de fluencia inferior ($\sigma_{LFi} = P_B/A_0$):} \textbf{Es una propiedad intrínseca del material}, es decir es un punto característico del material.
 \end{itemize}
 
 \textbf{Convención de fluencia al 0.2\% ($\sigma_{0.2}$):} En aquellos materiales que no presentan un escalón de fluencia pronunciado (como los aceros de alta aleación, cobres, latones o aleaciones de aluminio), se define el límite elástico convencional como la tensión que genera una deformación plástica permanente remanente del $0.2\%$ ($\varepsilon = 0.002\text{ mm}/\text{mm}$). Se calcula trazando una recta paralela al tramo lineal elástico que parte desde la abscisa $\varepsilon = 0.002$; la intersección con la curva define el punto de fluencia de diseño.
-
+\dfn{Tensión de fluencia sin límite definido obvio:}{Esfuerzo desarrollado en la probeta que provoca sobre el material una deformacion permanente del 0.2\%}
 \subsubsection{Resistencia Máxima a la Tracción ($\sigma_M$ o $S_u$)}
-A medida que la probeta sigue deformándose plásticamente, experimenta endurecimiento por deformación hasta alcanzar la carga máxima admisible $P_M$. La resistencia última a la tracción referida a la sección inicial es:
+Si se aumenta la carga aplicada sobre la probeta mas allá del punto de fluencia,es decir a medida que la probeta sigue deformándose plásticamente, experimenta endurecimiento por deformación hasta alcanzar la carga máxima admisible $P_M$. La resistencia última a la tracción referida a la sección inicial es:
 \begin{equation}
     \sigma_M = \frac{P_M}{A_0}
 \end{equation}
 Una vez superado el punto de resistencia máxima, la deformación plástica deja de ser homogénea a lo largo de toda la longitud calibrada y se concentra en una zona restringida, originándose el fenómeno de \textbf{estricción} (formación de un cuello o garganta donde el área transversal real disminuye drásticamente). Debido a esta rápida reducción de área transversal, la carga global $P$ requerida para continuar el estiramiento decrece de forma aparente.
-
+\nt{Correspone al punto M, que representa la resistencia máxima a tracción del material referida a la sección inicial de la probeta}
+\newpage
 \subsubsection{Punto y Tensión de Rotura ($\sigma_D$)}
-Corresponde al punto final donde la probeta fractura definitivamente bajo una carga $P_D$:
-\begin{equation}
-    \sigma_D = \frac{P_D}{A_0}
-\end{equation}
-
+Corresponde al punto final donde la probeta fractura definitivamente bajo una carga D.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{punto_rotura.png}
+    \caption{Resistencia máxima y punto de rotura \\ Fuente: Transparencias Asignatura}
+    \label{fig:punto_rotura}
+\end{figure}
 \subsubsection{Ductilidad: Alargamiento y Estricción a la Rotura}
-La ductilidad cuantifica el grado de deformación plástica que puede tolerar un material antes de la fractura. Se evalúa experimentalmente mediante dos parámetros tras unir cuidadosamente los extremos rotos de la probeta:
+\dfn{Ductilidad:}{Grado de deformación plástica que puede soportar un material antes de su fractura.}
+La ductilidad se determina cuantitativamente mediante el Alargamiento a la rotura (AR) y la Estricción a la rotura (ER) a partir de los datos obtenidos tras un ensayo de tracción con las siguientes expresiones:
 \begin{enumerate}
     \item \textbf{Porcentaje de alargamiento a la rotura (\%AR):}
-    \begin{equation}
-        \%AR = \frac{l_f - l_0}{l_0} \times 100
-        \label{eq:porcentaje_ar}
-    \end{equation}
+          \begin{equation}
+              \%AR = \frac{l_f - l_0}{l_0} \times 100
+              \label{eq:porcentaje_ar}
+          \end{equation}
     \item \textbf{Porcentaje de estricción (\%ES):}
-    \begin{equation}
-        \%ES = \frac{A_0 - A_f}{A_0} \times 100
-        \label{eq:porcentaje_es}
-    \end{equation}
+          \begin{equation}
+              \%ES = \frac{A_0 - A_f}{A_0} \times 100
+              \label{eq:porcentaje_es}
+          \end{equation}
 \end{enumerate}
-donde $l_0$ y $A_0$ son la longitud calibrada y la sección inicial, y $l_f$ y $A_f$ son la longitud final entre puntos calibrados y la sección transversal mínima en el cuello de rotura. A mayores valores de \%AR y \%ES, mayor es la ductilidad del material y su seguridad frente a roturas catastróficas.
-
+donde $l_0$ y $A_0$ son la longitud calibrada y la sección inicial, y $l_f$ y $A_f$ son la longitud final entre puntos calibrados y la sección transversal mínima en el cuello de rotura.
+\nt{A mayores valores de \%AR y \%ES, mayor es la ductilidad del material y su seguridad frente a roturas catastróficas.}
+\begin{itemize}
+    \item \textbf{Material frágil:} aquel que no puede tener apenas deformación plástica antes de romperse, se rompen de golpe, sin avisar. Por ejemplo el vidrio. Los materiales frágiles son aquellos que no han sufrido deformación plástica antes de romperse (se rompen justo en el límite elástico).
+    \item \textbf{Material dúctil:} aquel que puede tener grandes deformaciones plásticas antes de romperse
+\end{itemize}
 \subsubsection{Resiliencia y Módulo de Resiliencia}
 La \textbf{resiliencia} es la capacidad de un material de absorber energía elástica cuando es deformado y devolverla íntegramente al retirar la carga exterior. Representa el área bajo el tramo elástico de la curva tensión-deformación hasta el límite de proporcionalidad.
 
@@ -243,19 +309,19 @@ Esta propiedad cuantifica la resistencia frente a choques a baja velocidad sin d
 La \textbf{tenacidad} es la capacidad de un material de absorber energía mecánica elástica y plástica antes de que se produzca la fractura total.
 \begin{itemize}
     \item \textbf{Tenacidad estática:} Corresponde al área total bajo la curva completa tensión-deformación hasta el punto de rotura. Puede estimarse analíticamente de forma aproximada mediante la regla del trapecio:
-    \begin{equation}
-        \text{Tenacidad} \approx \frac{\sigma_A + \sigma_M}{2} \cdot \delta_D
-        \label{eq:tenacidad_aprox}
-    \end{equation}
-    donde $\sigma_A$ es la tensión de fluencia, $\sigma_M$ la resistencia última y $\delta_D$ la deformación total a rotura.
+          \begin{equation}
+              \text{Tenacidad} \approx \frac{\sigma_A + \sigma_M}{2} \cdot \delta_D
+              \label{eq:tenacidad_aprox}
+          \end{equation}
+          donde $\sigma_A$ es la tensión de fluencia, $\sigma_M$ la resistencia última y $\delta_D$ la deformación total a rotura.
     \item \textbf{Tenacidad al impacto dinámico:} Evaluada mediante péndulos normalizados en probetas entalladas (ensayos Charpy e Izod). Un martillo pendular de masa conocida se libera desde una altura inicial $h$, fractura la probeta entallada por flexión en un único golpe y asciende hasta una altura residual $h' < h$. La energía absorbida en el impacto es:
-    \begin{equation}
-        E_{\text{impacto}} = m g (h - h')
-    \end{equation}
-    \begin{itemize}
-        \item \textit{Ensayo Charpy:} La probeta se apoya como viga simplemente apoyada en ambos extremos y el péndulo golpea en el centro por la cara opuesta a la entalla. Se utiliza típicamente en materiales dúctiles y aceros estructurales.
-        \item \textit{Ensayo Izod:} La probeta se empotra verticalmente en voladizo y el péndulo golpea a una distancia fija en la cara donde se ubica la entalla. Muy empleado para plásticos y materiales más frágiles.
-    \end{itemize}
+          \begin{equation}
+              E_{\text{impacto}} = m g (h - h')
+          \end{equation}
+          \begin{itemize}
+              \item \textit{Ensayo Charpy:} La probeta se apoya como viga simplemente apoyada en ambos extremos y el péndulo golpea en el centro por la cara opuesta a la entalla. Se utiliza típicamente en materiales dúctiles y aceros estructurales.
+              \item \textit{Ensayo Izod:} La probeta se empotra verticalmente en voladizo y el péndulo golpea a una distancia fija en la cara donde se ubica la entalla. Muy empleado para plásticos y materiales más frágiles.
+          \end{itemize}
 \end{itemize}
 
 \paragraph{Transición Dúctil-Frágil y Efecto de la Temperatura:}
@@ -289,15 +355,15 @@ donde $K$ es el coeficiente de resistencia del material y $n$ es el \textbf{expo
     \centering
     \begin{tabular}{lcc}
         \toprule
-        \textbf{Material} & \textbf{Exponente $n$} & \textbf{Constante $K$ ($\text{MPa}$)} \\
+        \textbf{Material}                     & \textbf{Exponente $n$} & \textbf{Constante $K$ ($\text{MPa}$)} \\
         \midrule
-        Acero bajo en carbono (recocido) & 0.26 & 530 \\
-        Acero aleado AISI 4340 (recocido) & 0.15 & 640 \\
-        Acero inoxidable austenítico AISI 304 & 0.45 & 1275 \\
-        Aluminio recocido & 0.20 & 180 \\
-        Cobre recocido & 0.54 & 315 \\
-        Latón 70Cu-30Zn (recocido) & 0.49 & 895 \\
-        Aleación de aluminio 2024-T4 & 0.16 & 690 \\
+        Acero bajo en carbono (recocido)      & 0.26                   & 530                                   \\
+        Acero aleado AISI 4340 (recocido)     & 0.15                   & 640                                   \\
+        Acero inoxidable austenítico AISI 304 & 0.45                   & 1275                                  \\
+        Aluminio recocido                     & 0.20                   & 180                                   \\
+        Cobre recocido                        & 0.54                   & 315                                   \\
+        Latón 70Cu-30Zn (recocido)            & 0.49                   & 895                                   \\
+        Aleación de aluminio 2024-T4          & 0.16                   & 690                                   \\
         \bottomrule
     \end{tabular}
     \caption{Parámetros de endurecimiento por deformación ($n$ y $K$) para diversos materiales.}
@@ -307,7 +373,7 @@ donde $K$ es el coeficiente de resistencia del material y $n$ es el \textbf{expo
 \subsection{Endurecimiento por Deformación Plástica (Acritud)}
 Cuando un metal dúctil se somete a deformación plástica en frío (por encima de su límite elástico), la densidad de dislocaciones en su red cristalina se incrementa enormemente, multiplicándose y entorpeciendo su propio movimiento.
 
-Si durante un ensayo de tracción se interrumpe la carga tras alcanzar una deformación plástica y se descarga el espécimen, el material desciende con una pendiente idéntica a la elástica ($E$). Al volver a aplicar carga, el material recorre el mismo camino elástico hasta alcanzar un \textbf{nuevo límite de fluencia significativamente más elevado} que el original. 
+Si durante un ensayo de tracción se interrumpe la carga tras alcanzar una deformación plástica y se descarga el espécimen, el material desciende con una pendiente idéntica a la elástica ($E$). Al volver a aplicar carga, el material recorre el mismo camino elástico hasta alcanzar un \textbf{nuevo límite de fluencia significativamente más elevado} que el original.
 
 Este fenómeno confiere al material:
 \begin{itemize}
@@ -418,7 +484,7 @@ Son aquellas propiedades que definen la aptitud y facilidad de un material para 
 
 \section{Ensayos No Destructivos (END)}
 
-Los Ensayos No Destructivos tienen por objeto inspeccionar y caracterizar defectos, discontinuidades e inhomogeneidades (grietas, porosidades, inclusiones o pérdidas de espesor) en componentes terminados o en servicio sin inutilizarlos ni afectar a sus prestaciones funcionales. 
+Los Ensayos No Destructivos tienen por objeto inspeccionar y caracterizar defectos, discontinuidades e inhomogeneidades (grietas, porosidades, inclusiones o pérdidas de espesor) en componentes terminados o en servicio sin inutilizarlos ni afectar a sus prestaciones funcionales.
 
 Las principales técnicas empleadas en el mantenimiento preventivo y control de calidad de plantas químicas comprenden:
 \begin{itemize}
@@ -433,7 +499,7 @@ Las principales técnicas empleadas en el mantenimiento preventivo y control de 
 
 \section{Tensión de Trabajo y Factor de Seguridad}
 
-Los ensayos de laboratorio se realizan en probetas pulidas bajo condiciones ideales y uniaxiales. Sin embargo, en servicio industrial los componentes operan bajo estados de tensión poliaxiales complejos, cargas fluctuantes, variaciones térmicas, corrosión y tolerancias de fabricación. 
+Los ensayos de laboratorio se realizan en probetas pulidas bajo condiciones ideales y uniaxiales. Sin embargo, en servicio industrial los componentes operan bajo estados de tensión poliaxiales complejos, cargas fluctuantes, variaciones térmicas, corrosión y tolerancias de fabricación.
 
 Para garantizar que los equipos no alcancen nunca la plastificación ni la rotura, se dimensionan empleando una \textbf{tensión admisible o tensión de trabajo} ($\sigma_T$ o $\sigma_{\text{adm}}$):
 \begin{equation}
@@ -443,7 +509,7 @@ Para garantizar que los equipos no alcancen nunca la plastificación ni la rotur
 donde $\sigma_{\text{límite}}$ es la tensión de fluencia ($\sigma_A$) o la resistencia última a la tracción ($\sigma_M$), y $n$ es el \textbf{factor de seguridad} ($n > 1$).
 
 \subsection{Criterios de Elección del Factor de Seguridad ($n$)}
-El factor $n$ se selecciona en base a códigos de diseño (ASME, AISC, UNE), fluctuando habitualmente entre $1.2$ y $4.0$ (con un valor promedio típico de $2.0$ para solicitaciones estáticas convencionales). 
+El factor $n$ se selecciona en base a códigos de diseño (ASME, AISC, UNE), fluctuando habitualmente entre $1.2$ y $4.0$ (con un valor promedio típico de $2.0$ para solicitaciones estáticas convencionales).
 \begin{itemize}
     \item Un valor de $n$ excesivamente bajo compromete la seguridad y puede provocar fallos catastróficos.
     \item Un valor excesivamente alto conduce a un diseño sobredimensionado, multiplicando el peso propio de la instalación y su coste de fabricación.
@@ -453,11 +519,11 @@ El factor $n$ se selecciona en base a códigos de diseño (ASME, AISC, UNE), flu
     \centering
     \begin{tabular}{lcc}
         \toprule
-        \textbf{Naturaleza de la Carga} & \textbf{Materiales Dúctiles} & \textbf{Materiales Quebradizos / Frágiles} \\
+        \textbf{Naturaleza de la Carga} & \textbf{Materiales Dúctiles}      & \textbf{Materiales Quebradizos / Frágiles} \\
         \midrule
-        Carga estática & $\sigma_T = \dfrac{\sigma_A}{2}$ & $\sigma_T = \dfrac{\sigma_M}{6}$ \\[8pt]
-        Carga repetitiva & $\sigma_T = \dfrac{\sigma_M}{8}$ & $\sigma_T = \dfrac{\sigma_M}{10}$ \\[8pt]
-        Carga de choque o impacto & $\sigma_T = \dfrac{\sigma_M}{12}$ & $\sigma_T = \dfrac{\sigma_M}{15}$ \\
+        Carga estática                  & $\sigma_T = \dfrac{\sigma_A}{2}$  & $\sigma_T = \dfrac{\sigma_M}{6}$           \\[8pt]
+        Carga repetitiva                & $\sigma_T = \dfrac{\sigma_M}{8}$  & $\sigma_T = \dfrac{\sigma_M}{10}$          \\[8pt]
+        Carga de choque o impacto       & $\sigma_T = \dfrac{\sigma_M}{12}$ & $\sigma_T = \dfrac{\sigma_M}{15}$          \\
         \bottomrule
     \end{tabular}
     \caption{Criterios habituales de cálculo de la tensión de trabajo para esfuerzos normales directos.}
@@ -467,15 +533,15 @@ El factor $n$ se selecciona en base a códigos de diseño (ASME, AISC, UNE), flu
 \subsection{Criterios de Reglamentos Específicos para Cargas Estáticas}
 \begin{itemize}
     \item \textbf{Acero estructural (AISC - \textit{American Institute of Steel Construction}):}
-    \begin{equation}
-        \sigma_T = \min\left\{\frac{\sigma_A}{1.67} \approx 0.60 \, \sigma_A, \quad \frac{\sigma_M}{2.0} = 0.50 \, \sigma_M\right\}
-        \label{eq:criterio_aisc}
-    \end{equation}
+          \begin{equation}
+              \sigma_T = \min\left\{\frac{\sigma_A}{1.67} \approx 0.60 \, \sigma_A, \quad \frac{\sigma_M}{2.0} = 0.50 \, \sigma_M\right\}
+              \label{eq:criterio_aisc}
+          \end{equation}
     \item \textbf{Aleaciones de aluminio (Aluminum Association):}
-    \begin{equation}
-        \sigma_T = \min\left\{\frac{\sigma_A}{1.65} \approx 0.61 \, \sigma_A, \quad \frac{\sigma_M}{1.95} \approx 0.51 \, \sigma_M\right\}
-        \label{eq:criterio_aa}
-    \end{equation}
+          \begin{equation}
+              \sigma_T = \min\left\{\frac{\sigma_A}{1.65} \approx 0.61 \, \sigma_A, \quad \frac{\sigma_M}{1.95} \approx 0.51 \, \sigma_M\right\}
+              \label{eq:criterio_aa}
+          \end{equation}
 \end{itemize}
 
 \section{Principales Materiales Utilizados en Ingeniería Química}
@@ -503,14 +569,14 @@ Compuestos orgánicos macromoleculares formados por largas cadenas de carbono. S
     \centering
     \begin{tabular}{lcccc}
         \toprule
-        \textbf{Material para tuberías} & \textbf{$E$ ($10^5\text{ psi}$)} & \textbf{Resiliencia} & \textbf{$\sigma_M$ ($\text{psi}$)} & \textbf{$T_{\text{máx}}$ ($^\circ\text{F}$)} \\
+        \textbf{Material para tuberías}     & \textbf{$E$ ($10^5\text{ psi}$)} & \textbf{Resiliencia}                            & \textbf{$\sigma_M$ ($\text{psi}$)} & \textbf{$T_{\text{máx}}$ ($^\circ\text{F}$)} \\
         \midrule
-        Polietileno (PE) & $0.2 - 0.6$ & $>15\text{ ft}\cdot\text{lb}/\text{in}^2$ & $1400 - 2500$ & 120 \\
-        Policloruro de vinilo (PVC) & $4.0 - 5.4$ & $0.6 - 0.9\text{ ft}\cdot\text{lb}/\text{in}^2$ & $6400 - 9000$ & 150 \\
-        Epoxi reforzado con fibra de vidrio & 50 & $>10\text{ ft}\cdot\text{lb}/\text{in}^2$ & $25000 - 30000$ & 300 \\
-        Acero al carbono & 300 & Excelente & 48000 & 1000 \\
-        Acero inoxidable austenítico & 280 & Excelente & 75000 & 1500 \\
-        Cobre comercial & 70 & Excelente & 30000 & 400 \\
+        Polietileno (PE)                    & $0.2 - 0.6$                      & $>15\text{ ft}\cdot\text{lb}/\text{in}^2$       & $1400 - 2500$                      & 120                                          \\
+        Policloruro de vinilo (PVC)         & $4.0 - 5.4$                      & $0.6 - 0.9\text{ ft}\cdot\text{lb}/\text{in}^2$ & $6400 - 9000$                      & 150                                          \\
+        Epoxi reforzado con fibra de vidrio & 50                               & $>10\text{ ft}\cdot\text{lb}/\text{in}^2$       & $25000 - 30000$                    & 300                                          \\
+        Acero al carbono                    & 300                              & Excelente                                       & 48000                              & 1000                                         \\
+        Acero inoxidable austenítico        & 280                              & Excelente                                       & 75000                              & 1500                                         \\
+        Cobre comercial                     & 70                               & Excelente                                       & 30000                              & 400                                          \\
         \bottomrule
     \end{tabular}
     \caption{Comparativa de propiedades de materiales habituales para conducciones y tuberías de proceso.}
@@ -534,10 +600,10 @@ Materiales con propiedades de conductividad eléctrica intermedias entre conduct
 Existen organismos internacionales que regulan la nomenclatura de los metales:
 \begin{itemize}
     \item \textbf{AISI / SAE:} Clasifica los aceros al carbono y aleados con un código de \textbf{4 dígitos}:
-    \begin{itemize}
-        \item Los dos primeros dígitos indican los elementos principales de aleación (ej. $10\text{xx}$ para acero al carbono ordinario, $11\text{xx}$ azufre de fácil mecanizado, $41\text{xx}$ cromo-molibdeno, $43\text{xx}$ níquel-cromo-molibdeno).
-        \item Los dos últimos dígitos indican el contenido nominal medio de carbono expresado en centésimas de porcentaje (ej. el acero AISI 1020 posee un $0.20\%$ de C; el AISI 1045 un $0.45\%$ de C).
-    \end{itemize}
+          \begin{itemize}
+              \item Los dos primeros dígitos indican los elementos principales de aleación (ej. $10\text{xx}$ para acero al carbono ordinario, $11\text{xx}$ azufre de fácil mecanizado, $41\text{xx}$ cromo-molibdeno, $43\text{xx}$ níquel-cromo-molibdeno).
+              \item Los dos últimos dígitos indican el contenido nominal medio de carbono expresado en centésimas de porcentaje (ej. el acero AISI 1020 posee un $0.20\%$ de C; el AISI 1045 un $0.45\%$ de C).
+          \end{itemize}
     \item \textbf{Sistema de Numeración Unificada (UNS o SNU):} Código alfanumérico estandarizado por ASTM y SAE compuesto por una letra prefijo y cinco dígitos. Para aceros al carbono se emplea el prefijo \textbf{G} (ej. el AISI 1020 corresponde a UNS G10200). Para aceros inoxidables se emplea el prefijo \textbf{S} (ej. AISI 304 corresponde a UNS S30400).
 \end{itemize}
 
@@ -575,10 +641,10 @@ Aleaciones férreas que contienen un mínimo del $10.5\% - 12\%$ de \textbf{crom
     \item \textbf{Martensíticos (Serie AISI 400, ej. 410, 420):} Elevado contenido en carbono. Pueden endurecerse intensamente mediante tratamiento térmico de temple y revenido. Son magnéticos.
     \item \textbf{Ferríticos (Serie AISI 400, ej. 430):} Bajo contenido en carbono y entre $16-18\%$ de Cr. No pueden endurecerse mediante tratamiento térmico. Son magnéticos y se usan en menaje e interiores.
     \item \textbf{Austeníticos (Serie AISI 300, ej. 304, 316):} Los más empleados en la industria química y de procesos. Contienen níquel como estabilizador de la austenita a temperatura ambiente ($18\%\text{ Cr} - 8\%\text{ Ni}$). Son no magnéticos en estado recocido, presentan excelente conformabilidad y tenacidad criogénica extraordinaria.
-    \begin{itemize}
-        \item \textit{Corrosión por picaduras:} En presencia de cloruros disueltos ($\text{Cl}^-$) el AISI 304 es vulnerable. Para evitarlo se añade entre un $2\%$ y un $3\%$ de \textbf{molibdeno} dando lugar al acero \textbf{AISI 316}.
-        \item \textit{Corrosión intergranular y grados bajos en carbono (304L y 316L):} Al calentar o soldar entre $450^\circ\text{C}$ y $850^\circ\text{C}$ precipitan carburos de cromo ($\text{Cr}_{23}\text{C}_6$) en los límites de grano, empobreciendo en cromo las zonas adyacentes y provocando corrosión intergranular. Para evitarlo se recurre a aleaciones de extra-bajo carbono con $\%C \leqslant 0.03\%$ (identificadas con el sufijo \textbf{L}, como el AISI 304L y 316L) o estabilizadas con titanio (AISI 321).
-    \end{itemize}
+          \begin{itemize}
+              \item \textit{Corrosión por picaduras:} En presencia de cloruros disueltos ($\text{Cl}^-$) el AISI 304 es vulnerable. Para evitarlo se añade entre un $2\%$ y un $3\%$ de \textbf{molibdeno} dando lugar al acero \textbf{AISI 316}.
+              \item \textit{Corrosión intergranular y grados bajos en carbono (304L y 316L):} Al calentar o soldar entre $450^\circ\text{C}$ y $850^\circ\text{C}$ precipitan carburos de cromo ($\text{Cr}_{23}\text{C}_6$) en los límites de grano, empobreciendo en cromo las zonas adyacentes y provocando corrosión intergranular. Para evitarlo se recurre a aleaciones de extra-bajo carbono con $\%C \leqslant 0.03\%$ (identificadas con el sufijo \textbf{L}, como el AISI 304L y 316L) o estabilizadas con titanio (AISI 321).
+          \end{itemize}
 \end{itemize}
 
 \subsubsection{Aceros Estructurales ASTM y Perfiles Comerciales}
@@ -638,155 +704,155 @@ Para ello se emplea la metodología sistemática propuesta por \textbf{M.~F.~Ash
 \section{Problemas Resueltos del Tema 1}
 
 \begin{question}{Módulo de elasticidad a partir de alargamiento en barra recta}{prob:1}
-Una barra recta de sección uniforme está sometida a una fuerza de tracción axial. La sección transversal es de $6\text{ cm}^2$ y la longitud inicial es de $4\text{ m}$. Si el alargamiento total registrado bajo una carga axial de $12\,600\text{ kgf}$ es de $0.40\text{ cm}$, determinar el módulo de elasticidad del material en $\text{kgf}/\text{cm}^2$.
+    Una barra recta de sección uniforme está sometida a una fuerza de tracción axial. La sección transversal es de $6\text{ cm}^2$ y la longitud inicial es de $4\text{ m}$. Si el alargamiento total registrado bajo una carga axial de $12\,600\text{ kgf}$ es de $0.40\text{ cm}$, determinar el módulo de elasticidad del material en $\text{kgf}/\text{cm}^2$.
 \end{question}
 
 \begin{solution}
-\textbf{1. Datos del problema:}
-\begin{itemize}
-    \item Sección transversal: $A_0 = 6\text{ cm}^2$
-    \item Longitud inicial: $L_0 = 4\text{ m} = 400\text{ cm}$
-    \item Carga axial aplicada: $P = 12\,600\text{ kgf}$
-    \item Alargamiento elástico total: $\delta = 0.40\text{ cm}$
-\end{itemize}
+    \textbf{1. Datos del problema:}
+    \begin{itemize}
+        \item Sección transversal: $A_0 = 6\text{ cm}^2$
+        \item Longitud inicial: $L_0 = 4\text{ m} = 400\text{ cm}$
+        \item Carga axial aplicada: $P = 12\,600\text{ kgf}$
+        \item Alargamiento elástico total: $\delta = 0.40\text{ cm}$
+    \end{itemize}
 
-\textbf{2. Ecuaciones fundamentales:}
-Asumiendo comportamiento elástico lineal bajo la Ley de Hooke:
-\begin{equation*}
-    \sigma = E \, \varepsilon \quad \Longleftrightarrow \quad \frac{P}{A_0} = E \, \frac{\delta}{L_0}
-\end{equation*}
-Despejando el módulo de Young $E$:
-\begin{equation*}
-    E = \frac{P \cdot L_0}{A_0 \cdot \delta}
-\end{equation*}
+    \textbf{2. Ecuaciones fundamentales:}
+    Asumiendo comportamiento elástico lineal bajo la Ley de Hooke:
+    \begin{equation*}
+        \sigma = E \, \varepsilon \quad \Longleftrightarrow \quad \frac{P}{A_0} = E \, \frac{\delta}{L_0}
+    \end{equation*}
+    Despejando el módulo de Young $E$:
+    \begin{equation*}
+        E = \frac{P \cdot L_0}{A_0 \cdot \delta}
+    \end{equation*}
 
-\textbf{3. Sustitución numérica:}
-\begin{equation*}
-    E = \frac{12\,600\text{ kgf} \times 400\text{ cm}}{6\text{ cm}^2 \times 0.40\text{ cm}} = \frac{5\,040\,000}{2.4} = 2.10 \times 10^6\text{ kgf}/\text{cm}^2
-\end{equation*}
-En unidades del Sistema Internacional:
-\begin{equation*}
-    E \approx 2.10 \times 10^6 \times 9.80665 \times 10^4\text{ Pa} \approx 206\text{ GPa} \quad (\text{correspondiente a un acero})
-\end{equation*}
+    \textbf{3. Sustitución numérica:}
+    \begin{equation*}
+        E = \frac{12\,600\text{ kgf} \times 400\text{ cm}}{6\text{ cm}^2 \times 0.40\text{ cm}} = \frac{5\,040\,000}{2.4} = 2.10 \times 10^6\text{ kgf}/\text{cm}^2
+    \end{equation*}
+    En unidades del Sistema Internacional:
+    \begin{equation*}
+        E \approx 2.10 \times 10^6 \times 9.80665 \times 10^4\text{ Pa} \approx 206\text{ GPa} \quad (\text{correspondiente a un acero})
+    \end{equation*}
 \end{solution}
 
 \vspace{1em}
 
 \begin{question}{Compresión uniaxial en cilindro hueco}{prob:2}
-Un cilindro hueco recto de sección circular tiene un diámetro exterior de $7.5\text{ cm}$ y un diámetro interior de $6.0\text{ cm}$. Si se le aplica una fuerza axial de compresión de $5\,000\text{ kgf}$, determinar:
-\begin{enumerate}[label=\alph*)]
-    \item La tensión normal de compresión desarrollada.
-    \item El acortamiento total que experimenta en una longitud inicial de $50\text{ cm}$.
-\end{enumerate}
-Considérese un módulo de elasticidad $E = 1.05 \times 10^6\text{ kgf}/\text{cm}^2$ y despréciese toda probabilidad de pandeo lateral.
+    Un cilindro hueco recto de sección circular tiene un diámetro exterior de $7.5\text{ cm}$ y un diámetro interior de $6.0\text{ cm}$. Si se le aplica una fuerza axial de compresión de $5\,000\text{ kgf}$, determinar:
+    \begin{enumerate}[label=\alph*)]
+        \item La tensión normal de compresión desarrollada.
+        \item El acortamiento total que experimenta en una longitud inicial de $50\text{ cm}$.
+    \end{enumerate}
+    Considérese un módulo de elasticidad $E = 1.05 \times 10^6\text{ kgf}/\text{cm}^2$ y despréciese toda probabilidad de pandeo lateral.
 \end{question}
 
 \begin{solution}
-\textbf{1. Datos geométricos y mecánicos:}
-\begin{itemize}
-    \item Diámetro exterior: $D_{\text{ext}} = 7.5\text{ cm}$
-    \item Diámetro interior: $D_{\text{int}} = 6.0\text{ cm}$
-    \item Fuerza axial de compresión: $P = 5\,000\text{ kgf}$
-    \item Longitud inicial: $L_0 = 50\text{ cm}$
-    \item Módulo elástico: $E = 1.05 \times 10^6\text{ kgf}/\text{cm}^2$
-\end{itemize}
+    \textbf{1. Datos geométricos y mecánicos:}
+    \begin{itemize}
+        \item Diámetro exterior: $D_{\text{ext}} = 7.5\text{ cm}$
+        \item Diámetro interior: $D_{\text{int}} = 6.0\text{ cm}$
+        \item Fuerza axial de compresión: $P = 5\,000\text{ kgf}$
+        \item Longitud inicial: $L_0 = 50\text{ cm}$
+        \item Módulo elástico: $E = 1.05 \times 10^6\text{ kgf}/\text{cm}^2$
+    \end{itemize}
 
-\textbf{2. Cálculo de la sección transversal neta:}
-\begin{equation*}
-    A_0 = \frac{\pi}{4} \left(D_{\text{ext}}^2 - D_{\text{int}}^2\right) = \frac{\pi}{4} \left(7.5^2 - 6.0^2\right) = \frac{\pi}{4} (56.25 - 36.00) = \frac{\pi}{4} (20.25) \approx 15.904\text{ cm}^2
-\end{equation*}
+    \textbf{2. Cálculo de la sección transversal neta:}
+    \begin{equation*}
+        A_0 = \frac{\pi}{4} \left(D_{\text{ext}}^2 - D_{\text{int}}^2\right) = \frac{\pi}{4} \left(7.5^2 - 6.0^2\right) = \frac{\pi}{4} (56.25 - 36.00) = \frac{\pi}{4} (20.25) \approx 15.904\text{ cm}^2
+    \end{equation*}
 
-\textbf{3. Tensión normal de compresión ($\sigma$):}
-\begin{equation*}
-    \sigma = \frac{P}{A_0} = \frac{5\,000\text{ kgf}}{15.904\text{ cm}^2} \approx 314.38\text{ kgf}/\text{cm}^2 \approx 314.4\text{ kgf}/\text{cm}^2
-\end{equation*}
+    \textbf{3. Tensión normal de compresión ($\sigma$):}
+    \begin{equation*}
+        \sigma = \frac{P}{A_0} = \frac{5\,000\text{ kgf}}{15.904\text{ cm}^2} \approx 314.38\text{ kgf}/\text{cm}^2 \approx 314.4\text{ kgf}/\text{cm}^2
+    \end{equation*}
 
-\textbf{4. Acortamiento total elástico ($\delta$):}
-Aplicando la relación de Hooke $\sigma = E \, (\delta / L_0)$:
-\begin{equation*}
-    \delta = \frac{\sigma \cdot L_0}{E} = \frac{314.38\text{ kgf}/\text{cm}^2 \times 50\text{ cm}}{1.05 \times 10^6\text{ kgf}/\text{cm}^2} \approx 0.01497\text{ cm} \approx 0.0150\text{ cm} = 0.15\text{ mm}
-\end{equation*}
+    \textbf{4. Acortamiento total elástico ($\delta$):}
+    Aplicando la relación de Hooke $\sigma = E \, (\delta / L_0)$:
+    \begin{equation*}
+        \delta = \frac{\sigma \cdot L_0}{E} = \frac{314.38\text{ kgf}/\text{cm}^2 \times 50\text{ cm}}{1.05 \times 10^6\text{ kgf}/\text{cm}^2} \approx 0.01497\text{ cm} \approx 0.0150\text{ cm} = 0.15\text{ mm}
+    \end{equation*}
 \end{solution}
 
 \vspace{1em}
 
 \begin{question}{Deformación transversal elástica y coeficiente de Poisson en latón}{prob:3}
-Se aplica una carga uniaxial de tracción en la dirección longitudinal de una barra cilíndrica de latón que posee un módulo elástico $E = 10.1 \times 10^4\text{ MPa}$, coeficiente de Poisson $\nu = 0.35$ y un diámetro inicial $d_0 = 10\text{ mm}$. Determinar la magnitud de la carga $P$ necesaria para producir una reducción en el diámetro de $2.5 \times 10^{-3}\text{ mm}$, suponiendo deformación puramente elástica.
+    Se aplica una carga uniaxial de tracción en la dirección longitudinal de una barra cilíndrica de latón que posee un módulo elástico $E = 10.1 \times 10^4\text{ MPa}$, coeficiente de Poisson $\nu = 0.35$ y un diámetro inicial $d_0 = 10\text{ mm}$. Determinar la magnitud de la carga $P$ necesaria para producir una reducción en el diámetro de $2.5 \times 10^{-3}\text{ mm}$, suponiendo deformación puramente elástica.
 \end{question}
 
 \begin{solution}
-\textbf{1. Identificación de magnitudes y datos:}
-\begin{itemize}
-    \item Módulo de elasticidad: $E = 10.1 \times 10^4\text{ MPa} = 101\,000\text{ N}/\text{mm}^2$
-    \item Coeficiente de Poisson: $\nu = 0.35$
-    \item Diámetro inicial: $d_0 = 10\text{ mm}$
-    \item Variación transversal del diámetro: $\Delta d = -2.5 \times 10^{-3}\text{ mm}$
-\end{itemize}
+    \textbf{1. Identificación de magnitudes y datos:}
+    \begin{itemize}
+        \item Módulo de elasticidad: $E = 10.1 \times 10^4\text{ MPa} = 101\,000\text{ N}/\text{mm}^2$
+        \item Coeficiente de Poisson: $\nu = 0.35$
+        \item Diámetro inicial: $d_0 = 10\text{ mm}$
+        \item Variación transversal del diámetro: $\Delta d = -2.5 \times 10^{-3}\text{ mm}$
+    \end{itemize}
 
-\textbf{2. Deformación unitaria transversal y longitudinal:}
-La deformación unitaria lateral en el diámetro es:
-\begin{equation*}
-    \varepsilon_x = \frac{\Delta d}{d_0} = \frac{-2.5 \times 10^{-3}\text{ mm}}{10\text{ mm}} = -2.5 \times 10^{-4}
-\end{equation*}
-A partir del coeficiente de Poisson ($\nu = -\varepsilon_x / \varepsilon_z$):
-\begin{equation*}
-    \varepsilon_z = -\frac{\varepsilon_x}{\nu} = -\frac{-2.5 \times 10^{-4}}{0.35} \approx 7.1429 \times 10^{-4}
-\end{equation*}
+    \textbf{2. Deformación unitaria transversal y longitudinal:}
+    La deformación unitaria lateral en el diámetro es:
+    \begin{equation*}
+        \varepsilon_x = \frac{\Delta d}{d_0} = \frac{-2.5 \times 10^{-3}\text{ mm}}{10\text{ mm}} = -2.5 \times 10^{-4}
+    \end{equation*}
+    A partir del coeficiente de Poisson ($\nu = -\varepsilon_x / \varepsilon_z$):
+    \begin{equation*}
+        \varepsilon_z = -\frac{\varepsilon_x}{\nu} = -\frac{-2.5 \times 10^{-4}}{0.35} \approx 7.1429 \times 10^{-4}
+    \end{equation*}
 
-\textbf{3. Tensión axial requerida ($\sigma_z$):}
-Por la ley de Hooke en régimen elástico:
-\begin{equation*}
-    \sigma_z = E \cdot \varepsilon_z = 101\,000\text{ MPa} \times 7.1429 \times 10^{-4} \approx 72.143\text{ MPa} = 72.143\text{ N}/\text{mm}^2
-\end{equation*}
+    \textbf{3. Tensión axial requerida ($\sigma_z$):}
+    Por la ley de Hooke en régimen elástico:
+    \begin{equation*}
+        \sigma_z = E \cdot \varepsilon_z = 101\,000\text{ MPa} \times 7.1429 \times 10^{-4} \approx 72.143\text{ MPa} = 72.143\text{ N}/\text{mm}^2
+    \end{equation*}
 
-\textbf{4. Cálculo de la carga axial $P$:}
-La sección transversal inicial de la probeta es:
-\begin{equation*}
-    A_0 = \frac{\pi}{4} d_0^2 = \frac{\pi}{4} (10\text{ mm})^2 = 25\pi\text{ mm}^2 \approx 78.54\text{ mm}^2
-\end{equation*}
-Por tanto, la carga $P$ aplicada resulta:
-\begin{equation*}
-    P = \sigma_z \cdot A_0 = 72.143\text{ N}/\text{mm}^2 \times 78.54\text{ mm}^2 \approx 5\,666\text{ N} \quad (5.67\text{ kN})
-\end{equation*}
-\textit{Nota sobre el resultado:} Si el cambio diametral fuese $\Delta d = 2.5 \times 10^{-5}\text{ mm}$, la carga sería $56.66\text{ N}$. Para el valor enunciado en el texto de $2.5 \times 10^{-3}\text{ mm}$, la carga elástica rigurosa es $P = 5\,666\text{ N}$.
+    \textbf{4. Cálculo de la carga axial $P$:}
+    La sección transversal inicial de la probeta es:
+    \begin{equation*}
+        A_0 = \frac{\pi}{4} d_0^2 = \frac{\pi}{4} (10\text{ mm})^2 = 25\pi\text{ mm}^2 \approx 78.54\text{ mm}^2
+    \end{equation*}
+    Por tanto, la carga $P$ aplicada resulta:
+    \begin{equation*}
+        P = \sigma_z \cdot A_0 = 72.143\text{ N}/\text{mm}^2 \times 78.54\text{ mm}^2 \approx 5\,666\text{ N} \quad (5.67\text{ kN})
+    \end{equation*}
+    \textit{Nota sobre el resultado:} Si el cambio diametral fuese $\Delta d = 2.5 \times 10^{-5}\text{ mm}$, la carga sería $56.66\text{ N}$. Para el valor enunciado en el texto de $2.5 \times 10^{-3}\text{ mm}$, la carga elástica rigurosa es $P = 5\,666\text{ N}$.
 \end{solution}
 
 \vspace{1em}
 
 \begin{question}{Ductilidad y tensión real de fractura en probeta de acero}{prob:4}
-Una probeta cilíndrica de acero con un diámetro original $d_0 = 12.8\text{ mm}$ se ensaya a tracción uniaxial hasta la fractura, alcanzando una resistencia nominal a la rotura $\sigma_D = 460\text{ MPa}$. Una vez rota la probeta, se mide el diámetro transversal mínimo en la sección de fractura resultando $d_f = 10.7\text{ mm}$. Evaluar:
-\begin{enumerate}[label=\alph*)]
-    \item La ductilidad del material expresada mediante el porcentaje de estricción (\%ES).
-    \item La tensión real $\sigma_{\text{real}}$ que soportaba la sección de estricción en el instante exacto de la fractura.
-\end{enumerate}
+    Una probeta cilíndrica de acero con un diámetro original $d_0 = 12.8\text{ mm}$ se ensaya a tracción uniaxial hasta la fractura, alcanzando una resistencia nominal a la rotura $\sigma_D = 460\text{ MPa}$. Una vez rota la probeta, se mide el diámetro transversal mínimo en la sección de fractura resultando $d_f = 10.7\text{ mm}$. Evaluar:
+    \begin{enumerate}[label=\alph*)]
+        \item La ductilidad del material expresada mediante el porcentaje de estricción (\%ES).
+        \item La tensión real $\sigma_{\text{real}}$ que soportaba la sección de estricción en el instante exacto de la fractura.
+    \end{enumerate}
 \end{question}
 
 \begin{solution}
-\textbf{1. Datos iniciales y finales:}
-\begin{itemize}
-    \item Diámetro inicial: $d_0 = 12.8\text{ mm}$
-    \item Diámetro final en rotura: $d_f = 10.7\text{ mm}$
-    \item Resistencia nominal a rotura: $\sigma_D = 460\text{ MPa} = 460\text{ N}/\text{mm}^2$
-\end{itemize}
+    \textbf{1. Datos iniciales y finales:}
+    \begin{itemize}
+        \item Diámetro inicial: $d_0 = 12.8\text{ mm}$
+        \item Diámetro final en rotura: $d_f = 10.7\text{ mm}$
+        \item Resistencia nominal a rotura: $\sigma_D = 460\text{ MPa} = 460\text{ N}/\text{mm}^2$
+    \end{itemize}
 
-\textbf{2. Cálculo de áreas transversales inicial y final:}
-\begin{align*}
-    A_0 &= \frac{\pi}{4} d_0^2 = \frac{\pi}{4} (12.8)^2 \approx 128.68\text{ mm}^2 \\
-    A_f &= \frac{\pi}{4} d_f^2 = \frac{\pi}{4} (10.7)^2 \approx 89.92\text{ mm}^2
-\end{align*}
+    \textbf{2. Cálculo de áreas transversales inicial y final:}
+    \begin{align*}
+        A_0 & = \frac{\pi}{4} d_0^2 = \frac{\pi}{4} (12.8)^2 \approx 128.68\text{ mm}^2 \\
+        A_f & = \frac{\pi}{4} d_f^2 = \frac{\pi}{4} (10.7)^2 \approx 89.92\text{ mm}^2
+    \end{align*}
 
-\textbf{3. Evaluación del porcentaje de estricción (\%ES):}
-\begin{equation*}
-    \%ES = \frac{A_0 - A_f}{A_0} \times 100 = \frac{128.68 - 89.92}{128.68} \times 100 = \frac{38.76}{128.68} \times 100 \approx 30.1\% \approx 30\%
-\end{equation*}
+    \textbf{3. Evaluación del porcentaje de estricción (\%ES):}
+    \begin{equation*}
+        \%ES = \frac{A_0 - A_f}{A_0} \times 100 = \frac{128.68 - 89.92}{128.68} \times 100 = \frac{38.76}{128.68} \times 100 \approx 30.1\% \approx 30\%
+    \end{equation*}
 
-\textbf{4. Cálculo de la tensión real de fractura ($\sigma_{\text{real}}$):}
-La carga total $P_D$ actuante en el momento del colapso se deduce a partir de la tensión nominal de rotura referida al área original:
-\begin{equation*}
-    P_D = \sigma_D \cdot A_0 = 460\text{ N}/\text{mm}^2 \times 128.68\text{ mm}^2 \approx 59\,192.8\text{ N}
-\end{equation*}
-La tensión real en la rotura se evalúa dividiendo dicha carga entre la sección transversal final real contraída $A_f$:
-\begin{equation*}
-    \sigma_{\text{real}} = \frac{P_D}{A_f} = \frac{\sigma_D \cdot A_0}{A_f} = 460 \times \frac{128.68}{89.92} = 460 \times \left(\frac{12.8}{10.7}\right)^2 \approx 460 \times 1.431 \approx 658.2\text{ MPa}
-\end{equation*}
+    \textbf{4. Cálculo de la tensión real de fractura ($\sigma_{\text{real}}$):}
+    La carga total $P_D$ actuante en el momento del colapso se deduce a partir de la tensión nominal de rotura referida al área original:
+    \begin{equation*}
+        P_D = \sigma_D \cdot A_0 = 460\text{ N}/\text{mm}^2 \times 128.68\text{ mm}^2 \approx 59\,192.8\text{ N}
+    \end{equation*}
+    La tensión real en la rotura se evalúa dividiendo dicha carga entre la sección transversal final real contraída $A_f$:
+    \begin{equation*}
+        \sigma_{\text{real}} = \frac{P_D}{A_f} = \frac{\sigma_D \cdot A_0}{A_f} = 460 \times \frac{128.68}{89.92} = 460 \times \left(\frac{12.8}{10.7}\right)^2 \approx 460 \times 1.431 \approx 658.2\text{ MPa}
+    \end{equation*}
 \end{solution}
