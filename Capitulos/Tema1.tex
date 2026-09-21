@@ -292,29 +292,31 @@ donde $l_0$ y $A_0$ son la longitud calibrada y la sección inicial, y $l_f$ y $
     \item \textbf{Material dúctil:} aquel que puede tener grandes deformaciones plásticas antes de romperse
 \end{itemize}
 \subsubsection{Resiliencia y Módulo de Resiliencia}
-La \textbf{resiliencia} es la capacidad de un material de absorber energía elástica cuando es deformado y devolverla íntegramente al retirar la carga exterior. Representa el área bajo el tramo elástico de la curva tensión-deformación hasta el límite de proporcionalidad.
+\dfn{Resiliencia:}{Es la capacidad de un material de absorber energía elástica cuando es deformado y devolverla íntegramente al retirar la carga exterior.}
+\nt{Representa el área bajo el tramo elástico de la curva tensión-deformación hasta el límite de proporcionalidad.}
 
 La energía de deformación elástica acumulada en el volumen de la probeta es el trabajo desarrollado por la fuerza:
 \begin{equation}
-    U = \frac{1}{2} P_{LP} \, \delta_{LP} = \frac{1}{2} \left(\frac{\sigma_{LP}^2}{E}\right) A_0 \, L_0
+    U = \frac{1}{2} P_{LP} \, \delta_{LP} \quad \xRightarrow{\text{Con la def. de }\sigma_{LP} \text{ y la ley de Hooke}} \frac{1}{2} \left(\frac{\sigma_{LP}^2}{E}\right) A_0 \, L_0
 \end{equation}
 El \textbf{Módulo de Resiliencia} ($U_r$) se define como la energía elástica absorbida por unidad de volumen de material:
 \begin{equation}
-    U_r = \frac{U}{A_0 \, L_0} = \frac{1}{2} \, \frac{\sigma_{LP}^2}{E} = \frac{1}{2} \sigma_{LP} \, \varepsilon_{LP}
+    U_r = \frac{U}{A_0 \, L_0} = \frac{1}{2} \, \frac{\sigma_{LP}^2}{E}
     \label{eq:modulo_resiliencia}
 \end{equation}
-Esta propiedad cuantifica la resistencia frente a choques a baja velocidad sin daño permanente; para maximizarla se requieren materiales con \textbf{elevado límite elástico $\sigma_{LP}$ y bajo módulo elástico $E$}.
+\textbf{Esta propiedad cuantifica la resistencia frente a choques a baja velocidad} y para maximizarla se requieren materiales con elevado límite elástico $\sigma_{LP}$ y bajo módulo elástico $E$.
 
 \subsubsection{Tenacidad y Ensayos de Impacto (Charpy e Izod)}
-La \textbf{tenacidad} es la capacidad de un material de absorber energía mecánica elástica y plástica antes de que se produzca la fractura total.
+\dfn{Tenacidad:}{Es la capacidad de un material de absorber energía mecánica elástica y plástica antes de que se produzca la fractura.}
+Representa la energía máxima absorbida por unidad de volumen antes de originarse la ruptura total del material, se puede obtener de las siguientes formas:
 \begin{itemize}
-    \item \textbf{Tenacidad estática:} Corresponde al área total bajo la curva completa tensión-deformación hasta el punto de rotura. Puede estimarse analíticamente de forma aproximada mediante la regla del trapecio:
+    \item Corresponde al área total bajo la curva completa tensión-deformación hasta el punto de rotura. Puede estimarse analíticamente de forma aproximada mediante la regla del trapecio:
           \begin{equation}
               \text{Tenacidad} \approx \frac{\sigma_A + \sigma_M}{2} \cdot \delta_D
               \label{eq:tenacidad_aprox}
           \end{equation}
           donde $\sigma_A$ es la tensión de fluencia, $\sigma_M$ la resistencia última y $\delta_D$ la deformación total a rotura.
-    \item \textbf{Tenacidad al impacto dinámico:} Evaluada mediante péndulos normalizados en probetas entalladas (ensayos Charpy e Izod). Un martillo pendular de masa conocida se libera desde una altura inicial $h$, fractura la probeta entallada por flexión en un único golpe y asciende hasta una altura residual $h' < h$. La energía absorbida en el impacto es:
+    \item Evaluada mediante \textbf{ensayos normalizados de impacto en probetas entalladas (ensayos Charpy e Izod)}. Un martillo pendular de masa conocida se libera desde una altura inicial $h$, fractura la probeta entallada por flexión en un único golpe y asciende hasta una altura residual $h' < h$. La energía absorbida en el impacto es:
           \begin{equation}
               E_{\text{impacto}} = m g (h - h')
           \end{equation}
@@ -323,15 +325,45 @@ La \textbf{tenacidad} es la capacidad de un material de absorber energía mecán
               \item \textit{Ensayo Izod:} La probeta se empotra verticalmente en voladizo y el péndulo golpea a una distancia fija en la cara donde se ubica la entalla. Muy empleado para plásticos y materiales más frágiles.
           \end{itemize}
 \end{itemize}
-
+\imp{La diferencia entre ambos ensayos es la forma de colocar la probeta. El ensayo de Izod se utiliza para determinar la tenacidad en materiales frágiles y el de Charpy para materiales dúctiles, ademas los resultados de los ensayos son cualitativos y se realizan con fines comparativos.}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{ensayo_charpy_e_izod.png}
+    \caption{Esquema del ensayo de \textbf{Charpy e Izod} \\ Fuente: Transparencias Asignatura}
+    \label{fig:ensayo_charpy_e_izod}
+\end{figure}
 \paragraph{Transición Dúctil-Frágil y Efecto de la Temperatura:}
 En metales con estructura cristalina cúbica centrada en el cuerpo (\textbf{BCC}, como los aceros al carbono ferríticos), la energía absorbida cae drásticamente al disminuir la temperatura, pasando de un comportamiento dúctil a alta absorción de energía a una rotura frágil y quebradiza por exfoliación a bajas temperaturas. Por el contrario, los metales con estructura cúbica centrada en las caras (\textbf{FCC}, como los aceros inoxidables austeníticos, aluminio, cobre y níquel) no presentan una transición brusca y retienen excelente tenacidad incluso a temperaturas criogénicas.
 
 Asimismo, el contenido de carbono afecta de forma acusada: a medida que aumenta el porcentaje de carbono en los aceros recocidos, el material se vuelve más frágil, absorbe menos energía en el ensayo Charpy y el rango de transición hacia la fragilidad se desplaza a temperaturas más elevadas.
+\imp{Es decir, en estos ensayos es importante la temperatura ya que puede haber una transición de ductil a fragil (cuando desciende la temperatura), ademas si cambiamos el contenido en carbono de los aceros recocidos se vuelven mas quebradizos y son capaces de absorber menos energía antes de su rotura.}
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[c]{0.67\textwidth}
+        \centering
+        \includegraphics[height=4.2cm]{ductil_temperatura.png}
+        \caption{Efecto de la temperatura en la tenacidad}
+        \label{fig:ductil_temperatura}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[c]{0.3\textwidth}
+        \centering
+        \includegraphics[height=4.2cm]{ductil_composicion.png}
+        \caption{Efecto del porcentaje de carbono}
+        \label{fig:ductil_composicion}
+    \end{subfigure}
+    \caption{Factores que influyen en la transición dúctil-frágil}
+    \label{fig:ductil_transicion}
+\end{figure}
 
 \subsection{Tensiones y Deformaciones Reales}
-En el cálculo convencional de ingeniería se utilizan el esfuerzo nominal $\sigma = P/A_0$ y la deformación nominal $\varepsilon = \delta/L_0$, asumiendo la sección inicial $A_0$. Esto genera la falsa apariencia gráfica de que, superada la resistencia máxima, el material resiste menos esfuerzo. En la realidad física, el área transversal instantánea $A_i$ en la zona de estricción disminuye mucho más rápido que la carga aplicada, de modo que la tensión verdadera que soportan los enlaces interatómicos continúa aumentando monótonamente hasta la rotura.
-
+En el cálculo convencional de ingeniería se utilizan el esfuerzo ingenieril $\sigma = P/A_0$ y la deformación ingenieril $\varepsilon = \delta/L_0$, es decir, se asume la sección inicial transversal a la aplicación de la carga para todos los calculos. Esto genera la falsa apariencia gráfica de que, superada la resistencia máxima, el material resiste menos esfuerzo. En la realidad física, el área transversal instantánea $A_i$ en la zona de estricción disminuye mucho más rápido que la carga aplicada, de modo que la tensión verdadera que soporta el material, \textbf{aumenta monótonamente hasta la rotura.}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{deformacion_real.png}
+    \caption{Tensión real vs Tensión ingenieril \\ Fuente: Transparencias Asignatura}
+    \label{fig:deformacion_real}
+\end{figure}
 Se definen la \textbf{tensión real} ($\sigma_T$) y la \textbf{deformación real logarítmica} ($\varepsilon_T$) como:
 \begin{equation}
     \sigma_T = \frac{P}{A_i}, \qquad \varepsilon_T = \int_{l_0}^{l_i} \frac{dl}{l} = \ln\left(\frac{l_i}{l_0}\right)
@@ -342,7 +374,7 @@ Asumiendo constancia de volumen durante la deformación plástica ($A_0 l_0 = A_
     \sigma_T = \sigma \, (1 + \varepsilon), \qquad \varepsilon_T = \ln(1 + \varepsilon)
     \label{eq:conversion_real_nominal}
 \end{equation}
-
+\nt{Es decir que la tensión y deformación real estan relacionadas con las nominales(engenieriles) hasta que la probeta comienza a sufrir estricción.}
 \paragraph{Ecuación constitutiva de Hollomon:}
 En muchos metales y aleaciones, la región plástica comprendida entre el límite de fluencia y el comienzo de la estricción se ajusta fielmente a la ley potencial:
 \begin{equation}
@@ -371,120 +403,188 @@ donde $K$ es el coeficiente de resistencia del material y $n$ es el \textbf{expo
 \end{table}
 
 \subsection{Endurecimiento por Deformación Plástica (Acritud)}
-Cuando un metal dúctil se somete a deformación plástica en frío (por encima de su límite elástico), la densidad de dislocaciones en su red cristalina se incrementa enormemente, multiplicándose y entorpeciendo su propio movimiento.
+Cuando un metal dúctil se somete a deformación plástica en frío (por encima de su límite elástico), la densidad de dislocaciones en su red cristalina se incrementa enormemente, multiplicándose y entorpeciendo su propio movimiento. \textbf{Es decir sufre una deformación plastica que produce un incremento de la resistencia elástica, tambien disminuye su ductilidad y aumenta su punto de fluencia.}
 
 Si durante un ensayo de tracción se interrumpe la carga tras alcanzar una deformación plástica y se descarga el espécimen, el material desciende con una pendiente idéntica a la elástica ($E$). Al volver a aplicar carga, el material recorre el mismo camino elástico hasta alcanzar un \textbf{nuevo límite de fluencia significativamente más elevado} que el original.
-
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{endurecimiento_por_deformacion.png}
+    \caption{Endurecimiento por deformación \\ Fuente: Transparencias Asignatura}
+    \label{fig:endurecimiento_por_deformacion}
+\end{figure}
+\nt{En este grafico se observa como se le aplica una tensión inicial hasta recorriendo desde O hasta C, luego se descarga siguiendo la linea CD ya que al haber sufrido una deformación plastica no puede volver al estado original, siguiendo la trayectoria CD, al aplicar otra vez tensión seguira la trayectoria DF, siguiendo la ley de hooke hasta llegar a F y posteriormente si se sigue tensando habra un cambio brusco hasta G donde rompera.}
 Este fenómeno confiere al material:
 \begin{itemize}
     \item \textbf{Mayor rigidez y tensión elástica de servicio:} Se pueden aplicar cargas más altas sin que se genere nueva deformación plástica.
-    \item \textbf{Aumento de la resistencia mecánica general.}
+    \item \textbf{Aumento de la resistencia mecánica:} mejora unidireccional hacia donde se le aplico la carga, pero no mejora en el resto de las direcciónes del espacio.
     \item \textbf{Disminución de la ductilidad y de la tenacidad:} El material se torna más quebradizo.
+    \item \textbf{Incremento del limite de proporcionalidad:} Aumenta la tensión necesaria para que el material comience a deformarse plásticamente.
     \item \textbf{Anisotropía:} El incremento de resistencia se produce preferentemente en la dirección en la que se aplicó la deformación uniaxial, pero no en las direcciones transversales.
-    \item \textbf{Mayor susceptibilidad a la corrosión:} Las zonas con deformación plástica concentran tensiones residuales internas que aceleran la corrosión bajo tensión.
+    \item \textbf{Mayor susceptibilidad a la corrosión:} Las zonas con deformación plástica concentran tensiones residuales internas que aceleran la corrosión bajo tensión (aparece fluencia en las zonas no deformadas plásticamente).
 \end{itemize}
-El endurecimiento por deformación se puede revertir completamente restituyendo la ductilidad inicial mediante un \textbf{tratamiento térmico de recocido} a temperatura adecuada.
-
+El endurecimiento por deformación se puede revertir completamente restituyendo la ductilidad inicial mediante un \textbf{tratamiento térmico de recocido} a temperatura adecuada (tratamiento térmico suave a 100°C y posteriormente dejar enfriar lentamente).
+\nt{Este tipo de tratamiento es común en procesos como el laminado de barras, estirado de tubos, ya que muchas veces se usa un material pretensado, es decir, se ha endurecido por acritud como se ha descrito previamente, un ejemplo sería en los pilares de hormigón pretensado, los cuáles son sometidos a esfuerzos de tracción para que se vuelvan más resistentes en dirección hacia donde sufrio la carga, aunque esto tiene un mayor coste economico.}
 \section{Ensayo de Termofluencia (\textit{Creep})}
 
-Muchos equipos de instalaciones químicas (reactores de síntesis, calderas, intercambiadores de calor, columnas de destilación a presión y álabes de turbinas) operan simultáneamente bajo elevados esfuerzos mecánicos y altas temperaturas. A temperaturas elevadas las propiedades de los materiales experimentan cambios drásticos:
+Muchos equipos de instalaciones químicas (\textbf{Reactores,turbinas}, calderas, intercambiadores de calor, columnas de destilación a presión y álabes de turbinas) operan simultáneamente bajo elevados esfuerzos mecánicos y altas temperaturas. A temperaturas elevadas las propiedades de los materiales experimentan cambios drásticos:
 \begin{itemize}
     \item El módulo de elasticidad $E$ disminuye paulatinamente.
     \item El límite de proporcionalidad y la resistencia máxima a la tracción caen de forma notable a partir de cierta temperatura crítica.
     \item La ductilidad (\%AR y \%ES) se incrementa de forma acusada.
 \end{itemize}
-Bajo estas condiciones, la \textbf{variable tiempo} adquiere una importancia crítica. Una pieza sometida a un esfuerzo constante inferior a su límite elástico a temperatura ambiente puede deformarse plásticamente y de forma continua a lo largo del tiempo hasta romperse; este fenómeno se conoce como \textbf{termofluencia o fluencia lenta (\textit{creep})}.
+
+En estos equipos al sufrir una variación de temperatura importante, y tambien variación de presión (en especial en los reactores químicos de alta presión) las propiedades de los materiales pueden cambiar drásticamente, por lo que es importante conocer su comportamiento con este ensayo.
+
+\subsection{Ensayo de tensión-deformación a distintas temperaturas}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{termofluencia.png}
+    \caption{Curva típica de termofluencia}
+    \label{fig:termofluencia}
+\end{figure}
+En esta gráfica se puede observar la variación de las propiedades con la temperatura:
+\begin{itemize}
+    \item \textbf{Resistencia máxima a la tracción:} Crece hasta los 250\,°C.
+    \item \textbf{Módulo de elasticidad:} Disminuye paulatinamente conforme aumenta la temperatura.
+    \item \textbf{Contracción superficial (estricción):} Pasa por un mínimo a los 250\,°C y posteriormente crece de forma rápida.
+    \item \textbf{Carga de fatiga:} Disminuye con la temperatura.
+    \item \textbf{Límite de proporcionalidad:} Disminuye continuamente.
+    \item \textbf{Alargamiento a la rotura:} Sigue un camino paralelo a la estricción ya que ambos definen la ductilidad (aumentan con la temperatura).
+\end{itemize}
+
+Los resultados de este ensayo arrojan la siguiente información:
+\begin{itemize}
+    \item Aquellas \textbf{propiedades que definen la ductilidad, como son la estricción y el alargamiento a la rotura, aumentan con la temperatura}
+    \item las \textbf{propiedades relacionadas con la rigidez del material, como el límite de proporcionalidad y el módulo de elasticidad, disminuyen. La resistencia máxima a la tracción disminuye de forma apreciable tras una temperatura en específica}
+\end{itemize}
+
+\nt{En este gráfico se puede observar como la \textbf{resistencia a la tracción}} aumenta hasta los 250\,°C, mientras que el \textbf{módulo de elasticidad} disminuye de forma apreciable tras los 250\,°C, cabe mencionar que las \textbf{propiedades que definen la ductilidad, como son la estricción y el alargamiento a la rotura, aumentan con la temperatura}. Finalmente la \textbf{carga de fatiga} disminuye tras los 250\,°C.
+
+Es importante considerar el tiempo como variable, ya que este ensayo es valido siempre y cuando  la carga actue durante un corto periódo de tiempo, si aumenta la duración (dias/semanas/meses) la carga necesaria para producir la rotura del material es cada vez mas pequeña.
+
+\imp{para cargas que van a actuar durante largos períodos de tiempo y a temperaturas elevadas se necesitará una información más completa obtenida a partir de los ensayos termofluencia.}
+
+\subsection{Ensayo de Termofluencia}
+Bajo estas condiciones, la \textbf{variable tiempo} adquiere una importancia crítica. \textbf{Una pieza sometida a un esfuerzo constante inferior a su límite elástico puede sufrir una deformación plástica durante un cierto periodo de tiempo, esta deformación que depende del tiempo es conocida como termofluencia o fluencia lenta (\textit{creep})}.
 
 \subsection{Curva Típica de Termofluencia y sus Etapas}
-En un ensayo normalizado de termofluencia, una probeta se mantiene bajo temperatura rigurosamente controlada y tensión mecánica constante, registrando la deformación en función del tiempo. La curva característica presenta tres etapas bien diferenciadas:
+En un \textbf{ensayo} normalizado de \textbf{termofluencia}, una probeta se mantiene bajo \textbf{temperatura} rigurosamente controlada y \textbf{tensión} mecánica \textbf{constante}, registrando la \textbf{deformación en función del tiempo}. La curva característica presenta tres etapas bien diferenciadas:
 \begin{enumerate}
-    \item \textbf{Etapa primaria o transitoria:} Tras una elongación elástica inicial instantánea $\varepsilon_0$, la probeta experimenta una rápida velocidad de deformación que decrece progresivamente con el tiempo. El fenómeno dominante es el endurecimiento por deformación plástica interna.
-    \item \textbf{Etapa secundaria o estacionaria:} La velocidad de deformación se mantiene prácticamente constante y mínima ($d\varepsilon/dt = \text{cte}$). En esta fase se establece un equilibrio dinámico entre el endurecimiento por deformación y los procesos térmicos de restauración y aniquilación de dislocaciones promovidos por la difusión atómica. La pendiente de esta región se denomina \textbf{mínima rapidez de termofluencia}.
+    \item \textbf{Deformación elástica instantánea:} Es una deformación elástica instantánea que ocurre en el momento de aplicar la carga.
+    \item \textbf{Etapa primaria o transitoria:} La probeta experimenta una deformación que aumenta progresivamente con el tiempo. el metal se endurece para soportar la carga aplicada por deformación, decreciendo la rapidez de la termofluencia con el tiempo a medida que el endurecimiento por deformación se hace más elevado.
+    \item \textbf{Etapa secundaria o estacionaria:} La velocidad de deformación se mantiene prácticamente constante y mínima ($d\varepsilon/dt = \text{cte}$). En esta fase se establece un equilibrio dinámico entre el endurecimiento por deformación y los procesos térmicos de restauración y aniquilación de dislocaciones móviles promovidos por la difusión atómica. Tanto que el metal continúa alargandose a una velocidad constante, \textbf{La pendiente de esta región se denomina mínima rapidez de termofluencia}.
     \item \textbf{Etapa terciaria:} La velocidad de deformación se acelera de manera exponencial debido a la aparición de estricción macroscópica y la nucleación de microcavidades y grietas en los límites de grano, conduciendo rápidamente a la fractura del componente.
 \end{enumerate}
 
-Para el dimensionamiento seguro de equipos industriales con largas vidas de servicio (ej. 100\,000 horas o más), se utiliza como criterio de diseño el esfuerzo que produce una \textbf{mínima rapidez de termofluencia de $10^{-5}\%/\text{hora}$}, o bien el esfuerzo necesario para provocar la rotura por termofluencia en el tiempo fijado de vida útil de la instalación.
-
+la forma de la curva depende estrechamente de la carga y temperatura aplicada, Si existen esfuerzos y temperaturas elevadas, el tiempo necesario para la fractura del material disminuye de forma considerable.
+\nt{Existen dos fenómenos importantes durante este proceso, un \textbf{endurecimiento del material provocado por la deformación plástica y un reblandecimiento causado al estar sometido a temperaturas elevadas.}}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{ensayo_termofluencia.png}
+    \caption{Curva típica de termofluencia}
+    \label{fig:ensayo_termofluencia}
+\end{figure}
+Este ensayo se hace para materiales que soportaran altas temperaturas y cargas, como una turbina un reactor\dots
+\imp{\textbf{La pendiente de la segunda etapa de la curva de termofluencia} es una medida que permite la comparación de diferentes materiales sometidos a las mismas condiciones del ensayo. El valor menor de la mínima rapidez de termofluencia una menor velocidad de deformación en esas condiciones.}
+\nt{El esfuerzo que produce una \textbf{mínima rapidez de termofluencia de $10^{-5}\%/\text{h}$} también es otro parámetro que puede determinar la resistencia a la termofluencia e indicaría la evaluación de la carga máxima a aplicar al material a una determinada temperatura para que su velocidad de deformación fuese pequeña. \textbf{La elección de un material para trabajar a esfuerzo y temperaturas elevadas necesita de la realización de ensayos de termofluencia.} Este ensayo, junto con la \textbf{vida útil} del elemento, permite determinar fácilmente la \textbf{carga máxima} que puede ser aplicada sobre el material}
 \section{Ensayo de Fatiga}
 
-La \textbf{fatiga} es un mecanismo de degradación y rotura progresiva que se produce en piezas y componentes sometidos a tensiones dinámicas repetitivas, cíclicas o fluctuantes (originadas por vibraciones de bombas, compresores, variaciones térmicas o presurizaciones periódicas).
+La \textbf{fatiga} es un mecanismo de degradación y \textbf{rotura} progresiva que se produce en piezas y componentes sometidos a tensiones dinámicas repetitivas, cíclicas o fluctuantes, por lo que el material falla con tensiones mucho mas pequeñas de las que podria soportar el material cuando se somete a cargas de tracción. \textbf{Es la primera causa de rotura de los materiales}
 
 \textbf{Relevancia en ingeniería:} Representa la causa de más del $90\%$ de los fallos mecánicos en servicio en componentes metálicos. Lo más peligroso de la fatiga es que \textbf{la rotura sobreviene a tensiones notablemente inferiores a la resistencia estática de tracción e incluso por debajo del límite elástico, ocurriendo de forma súbita y sin deformación plástica previa apreciable}.
 
+Las cargas aplicadas que producen fatiga pueden ser de distinta naturaleza: tracción, compresión, flexión o de naturaleza torsional. La resistencia que un material ofrece a la fatiga puede ser evaluada a partir de ensayos realizados en el laboratorio. Para ello la probeta se somete a esfuerzos alternativos de tracción y compresión de igual magnitud mediante el giro que provoca el equipo esquematizado, ademas las probetas son normalizadas. siguiendo el siguiente esquema
+\nt{Suele ocurrir en equipos sometidos a presiones elevadas y tambien en ambientes corrosivos, otro ejemplo seria en un deposito donde se vacie y se llene continuamente.}
 \subsection{Máquina de Ensayo y Curvas $S-N$ (Curvas de Wöhler)}
 La resistencia a la fatiga se determina mediante ensayos dinámicos como el ensayo de flexión rotativa (máquina R.R.~Moore), en el que una probeta de sección calibrada gira a alta velocidad sometiéndose simultáneamente a tracción y compresión alternadas ($\sigma_{\text{med}} = 0$).
 
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\textwidth]{ensayo_fatiga.png}
+    \caption{Curva típica de fatiga}
+    \label{fig:ensayo_fatiga}
+\end{figure}
+
 Los resultados se representan en un diagrama semilogarítmico de amplitud de tensión ($S$) frente al logaritmo del número de ciclos hasta la rotura ($N$):
 \begin{itemize}
-    \item \textbf{Materiales con límite de fatiga definido} (aceros al carbono y aleaciones de titanio): La curva $S-N$ se hace asintótica y totalmente horizontal a partir de un valor elevado de ciclos ($N \approx 10^6 - 10^7$). Dicha asíntota define el \textbf{límite de fatiga} ($\sigma_e$ o $S_e$), que representa el nivel de tensión por debajo del cual el componente puede soportar un número infinito de ciclos sin romperse.
-    \item \textbf{Materiales sin límite de fatiga definido} (aleaciones no férreas de aluminio, cobre, magnesio): La curva $S-N$ continúa descendiendo monótonamente. En este caso se define la \textbf{resistencia a la fatiga} para una vida prefijada (por ejemplo, a $N = 10^7$ o $10^8$ ciclos).
+    \item \textbf{Materiales con límite de fatiga definido} (aceros al carbono y aleaciones de titanio): La curva $S-N$ se hace asintótica y totalmente horizontal a partir de un valor elevado de ciclos. Dicha asíntota define el \textbf{límite de fatiga} ($\sigma_e$ o $S_e$), que representa el nivel de tensión por debajo del cual el componente puede soportar un número infinito de ciclos sin romperse.
+    \item \textbf{Materiales sin límite de fatiga definido} (aleaciones no férreas de aluminio, cobre, magnesio): La curva $S-N$ continúa descendiendo monótonamente. En este caso se define la \textbf{resistencia a la fatiga} para una vida prefijada de $N = 10^6$.
 \end{itemize}
 
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\textwidth]{curvas_fatiga.png}
+    \caption{Curvas de fatiga para aleaciones ferricas y no ferricas. \\ Fuente: Callister, W. D. (2003). *Ciencia e Ingeniería de Materiales*. Grupo Editorial Iberoamericana.}
+    \label{fig:curvas_fatiga}
+\end{figure}
+\imp{En resumen, los aceros al carbono y las aleaciones de titanio apresentam un límite de fatiga como la tensión para la cual el material puede someterse a infinitos ciclos. Otras aleaciones no férreas no presentan un límite de fatiga definido y para estos casos se define como la tensión de fatiga para la cual el material puede resistir hasta $10^6$ ciclos}
 \subsection{Factores Críticos que Reducen la Vida a Fatiga}
 La rotura por fatiga se inicia siempre en la superficie exterior y se propaga lentamente mediante microfisuras hasta la sección crítica restante. Los factores más determinantes son:
 \begin{itemize}
-    \item \textbf{Concentración de tensiones:} Entallas, ranuras, esquinas vivas, agujeros de paso o cambios bruscos de sección multiplican localmente las tensiones y actúan como iniciadores de grietas.
-    \item \textbf{Rugosidad superficial:} Cuanto más pulida sea la superficie, mayor es la vida a fatiga; superficies rugosas o rayadas actúan como microentallas.
-    \item \textbf{Ambiente corrosivo (fatiga-corrosión):} La presencia de medios agresivos disuelve la película pasivante en las puntas de grieta acelerando drásticamente la propagación.
-    \item \textbf{Tratamientos superficiales protectores:} Procesos que inducen tensiones residuales de compresión en la superficie (como el granallado o \textit{shot peening}) o que aumentan la dureza superficial (como la nitruración o cementación) mejoran significativamente la resistencia a la fatiga.
+    \item \textbf{Concentración de esfuerzos:} Entallas, ranuras, esquinas vivas, agujeros de paso o cambios bruscos de sección multiplican localmente las tensiones y actúan como iniciadores de grietas.
+    \item \textbf{Rugosidad superficial:} Cuanto más pulida sea la superficie, mayor es la vida a fatiga; superficies rugosas o rayadas actúan como microentallas, cuanto mas pulido este el material el area superficial sera menor, y por tanto es menos susceptible a la corrosión y finalmente a la fatiga.
+    \item \textbf{Ambiente de trabajo (fatiga-corrosión):} La presencia de medios agresivos mientras se aplican los esfuerzos ciclicos acelera la velocidad a la cual se propaga la fatiga.
+    \item \textbf{Tratamientos superficiales protectores:} Procesos que modifican la superficie del material, por ejemplo aumentando la dureza superficial (como la nitruración o cementación) mejoran significativamente la resistencia a la fatiga \textbf{Debido a que la fatiga se inicia en la superficie del material}.
 \end{itemize}
 
+\nt{Dentro de los tratamientos superficiales, existe el tratamiento mecánico donde se modifica únicamente la superficie, tratamientos térmicos donde se modifica todo el material y tratamientos químicos como puede ser al pasar el material por gases después de una alta temperatura, consiguiendo así modificar las propiedades de las micras/mm de la superficie para evitar la fatiga.}
 \section{Ensayo de Dureza (Propiedades Mecánicas Superficiales)}
 
-La \textbf{dureza} es la propiedad mecánica superficial que mide la resistencia que opone un material a la deformación plástica localizada, a la penetración de un indentador normalizado o al rayado.
+\dfn{Dureza}{Es la propiedad mecánica superficial que mide la resistencia que opone un material a la deformación plástica localizada (una abolladura o arañazo).}
 
-Históricamente se utilizó la escala cualitativa de \textbf{Mohs} (valores de 1 para el talco a 10 para el diamante, basada en la capacidad de rayado entre minerales). En ingeniería se utilizan métodos cuantitativos normalizados basados en medir la huella producida por un penetrador bajo carga controlada:
+
+Históricamente se utilizó la escala cualitativa de \textbf{Mohs} (valores de 1 para el talco a 10 para el diamante, basada en la capacidad de rayado entre minerales). En ingeniería se utilizan \textbf{métodos cuantitativos normalizados} en condiciones controladas de carga y velocidad de aplicación de la carga, basados en el método de indentación (\textbf{mide la huella producida bien por profundidad o tamaño realizada por un penetrador sobre la superficie de un material}) y rayado:
 
 \subsection{Métodos de Ensayo Cuantitativos}
 
 \subsubsection{Dureza Rockwell (HR)}
-Es el método más difundido en talleres e industrias por su rapidez y lectura directa sin necesidad de microscopio óptico. Se basa en medir la \textbf{profundidad neta de penetración} que experimenta un indentador al aplicarle sucesivamente una precarga inicial menor ($10\text{ kgf}$) para asentar el penetrador y una carga mayor adicional:
+Es el \textbf{método más utilizado para medir la dureza} debido a su simplicidad. Pueden utilizarse \textbf{diferentes escalas} con distintos penetradores y cargas, lo que permite que sirva para cualquier tipo de material, dúctil o frágil. Los penetradores son bolas esféricas de acero endurecido que tienen diámetros de $1/16$, $1/8$, $1/4$, $1/2$ pulgadas y un penetrador cónico de diamante que se utiliza para los materiales más duros. Se determina la dureza a partir de la diferencia de profundidad de la huella que resulta al aplicar primero una carga inicial pequeña y después una carga mayor. Los ensayos de dureza se realizan mediante equipos automatizados que determinan la diferencia de profundidad de forma automática tras la aplicación de las cargas. Existen \textbf{dos tipos de ensayos: Rockwell y Rockwell superficial}.
 \begin{itemize}
-    \item \textbf{Escala Rockwell B (HRB):} Penetrador esférico de acero de $1/16''$ y carga mayor de $100\text{ kgf}$. Aplicable a materiales de dureza baja a media (aceros al carbono dulces, aleaciones de cobre y aluminio).
-    \item \textbf{Escala Rockwell C (HRC):} Penetrador cónico de diamante (cono Brale con ángulo de $120^\circ$) y carga mayor de $150\text{ kgf}$. Aplicable a materiales duros (aceros templados y aleaciones tratadas).
-    \item \textbf{Rockwell Superficial (HRN, HRT):} Utiliza cargas reducidas (precarga de $3\text{ kgf}$ y cargas de $15, 30 \text{ y } 45\text{ kgf}$) para medir piezas muy delgadas o capas cementadas y nitruradas.
+    \item \textbf{Rockwell:} la carga inicial es de $10\text{ kg}$, mientras que las cargas mayores son $60$, $100$ y $150\text{ kg}$.
+    \item \textbf{Rockwell superficial:} la carga inicial es de $3\text{ kg}$, mientras que las cargas mayores son $15$, $30$ y $45\text{ kg}$.
 \end{itemize}
-Una designación típica como $80\text{ HRB}$ indica dureza Rockwell en escala B con valor numérico 80.
+Estas escalas se identifican con un número que indica la carga y una letra que indica el penetrador utilizado. Cuando se especifican los ensayos de dureza se debe indicar el valor numérico de dureza que suele oscilar entre $100$ y $20$, recomendándose trabajar en este rango para que el ensayo sea correcto. Para ello se elige la carga y penetrador adecuado para cada material de forma que el valor de dureza esté comprendido entre esos valores. Así, una \textbf{dureza 80HRB significa dureza Rockwell (HR} o R en algunos casos) en \textbf{la escala B} (esfera de $1/16$ pulgadas y $100\text{ kg}$ de carga mayor) y \textbf{valor numérico de dureza de 80}.
 
 \subsubsection{Dureza Brinell (HB)}
 Utiliza un penetrador esférico de acero endurecido o carburo de tungsteno (típicamente de diámetro $D = 10\text{ mm}$ o $5\text{ mm}$) sobre el que se aplica una carga estática $P$ (entre $500$ y $3000\text{ kgf}$) durante un tiempo normalizado (entre $10$ y $30\text{ segundos}$).
 
-El número de dureza Brinell se calcula dividiendo la carga aplicada por la superficie del casquete semiesférico de la huella de diámetro $d$:
+\textbf{El número de dureza Brinell (HB)} se calcula dividiendo la carga aplicada por la superficie del casquete semiesférico de la huella de diámetro $d$:
 \begin{equation}
     HB = \frac{2P}{\pi D \left(D - \sqrt{D^2 - d^2}\right)}
     \label{eq:dureza_brinell}
 \end{equation}
-La notación $\text{HB}(5/1000/15)$ especifica que se empleó una esfera de $5\text{ mm}$, carga de $1000\text{ kgf}$ y tiempo de aplicación de $15\text{ s}$.
+\nt{La notación «Dureza Brinell» de $\text{HB}(5/1000/15)$ especifica que se empleó una esfera de $5\text{ mm}$, carga de $1000\text{ kgf}$ y tiempo de aplicación de $15\text{ s}$.}
 
 \subsubsection{Microdureza Vickers (HV) y Knoop (HK)}
-Emplean cargas muy reducidas (desde $1\text{ g}$ hasta $1000\text{ g}$) y penetradores de diamante piramidales:
+Emplean cargas muy reducidas (desde $1\text{ g}$ hasta $1000\text{ g}$) y penetradores de diamante piramidales; requiere una minuciosa preparación de la muestra mediante pulido:
 \begin{itemize}
     \item \textbf{Vickers (HV):} Pirámide de base cuadrada con ángulo entre caras de $136^\circ$. La dureza es función de la media de las diagonales $d_1$ y $d_2$ de la huella observada al microscopio.
     \item \textbf{Knoop (HK):} Pirámide de base rómbica alargada; permite evaluar gradientes de dureza y capas superficiales extremadamente finas o materiales muy frágiles como los cerámicos.
 \end{itemize}
-
-\subsection{Relación entre Dureza Brinell y Resistencia a Tracción}
-Al estar asociadas tanto la dureza como la resistencia a tracción a la resistencia del material frente a la deformación plástica, existe una correlación empírica directa. Para la mayoría de los aceros estructurales y al carbono ordinarios se cumple con excelente aproximación:
+\imp{Tanto Vickers como Knoop se utilizan para materiales frágiles como los cerámicos.}
+\subsection{Conversión de la dureza}
+Ya que la dureza no está normalizada, \textbf{no se ha establecido un método general para su conversión}. \textbf{Para aceros, la resistencia a la tracción y la dureza Brinell} están asociadas, por lo que se puede establecer una correlación empírica directa; se cumple con excelente aproximación:
 \begin{equation}
     \sigma_M \, [\text{MPa}] \approx 3.45 \times HB \qquad \left(\sigma_M \, [\text{psi}] \approx 500 \times HB\right)
     \label{eq:relacion_dureza_resistencia}
 \end{equation}
 
 \section{Propiedades Tecnológicas de los Materiales}
+\dfn{Propiedades Tecnológicas}{Son aquellas propiedades que están relacionadas con la capacidad que tienen los materiales para transformarse en cuerpos huecos y con la facilidad que estos tienen para ser mecanizados y modificar su forma.}
 
-Son aquellas propiedades que definen la aptitud y facilidad de un material para someterse a procesos mecánicos de conformación plástica, transformación en cuerpos huecos y unión permanente:
+Para determinar sus propiedades se realizan los siguientes ensayos:
 \begin{enumerate}
-    \item \textbf{Soldabilidad:} Capacidad del material para unirse mediante soldeo conservando propiedades mecánicas homogéneas sin agrietamiento ni fragilización en la zona afectada térmicamente (ZAT). Se evalúa mediante ensayos de doblado de probetas soldadas.
-    \item \textbf{Ensayo de flexión (doblado):} Evalúa la plasticidad y ausencia de fisuración al doblar barras o chapas hasta ángulos de $90^\circ$ o $180^\circ$ alrededor de un mandril de radio especificado.
-    \item \textbf{Ensayo de torsión:} Determina la tenacidad y resistencia a cizalladura midiendo el número de vueltas completas que resiste una pieza cilíndrica antes de fracturarse.
-    \item \textbf{Embutición (Ensayo Erichsen):} Determina la capacidad de una chapa para ser transformada en un cuerpo hueco (fondos de reactores, depósitos o envolventes). Un pistón de cabeza semiesférica penetra contra la chapa sujeta perimetralmente; la profundidad de penetración hasta la primera grieta mide el índice de embutibilidad.
-    \item \textbf{Ensayo de abocardado / ensanchamiento de tubos:} Se introduce a presión un cono engrasado en el extremo de un tubo de proceso para verificar que el ensanchamiento radial no induce grietas longitudinales.
-    \item \textbf{Ensayo de estanqueidad y presión hidrostática:} Se someten los tubos y recipientes a presión hidráulica de ensayo (típicamente $1.25$ a $1.5$ veces la presión máxima de diseño) combinada con percusión mecánica para verificar la total hermeticidad y ausencia de defectos en juntas soldadas.
+    \item \textbf{Soldabilidad:} Capacidad del material de resistir las alteraciones de su textura y las tensiones térmicas motivadas por el soldeo sin deterioro. Los ensayos consisten en unir piezas en condiciones similares a las reales y posteriormente \textbf{se examinan las uniones soldadas mediante ensayos de flexión para comprobar si la soldadura muestra la misma resistencia.} En el caso real se suelen tomar eficacias de soldadura donde la resistencia es ese coeficiente de corrección que multiplica la tensión de trabajo del material que se había determinado previamente a la soldadura.
+    \item \textbf{Ensayo de flexión (doblado):} Se realiza para reconocer la flexibilidad de un material; se realiza en un ángulo comprendido entre $90^\circ$ y $180^\circ$. El material debe doblarse sin agrietarse.
+    \item \textbf{Ensayo de torsión:} Determina la tenacidad y resistencia a cizalladura midiendo el número de vueltas completas que resiste una pieza cilíndrica antes de fracturarse. \textbf{El número de torsiones que resiste al girar una pieza determina su tenacidad (la pieza gira mientras está sujeta por un extremo).}
+    \item \textbf{Embutición (Ensayo Erichsen):} Determina la \textbf{capacidad} de un material para \textbf{ser transformado en un cuerpo hueco} (fondos de reactores, depósitos o envolventes). Un pistón de cabeza semiesférica penetra contra la chapa sujeta perimetralmente; la profundidad de penetración hasta la primera grieta mide el índice de embutibilidad.
+    \item \textbf{Ensayo de abocardado / ensanchamiento de tubos:} En el interior del tubo que se va a ensanchar se introduce mediante golpes a presión un cono engrasado; se observa posteriormente la aparición de fisuras en las paredes y la resistencia al ensanchamiento que ha manifestado el tubo.
+    \item \textbf{Ensayo de estanqueidad de tubos:} Se someten los tubos a presión hidráulica de ensayo (típicamente $1.25$ a $1.5$ veces la presión máxima de servicio, en un fluido líquido) para verificar la total hermeticidad y ausencia de defectos en juntas soldadas (se martillea el tubo mientras está sometido a la presión para intentar provocar la aparición de fisuras y comprobar su estanqueidad).
 \end{enumerate}
 
 \section{Ensayos No Destructivos (END)}
 
-Los Ensayos No Destructivos tienen por objeto inspeccionar y caracterizar defectos, discontinuidades e inhomogeneidades (grietas, porosidades, inclusiones o pérdidas de espesor) en componentes terminados o en servicio sin inutilizarlos ni afectar a sus prestaciones funcionales.
+\dfn{Ensayos No Destructivos}{Los Ensayos No Destructivos tienen por objeto \textbf{inspeccionar y caracterizar defectos e imperfecciones de piezas terminadas o que estén en servicio}.}
 
 Las principales técnicas empleadas en el mantenimiento preventivo y control de calidad de plantas químicas comprenden:
 \begin{itemize}
@@ -497,11 +597,14 @@ Las principales técnicas empleadas en el mantenimiento preventivo y control de 
     \item \textbf{Emisiones acústicas (AE):} Detección pasiva en tiempo real del sonido emitido por la propagación de microfisuras durante pruebas de carga o presurización.
 \end{itemize}
 
+\nt{Se basan en la valoración de las distintas propiedades del material cuando existen perturbaciones estructurales que se comparan con las que tendrían si no hubiese esas perturbaciones.}
 \section{Tensión de Trabajo y Factor de Seguridad}
 
-Los ensayos de laboratorio se realizan en probetas pulidas bajo condiciones ideales y uniaxiales. Sin embargo, en servicio industrial los componentes operan bajo estados de tensión poliaxiales complejos, cargas fluctuantes, variaciones térmicas, corrosión y tolerancias de fabricación.
+Los ensayos anteriores hasta ahora se han realizado en \textbf{condiciones normalizadas y controladas} de laboratorio con probetas pulidas bajo condiciones ideales y uniaxiales. Sin embargo, en la realidad distan de las \textbf{condiciones de servicio} y los componentes operan bajo estados de tensión poliaxiales complejos, cargas fluctuantes, variaciones térmicas, corrosión y tolerancias de fabricación.
 
-Para garantizar que los equipos no alcancen nunca la plastificación ni la rotura, se dimensionan empleando una \textbf{tensión admisible o tensión de trabajo} ($\sigma_T$ o $\sigma_{\text{adm}}$):
+Para ello se define en el material una \textbf{tensión de seguridad o tensión de trabajo $\sigma_T$}.
+
+Para diferentes situaciones esta \textbf{tensión de trabajo se evalúa a partir de la resistencia máxima a la tracción $\sigma_M$ o la tensión en el punto de fluencia $\sigma_A$ divididas por un coeficiente de seguridad $n$}:
 \begin{equation}
     \sigma_T = \frac{\sigma_{\text{límite}}}{n}
     \label{eq:tension_trabajo}
@@ -512,7 +615,7 @@ donde $\sigma_{\text{límite}}$ es la tensión de fluencia ($\sigma_A$) o la res
 El factor $n$ se selecciona en base a códigos de diseño (ASME, AISC, UNE), fluctuando habitualmente entre $1.2$ y $4.0$ (con un valor promedio típico de $2.0$ para solicitaciones estáticas convencionales).
 \begin{itemize}
     \item Un valor de $n$ excesivamente bajo compromete la seguridad y puede provocar fallos catastróficos.
-    \item Un valor excesivamente alto conduce a un diseño sobredimensionado, multiplicando el peso propio de la instalación y su coste de fabricación.
+    \item \textbf{Un valor excesivamente alto conduce a un diseño sobredimensionado}, multiplicando el peso propio de la instalación y su coste de fabricación.
 \end{itemize}
 
 \begin{table}[H]
@@ -534,12 +637,12 @@ El factor $n$ se selecciona en base a códigos de diseño (ASME, AISC, UNE), flu
 \begin{itemize}
     \item \textbf{Acero estructural (AISC - \textit{American Institute of Steel Construction}):}
           \begin{equation}
-              \sigma_T = \min\left\{\frac{\sigma_A}{1.67} \approx 0.60 \, \sigma_A, \quad \frac{\sigma_M}{2.0} = 0.50 \, \sigma_M\right\}
+              \sigma_T = \text{min}\left\{\frac{\sigma_A}{1.67} \approx 0.60 \, \sigma_A, \quad \frac{\sigma_M}{2.0} = 0.50 \, \sigma_M\right\}
               \label{eq:criterio_aisc}
           \end{equation}
     \item \textbf{Aleaciones de aluminio (Aluminum Association):}
           \begin{equation}
-              \sigma_T = \min\left\{\frac{\sigma_A}{1.65} \approx 0.61 \, \sigma_A, \quad \frac{\sigma_M}{1.95} \approx 0.51 \, \sigma_M\right\}
+              \sigma_T = \text{min}\left\{\frac{\sigma_A}{1.65} \approx 0.61 \, \sigma_A, \quad \frac{\sigma_M}{1.95} \approx 0.51 \, \sigma_M\right\}
               \label{eq:criterio_aa}
           \end{equation}
 \end{itemize}
@@ -707,34 +810,34 @@ Para ello se emplea la metodología sistemática propuesta por \textbf{M.~F.~Ash
     Una barra recta de sección uniforme está sometida a una fuerza de tracción axial. La sección transversal es de $6\text{ cm}^2$ y la longitud inicial es de $4\text{ m}$. Si el alargamiento total registrado bajo una carga axial de $12\,600\text{ kgf}$ es de $0.40\text{ cm}$, determinar el módulo de elasticidad del material en $\text{kgf}/\text{cm}^2$.
 \end{question}
 
-\begin{solution}
-    \textbf{1. Datos del problema:}
-    \begin{itemize}
-        \item Sección transversal: $A_0 = 6\text{ cm}^2$
-        \item Longitud inicial: $L_0 = 4\text{ m} = 400\text{ cm}$
-        \item Carga axial aplicada: $P = 12\,600\text{ kgf}$
-        \item Alargamiento elástico total: $\delta = 0.40\text{ cm}$
-    \end{itemize}
+\solve{}
+\textbf{1. Datos del problema:}
+\begin{itemize}
+    \item Sección transversal: $A_0 = 6\text{ cm}^2$
+    \item Longitud inicial: $L_0 = 4\text{ m} = 400\text{ cm}$
+    \item Carga axial aplicada: $P = 12\,600\text{ kgf}$
+    \item Alargamiento elástico total: $\delta = 0.40\text{ cm}$
+\end{itemize}
 
-    \textbf{2. Ecuaciones fundamentales:}
-    Asumiendo comportamiento elástico lineal bajo la Ley de Hooke:
-    \begin{equation*}
-        \sigma = E \, \varepsilon \quad \Longleftrightarrow \quad \frac{P}{A_0} = E \, \frac{\delta}{L_0}
-    \end{equation*}
-    Despejando el módulo de Young $E$:
-    \begin{equation*}
-        E = \frac{P \cdot L_0}{A_0 \cdot \delta}
-    \end{equation*}
+\textbf{2. Ecuaciones fundamentales:}
+Asumiendo comportamiento elástico lineal bajo la Ley de Hooke:
+\begin{equation*}
+    \sigma = E \, \varepsilon \quad \Longleftrightarrow \quad \frac{P}{A_0} = E \, \frac{\delta}{L_0}
+\end{equation*}
+Despejando el módulo de Young $E$:
+\begin{equation*}
+    E = \frac{P \cdot L_0}{A_0 \cdot \delta}
+\end{equation*}
 
-    \textbf{3. Sustitución numérica:}
-    \begin{equation*}
-        E = \frac{12\,600\text{ kgf} \times 400\text{ cm}}{6\text{ cm}^2 \times 0.40\text{ cm}} = \frac{5\,040\,000}{2.4} = 2.10 \times 10^6\text{ kgf}/\text{cm}^2
-    \end{equation*}
-    En unidades del Sistema Internacional:
-    \begin{equation*}
-        E \approx 2.10 \times 10^6 \times 9.80665 \times 10^4\text{ Pa} \approx 206\text{ GPa} \quad (\text{correspondiente a un acero})
-    \end{equation*}
-\end{solution}
+\textbf{3. Sustitución numérica:}
+\begin{equation*}
+    E = \frac{12\,600\text{ kgf} \times 400\text{ cm}}{6\text{ cm}^2 \times 0.40\text{ cm}} = \frac{5\,040\,000}{2.4} = 2.10 \times 10^6\text{ kgf}/\text{cm}^2
+\end{equation*}
+En unidades del Sistema Internacional:
+\begin{equation*}
+    E \approx 2.10 \times 10^6 \times 9.80665 \times 10^4\text{ Pa} \approx 206\text{ GPa} \quad (\text{correspondiente a un acero})
+\end{equation*}
+
 
 \vspace{1em}
 
@@ -747,32 +850,32 @@ Para ello se emplea la metodología sistemática propuesta por \textbf{M.~F.~Ash
     Considérese un módulo de elasticidad $E = 1.05 \times 10^6\text{ kgf}/\text{cm}^2$ y despréciese toda probabilidad de pandeo lateral.
 \end{question}
 
-\begin{solution}
-    \textbf{1. Datos geométricos y mecánicos:}
-    \begin{itemize}
-        \item Diámetro exterior: $D_{\text{ext}} = 7.5\text{ cm}$
-        \item Diámetro interior: $D_{\text{int}} = 6.0\text{ cm}$
-        \item Fuerza axial de compresión: $P = 5\,000\text{ kgf}$
-        \item Longitud inicial: $L_0 = 50\text{ cm}$
-        \item Módulo elástico: $E = 1.05 \times 10^6\text{ kgf}/\text{cm}^2$
-    \end{itemize}
+\solve{}
+\textbf{1. Datos geométricos y mecánicos:}
+\begin{itemize}
+    \item Diámetro exterior: $D_{\text{ext}} = 7.5\text{ cm}$
+    \item Diámetro interior: $D_{\text{int}} = 6.0\text{ cm}$
+    \item Fuerza axial de compresión: $P = 5\,000\text{ kgf}$
+    \item Longitud inicial: $L_0 = 50\text{ cm}$
+    \item Módulo elástico: $E = 1.05 \times 10^6\text{ kgf}/\text{cm}^2$
+\end{itemize}
 
-    \textbf{2. Cálculo de la sección transversal neta:}
-    \begin{equation*}
-        A_0 = \frac{\pi}{4} \left(D_{\text{ext}}^2 - D_{\text{int}}^2\right) = \frac{\pi}{4} \left(7.5^2 - 6.0^2\right) = \frac{\pi}{4} (56.25 - 36.00) = \frac{\pi}{4} (20.25) \approx 15.904\text{ cm}^2
-    \end{equation*}
+\textbf{2. Cálculo de la sección transversal neta:}
+\begin{equation*}
+    A_0 = \frac{\pi}{4} \left(D_{\text{ext}}^2 - D_{\text{int}}^2\right) = \frac{\pi}{4} \left(7.5^2 - 6.0^2\right) = \frac{\pi}{4} (56.25 - 36.00) = \frac{\pi}{4} (20.25) \approx 15.904\text{ cm}^2
+\end{equation*}
 
-    \textbf{3. Tensión normal de compresión ($\sigma$):}
-    \begin{equation*}
-        \sigma = \frac{P}{A_0} = \frac{5\,000\text{ kgf}}{15.904\text{ cm}^2} \approx 314.38\text{ kgf}/\text{cm}^2 \approx 314.4\text{ kgf}/\text{cm}^2
-    \end{equation*}
+\textbf{3. Tensión normal de compresión ($\sigma$):}
+\begin{equation*}
+    \sigma = \frac{P}{A_0} = \frac{5\,000\text{ kgf}}{15.904\text{ cm}^2} \approx 314.38\text{ kgf}/\text{cm}^2 \approx 314.4\text{ kgf}/\text{cm}^2
+\end{equation*}
 
-    \textbf{4. Acortamiento total elástico ($\delta$):}
-    Aplicando la relación de Hooke $\sigma = E \, (\delta / L_0)$:
-    \begin{equation*}
-        \delta = \frac{\sigma \cdot L_0}{E} = \frac{314.38\text{ kgf}/\text{cm}^2 \times 50\text{ cm}}{1.05 \times 10^6\text{ kgf}/\text{cm}^2} \approx 0.01497\text{ cm} \approx 0.0150\text{ cm} = 0.15\text{ mm}
-    \end{equation*}
-\end{solution}
+\textbf{4. Acortamiento total elástico ($\delta$):}
+Aplicando la relación de Hooke $\sigma = E \, (\delta / L_0)$:
+\begin{equation*}
+    \delta = \frac{\sigma \cdot L_0}{E} = \frac{314.38\text{ kgf}/\text{cm}^2 \times 50\text{ cm}}{1.05 \times 10^6\text{ kgf}/\text{cm}^2} \approx 0.01497\text{ cm} \approx 0.0150\text{ cm} = 0.15\text{ mm}
+\end{equation*}
+
 
 \vspace{1em}
 
@@ -780,42 +883,42 @@ Para ello se emplea la metodología sistemática propuesta por \textbf{M.~F.~Ash
     Se aplica una carga uniaxial de tracción en la dirección longitudinal de una barra cilíndrica de latón que posee un módulo elástico $E = 10.1 \times 10^4\text{ MPa}$, coeficiente de Poisson $\nu = 0.35$ y un diámetro inicial $d_0 = 10\text{ mm}$. Determinar la magnitud de la carga $P$ necesaria para producir una reducción en el diámetro de $2.5 \times 10^{-3}\text{ mm}$, suponiendo deformación puramente elástica.
 \end{question}
 
-\begin{solution}
-    \textbf{1. Identificación de magnitudes y datos:}
-    \begin{itemize}
-        \item Módulo de elasticidad: $E = 10.1 \times 10^4\text{ MPa} = 101\,000\text{ N}/\text{mm}^2$
-        \item Coeficiente de Poisson: $\nu = 0.35$
-        \item Diámetro inicial: $d_0 = 10\text{ mm}$
-        \item Variación transversal del diámetro: $\Delta d = -2.5 \times 10^{-3}\text{ mm}$
-    \end{itemize}
+\solve{}
+\textbf{1. Identificación de magnitudes y datos:}
+\begin{itemize}
+    \item Módulo de elasticidad: $E = 10.1 \times 10^4\text{ MPa} = 101\,000\text{ N}/\text{mm}^2$
+    \item Coeficiente de Poisson: $\nu = 0.35$
+    \item Diámetro inicial: $d_0 = 10\text{ mm}$
+    \item Variación transversal del diámetro: $\Delta d = -2.5 \times 10^{-3}\text{ mm}$
+\end{itemize}
 
-    \textbf{2. Deformación unitaria transversal y longitudinal:}
-    La deformación unitaria lateral en el diámetro es:
-    \begin{equation*}
-        \varepsilon_x = \frac{\Delta d}{d_0} = \frac{-2.5 \times 10^{-3}\text{ mm}}{10\text{ mm}} = -2.5 \times 10^{-4}
-    \end{equation*}
-    A partir del coeficiente de Poisson ($\nu = -\varepsilon_x / \varepsilon_z$):
-    \begin{equation*}
-        \varepsilon_z = -\frac{\varepsilon_x}{\nu} = -\frac{-2.5 \times 10^{-4}}{0.35} \approx 7.1429 \times 10^{-4}
-    \end{equation*}
+\textbf{2. Deformación unitaria transversal y longitudinal:}
+La deformación unitaria lateral en el diámetro es:
+\begin{equation*}
+    \varepsilon_x = \frac{\Delta d}{d_0} = \frac{-2.5 \times 10^{-3}\text{ mm}}{10\text{ mm}} = -2.5 \times 10^{-4}
+\end{equation*}
+A partir del coeficiente de Poisson ($\nu = -\varepsilon_x / \varepsilon_z$):
+\begin{equation*}
+    \varepsilon_z = -\frac{\varepsilon_x}{\nu} = -\frac{-2.5 \times 10^{-4}}{0.35} \approx 7.1429 \times 10^{-4}
+\end{equation*}
 
-    \textbf{3. Tensión axial requerida ($\sigma_z$):}
-    Por la ley de Hooke en régimen elástico:
-    \begin{equation*}
-        \sigma_z = E \cdot \varepsilon_z = 101\,000\text{ MPa} \times 7.1429 \times 10^{-4} \approx 72.143\text{ MPa} = 72.143\text{ N}/\text{mm}^2
-    \end{equation*}
+\textbf{3. Tensión axial requerida ($\sigma_z$):}
+Por la ley de Hooke en régimen elástico:
+\begin{equation*}
+    \sigma_z = E \cdot \varepsilon_z = 101\,000\text{ MPa} \times 7.1429 \times 10^{-4} \approx 72.143\text{ MPa} = 72.143\text{ N}/\text{mm}^2
+\end{equation*}
 
-    \textbf{4. Cálculo de la carga axial $P$:}
-    La sección transversal inicial de la probeta es:
-    \begin{equation*}
-        A_0 = \frac{\pi}{4} d_0^2 = \frac{\pi}{4} (10\text{ mm})^2 = 25\pi\text{ mm}^2 \approx 78.54\text{ mm}^2
-    \end{equation*}
-    Por tanto, la carga $P$ aplicada resulta:
-    \begin{equation*}
-        P = \sigma_z \cdot A_0 = 72.143\text{ N}/\text{mm}^2 \times 78.54\text{ mm}^2 \approx 5\,666\text{ N} \quad (5.67\text{ kN})
-    \end{equation*}
-    \textit{Nota sobre el resultado:} Si el cambio diametral fuese $\Delta d = 2.5 \times 10^{-5}\text{ mm}$, la carga sería $56.66\text{ N}$. Para el valor enunciado en el texto de $2.5 \times 10^{-3}\text{ mm}$, la carga elástica rigurosa es $P = 5\,666\text{ N}$.
-\end{solution}
+\textbf{4. Cálculo de la carga axial $P$:}
+La sección transversal inicial de la probeta es:
+\begin{equation*}
+    A_0 = \frac{\pi}{4} d_0^2 = \frac{\pi}{4} (10\text{ mm})^2 = 25\pi\text{ mm}^2 \approx 78.54\text{ mm}^2
+\end{equation*}
+Por tanto, la carga $P$ aplicada resulta:
+\begin{equation*}
+    P = \sigma_z \cdot A_0 = 72.143\text{ N}/\text{mm}^2 \times 78.54\text{ mm}^2 \approx 5\,666\text{ N} \quad (5.67\text{ kN})
+\end{equation*}
+\textit{Nota sobre el resultado:} Si el cambio diametral fuese $\Delta d = 2.5 \times 10^{-5}\text{ mm}$, la carga sería $56.66\text{ N}$. Para el valor enunciado en el texto de $2.5 \times 10^{-3}\text{ mm}$, la carga elástica rigurosa es $P = 5\,666\text{ N}$.
+
 
 \vspace{1em}
 
@@ -827,32 +930,217 @@ Para ello se emplea la metodología sistemática propuesta por \textbf{M.~F.~Ash
     \end{enumerate}
 \end{question}
 
-\begin{solution}
-    \textbf{1. Datos iniciales y finales:}
-    \begin{itemize}
-        \item Diámetro inicial: $d_0 = 12.8\text{ mm}$
-        \item Diámetro final en rotura: $d_f = 10.7\text{ mm}$
-        \item Resistencia nominal a rotura: $\sigma_D = 460\text{ MPa} = 460\text{ N}/\text{mm}^2$
-    \end{itemize}
+\solve{}
+\textbf{1. Datos iniciales y finales:}
+\begin{itemize}
+    \item Diámetro inicial: $d_0 = 12.8\text{ mm}$
+    \item Diámetro final en rotura: $d_f = 10.7\text{ mm}$
+    \item Resistencia nominal a rotura: $\sigma_D = 460\text{ MPa} = 460\text{ N}/\text{mm}^2$
+\end{itemize}
 
-    \textbf{2. Cálculo de áreas transversales inicial y final:}
-    \begin{align*}
-        A_0 & = \frac{\pi}{4} d_0^2 = \frac{\pi}{4} (12.8)^2 \approx 128.68\text{ mm}^2 \\
-        A_f & = \frac{\pi}{4} d_f^2 = \frac{\pi}{4} (10.7)^2 \approx 89.92\text{ mm}^2
-    \end{align*}
+\textbf{2. Cálculo de áreas transversales inicial y final:}
+\begin{align*}
+    A_0 & = \frac{\pi}{4} d_0^2 = \frac{\pi}{4} (12.8)^2 \approx 128.68\text{ mm}^2 \\
+    A_f & = \frac{\pi}{4} d_f^2 = \frac{\pi}{4} (10.7)^2 \approx 89.92\text{ mm}^2
+\end{align*}
 
-    \textbf{3. Evaluación del porcentaje de estricción (\%ES):}
-    \begin{equation*}
-        \%ES = \frac{A_0 - A_f}{A_0} \times 100 = \frac{128.68 - 89.92}{128.68} \times 100 = \frac{38.76}{128.68} \times 100 \approx 30.1\% \approx 30\%
-    \end{equation*}
+\textbf{3. Evaluación del porcentaje de estricción (\%ES):}
+\begin{equation*}
+    \%ES = \frac{A_0 - A_f}{A_0} \times 100 = \frac{128.68 - 89.92}{128.68} \times 100 = \frac{38.76}{128.68} \times 100 \approx 30.1\% \approx 30\%
+\end{equation*}
 
-    \textbf{4. Cálculo de la tensión real de fractura ($\sigma_{\text{real}}$):}
-    La carga total $P_D$ actuante en el momento del colapso se deduce a partir de la tensión nominal de rotura referida al área original:
-    \begin{equation*}
-        P_D = \sigma_D \cdot A_0 = 460\text{ N}/\text{mm}^2 \times 128.68\text{ mm}^2 \approx 59\,192.8\text{ N}
-    \end{equation*}
-    La tensión real en la rotura se evalúa dividiendo dicha carga entre la sección transversal final real contraída $A_f$:
-    \begin{equation*}
-        \sigma_{\text{real}} = \frac{P_D}{A_f} = \frac{\sigma_D \cdot A_0}{A_f} = 460 \times \frac{128.68}{89.92} = 460 \times \left(\frac{12.8}{10.7}\right)^2 \approx 460 \times 1.431 \approx 658.2\text{ MPa}
-    \end{equation*}
-\end{solution}
+\textbf{4. Cálculo de la tensión real de fractura ($\sigma_{\text{real}}$):}
+La carga total $P_D$ actuante en el momento del colapso se deduce a partir de la tensión nominal de rotura referida al área original:
+\begin{equation*}
+    P_D = \sigma_D \cdot A_0 = 460\text{ N}/\text{mm}^2 \times 128.68\text{ mm}^2 \approx 59\,192.8\text{ N}
+\end{equation*}
+La tensión real en la rotura se evalúa dividiendo dicha carga entre la sección transversal final real contraída $A_f$:
+\begin{equation*}
+    \sigma_{\text{real}} = \frac{P_D}{A_f} = \frac{\sigma_D \cdot A_0}{A_f} = 460 \times \frac{128.68}{89.92} = 460 \times \left(\frac{12.8}{10.7}\right)^2 \approx 460 \times 1.431 \approx 658.2\text{ MPa}
+\end{equation*}
+
+\clearpage
+\section{Test de Autoevaluación - Tema 1}
+
+\begin{enumerate}[label=\textbf{\arabic*.}]
+    \item Los materiales compuestos .....
+          \begin{enumerate}[label=\alph*.]
+              \item Tienen propiedades homogéneas en todas las direcciones del espacio
+              \item Muestran un buen comportamiento frente a cargas cíclicas.
+              \item Presentan una resistencia específica inferior a la de los metales.
+          \end{enumerate}
+
+    \item Si se desea el uso de un material que requiera tener baja densidad y alta flexibilidad, de forma general recurriríamos al uso de un material....
+          \begin{enumerate}[label=\alph*.]
+              \item Cerámico
+              \item Polimérico termoplástico.
+              \item Polimérico termoestable
+          \end{enumerate}
+
+    \item Cuando un material sufre una deformación elástica...
+          \begin{enumerate}[label=\alph*.]
+              \item Recupera sus dimensiones al dejar de aplicarse la carga.
+              \item Recupera sus dimensiones siempre que no se haya superado el límite de fluencia o cedencia.
+              \item Aumenta su límite de proporcionalidad tras dejar de aplicarse la carga.
+          \end{enumerate}
+
+    \item Señale la respuesta correcta:
+          \begin{enumerate}[label=\alph*.]
+              \item Un mayor valor del módulo de resiliencia indica que el material tiene mayor resistencia a la deformación plástica.
+              \item Un mayor valor del Alargamiento a la rotura y de la Estricción indica que el material es más dúctil.
+              \item Ambas respuestas son correctas
+          \end{enumerate}
+
+    \item Señale la respuesta correcta:
+          \begin{enumerate}[label=\alph*.]
+              \item El objetivo del ensayo de tracción normalizado permite comparar el comportamiento de materiales entre sí.
+              \item El ensayo tracción-deformación suele mostrar la tensión real que sufre un material en función de su deformación unitaria.
+              \item El objetivo del ensayo de tracción normalizado es evaluar el comportamiento que tendrá un material en su uso real.
+          \end{enumerate}
+
+    \item Señale la respuesta correcta:
+          \begin{enumerate}[label=\alph*.]
+              \item La cianuración es un tratamiento superficial que pretende aumentar la resistencia mecánica de la superficie del acero mediante la inclusión de grupos $\text{CN}^-$ (cianuros) sobre la superficie.
+              \item La nitruración es un tratamiento superficial que pretende aumentar la resistencia mecánica de la superficie del acero mediante la formación de nitratos con base férrea.
+              \item La cementación es un tratamiento superficial que pretende aumentar la resistencia mecánica de la superficie del acero mediante la formación de carburo de hierro.
+          \end{enumerate}
+
+    \item Señale la respuesta correcta:
+          \begin{enumerate}[label=\alph*.]
+              \item Ambas respuestas son correctas
+              \item Un aumento en el contenido en carbono de los aceros los hace menos tenaces.
+              \item Un material es más tenaz cuando es capaz de absorber mayor energía plástica y elástica antes de su rotura.
+          \end{enumerate}
+
+    \item Los materiales compuestos .....
+          \begin{enumerate}[label=\alph*.]
+              \item Están formados por un material que le confiere rigidez (fibras) y otro que actúa de relleno.
+              \item Suelen tener una resistencia mecánica intermedia entre las fibras y la matriz
+              \item Ambas respuestas son correctas
+          \end{enumerate}
+
+    \item Señale la respuesta correcta:
+          \begin{enumerate}[label=\alph*.]
+              \item Ambas respuestas son correctas
+              \item La tenacidad es la capacidad de un material de absorber energía plástica antes de su fractura.
+              \item La tenacidad se puede evaluar mediante ensayos que miden la energía de impacto de un martillo sobre el material
+          \end{enumerate}
+
+    \item Señale la respuesta correcta:
+          \begin{enumerate}[label=\alph*.]
+              \item La deformación plástica aumenta el límite elástico de un material
+              \item La deformación plástica disminuye el límite de proporcionalidad de un material.
+              \item La deformación plástica reduce el punto de fluencia de un material
+          \end{enumerate}
+
+    \item Señale la respuesta correcta:
+          \begin{enumerate}[label=\alph*.]
+              \item Un aumento de la carga en el ensayo de termofluencia conlleva una reducción de la mínima rapidez de termofluencia
+              \item La termofluencia conlleva el endurecimiento del material debido a la deformación plástica sufrida.
+              \item La mínima rapidez de termofluencia se produce en las etapas iniciales del ensayo de termofluencia, y nos permitirá evaluar el tiempo de vida que tendría un equipo.
+          \end{enumerate}
+
+    \item Señale la respuesta correcta:
+          \begin{enumerate}[label=\alph*.]
+              \item El ensayo de Erichsen permite evaluar la capacidad que tiene un material plano de ser transformado en piezas huecas como fondos, carcasas, etc.
+              \item El ensayo de flexibilidad permite evaluar las propiedades mecánicas de resistencia que tiene un material.
+              \item Dentro de los ensayos no destructivos podemos encontrar el ensayo de dureza Rockwell superficial
+          \end{enumerate}
+
+    \item Señale la respuesta correcta:
+          \begin{enumerate}[label=\alph*.]
+              \item El límite de proporcionalidad y el límite de elasticidad siempre coinciden.
+              \item El límite de fluencia inferior es un punto característico del material
+              \item Ambas respuestas son correctas
+          \end{enumerate}
+
+    \item En cuanto a la resistencia por fatiga que tienen los materiales
+          \begin{enumerate}[label=\alph*.]
+              \item La resistencia a la fatiga dependerá de la resistencia mecánica propia que tenga el material, pero no del ambiente de trabajo en el que desarrolle su labor.
+              \item Superficies más pulidas conllevarán mayor resistencia a la fatiga.
+              \item Los procesos superficiales de carburación, nitruración, etc. no mejora la resistencia a la fatiga del material ya que la resistencia mecánica del material completo sigue siendo la misma.
+          \end{enumerate}
+
+    \item La tensión ingenieril se define como:
+          \begin{enumerate}[label=\alph*.]
+              \item Ambas son incorrectas
+              \item Cociente entre la carga aplicada y la sección (inicial) del material transversal a la dirección de aplicación de la carga.
+              \item Cociente entre la carga aplicada y la sección (en cada momento del ensayo) del material transversal a la dirección de aplicación de la carga.
+          \end{enumerate}
+
+    \item Señale la respuesta correcta:
+          \begin{enumerate}[label=\alph*.]
+              \item Un aumento de la temperatura hace que generalmente los materiales sean más rígidos.
+              \item Los ensayos de termofluencia permiten evaluar el comportamiento de un material frente a temperaturas y cargas elevadas en función del tiempo.
+              \item Ambas respuestas son correctas
+          \end{enumerate}
+
+    \item Señale la respuesta correcta:
+          \begin{enumerate}[label=\alph*.]
+              \item El laminado del acero tiene como objetivo la reducción del espesor de la plancha de metal
+              \item El carácter inoxidable de un acero se lo da el contenido en cromo en la aleación, que suele estar entre en una proporción de 10-27\%.
+              \item Uno de los aceros inoxidables más utilizados en la industria alimentaria es el AISI 9228.
+          \end{enumerate}
+
+    \item Señale la respuesta correcta:
+          \begin{enumerate}[label=\alph*.]
+              \item La deformación unitaria se define como el cociente entre el alargamiento y la longitud inicial de la probeta
+              \item Ambas son correctas
+              \item El alargamiento o deformación se define como la elongación que sufre un material en la dirección de aplicación de la carga
+          \end{enumerate}
+
+    \item Señale la respuesta correcta:
+          \begin{enumerate}[label=\alph*.]
+              \item La resistencia máxima a la tracción es el punto donde la tensión real aplicada es máxima
+              \item Ambas respuestas son correctas
+              \item En caso de que el límite de fluencia no esté claro, se puede definir como la tensión para la cual la deformación plástica es del 0.2\%.
+          \end{enumerate}
+
+    \item Señale la respuesta correcta:
+          \begin{enumerate}[label=\alph*.]
+              \item Un aumento de la temperatura en el ensayo de termofluencia conlleva una reducción de la mínima rapidez de termofluencia
+              \item La fluencia lenta o termofluencia es mayor en las etapas iniciales del ensayo
+              \item La mínima rapidez de termofluencia nos muestra el crecimiento exponencial de la deformación que sufre un material.
+          \end{enumerate}
+
+    \item Si se desea el uso de un material que requiera tener alta dureza, resistencia al desgaste y con propiedades aislantes y térmicas, de forma general recurriríamos al uso de un material....
+          \begin{enumerate}[label=\alph*.]
+              \item Polimérico
+              \item Metálico
+              \item Cerámico
+          \end{enumerate}
+
+    \item Señale la respuesta correcta:
+          \begin{enumerate}[label=\alph*.]
+              \item La tensión de trabajo coincide con la tensión en el punto de fluencia o con la resistencia máxima a la tracción, seleccionándose uno de estos valores en función de las condiciones de servicio del material.
+              \item La tensión de seguridad o tensión de trabajo es la tensión máxima que puede soportar un material en sus condiciones de servicio.
+              \item El producto de la tensión en el punto de fluencia o en el punto de máxima tracción (dependiendo del material y uso del mismo) por el coeficiente de seguridad nos determinará la tensión de trabajo del material.
+          \end{enumerate}
+
+    \item El acero es una aleación hierro-carbono donde.....
+          \begin{enumerate}[label=\alph*.]
+              \item Cuanto mayor porcentaje en carbono mayor presente, mayor resistencia mecánica tendrá el material
+              \item Ambas respuestas son correctas
+              \item La ferrita es hierro casi puro y la cementita es un carburo de hierro
+          \end{enumerate}
+
+    \item Señale la respuesta correcta:
+          \begin{enumerate}[label=\alph*.]
+              \item Ambas respuestas son correctas
+              \item La ductilidad es una medida de la deformación plástica que sufre un material antes de su fractura.
+              \item La tenacidad es una medida de la deformación elástica que sufre un material antes de su fractura.
+          \end{enumerate}
+
+    \item Señale la respuesta correcta:
+          \begin{enumerate}[label=\alph*.]
+              \item Los tratamientos mecánicos tienen como objetivo producir una deformación plástica en el material para conferir una resistencia determinada.
+              \item Un enfriamiento rápido del material desde la temperatura crítica máxima tiene como objetivo reducir las tensiones residuales que aparecen en el material tras un proceso térmico más severo.
+              \item Los tratamientos superficiales aplicados a aceros pretenden dar al material una mayor resistencia mecánica al material debido a la deformación plástica que sufre la superficie.
+          \end{enumerate}
+
+    \item Ensayo de microdureza:
+          \begin{enumerate}[label=\alph*.]
+              \item Vickers y Knoop
+          \end{enumerate}
+\end{enumerate}
+
