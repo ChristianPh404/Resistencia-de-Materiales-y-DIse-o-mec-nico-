@@ -612,7 +612,9 @@ Para diferentes situaciones esta \textbf{tensión de trabajo se evalúa a partir
 donde $\sigma_{\text{límite}}$ es la tensión de fluencia ($\sigma_A$) o la resistencia última a la tracción ($\sigma_M$), y $n$ es el \textbf{factor de seguridad} ($n > 1$).
 
 \subsection{Criterios de Elección del Factor de Seguridad ($n$)}
-El factor $n$ se selecciona en base a códigos de diseño (ASME, AISC, UNE), fluctuando habitualmente entre $1.2$ y $4.0$ (con un valor promedio típico de $2.0$ para solicitaciones estáticas convencionales).
+El factor $n$ se selecciona en base a códigos de diseño (ASME, AISC, UNE), fluctuando habitualmente entre \textbf{$1.2$} y \textbf{$4.0$} (con un valor promedio típico de \textbf{$2.0$} para solicitaciones estáticas convencionales).
+
+el factor de seguridad dependera del equipo que se vaya a usar
 \begin{itemize}
     \item Un valor de $n$ excesivamente bajo compromete la seguridad y puede provocar fallos catastróficos.
     \item \textbf{Un valor excesivamente alto conduce a un diseño sobredimensionado}, multiplicando el peso propio de la instalación y su coste de fabricación.
@@ -660,7 +662,7 @@ Los materiales de construcción en ingeniería se clasifican por su composición
     \item \textbf{Cerámicos tradicionales:} Arcillas, sílice ($\text{SiO}_2$) y feldespatos (empleados en ladrillos refractarios y revestimientos vitrificados) debido a que en ambientes químicos agresivos y temperaturas elevadas son mas resistentes que los metales y polímeros utilizandose de esta forma como aislantes y revestimiento de hornos (hornos cerámicos).
     \item \textbf{Cerámicos técnicos avanzados:} Alúmina ($\text{Al}_2\text{O}_3$) utilizado fundamentalmente como soporte de los circuitos integrados de los chips de ordenadores, carburo de silicio ($\text{CSi}$) y nitruro de silicio ($\text{Si}_3\text{N}_4$), utilizados en sellos mecánicos de bombas, álabes experimentales de turbinas y motores cerámicos debido a su resistencia a altas temperaturas y su bajo peso con lo que se consigue un mejor aprovechamiento del combustible y menor inercia de la maquina.
 \end{itemize}
-
+funciona muy mal con disoluciones basicas,los medios basicos atacan sobretodo a temperatura mayor los materiales ceramicos. se suelen usar cuando se necesita temperatura muy elevada con bajo peso en las turbinas de ingenieria 
 \subsection{Polímeros y Plásticos}
 Compuestos orgánicos macromoleculares formados por \textbf{largas cadenas de moleculas orgánicas basadas en el carbono}. Se caracterizan por su baja densidad, alta flexibilidad, buen aislamiento eléctrico y resistencia a la corrosión acuosa, aunque presentan bajas temperaturas máximas de trabajo ($<150 - 250^\circ\text{C}$) y susceptibilidad a la termofluencia (ablandamiento a temperaturas bajas).
 \begin{itemize}
@@ -685,7 +687,7 @@ Compuestos orgánicos macromoleculares formados por \textbf{largas cadenas de mo
     \caption{Comparativa de propiedades de materiales habituales para conducciones y tuberías de proceso.}
     \label{tab:comparativa_tuberias}
 \end{table}
-
+lo que se suele buscar en los polimeros es que sean buenos aislantes, que sean flexibles sobretodo los termoplasticos, baja densidad pero tienen algunos incovenientes tiene temperatura de fluencia muy baja. Para resistencia mecanica mas elevada necesitamos ir a los termoestables y aun asi no todos sirven.
 \subsection{Materiales Compuestos (\textit{Composites})}
 Materiales multifásicos (\textbf{mezclas de dos o más materiales}) \textbf{formados por la combinación sinérgica de un material de refuerzo (fibras resistentes y rígidas) integrado en un aglomerante continuo o matriz} con una densidad relativamente baja (polimérica, metálica o cerámica).
 
@@ -699,6 +701,7 @@ La formación de un material compuesto se realiza distribuyendo un \textbf{mater
 \nt{Ejemplos característicos de los constituyentes de estos materiales son \textbf{la fibra de vidrio, las fibras de carbono y las fibras de aramidas en una matriz epoxídica}. Otro ejemplo es el sulfuro de polifenilo reforzado con fibra de vidrio que se utiliza en instalaciones de tuberías de campos petrolíferos y ofrece una alta resistencia a la corrosión.}
 \nt{Otro ejemplo son las fibras de kevlar($\text{aramidas}$), debido a su alta resistencia y bajo peso se utiliza en la industria aeroespacial, chalecos antibalas y ropa de moto}
 
+los materiales compuestos se usan cuando necesitas buena resistencia mecanica pero poco peso por ejemplo para uso aeronautico 
 \begin{figure}
     \centering
     \includegraphics[width=0.4\textwidth]{kevlar.png}
@@ -736,7 +739,7 @@ Las caracteristicas mas importantes son:
     \item  La \textbf{resistencia máxima a la tracción específica} puede variar hasta cinco veces respecto a las aleaciones de alta resistencia. Los módulos de elasticidad específicos hasta ocho veces.
     \item  Los materiales compuestos pueden funcionar mucho mejor que el acero en aplicaciones donde existen \textbf{cargas cíclicas que produzcan fatiga}.
     \item  Donde se esperen \textbf{cargas de impacto y vibraciones} los materiales compuestos pueden proporcionar un alto nivel de amortiguación.
-    \item Como las \textbf{propiedades} de estos materiales \textbf{cambian con la dirección} en las que se colocan las fibras, la fabricación de estos materiales se realiza procurando la máxima homogeneidad del material consiguiendo una distribución adecuada de las fibras en el interior del material.
+    \item Como las \textbf{propiedades} de estos materiales \textbf{cambian con la dirección} en las que se colocan las fibras, no son isotropicos, la fabricación de estos materiales se realiza procurando la máxima homogeneidad del material consiguiendo una distribución adecuada de las fibras en el interior del material.
     \item Los \textbf{cambios dimensionales con la temperatura suelen ser menores} en los materiales compuestos que en los metales.
     \item Pueden fabricarse \textbf{estructuras de formas complejas de una sola pieza} lo que reduce el número de operaciones de sujeción, se eliminan las juntas, etc.
 \end{itemize}
@@ -749,6 +752,8 @@ Aunque estos materiales tienen una serie de \textbf{limitaciones} como son:
     \item \textbf{Pueden presentar problemas de anisotropía direccional} de sus propiedades \textbf{es decir} que al \textbf{no} ser \textbf{isotrópicas varían con la dirección en la que se aplique la carga}.
     \item El análisis del comportamiento e inspección de estos materiales \textbf{requiere técnicas especiales} que aún no están totalmente desarrolladas.
 \end{itemize}
+la relacion resistencia coste que hay suele ser mayor en este tipo de materiales.
+
 \subsection{Materiales Semiconductores}
 Materiales con \textbf{propiedades de conductividad eléctrica intermedias entre conductores y aislantes fuertemente modulables por dopaje con impurezas atómicas, temperatura o campo eléctrico} (silicio monocristalino, germanio, arseniuro de galio GaAs). Constituyen la base de la instrumentación electrónica, en los \textbf{circuitos integrados} para la industria electrónica y ordenadores. El mas importante de estos es el \textbf{Silicio} puro,
 que puede ser modificado para cambiar sus propiedades eléctricas, ya que éstas son extremadamente sensibles a la presencia de átomos de impurezas. También, el germanio, selenio, arseniuro de galio, seleniuro de cinc o teluro de plomo.
@@ -766,14 +771,15 @@ Existen organismos internacionales que regulan la nomenclatura de los metales:
           \end{itemize}
     \item \textbf{Sistema de Numeración Unificada (UNS o SNU):} Código alfanumérico estandarizado por ASTM y SAE compuesto por una letra prefijo y cinco dígitos. Para aceros al carbono se emplea el prefijo \textbf{G} (ej. el AISI 1020 corresponde a UNS G10200). Para aceros inoxidables se emplea el prefijo \textbf{S} (ej. AISI 304 corresponde a UNS S30400).
 \end{itemize}
-
+las clasificaciones mas tipicas son la aisi, aa para el aluminio y ASTM 
 \subsection{Diagrama de Equilibrio Hierro-Carbono (Fe-C)}
 Las aleaciones férreas se dividen en función de su porcentaje en masa de carbono:
 \begin{itemize}
     \item \textbf{Aceros:} Contenido en carbono inferior al $1.76\%$ (o $2.14\%$ en clasificaciones termodinámicas clásicas).
     \item \textbf{Fundiciones:} Contenido en carbono entre el $2.14\%$ y el $6.67\%$ (límite correspondiente a la formación de cementita pura, $\text{Fe}_3\text{C}$).
 \end{itemize}
-
+\nt{lo que quiere es que sepamos que en los aceros de mas de un 6.67\% en carbono no se suele fabricar realmente es mucho mas abajo por que por debajo hay carburo de hierro, en los aceros se considera una aleacion de hierro con carburo de hierro,los que se suelen usar en ingenieria suelen ser de menor de 1.76\% se puede usar de mayor porcentaje que son fundiciones grises por ejemplo para bancos pero al ser demasiado rigidos no son tan utiles en la ingenieria
+para aceros con bajo porcentaje en carbono es ferrita mas carburo de hierro y a mas temperatura ?? si hacemos cambios de temperatura para tratamientos posteriores reducimos las tensiones superficiales pero no cambia la naturaleza}
 \subsubsection{Fases y Constituyentes Microestructurales}
 \begin{itemize}
     \item \textbf{Ferrita ($\alpha$):} Solución sólida intersticial de carbono en hierro BCC. Es la fase más blanda, dúctil y tenaz del acero (máxima solubilidad de carbono de $0.022\%$ a $727^\circ\text{C}$).
@@ -785,6 +791,7 @@ Las aleaciones férreas se dividen en función de su porcentaje en masa de carbo
 
 A mayor contenido en carbono (y por consiguiente mayor fracción de cementita y perlita), el acero experimenta un incremento en su resistencia mecánica a la tracción y en su dureza, acompañado por una reducción correlativa de su ductilidad y tenacidad al impacto.
 
+muchas veces no se puede trabajar bien con el material si es demasiado rigido por ello hay que buscar el punto optimo para el trabajo 
 \subsection{Tipos Principales de Aceros}
 
 \subsubsection{Aceros al Carbono}
@@ -794,7 +801,9 @@ A mayor contenido en carbono (y por consiguiente mayor fracción de cementita y 
     \item \textbf{Altos en carbono ($0.60\% < \%C < 1.40\%$):} Máxima dureza y resistencia, empleados en herramientas de corte, troqueles y resortes.
     \item \textbf{Fundiciones ($\%C > 2.1\%$):} Materiales frágiles con excelente colabilidad y gran amortiguación de vibraciones (utilizadas en bancadas pesadas de maquinaria y carcasas de bombas).
 \end{itemize}
-
+/nt{aceros aleados al incluir otras sustancia en general metales para conseguir otros caracter por ejemplo cr para inoxidable wolframio para mayor resistencia mecanica molibdeno y nibio para templabilidad y zonas mas afectadas por la soldadura, vanadio para endurecimiento
+acero inoxidable contenido en cromo alto para que sean mas resistentes a la corrosion
+}%! Apuntes de clase
 \subsubsection{Aceros Inoxidables}
 Aleaciones férreas que contienen un mínimo del $10.5\% - 12\%$ de \textbf{cromo}, elemento que reacciona con el oxígeno ambiental formando instantáneamente una capa pasivante nanoscópica de óxido de cromo ($\text{Cr}_2\text{O}_3$) continua, impermeable y autoregenerable que aísla el metal de la corrosión.
 \begin{itemize}
@@ -806,7 +815,8 @@ Aleaciones férreas que contienen un mínimo del $10.5\% - 12\%$ de \textbf{crom
               \item \textit{Corrosión intergranular y grados bajos en carbono (304L y 316L):} Al calentar o soldar entre $450^\circ\text{C}$ y $850^\circ\text{C}$ precipitan carburos de cromo ($\text{Cr}_{23}\text{C}_6$) en los límites de grano, empobreciendo en cromo las zonas adyacentes y provocando corrosión intergranular. Para evitarlo se recurre a aleaciones de extra-bajo carbono con $\%C \leqslant 0.03\%$ (identificadas con el sufijo \textbf{L}, como el AISI 304L y 316L) o estabilizadas con titanio (AISI 321).
           \end{itemize}
 \end{itemize}
-
+%! Apuntes de clase debajo
+\nt{Para conseguir ese caracter inoxidable en aceros ya no solo para estructura sino para cierto tipo de maquinaria que va a estar en condiciones muy corrosiva o alimentaria pues serie 400 martensiticos o los ferriticos, los de la serie 300 se suele usar mucho en industria alimentaria serie 304 y 316 los aceros inoxidables son susceptibles a que aparezca corrosion por picadura y se le añade molibdeno}
 \subsubsection{Aceros Estructurales ASTM y Perfiles Comerciales}
 Estandarizados por la ASTM para edificación y soporte de plantas químicas:
 \begin{itemize}
@@ -815,7 +825,8 @@ Estandarizados por la ASTM para edificación y soporte de plantas químicas:
     \item \textbf{ASTM A500 / A501:} Aceros destinados a tubos estructurales conformados en frío y en caliente.
     \item \textbf{ASTM A572:} Acero de alta resistencia de baja aleación al columbio-vanadio (Grados 42, 50, 60 y 65).
 \end{itemize}
-
+%! Apuntes de clase debajo
+suelen ser parte de equipo angulos barras de sujeccion...  perfiles Hb IBN que son nomenclaturas dependiedo de la forma que tienen.
 \textbf{Perfiles estructurales estandarizados más frecuentes:}
 \begin{itemize}
     \item \textbf{Perfiles en L (angulares):} Se designan como $\text{L} \, a \times b \times t$ (ej. $\text{L}4 \times 3 \times 1/2$, indicando alas de $4''$ y $3''$ con espesor de $1/2''$).
@@ -823,15 +834,19 @@ Estandarizados por la ASTM para edificación y soporte de plantas químicas:
     \item \textbf{Perfiles W (vigas de patín ancho) y S (vigas estándar americanas):} Empleados en vigas principales y columnas resistentes a flexión.
     \item \textbf{Tuberías estructurales cuadradas y rectangulares (HSS):} Gran resistencia bidireccional a torsión y pandeo.
 \end{itemize}
-
+%! Apuntes de clase debajo
+las vigas de patin ancho se suele usar aunque tenga el mismo material por la forma debido a que la seccion tiene un momento estatico mas elevado, mayor rigidez y soporta mas peso soportan mejor la flexion, tambien comenta un poco lo que son las vigas aligeradas que las tensiones maximas estan en los extremos y por eso se hacen huecos en el centro.
 \subsection{Tratamientos de los Aceros}
 
 \subsubsection{Tratamientos Mecánicos}
 \begin{itemize}
-    \item \textbf{Laminado en caliente (HR - \textit{Hot Rolled}):} Realizado por encima de la temperatura de recristalización. Genera granos equiaxiales libres de tensiones residuales, resultando en un acero blando, dúctil y de menor coste.
-    \item \textbf{Laminado en frío (CR - \textit{Cold Rolled}) y estirado en frío (CD - \textit{Cold Drawn}):} Realizados a temperatura ambiente. Producen acritud intensa, elevando drásticamente el límite elástico y la resistencia a expensas de la ductilidad, con excelentes tolerancias dimensionales.
+    \item \textbf{Laminado en caliente (HR - \textit{Hot Rolled}):} Realizado por encima de la temperatura de recristalización. Genera granos equiaxiales libres de tensiones residuales, resultando en un acero blando, dúctil y de menor coste, para reducir espesor o darle mayor resistencia mecanica.
+    \item \textbf{Laminado en frío (CR - \textit{Cold Rolled}):} Realizado a temperatura ambiente. Producen acritud intensa, elevando drásticamente el límite elástico y la resistencia a expensas de la ductilidad, con excelentes tolerancias dimensionales,mas severo que en caliente.
+    \item \textbf{Estirado en frío (CD - \textit{Cold Drawn}):} Realizado a temperatura ambiente. Producen acritud intensa, elevando drásticamente el límite elástico y la resistencia a expensas de la ductilidad, con excelentes tolerancias dimensionales mas severo que el laminado.
 \end{itemize}
-
+%! Apuntes de clase debajo
+producir una deformacion plastica para conferir una resistencia mecanica adecuada, al tensar por ejemplo cambia el limite elastico,
+el estirado en frio da una resistencia mecanica mayor que los otros, en materiales de misma composicion pero difiriendo el tratamiento mecanico la resistencia sera distinta
 \subsubsection{Tratamientos Térmicos}
 Modifican la microestructura interna mediante ciclos térmicos controlados de calentamiento, mantenimiento y enfriamiento:
 \begin{itemize}
@@ -840,7 +855,8 @@ Modifican la microestructura interna mediante ciclos térmicos controlados de ca
     \item \textbf{Recocido completo:} Calentamiento austenítico y enfriamiento extraordinariamente lento dentro del propio horno apagado. Produce la máxima blandura y ductilidad posibles.
     \item \textbf{Recocido de alivio de tensiones:} Calentamiento subcrítico por debajo de $A_1$ ($550 - 650^\circ\text{C}$) para eliminar tensiones residuales derivadas de procesos de soldeo o mecanizado pesado sin alterar la estructura básica del grano.
 \end{itemize}
-
+Pretende reducir la dureza debido a que los tratamientos mecanicos generan muchas tensiones residuales, (ejemplo en un vaso si metemos agua hirviendo y hielos continuamente revienta por las tensiones residuales pues esto es lo que se evita con este tratamiento)
+calentamiento por debajo de ese limite superior para evitar las tensiones templado, si es mas suave es un normalizado tensiones residuales menores resistencia menor, si se da en el horno se alcnza otras fases por debajo del limite inferior que es un recocido 
 \subsubsection{Tratamientos Superficiales Termoquímicos}
 Incrementan selectivamente la dureza y resistencia al desgaste superficial manteniendo un núcleo interior tenaz y dúctil:
 \begin{itemize}
@@ -848,6 +864,9 @@ Incrementan selectivamente la dureza y resistencia al desgaste superficial mante
     \item \textbf{Nitruración:} Difusión de nitrógeno atómico a menor temperatura ($500 - 525^\circ\text{C}$) en corriente de amoníaco gas ($2\text{NH}_3 \rightarrow 2\text{N} + 3\text{H}_2$). El nitrógeno precipita formando nitruros duros ($\text{Fe}_4\text{N}$) alcanzando durezas de hasta $80\text{ HRC}$ sin requerir temple posterior.
     \item \textbf{Cianuración:} Formación combinada de carburos y nitruros introduciendo las piezas en un baño de sales fundidas de cianuro a $800 - 900^\circ\text{C}$.
 \end{itemize}
+pretenden modificar la resistencia de la superficie del metal, por lo general da mayor resistencia a las capas/micras del material, ya que la mayor parte de los fallos del equipo se produce por fatiga qu ees en la superficie del material, se suele tratar la cementacion el acero en alta temperatura se le hace pasar por una corriente de metano para que en la superficie tenga mayor cantidad de carbono (al formarse carburo de hierro en la superficie dando mayor resistencia a la superficie)
+con la nitruracion se pretende formar en las micras de la superficie nitruros de hierro a altas temperaturas se pasa amoniaco y reacciona el nitrogeno con el hierro de la superficie aumentando la resistencia mecanicaa y la resis a la corrosion
+la cianuracion es cuando se quiere dar ambos Tratamientos
 
 \section{Metodología de Selección de Materiales y Diagramas de Ashby}
 
@@ -859,7 +878,7 @@ Para ello se emplea la metodología sistemática propuesta por \textbf{M.~F.~Ash
     \item Resistencia mecánica ($\sigma_M$) frente a coste relativo por unidad de volumen.
     \item Empleo de herramientas de software especializado en bases de datos de materiales e índices de mérito (como \textit{Ansys Granta EduPack / CES Selector}).
 \end{itemize}
-
+\nt{Para cuando se usa un material para un uso concreto lo mas habitual es ir al fabricante para ese uso concreto aun asi hay usos nuevos donde se necesita elegir el material, hay software y diagramas para seleccionar que tiene en cuenta la densidad y propiedades mecanicas  aunque no entra }
 \clearpage
 \section{Problemas Resueltos del Tema 1}
 
