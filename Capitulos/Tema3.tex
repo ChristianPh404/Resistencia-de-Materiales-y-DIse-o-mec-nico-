@@ -1,0 +1,115 @@
+\chapter{Introduccion a la resistencia de materiales}
+\section{Objetivo de la resistencia de materiales}
+
+los solidos estan compuesto por atomos unidos unos a otros, y estos estan unido al entorno por una ligadura es decir estan apoyados
+
+ejemplo en un edificio la carga se va transmitiendo el esfuerzo por la estructura hasta los cimientos por lo que la distancia entre los atomos va aumentando/disminuyendo produciendo la deformacion
+
+esta en equilibrio cuando al aplicarse una carga llega a la posicion final y no se deforma mas.
+
+Analizaremos las fuerzas interiores, las cargas de fuera, las tensiones que aparecen y la deformacion final del cuerpo, ademas de los desplazamientos.
+
+estudiaremos la Elasticidad que es una parte de la fisica que se encarga del estudio de los solidos deformable elasticamente. Calculando tensiones y deformaciones en todos sus puntos
+Con mucho rigor matematico y con solucion exacta aunque en muy pocos casos, por lo que se asume unas hipotesis simplificativas constrastadas con la experiencia resolviendo la gran mayoria de problemas, modelizaremos las estructuras dividiendo el cuerpo en prismas
+ejemplo un portico que seran 2 prismas laterales y 1 superior, calcularemos las fuerzas internas que se han producido al someter a unas cargas externas,ademas de las deformaciones, 
+
+\nt{Un cuerpo es muy rigido cuando se opone a la deformacion}
+
+En este curso estudiaremos con un par de prismas no mucho mas, todo lo anterior tiene que cumplir 2 condiciones:
+\begin{itemize}
+    \item Que resistencia
+    \item Que sea economica (dentro de todas las estructuras la mas economica que sera la mas pequeña o la mas delgada es decir la que tenga menos material)
+    \item que cumplan su cometido
+\end{itemize}
+
+Ejemplo un forjado de una planta que este formado por viguetas que estan sometidos a un esfuerzo bidimensional  tendria flexion y aunque resistan no cumplen su cometido (insertar dibujo) viendo que lo que baje en su punto maximo de flexion sea menor a lo que diga la normativas (Se ha dibujado el desplazamiento)
+\begin{itemize}
+    \item en base a unos datos, tenemos solicitaciones o cargas tenemos la propiedad del material y hay que calcular la dimension
+    \item de comrpobaciones determinando que sera seguro el dimensionamiento del material que nos hayan dado
+\end{itemize}
+
+Variables pueden ser carga tipo fuerza o momento, otra variable son tensiones otra deformaciones y otra desplazamientos
+
+Partiendo de las fuerzas o momentos que serian las cargas desde las ecuaciones de equilibrio (estatica) sum momentos = 0 sum cargas = 0
+y tambien por sumatoria de equilibrio elastico se calculan los esfuerzos
+
+con otras ecuaciones sean las tensiones y apartir de las leyes de comportamiento las deformaciones y desde ahi con las ecuaciones de compatibilidad los desplazamientos.
+
+para imponer que la estructura resista:
+
+Solicitaciones exteriores (Cargas): con las ecuaciones de equilibrio calculamos los esfuerzos , con otras ecuaciones a partir del esfuerzo se calcula la tension, con la tension comprobamos si resiste (\textbf{la Tension es algo interno}) se calcula la tension maxima de todo el cuerpo y se compara con la admisible de todo el material.
+
+Tambien hay que calcular que no sean excesivos calculando los desplazamientos a partir de solicitaciones esfuerzos con ello las deformaciones y finalmente los desplazamientos comparandolo con los desplazamientos limites 
+
+en un problema completo hay que calcular ambos aunque algunas veces en clase se veran solo una parte.
+
+\nt{ejercicios tipicos de examen, tirantes flexion calcular deformacion, libros ortiz berrocal consultar en la guia}
+
+
+Tipos de solido:
+
+\begin{itemize}
+\item Solido rigido: con las ecuaciones de equilibrio estatico %! Añadir las ecuaciones posteriormente
+\item Solido elastico deformable:  que si se aplica una carga tiene que cumplir tambien que cumpla la condicion de equilibrio elastico (Que sea isotropo, homogeneo y que exista continuidad es decir que no haya huecos)
+\item Solido verdadero (ni son isotropicos ni continuos)
+\end{itemize}
+
+\dfn{Prima mecanico}{Superficie omega centro de gravedad G va inscribiendo una curva que va desde G1 a G2 engendrando un volumen esa linea que va dessde G1 a G2 que une todos los centros de gravedad se llama directriz, las secciones (plano perpendicular a la directriz) el eje X sera siempre tangente a la directriz pasando por el centro de gravedad G, el eje Y vertical y e eje Z el que queda perpendicular a ambos en sentido destrogiro.}
+
+hay tres tipo de prismas
+
+Prisma tipo barra sus secciones transversales son mucho mas pequeña que la longitudinal (2 pequeñas una grande) aunque tambien se dice viga. (la longitud debe ser mayor a 20 veces el diametro)
+Prisma tipo Placa: son 2 superficies planas y la distancia entre una y otra que es el espesor es muy pequeña 
+Prisma tipo lamina igual que cuando son placas pero las 2 superficies no son planas
+
+\section{Principios Generales de la resistencia de materiales}
+Principio de rigidez relativa: Hipotesis de las pequeñas deformaciones y desplazamientos (Teoria de primer orden): las deformaciones son lo suficientemnete pequeña como para que al aplicar las ecuaciones en la geometria inicial el error no es importante.
+
+A lo largo del curso se resolveran problemas del tipo 2 tirantes uno formando un angulo alpha y otro Beta una vez que tire con una fuerza la que sea quiero saber su posicion final en su movimiento giraran los cables de acero y se moveran un poco pero entonces los angulos sera un alpha + incremnto de alpha y el segundo Beta menos incremento de Beta
+
+Para estudiar el equilibrio se pone las ecuaciones sum x = 0 y sum y = 0 sum momento = 0.
+
+para aplicar las ecuaciones es necesario conocer la posicion final del sistema, lo que nos dice donde sera es este principio, las deformaciones y giros seran pequeños y si aplicamos estas ecuaciones en la posicion inicial me permite resolver el problema sin obtener unos grandes errores. es decir se pone en geometria inicial.
+
+en un elemento barra tampoco seguiria esta hipotesis 
+
+Principio de superposición: ley de comportamiento  (ley de hooke), ley de comportamiento elastico lineal.
+
+\dfn{Ley de hooke}{Si tengo una columna de un material elastico y le aplico una carga ejemplo una pesa (P) y esta se deforma el doble si le aplico el doble de peso, tendra un desplaamiento U si represento en el eje xy F vs u sera de forma lineal} %!introducir imagen y grafico luego
+
+Principio de superposicion: Para que se cumpla deben cumplirse previamente los otros 2 es decir deben tener deformaciones pequeñas y el material debe ser elastico, nos sirve para resolver problemas con muchas cargas de forma sencilla
+
+viga unida al terreno por 2 ligaduras (la segunda tiene unas ruedecitas el triangulo) y se le aplica una carga F1 hacia abajo y una F2 a la derecha, al cumplirse este principio podemos descomponer en 2 problemas uno con la carga F1 hacia abajo y otra a la derecha y luego se sumaran ambos
+
+Tensiones representados con la letra sigma deformacion con la letra epsilon u desplazamientos
+
+\imp{El orden de aplicacion de las cargas en el principio de superposicion no importa.}
+
+Principio de Saint Venant: Si tenemos 2 sistemas de cargas equivalentes en uno tenemos solo 1 carga P en el centro y en el otro esta distribuida a lo largo de toda la superficie salvo en distancia muy proximas al punto de aplicacion de la carga, salvo en las zonas muy proximas al punto de aplicacion de la carga se producira el mismo estado de tensiones y deformaciones.
+
+tension ec fuerza/superficie ( sigma = P/omega ) la distribucion sera igual a una distancia suficiente del punto de aplicacion de la carga.
+
+Hipotesis de bernouilli: Secciones planas (cortes perpendiculares a la directriz) antes de la deformacion se mantendran planas despues de la deformacion y perpendiculares a la directriz no siempre se cumple cuando las... %!terminar luego
+
+\section{Solicitaciones exteriores}
+
+Se dividen en cargas y reacciones, los tipos de cargas son tipo fuerza o tipo momento (fuerza de volumen de superficie o puntual aunque realmente son concentradas idealizadas) y pueden estar uniformemente repartidas localizadas o repartidas de forma varibales, las reacciones (los solidos elasticos estan ligados al entorno y esos puntos de ligadura o apoyos son dispositivos que impiden algun tipo de movimiento)
+el entorno hace una fuerza sobre la pieza para restringir el movimiento, por ejemplo si tiene encima del triangulo una bola puede girar y si tiene 2 debajo puede desplazarse, lo que impide en ese caso es que se mueva verticalmente, esa fuerza es la reaccion que sera vertical en ese caso.
+
+dfn{reaccion}{Son fuerzas (o momentos) que el entorno ejerce sobre un cuerpo para impedir que se mueva}
+
+otro ejemplo es un empotramiento de una viga que es una ligadura que impide todos los movimientos, donde aparecen 3 reacciones, una vertical, otra horizontal y otra que impide el giro, es decir un momento.
+
+\section{ligaduras y reacciones}
+
+en un putno del espacio hay 3 giros 3 desplazamientos es decir 6 grados de libertad
+
+puntos de apoyo tipicos:
+\begin{itemize}
+    \item Tipo empotramiento: Restringe todos los grados de libertad
+    \item Articulacion: Permite todos los giros pero no los desplazamientos es decir 3 reacciones tipo fuerza
+\end{itemize}
+%^ Poner arriba en el subitem de articulacion
+en el apoyo fijo siempre puede girar y se puede dibujar con la rotula encima o no el triangulito 
+
+el articulado movil se puede girar y desplazar
