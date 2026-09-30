@@ -1,0 +1,218 @@
+\chapter{Introducción a la Resistencia de Materiales}
+
+\section{Objetivos y Fundamentos de la Resistencia de Materiales}
+
+Los cuerpos sólidos están constituidos por átomos enlazados entre sí en una red cristalina o estructura molecular. En las estructuras e instalaciones de ingeniería, estos cuerpos se encuentran vinculados a su entorno mediante \textbf{enlaces, apoyos o ligaduras}.
+
+Al actuar una solicitación o carga exterior (por ejemplo, el peso propio y sobrecargas en un edificio), el esfuerzo se transmite a través de los elementos estructurales hasta los cimientos y el terreno. Dicha transmisión altera las distancias interatómicas relativas, provocando una \textbf{deformación} del material.
+\begin{itemize}
+    \item Un sistema se encuentra en \textbf{equilibrio estático y elástico} cuando, tras la aplicación de las cargas, alcanza una configuración deformada final estable y cesa el movimiento o variación dimensional.
+\end{itemize}
+
+El análisis de cualquier elemento resistente comprende el estudio integrado de cuatro magnitudes fundamentales:
+\begin{enumerate}
+    \item \textbf{Cargas o solicitaciones exteriores:} Fuerzas y momentos aplicados desde el entorno.
+    \item \textbf{Fuerzas internas o esfuerzos:} Acciones mutuas que se transmiten las partes contiguas del cuerpo a través de sus secciones.
+    \item \textbf{Tensiones ($\sigma, \tau$):} Distribución interna de los esfuerzos por unidad de superficie en cada punto del material.
+    \item \textbf{Deformaciones ($\varepsilon, \gamma$) y desplazamientos ($u, v, w$):} Cambios de forma, giros y traslaciones espaciales que experimentan los puntos del sólido.
+\end{enumerate}
+
+\subsection{Elasticidad frente a Resistencia de Materiales}
+\begin{itemize}
+    \item \textbf{Teoría de la Elasticidad:} Rama de la física y la mecánica del medio continuo que estudia sólidos deformables elásticamente mediante formulaciones matemáticas rigurosas (ecuaciones diferenciales de equilibrio, compatibilidad y comportamiento), buscando soluciones analíticas exactas para cualquier geometría tridimensional. Su resolución exacta solo es posible en configuraciones y condiciones de contorno muy sencillas.
+    \item \textbf{Resistencia de Materiales:} Disciplina técnica que introduce \textbf{hipótesis simplificativas} contrastadas por la experimentación para resolver la inmensa mayoría de los problemas de ingeniería. Modela las estructuras complejas descomponiéndolas en elementos geométricos sencillos denominados \textbf{prismas mecánicos} (por ejemplo, pórticos formados por dos pilares y una viga superior).
+\end{itemize}
+
+\nt{Un cuerpo se considera \textbf{rígido} cuando ofrece una oposición muy elevada a ser deformado frente a las solicitaciones aplicadas.}
+
+\subsection{Criterios de diseño estructural}
+Toda estructura resistente diseñada en ingeniería debe satisfacer tres condiciones indispensables:
+\begin{enumerate}
+    \item \textbf{Criterio de Resistencia (Seguridad frente a rotura o plastificación):} Las tensiones máximas originadas en el interior del elemento deben ser inferiores a las tensiones admisibles del material ($\sigma_{\max} \leq \sigma_{\text{adm}}$).
+    \item \textbf{Criterio de Rigidez y Funcionalidad (Estado Límite de Servicio):} Las deformaciones y desplazamientos máximos bajo carga no deben superar los valores límites fijados por la normativa técnica (por ejemplo, la flecha máxima en el forjado de un edificio para evitar el agrietamiento de tabiques o pavimentos).
+    \item \textbf{Criterio de Economía:} De entre todas las soluciones técnicamente viables y seguras, se debe elegir aquella de menor coste global, lo que suele traducirse en la geometría de menor volumen de material y facilidad constructiva.
+\end{enumerate}
+
+\subsection{Esquema metodológico del cálculo resistente}
+El dimensionamiento y comprobación de una estructura sigue el siguiente flujo de cálculo:
+\begin{align}
+    \text{Cargas exteriores} &\xrightarrow[\text{Estática}]{\text{Equilibrio}} \text{Esfuerzos internos} \xrightarrow[\text{Geometría}]{\text{Sección}} \text{Tensiones } (\sigma, \tau) \notag \\
+    &\xrightarrow[\text{Material}]{\text{Ley de Hooke}} \text{Deformaciones } (\varepsilon, \gamma) \xrightarrow[\text{Geometría}]{\text{Integración}} \text{Desplazamientos } (u, v, w)
+\end{align}
+
+\begin{itemize}
+    \item \textbf{Problema de dimensionamiento:} A partir de las cargas de servicio y las propiedades del material, se calculan las dimensiones geométricas necesarias de la sección.
+    \item \textbf{Problema de comprobación:} Con una geometría y un material predeterminados, se verifica que tanto las tensiones como las deformaciones y desplazamientos se encuentren dentro de los márgenes admisibles.
+\end{itemize}
+
+\nt{
+\textbf{Nota de bibliografía y preparación de exámenes:}
+\begin{itemize}
+    \item Problemas típicos de examen: sistemas de tirantes articulados, vigas sometidas a flexión pura/simple y cálculo de flechas y desplazamientos.
+    \item \textit{Libro de referencia recomendado por el profesor:} \textbf{Ortiz Berrocal, L. (2007) ``Resistencia de Materiales'', McGraw-Hill}. Consultar igualmente la guía docente de la asignatura. % [REVISIÓN PENDIENTE: Verificar si se requiere citar alguna edición específica de la guía docente]
+\end{itemize}
+}
+
+%=============================================================================
+\section{Clasificación de los Sólidos y Concepto de Prisma Mecánico}
+
+\subsection{Modelos de sólidos en mecánica}
+\begin{enumerate}
+    \item \textbf{Sólido rígido:} Modelo idealizado e indeformable donde la distancia relativa entre dos puntos cualesquiera permanece invariable bajo la acción de fuerzas exteriores. Se rige estrictamente por las ecuaciones de la Estática:
+          \begin{equation}
+              \sum \vec{F}_{\text{ext}} = \vec{0}, \qquad \sum \vec{M}_{\text{ext}} = \vec{0}
+          \end{equation}
+    \item \textbf{Sólido elástico deformable:} Sólido que experimenta cambios de forma al cargarse y recupera íntegramente su configuración geométrica inicial al cesar la solicitación. Para su estudio en Resistencia de Materiales se asumen tres hipótesis fundamentales:
+          \begin{itemize}
+              \item \textit{Homogeneidad:} Las propiedades físicas y mecánicas son idénticas en todos los puntos del cuerpo.
+              \item \textit{Isotropía:} Las propiedades del material son independientes de la dirección considerada.
+              \item \textit{Continuidad:} La materia llena completamente el volumen sin fisuras, poros ni huecos macroscópicos.
+          \end{itemize}
+    \item \textbf{Sólido real o verdadero:} Materiales naturales y sintéticos reales que presentan microestructuras cristalinas o granulares, porosidad, microfisuras y anisotropía intrínseca (como la madera, hormigón o materiales compuestos).
+\end{enumerate}
+
+\subsection{Definición geométrica de Prisma Mecánico}
+
+\dfn{Prisma Mecánico}{Volumen engendrado por una superficie plana $\Omega$ (denominada \textbf{sección transversal}) cuyo centro de gravedad $G$ se desplaza a lo largo de una curva continua orientada denominada \textbf{línea directriz}, manteniéndose el plano de la sección en todo momento perpendicular a la tangente a dicha directriz.}
+
+Para el estudio del prisma mecánico se define en cada sección un \textbf{sistema de referencia intrínseco local} $(G, X, Y, Z)$ centrado en el baricentro $G$:
+\begin{itemize}
+    \item \textbf{Eje $X$:} Eje longitudinal perpendicular a la sección transversal y tangente a la directriz en el punto $G$.
+    \item \textbf{Eje $Y$:} Eje principal de inercia de la sección contenido en su plano (habitualmente en la dirección vertical).
+    \item \textbf{Eje $Z$:} Eje perpendicular al plano $XY$, formando un triedro trirrectángulo dextrógiro con los ejes $X$ e $Y$.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[scale=1.1, >=Latex]
+        % Directriz
+        \draw[thick, blue!80!black, dashed] (-3,-0.5) to[out=20,in=200] (0,0) to[out=20,in=190] (4,0.8);
+        \node[blue!80!black, above] at (4,0.8) {Línea directriz};
+
+        % Seccion transversal Omega
+        \draw[thick, fill=gray!20, fill opacity=0.7] (0,0) ellipse (0.6cm and 1.2cm);
+        \node[above] at (0,1.2) {Sección transversal $\Omega$};
+
+        % Centro de gravedad G
+        \filldraw[black] (0,0) circle (2pt) node[below left] {$G$};
+
+        % Ejes locales
+        \draw[->, line width=1.3pt, red!80!black] (0,0) -- (2.2,0.35) node[right] {$X$ (tangente directriz)};
+        \draw[->, line width=1.3pt, green!60!black] (0,0) -- (0,1.8) node[above] {$Y$ (vertical)};
+        \draw[->, line width=1.3pt, cyan!80!black] (0,0) -- (-0.9,-0.8) node[below left] {$Z$};
+    \end{tikzpicture}
+    \caption{Definición geométrica de un prisma mecánico y triedro local intrínseco baricéntrico.}
+    \label{fig:prisma_mecanico}
+\end{figure}
+
+\subsection{Tipos de elementos según su geometría}
+\begin{enumerate}
+    \item \textbf{Prisma tipo Barra o Viga:} Las dimensiones de la sección transversal ($b, h$) son mucho menores que la longitud longitudinal ($L$). Como criterio general de aplicación de la teoría de vigas:
+          \begin{equation}
+              \frac{L}{d} \geq 10 - 20
+          \end{equation}
+    \item \textbf{Prisma tipo Placa:} Elemento bidimensional delimitado por dos superficies planas paralelas donde el espesor ($e$) es muy pequeño en comparación con las otras dos dimensiones en planta ($a, b \gg e$).
+    \item \textbf{Prisma tipo Lámina o Cáscara:} Similar a las placas, pero delimitado por superficies curvas (por ejemplo, depósitos a presión esféricos o cilíndricos).
+\end{enumerate}
+
+%=============================================================================
+\section{Principios Generales de la Resistencia de Materiales}
+
+Para el planteamiento y resolución analítica de las estructuras se fundamentan los siguientes cuatro principios clásicos:
+
+\subsection{1. Principio de Rigidez Relativa (Teoría de Primer Orden)}
+\textbf{Hipótesis de las pequeñas deformaciones y pequeños desplazamientos:} Las variaciones de forma, alargamientos y giros que experimenta una estructura elástica bajo las cargas de servicio son tan reducidos en magnitud que \textbf{las ecuaciones de equilibrio estático pueden formularse directamente sobre la geometría inicial indeformada} del sistema sin incurrir en errores significativos.
+
+\nt{En elementos muy esbeltos sometidos a compresión (fenómeno de inestabilidad elástica o \textbf{pandeo}), este principio deja de ser válido, requiriéndose análisis de segundo orden considerando la geometría deformada.}
+
+\subsection{2. Principio de Superposición de Efectos}
+Para que sea aplicable el principio de superposición deben cumplirse simultáneamente dos condiciones:
+\begin{enumerate}
+    \item \textbf{Comportamiento elástico y lineal del material:} Cumplimiento de la \textbf{Ley de Hooke}, donde la relación entre fuerzas y desplazamientos (o entre tensiones y deformaciones) es estrictamente proporcional:
+          \begin{equation}
+              \sigma = E \cdot \varepsilon, \qquad F = k \cdot u
+          \end{equation}
+    \item \textbf{Validez de la teoría de primer orden (pequeñas deformaciones):} Las ecuaciones cinemáticas son lineales.
+\end{enumerate}
+
+\dfn{Principio de Superposición}{El efecto combinado (en términos de esfuerzos, tensiones, deformaciones o desplazamientos) producido sobre una estructura por un conjunto de cargas simultáneas $\{F_1, F_2, \dots, F_n\}$ es exactamente igual a la suma algebraica de los efectos producidos por cada una de las cargas actuando de forma aislada e independiente.}
+
+\imp{Bajo las condiciones de linealidad elástica y pequeñas deformaciones, \textbf{el orden o secuencia cronológica de aplicación de las cargas no influye en el estado tensional o deformacional final} del sólido.}
+
+\subsection{3. Principio de Saint-Venant}
+
+\dfn{Principio de Saint-Venant}{Si sobre una zona reducida de un sólido elástico actúa un sistema de fuerzas estáticamente equivalente a otro (igual resultante $\vec{R}$ e igual momento resultante $\vec{M}$), las distribuciones reales de tensión y deformación en ambas situaciones difieren únicamente en las inmediaciones directas del punto de aplicación de la carga. A una distancia del orden de la mayor dimensión de la sección transversal, los estados de tensión y deformación en el sólido son idénticos.}
+
+\begin{itemize}
+    \item La tensión media en una barra sometida a carga axial viene dada por:
+          \begin{equation}
+              \sigma = \frac{P}{\Omega}
+          \end{equation}
+          Esta distribución uniforme se alcanza con exactitud a una distancia prudencial del punto de aplicación concentrado de la fuerza $P$.
+\end{itemize}
+
+\subsection{4. Hipótesis de Navier-Bernoulli}
+
+\dfn{Hipótesis de Navier-Bernoulli (Secciones Planas)}{En piezas prismáticas sometidas a solicitaciones de flexión, las secciones transversales planas y perpendiculares a la línea directriz antes de la deformación permanecen planas y normales a la directriz deformada después de la flexión, no experimentando distorsión angular en su plano.}
+
+% [REVISIÓN PENDIENTE / NOTA AL USUARIO: Completar detalles específicos sobre los casos en los que la hipótesis de Navier-Bernoulli deja de ser válida (vigas de gran canto o efectos de cortante importantes / teoría de Timoshenko)]
+
+%=============================================================================
+\section{Solicitaciones Exteriores, Enlaces y Reacciones}
+
+\subsection{Clasificación de las cargas exteriores}
+Las acciones exteriores aplicadas a una estructura se clasifican según:
+\begin{enumerate}
+    \item \textbf{Naturaleza física:}
+          \begin{itemize}
+              \item \textit{Fuerzas de volumen:} Actúan sobre la masa del cuerpo (peso propio, fuerzas centrífugas, fuerzas magnéticas).
+              \item \textit{Fuerzas de superficie:} Actúan sobre el contorno o superficie externa (presión hidrostática de fluidos, empuje del viento).
+              \item \textit{Fuerzas y momentos concentrados:} Cargas aplicadas en áreas tan pequeñas que se idealizan puntualmente.
+          \end{itemize}
+    \item \textbf{Distribución espacial:}
+          \begin{itemize}
+              \item Cargas puntuales o concentradas ($P$ en $\text{N}$ o $\text{kN}$).
+              \item Cargas uniformemente distribuidas ($q$ en $\text{N/m}$ o $\text{kN/m}$).
+              \item Cargas distribuidas con variación continua (lineales/triangulares, parabólicas).
+          \end{itemize}
+\end{enumerate}
+
+\subsection{Tipos de coacciones, enlaces y reacciones de apoyo}
+Un punto en el espacio tridimensional posee \textbf{6 grados de libertad} (3 traslaciones en los ejes $X, Y, Z$ y 3 giros alrededor de los mismos). En problemas bidimensionales (planos) existen \textbf{3 grados de libertad} (2 traslaciones ortogonales y 1 giro en el plano).
+
+\dfn{Reacción de Enlace}{Fuerzas o momentos de coacción que el medio circundante o cimentación ejerce sobre el sólido para impedir los desplazamientos o giros restringidos por el tipo de apoyo.}
+
+\begin{table}[H]
+    \centering
+    \caption{Clasificación de apoyos y reacciones en problemas bidimensionales (2D).}
+    \adjustbox{max width=\textwidth}{%
+    \begin{tabular}{lcp{6cm}c}
+        \toprule
+        \textbf{Tipo de Apoyo} & \textbf{Símbolo / Esquema} & \textbf{Movimientos Permitidos / Coaccionados} & \textbf{Nº de Reacciones} \\
+        \midrule
+        \textbf{Apoyo Simple o Móvil} & Rodillo / Carrito & 
+        \begin{tabular}{l}
+            $\bullet$ Permite traslación paralela al plano \\
+            $\bullet$ Permite giro \\
+            $\bullet$ Impide traslación perpendicular
+        \end{tabular} & \textbf{1 Fuerza} ($R_y$) \\
+        \midrule
+        \textbf{Articulación Fija} & Triángulo fijo / Rótula & 
+        \begin{tabular}{l}
+            $\bullet$ Permite el giro libre \\
+            $\bullet$ Impide todas las traslaciones ($X, Y$)
+        \end{tabular} & \textbf{2 Fuerzas} ($R_x, R_y$) \\
+        \midrule
+        \textbf{Empotramiento Perfecto} & Base rígida empotrada & 
+        \begin{tabular}{l}
+            $\bullet$ Impide traslación horizontal ($X$) \\
+            $\bullet$ Impide traslación vertical ($Y$) \\
+            $\bullet$ Impide giro en el plano
+        \end{tabular} & \textbf{3 Reacciones} ($R_x, R_y, M_z$) \\
+        \bottomrule
+    \end{tabular}%
+    }
+    \label{tab:apoyos_reacciones}
+\end{table}
+
+% [REVISIÓN PENDIENTE / NOTA AL USUARIO: Incluir esquemas vectoriales detallados y ejemplos de resolución estática de vigas isostáticas según se avance en los problemas del tema]
