@@ -1,0 +1,754 @@
+\chapter{Resistencia Química de Materiales. Corrosión}
+
+\section{Introducción y Relevancia en la Ingeniería Química}
+
+La \textbf{corrosión} es un fenómeno natural y espontáneo por medio del cual los sistemas químicos manifiestan su tendencia termodinámica hacia un estado de equilibrio de menor energía libre. En el ámbito de los materiales y la ingeniería de procesos, se define como:
+
+\dfn{Corrosión}{Reacción química o electroquímica entre un material (principalmente metálico) y su entorno o medio de contacto, que provoca el deterioro progresivo de sus propiedades físicas, químicas y mecánicas.}
+
+La mayor parte de los procesos de corrosión se manifiestan en los materiales metálicos, efectuándose este ataque mediante mecanismos \textbf{electroquímicos} (en presencia de un electrolito) o por \textbf{ataque químico directo} (especialmente a temperaturas elevadas o en medios no polares). 
+
+Sin embargo, los materiales no metálicos también experimentan procesos de degradación química directa:
+\begin{itemize}
+    \item \textbf{Materiales cerámicos y refractarios:} No sufren corrosión electroquímica al no poseer electrones libres de conducción, pero son atacados químicamente por sales fundidas a elevadas temperaturas, medios fuertemente básicos y ácidos específicos como el ácido fluorhídrico ($\text{HF}$).
+    \item \textbf{Polímeros y elastómeros:} No sufren corrosión electroquímica; su deterioro se denomina \textbf{degradación}, producida por absorción de agua, disolventes orgánicos (hinchamiento y disolución) o por escisión de cadenas macromoleculares ante la acción combinada de radiación ultravioleta (UV) y oxígeno (por ejemplo, fragilización del PVC expuesto a la intemperie).
+\end{itemize}
+
+\nt{En la industria química, los materiales resistentes a la corrosión suelen presentar costes muy elevados o baja resistencia a las cargas mecánicas. Por tanto, el diseño de equipos implica un compromiso técnico-económico: seleccionar un material resistente mecánicamente (como aceros al carbono o de baja aleación) y prever un sobreespesor por corrosión (\textit{corrosion allowance}), o aplicar recubrimientos y métodos de protección adecuados.}
+
+\subsection{Impacto socioeconómico de la corrosión}
+El estudio de la corrosión abarca dimensiones económicas, de seguridad técnica y medioambientales:
+\begin{itemize}
+    \item \textbf{Impacto en el PIB:} Las pérdidas anuales causadas por corrosión en países industrializados y en vías de desarrollo se estiman en torno al \textbf{3.5\% del Producto Interior Bruto (PIB)}.
+    \item \textbf{Consumo de recursos:} Entre \textbf{1/4 y 1/3 de la producción mundial de acero} se destina exclusivamente a la reposición de componentes e infraestructuras metálicas deterioradas.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=2.5cm, auto, >=Latex]
+        \node [draw, rectangle, rounded corners, fill=blue!10, text width=5cm, align=center, thick] (mineral) {\textbf{Metales en la Naturaleza}\\(Óxidos, hidróxidos, sales)\\\textit{Compuestos de baja energía / Estables}};
+        \node [draw, rectangle, rounded corners, fill=red!10, text width=5cm, align=center, thick, below of=mineral, yshift=-1cm] (puro) {\textbf{Metales Puros / Aleaciones}\\(Estado metaestable)\\\textit{Mayor contenido energético}};
+        
+        \draw [->, line width=1.5pt, blue!70!black] (mineral) -- node[midway, right, align=left] {\textbf{Metalurgia Extractiva}\\(Aporte de energía / Reducción)} (puro);
+        \draw [->, line width=1.5pt, red!70!black] ([xshift=-1.5cm]puro.north) -- node[midway, left, align=right] {\textbf{Corrosión}\\(Proceso espontáneo $\Delta G < 0$)\\(Retorno al estado combinado)} ([xshift=-1.5cm]mineral.south);
+    \end{tikzpicture}
+    \caption{Ciclo metalúrgico y naturaleza termodinámica de la corrosión.}
+    \label{fig:ciclo_corrosion}
+\end{figure}
+
+\subsection{Pérdidas económicas por corrosión}
+Las pérdidas económicas provocadas por la corrosión se clasifican en:
+\begin{enumerate}
+    \item \textbf{Pérdidas directas:}
+          \begin{itemize}
+              \item Reposición y sustitución de maquinaria, tuberías, válvulas y estructuras colapsadas.
+              \item Aplicación periódica de pinturas, revestimientos e inhibidores químicos.
+              \item Sobrecoste por el empleo de aleaciones especiales de alta gama (aceros inoxidables austeníticos, titanio, inconel, hastelloys).
+          \end{itemize}
+    \item \textbf{Pérdidas indirectas:}
+          \begin{itemize}
+              \item \textbf{Paradas de planta no programadas:} Lucro cesante e interrupción del proceso productivo para reparar fugas o sustituir elementos críticos.
+              \item \textbf{Pérdidas de producto y fugas:} Fugas en conducciones y tanques presurizados, con riesgo añadido de contaminación y explosiones.
+              \item \textbf{Pérdidas de eficiencia y rendimiento térmico:} Acumulación de costras de óxido e incrustaciones en tubos de intercambiadores de calor, reduciendo drásticamente el coeficiente global de transmisión de calor ($U$).
+              \item \textbf{Sobredimensionamiento de equipos:} Incremento excesivo de espesores de pared por desconocimiento o incertidumbre en las velocidades reales de corrosión.
+          \end{itemize}
+\end{enumerate}
+
+%=============================================================================
+\section{Ensayos de Corrosión}
+
+Los objetivos fundamentales de los ensayos de corrosión en ingeniería son:
+\begin{itemize}
+    \item Seleccionar el material idóneo para una aplicación de proceso concreta.
+    \item Evaluar el comportamiento de nuevos materiales y recubrimientos en condiciones límite de operación.
+    \item Determinar la agresividad de reactivos, productos intermedios y contaminantes en planta.
+    \item Investigar y modelizar los mecanismos cinéticos y electroquímicos de degradación.
+\end{itemize}
+
+\subsection{Clasificación de los ensayos de corrosión}
+Para que los resultados sean reproducibles, comparables y fiables, los ensayos deben estar estrictamente normalizados según organismos internacionales como la \textbf{NACE} (\textit{National Association of Corrosion Engineers}), la \textbf{ASTM} y el \textbf{MTI} (\textit{Materials Technology Institute}).
+
+\begin{enumerate}
+    \item \textbf{Ensayos de laboratorio:} Realizados sobre probetas estandarizadas a pequeña escala bajo condiciones controladas (temperatura, concentración, pH, agitación). Su objetivo principal es el \textbf{cribado previo y descarte} de materiales inadecuados.
+    \item \textbf{Ensayos en planta piloto:} Son los más representativos y deseables antes de la construcción industrial, ya que reproducen de forma fidedigna los gradientes térmicos reales, velocidades de flujo, impurezas de materias primas y relaciones área/volumen de la instalación definitiva.
+    \item \textbf{Ensayos en planta en servicio:} Técnicas de monitorización \textit{in situ} sobre equipos reales en operación mediante cupones de corrosión, sondas de resistencia eléctrica o ensayos no destructivos (ultrasonidos, corrientes inducidas, radiografía).
+\end{enumerate}
+
+\subsection{Variables experimentales que influyen en el ensayo}
+\begin{itemize}
+    \item \textbf{Caracterización de la muestra:} Composición química exacta, tratamiento térmico previo, tamaño de grano y microestructura. Probetas de referencia archivadas y perfectamente trazables.
+    \item \textbf{Preparación superficial:} Superficie pulida y desengrasada. El acabado pulido estandarizado minimiza la rugosidad; para trasladar datos a escala real debe emplearse un \textbf{factor de corrección de laboratorio} (que puede variar de 1 a 10).
+    \item \textbf{Técnicas de fijación y exposición:} Las probetas deben sumergirse totalmente aisladas de soportes metálicos mediante materiales plásticos o cerámicos (teflón) para evitar la formación espuria de pilas galvánicas.
+    \item \textbf{Tiempo de ensayo:} La velocidad de corrosión suele ser elevada en las fases iniciales y decrecer conforme se forman productos de corrosión. Generalmente se realizan ensayos en \textbf{5 períodos de 48 horas}, renovando la disolución corrosiva en cada ciclo. De forma empírica, el tiempo mínimo de ensayo se evalúa mediante:
+          \begin{equation}
+              t_{\text{mínimo}} \text{ [horas]} = \frac{2000}{\text{velocidad de corrosión esperada [mpy]}}
+              \label{eq:tiempo_minimo_ensayo}
+          \end{equation}
+    \item \textbf{Aireación:} La presencia de oxígeno disuelto incrementa sensiblemente la corrosión en aceros al carbono, mientras que favorece la pasivación protectora en aluminio y aceros inoxidables. Los ensayos con aireación se realizan burbujeando aire u oxígeno, y los ensayos desaireados burbujeando nitrógeno gaseoso inerte.
+    \item \textbf{Limpieza post-ensayo:} Eliminación estricta de productos de corrosión sin desgastar el metal base no atacado mediante limpieza mecánica (cepillos suaves/abrasivos ligeros), química (disolventes/decapantes inhibidos) o electrolítica (polarización catódica de la probeta).
+    \item \textbf{Temperatura:} Es una de las variables más críticas. Por regla general, un incremento de temperatura acelera exponencialmente la corrosión (cinética tipo Arrhenius), salvo cuando promueve la formación de fases pasivantes estables o cuando disminuye la solubilidad del oxígeno en líquidos acuosos abiertos (el agua fría abierta retiene más $O_2$ disuelto y puede ser más corrosiva que el agua caliente desoxigenada).
+\end{itemize}
+
+\begin{table}[H]
+    \centering
+    \caption{Efecto de la temperatura en la corrosión del acero inoxidable 18-8S en ácido nítrico al 65\%.}
+    \begin{tabular}{cc}
+        \toprule
+        \textbf{Temperatura ($^\circ$F)} & \textbf{Velocidad de corrosión (mpy)} \\
+        \midrule
+        Hasta 250 & $< 20$ \\
+        260 & 100 \\
+        280 & 200 \\
+        320 & 500 \\
+        330 & 1000 \\
+        370 & 5000 \\
+        \bottomrule
+    \end{tabular}
+    \label{tab:efecto_temp_hno3}
+\end{table}
+
+\subsection{Expresión cuantitativa y unidades de la velocidad de corrosión}
+La velocidad de corrosión uniforme se cuantifica a través de la pérdida de masa por unidad de área y tiempo, traduciéndose a una \textbf{pérdida de espesor por penetración}:
+
+\dfn{Milipulgadas por año (mpy)}{Pérdida de espesor lineal expresada en milésimas de pulgada ($1\text{ mil} = 10^{-3}\text{ in} = 0.0254\text{ mm}$) por año de exposición continua:}
+\begin{equation}
+    \text{mpy} = \frac{534 \cdot W}{D \cdot A \cdot T}
+    \label{eq:mpy_formula}
+\end{equation}
+donde $W$ es la pérdida de masa en $\text{mg}$, $D$ la densidad del material en $\text{g/cm}^3$, $A$ el área expuesta en $\text{in}^2$ y $T$ el tiempo de ensayo en $\text{horas}$.
+
+En unidades del Sistema Internacional (SI) y normas europeas se emplea la tasa de penetración en $\text{mm/año}$:
+\begin{equation}
+    \text{Velocidad de penetración } \left[\frac{\text{mm}}{\text{año}}\right] = \frac{87.6 \cdot W}{D \cdot A \cdot T}
+    \label{eq:mm_year_formula}
+\end{equation}
+donde $W$ está en $\text{mg}$, $D$ en $\text{g/cm}^3$, $A$ en $\text{cm}^2$ y $T$ en $\text{horas}$.
+
+\textbf{Factores de conversión de unidades de velocidad de corrosión:}
+\begin{equation}
+    1\text{ mpy} = 0.0254\text{ }\frac{\text{mm}}{\text{año}} = 25.4\text{ }\frac{\mu\text{m}}{\text{año}} = 2.90\text{ }\frac{\text{nm}}{\text{h}} = 0.805\text{ }\frac{\text{pm}}{\text{s}}
+    \label{eq:conversion_corrosion}
+\end{equation}
+
+\begin{table}[H]
+    \centering
+    \caption{Calificación relativa de materiales frente a su resistencia a la corrosión uniforme.}
+    \begin{tabular}{lccccc}
+        \toprule
+        \textbf{Resistencia Relativa} & \textbf{mpy} & \textbf{mm/año} & \textbf{$\mu$m/año} & \textbf{nm/h} & \textbf{pm/s} \\
+        \midrule
+        \textbf{Excepcional} & $< 1$ & $< 0.02$ & $< 25$ & $< 2$ & $< 1$ \\
+        \textbf{Excelente} & $1 - 5$ & $0.02 - 0.1$ & $25 - 100$ & $2 - 10$ & $1 - 5$ \\
+        \textbf{Bueno} & $5 - 20$ & $0.1 - 0.5$ & $100 - 500$ & $10 - 50$ & $5 - 20$ \\
+        \textbf{Razonable} & $20 - 50$ & $0.5 - 1.0$ & $500 - 1000$ & $50 - 150$ & $20 - 50$ \\
+        \textbf{Pobre} & $50 - 200$ & $1.0 - 5.0$ & $1000 - 5000$ & $150 - 500$ & $50 - 200$ \\
+        \textbf{Inaceptable} & $> 200$ & $> 5.0$ & $> 5000$ & $> 500$ & $> 200$ \\
+        \bottomrule
+    \end{tabular}
+    \label{tab:clasificacion_resistencia}
+\end{table}
+
+%=============================================================================
+\section{Fundamentos Termodinámicos y Electroquímicos de la Corrosión}
+
+\subsection{Criterio termodinámico de espontaneidad ($\Delta G$)}
+La viabilidad termodinámica de un proceso de corrosión viene determinada por la variación de la \textbf{energía libre de Gibbs} ($\Delta G$). Para una reacción química o electroquímica:
+\begin{equation}
+    \Delta G = \sum G_{\text{productos}} - \sum G_{\text{reactivos}}
+\end{equation}
+\begin{itemize}
+    \item $\Delta G < 0$: Proceso termodinámicamente espontáneo (tendencia natural a corroerse).
+    \item $\Delta G > 0$: Proceso no espontáneo en las condiciones dadas (inmunidad termodinámica).
+    \item $\Delta G = 0$: Estado de equilibrio termodinámico.
+\end{itemize}
+
+\textbf{Ejemplos termodinámicos de corrosión en medio húmedo con oxígeno:}
+\begin{align}
+    \text{Mg} + \text{H}_2\text{O} + \frac{1}{2}\text{O}_2 &\longrightarrow \text{Mg(OH)}_2 & \Delta G^\circ &= -142\,600\text{ cal} \quad (\text{Espontánea, alta reactividad}) \\
+    \text{Cu} + \text{H}_2\text{O} + \frac{1}{2}\text{O}_2 &\longrightarrow \text{Cu(OH)}_2 & \Delta G^\circ &= -28\,600\text{ cal} \quad (\text{Espontánea, reactividad moderada}) \\
+    \text{Au} + \frac{3}{2}\text{H}_2\text{O} + \frac{3}{4}\text{O}_2 &\longrightarrow \text{Au(OH)}_3 & \Delta G^\circ &= +15\,700\text{ cal} \quad (\text{No espontánea, metal noble inmune})
+\end{align}
+
+\nt{La energía libre de Gibbs $\Delta G$ indica únicamente la tendencia termodinámica de la reacción, pero \textbf{no predice en absoluto la velocidad con la que se producirá el ataque}. Metales con una $\Delta G$ fuertemente negativa (como el aluminio o el titanio) pueden reaccionar con extrema lentitud debido a la formación instantánea de películas pasivantes de óxido de alta adherencia que bloquean la difusión de reactivos.}
+
+\subsection{Cinética y energía de activación ($Q_0$)}
+Para que la reacción tenga lugar es necesario superar una barrera energética o \textbf{energía de activación} ($Q_0$). La constante cinética de velocidad de reacción sigue la ley de Arrhenius:
+\begin{equation}
+    k = A \cdot e^{-\frac{Q_0}{R \cdot T}}
+    \label{eq:arrhenius}
+\end{equation}
+donde $A$ es el factor preexponencial de frecuencia, $R = 8.314\text{ J/(mol}\cdot\text{K)}$ la constante universal de los gases y $T$ la temperatura absoluta en Kelvin.
+
+\subsection{Naturaleza electroquímica: Semirreacciones redox}
+Toda reacción de corrosión en medio húmedo es un proceso electroquímico acoplado que involucra simultáneamente:
+\begin{enumerate}
+    \item \textbf{Reacción anódica (Oxidación):} Los átomos metálicos ceden electrones y pasan al electrolito como cationes solvatados. Tiene lugar en las regiones superficiales denominadas \textbf{ánodos}:
+          \begin{equation}
+              \text{M} \longrightarrow \text{M}^{n+} + n\,e^-
+          \end{equation}
+    \item \textbf{Reacción catódica (Reducción):} Una especie química presente en el electrolito consume los electrones cedidos por el metal en las zonas superficiales denominadas \textbf{cátodos}:
+          \begin{equation}
+              \text{Oxidante} + n\,e^- \longrightarrow \text{Reductor}
+          \end{equation}
+\end{enumerate}
+
+\imp{Por el principio de conservación de la carga y electroneutralidad, \textbf{la velocidad total de oxidación debe ser idéntica a la velocidad total de reducción} en todo instante:
+\begin{equation*}
+    I_{\text{anódica}} = I_{\text{catódica}} \implies \sum v_{\text{oxidación}} = \sum v_{\text{reducción}}
+\end{equation*}}
+
+\subsection{Ecuación de Nernst}
+La relación fundamental entre la energía libre de Gibbs y el potencial reversible de celda ($E$) viene dada por:
+\begin{equation}
+    \Delta G = -n \cdot F \cdot E, \qquad \Delta G^\circ = -n \cdot F \cdot E^\circ
+\end{equation}
+donde $n$ es el número de electrones transferidos y $F = 96\,485\text{ C/mol} \approx 96\,500\text{ C/mol}$ es la constante de Faraday.
+
+Para una reacción redox general del tipo $a\text{A} + b\text{B} \longleftrightarrow p\text{P} + q\text{Q}$:
+\begin{equation}
+    E = E^\circ - \frac{R \cdot T}{n \cdot F} \ln \left( \frac{[\text{P}]^p [\text{Q}]^q}{[\text{A}]^a [\text{B}]^b} \right)
+    \label{eq:nernst_general}
+\end{equation}
+A condiciones estándar de temperatura y presión ($T = 298.15\text{ K} = 25^\circ\text{C}$, $1\text{ atm}$), empleando el logaritmo decimal:
+\begin{equation}
+    E = E^\circ - \frac{0.0592}{n} \log \left( \frac{[\text{P}]^p [\text{Q}]^q}{[\text{A}]^a [\text{B}]^b} \right)
+    \label{eq:nernst_25C}
+\end{equation}
+
+Para un electrodo metálico puro sumergido en una disolución de sus propios iones ($\text{Me}^{n+} + n\,e^- \longleftrightarrow \text{Me}$), el potencial de reducción reversible es:
+\begin{equation}
+    E = E^\circ + \frac{0.0592}{n} \log [\text{Me}^{n+}]
+    \label{eq:nernst_metal}
+\end{equation}
+
+\subsection{Serie electroquímica de potenciales estándar}
+Tomando como referencia arbitraria cero el \textbf{Electrodo Estándar de Hidrógeno (EEH)}:
+\begin{equation}
+    2\text{H}^+ + 2\,e^- \longleftrightarrow \text{H}_2(g) \qquad (E^\circ = 0.000\text{ V})
+\end{equation}
+
+\begin{table}[H]
+    \centering
+    \caption{Potenciales estándar de reducción ($E^\circ$) a 25$^\circ$C.}
+    \begin{tabular}{lcr}
+        \toprule
+        \textbf{Carácter} & \textbf{Semirreacción catódica} & \textbf{$E^\circ$ (V)} \\
+        \midrule
+        \multirow{5}{*}{\parbox{3cm}{\centering \textbf{Catódicos / Nobles}\\(Inactividad creciente)}} 
+        & $\text{Au}^{3+} + 3\,e^- \longrightarrow \text{Au}$ & $+1.420$ \\
+        & $\text{O}_2 + 4\text{H}^+ + 4\,e^- \longrightarrow 2\text{H}_2\text{O}$ & $+1.229$ \\
+        & $\text{Fe}^{3+} + e^- \longrightarrow \text{Fe}^{2+}$ & $+0.771$ \\
+        & $\text{O}_2 + 2\text{H}_2\text{O} + 4\,e^- \longrightarrow 4\text{OH}^-$ & $+0.401$ \\
+        & $\text{Cu}^{2+} + 2\,e^- \longrightarrow \text{Cu}$ & $+0.337$ \\
+        \midrule
+        \textbf{Referencia} & $2\text{H}^+ + 2\,e^- \longrightarrow \text{H}_2(g)$ & $0.000$ \\
+        \midrule
+        \multirow{5}{*}{\parbox{3cm}{\centering \textbf{Anódicos / Activos}\\(Actividad creciente)}} 
+        & $\text{Pb}^{2+} + 2\,e^- \longrightarrow \text{Pb}$ & $-0.126$ \\
+        & $\text{Sn}^{2+} + 2\,e^- \longrightarrow \text{Sn}$ & $-0.136$ \\
+        & $\text{Ni}^{2+} + 2\,e^- \longrightarrow \text{Ni}$ & $-0.250$ \\
+        & $\text{Fe}^{2+} + 2\,e^- \longrightarrow \text{Fe}$ & $-0.440$ \\
+        & $\text{Zn}^{2+} + 2\,e^- \longrightarrow \text{Zn}$ & $-0.763$ \\
+        & $\text{Al}^{3+} + 3\,e^- \longrightarrow \text{Al}$ & $-1.662$ \\
+        \bottomrule
+    \end{tabular}
+    \label{tab:potenciales_estandar}
+\end{table}
+
+\nt{Los elementos con $E^\circ < 0$ son más activos (anódicos) que el hidrógeno y tienden a oxidarse espontáneamente desprendiendo hidrógeno en disoluciones ácidas libres de oxidantes. Los elementos situados más arriba en la tabla tienden a actuar como cátodos y reducirse, mientras que los situados más abajo se oxidan.}
+
+%=============================================================================
+\section{Pilas Galvánicas Responsables de la Corrosión}
+
+La corrosión electroquímica requiere la coexistencia de zonas anódicas y zonas catódicas en contacto eléctrico e inmersas en un electrolito conductor. Los tipos de pilas que originan corrosión en la industria son:
+
+\subsection{Pilas galvánicas de dos metales disímiles}
+Formadas por dos metales distintos conectados eléctricamente y sumergidos en un electrolito. El metal con potencial de electrodo más electronegativo actúa como ánodo y se corroe aceleradamente.
+
+\ex{Cálculo de la FEM en una pila Zn-Ni}{
+Una cuba electrolítica a 25$^\circ$C consta de un electrodo de zinc sumergido en $\text{ZnSO}_4$ $0.1\text{ M}$ ($E^\circ_{\text{Zn}^{2+}/\text{Zn}} = -0.763\text{ V}$) y un electrodo de níquel en $\text{NiSO}_4$ $0.05\text{ M}$ ($E^\circ_{\text{Ni}^{2+}/\text{Ni}} = -0.250\text{ V}$), separados por membrana porosa. Determinar el potencial de la celda.
+
+\textbf{Solución:}
+Al comparar potenciales, el $\text{Zn}$ es más electronegativo, actuando como ánodo:
+\begin{align*}
+    \text{Ánodo (Oxidación):} & \quad \text{Zn} \longrightarrow \text{Zn}^{2+} + 2\,e^- \quad (E^\circ_{\text{ox}} = +0.763\text{ V}) \\
+    \text{Cátodo (Reducción):} & \quad \text{Ni}^{2+} + 2\,e^- \longrightarrow \text{Ni} \quad (E^\circ_{\text{red}} = -0.250\text{ V}) \\
+    \text{Reacción global:} & \quad \text{Zn} + \text{Ni}^{2+} \longrightarrow \text{Zn}^{2+} + \text{Ni} \quad (E^\circ_{\text{celda}} = 0.763 - 0.250 = +0.513\text{ V})
+\end{align*}
+Aplicando la ecuación de Nernst:
+\begin{equation*}
+    E = E^\circ_{\text{celda}} - \frac{0.0592}{2} \log \left( \frac{[\text{Zn}^{2+}]}{[\text{Ni}^{2+}]} \right) = 0.513 - \frac{0.0592}{2} \log \left( \frac{0.1}{0.05} \right) = 0.513 - 0.0296 \log(2) \approx \mathbf{0.504\text{ V}}
+\end{equation*}
+Al ser $E > 0$, la reacción transcurre espontáneamente con disolución anódica del zinc.
+}
+
+\subsection{Reacciones catódicas habituales en medios acuosos}
+\begin{table}[H]
+    \centering
+    \caption{Principales reacciones catódicas según el pH y la presencia de oxidantes.}
+    \begin{tabular}{llc}
+        \toprule
+        \textbf{Tipo de Reacción} & \textbf{Ecuación Química Catódica} & \textbf{$E^\circ$ (V)} \\
+        \midrule
+        \textbf{1. Deposición metálica} & $\text{M}^{n+} + n\,e^- \longrightarrow \text{M}$ (ej. $\text{Cu}^{2+} + 2e^- \rightarrow \text{Cu}$) & Variable \\
+        \textbf{2. Desprendimiento de $\text{H}_2$ (medio ácido)} & $2\text{H}^+ + 2\,e^- \longrightarrow \text{H}_2(g)$ & $0.000$ \\
+        \textbf{3. Reducción de $\text{O}_2$ en medio ácido oxidante} & $\text{O}_2 + 4\text{H}^+ + 4\,e^- \longrightarrow 2\text{H}_2\text{O}$ & $+1.229$ \\
+        \textbf{4. Reducción de $\text{O}_2$ en medio neutro o básico} & $\text{O}_2 + 2\text{H}_2\text{O} + 4\,e^- \longrightarrow 4\text{OH}^-$ & $+0.401$ \\
+        \bottomrule
+    \end{tabular}
+    \label{tab:reacciones_catodicas}
+\end{table}
+
+\subsection{Pilas microscópicas en un metal monofásico (Inhomogeneidades)}
+En una pieza de metal aparentemente homogéneo (como zinc o hierro expuesto a un ácido), las inclusiones, bordes de grano, segreganzas químicas o diferencias de tensión local generan una multitud de \textbf{microánodos y microcátodos} microscópicos adyacentes.
+
+En la corrosión del hierro en agua aireada:
+\begin{align}
+    \text{Ánodo:} & \quad \text{Fe} \longrightarrow \text{Fe}^{2+} + 2\,e^- \quad (E^\circ = +0.440\text{ V}) \\
+    \text{Cátodo:} & \quad \text{O}_2 + 2\text{H}_2\text{O} + 4\,e^- \longrightarrow 4\text{OH}^- \quad (E^\circ = +0.401\text{ V})
+\end{align}
+Los iones $\text{Fe}^{2+}$ y $\text{OH}^-$ reaccionan formando hidróxido ferroso $\text{Fe(OH)}_2$, el cual precipita como una capa porosa y esponjosa que sigue oxidándose con el oxígeno disuelto para formar el \textbf{hidróxido férrico} marrón-rojizo (\textit{herrumbre}):
+\begin{equation}
+    2\text{Fe(OH)}_2 \downarrow + 2\text{H}_2\text{O} + \text{O}_2 \longrightarrow 2\text{Fe(OH)}_3 \downarrow
+\end{equation}
+
+\subsection{Pilas de concentración iónica}
+Se producen cuando dos regiones de un mismo metal están en contacto con disoluciones de diferente concentración de sus cationes metálicos.
+\begin{itemize}
+    \item Según la ecuación de Nernst, la región en contacto con la \textbf{disolución más diluida} presenta un potencial de electrodo más negativo, comportándose como \textbf{ánodo} y corroyéndose.
+    \item La región con \textbf{mayor concentración iónica} actúa como \textbf{cátodo}, depositando metal hasta igualar potenciales.
+\end{itemize}
+
+\subsection{Celdas de aireación diferencial}
+Ocurren cuando existe un gradiente de concentración de oxígeno disuelto en la superficie húmeda de una estructura metálica.
+\begin{itemize}
+    \item Para la reducción catódica de oxígeno: $E = E^\circ - \frac{0.0592}{2}\log \left(\frac{[\text{OH}^-]^4}{P_{\text{O}_2}}\right)$.
+    \item Las zonas con \textbf{mayor concentración o presión parcial de $\text{O}_2$} presentan un potencial más noble y actúan como \textbf{cátodo}.
+    \item Las zonas con \textbf{menor concentración de $\text{O}_2$} (fondos de depósitos, acoplamientos roscados, resquicios, bajo capas de lodo o pinturas agrietadas) se convierten en \textbf{ánodos} y sufren un severo ataque localizado.
+\end{itemize}
+
+\subsection{Celdas de temperatura diferencial}
+Aparecen en intercambiadores de calor y calderas donde una misma pieza metálica opera con gradientes térmicos. Por regla general, la zona a \textbf{mayor temperatura} presenta un potencial de reducción menos negativo y actúa como \textbf{cátodo}, mientras que la zona a \textbf{menor temperatura} suele actuar como \textbf{ánodo} (aunque la polaridad puede invertirse según la aireación y la concentración del electrolito).
+
+%=============================================================================
+\section{Diagramas de Pourbaix ($E - \text{pH}$)}
+
+Los diagramas de Pourbaix representan el potencial termodinámico de electrodo ($E$) en función del $\text{pH}$ del medio acuoso a 25$^\circ$C, delimitando las regiones termodinámicas de estabilidad de las especies químicas.
+
+\subsection{Tipos de líneas en los diagramas de Pourbaix}
+\begin{enumerate}
+    \item \textbf{Líneas horizontales:} Representan equilibrios redox con transferencia de electrones e independientes del $\text{pH}$ (por ejemplo, $\text{Me}^{n+} + n\,e^- \longleftrightarrow \text{Me}$). Su potencial depende exclusivamente de la concentración del catión metálico según Nernst:
+          \begin{equation}
+              E = E^\circ + \frac{R\cdot T}{n\cdot F}\ln [\text{Me}^{n+}]
+          \end{equation}
+          Por convenio internacional, la frontera entre corrosión e inmunidad se establece en $[\text{Me}^{n+}] = 10^{-6}\text{ M}$.
+    \item \textbf{Líneas verticales:} Representan reacciones de hidrólisis o disolución/precipitación dependientes del $\text{pH}$ pero sin intercambio electrónico (procesos no redox, como $\text{Fe}^{3+} + 3\text{H}_2\text{O} \longleftrightarrow \text{Fe(OH)}_3 + 3\text{H}^+$). Su posición viene fijada por el producto de solubilidad ($K_{ps}$).
+    \item \textbf{Líneas oblicuas:} Representan equilibrios que involucran simultáneamente transferencia de electrones e iones $\text{H}^+$ o $\text{OH}^-$ (por ejemplo, $\text{Fe}_2\text{O}_3 + 6\text{H}^+ + 2e^- \longleftrightarrow 2\text{Fe}^{2+} + 3\text{H}_2\text{O}$).
+\end{enumerate}
+
+\subsection{Líneas de descomposición del agua}
+El comportamiento del agua como disolvente delimita una franja de estabilidad electroquímica comprendida entre dos líneas de trazos:
+\begin{itemize}
+    \item \textbf{Línea superior (a) - Desprendimiento de $\text{O}_2$:} $\text{O}_2 + 4\text{H}^+ + 4\,e^- \longleftrightarrow 2\text{H}_2\text{O}$
+          \begin{equation}
+              E_a = 1.229 - 0.0592 \cdot \text{pH} \quad [\text{a } P_{\text{O}_2} = 1\text{ atm}]
+              \label{eq:linea_a_pourbaix}
+          \end{equation}
+          Por encima de la línea (a), el agua se descompone oxidándose a oxígeno gaseoso.
+    \item \textbf{Línea inferior (b) - Desprendimiento de $\text{H}_2$:} $2\text{H}^+ + 2\,e^- \longleftrightarrow \text{H}_2(g)$
+          \begin{equation}
+              E_b = 0.000 - 0.0592 \cdot \text{pH} \quad [\text{a } P_{\text{H}_2} = 1\text{ atm}]
+              \label{eq:linea_b_pourbaix}
+          \end{equation}
+          Por debajo de la línea (b), el agua se reduce termodinámicamente desprendiendo hidrógeno gaseoso.
+\end{itemize}
+
+\subsection{Zonas fundamentales del diagrama}
+\begin{enumerate}
+    \item \textbf{Zona de Inmunidad:} El metal en estado elemental es la fase termodinámicamente estable ($\Delta G > 0$ para su disolución a concentraciones $\geq 10^{-6}\text{ M}$). Para el hierro, la inmunidad se logra a potenciales $E < -0.62\text{ V}$.
+    \item \textbf{Zona de Corrosión:} Las especies estables son iones solubles ($\text{Fe}^{2+}$, $\text{Fe}^{3+}$, o ferratos $\text{Fe}_2\text{O}_3\text{H}^-$ en medios fuertemente alcalinos). El metal se disuelve de forma continua.
+    \item \textbf{Zona de Pasivación:} Las especies estables son óxidos o hidróxidos sólidos insolubles ($\text{Fe}_2\text{O}_3$, $\text{Al}_2\text{O}_3$, $\text{Cr}_2\text{O}_3$) que forman una película adherente sobre la superficie metálica, reduciendo la velocidad de corrosión a valores prácticamente despreciables.
+\end{enumerate}
+
+\imp{
+\textbf{Utilidad y limitaciones de los Diagramas de Pourbaix:}
+\begin{itemize}
+    \item \textbf{Utilidad:} Permiten determinar la dirección espontánea de las reacciones redox, estimar los productos de equilibrio y predecir modificaciones de potencial o $\text{pH}$ para proteger el metal (protección catódica, pasivación o protección anódica).
+    \item \textbf{Limitaciones:} Son diagramas estrictamente \textbf{termodinámicos} para metales puros en soluciones acuosas ideales; \textbf{no proporcionan información sobre la velocidad de corrosión} (cinética) ni contemplan la presencia de iones agresivos despasivantes (como los cloruros).
+\end{itemize}
+}
+
+%=============================================================================
+\section{Cinética de la Corrosión y Polarización}
+
+\subsection{Concepto de polarización}
+Cuando un metal experimenta corrosión neta, el sistema abandona el equilibrio electroquímico. 
+
+\dfn{Polarización}{Desplazamiento del potencial de electrodo desde su valor de equilibrio termodinámico reversible ($E_0$) hasta un potencial constante de valor intermedio ($E_{\text{corr}}$), estableciéndose un flujo de corriente neto ($I_{\text{corr}}$) proporcional a la velocidad de disolución metálica.}
+
+\subsection{Leyes de Faraday y velocidad de corrosión}
+La masa de metal disuelto $w$ en un tiempo $t$ viene dada por la \textbf{Ley de Faraday}:
+\begin{equation}
+    w = \frac{I \cdot t \cdot M}{n \cdot F} \implies I_{\text{corr}} = \frac{w \cdot n \cdot F}{t \cdot M}
+    \label{eq:faraday}
+\end{equation}
+donde $I$ es la intensidad en amperios, $M$ la masa atómica ($\text{g/mol}$), $n$ la valencia y $F = 96\,500\text{ C/mol}$.
+
+La \textbf{densidad de corriente de corrosión} ($i_{\text{corr}}$) referida al área expuesta $A$ ($\text{cm}^2$) es:
+\begin{equation}
+    i_{\text{corr}} = \frac{I_{\text{corr}}}{A} \quad [\text{A/cm}^2]
+\end{equation}
+La velocidad de disolución expresada en $\text{mol/(s}\cdot\text{cm}^2)$ es:
+\begin{equation}
+    v_{\text{oxidación}} = \frac{i_{\text{corr}}}{n \cdot F}
+\end{equation}
+
+\ex{Cálculo de corriente y densidad de corrosión en un tanque}{
+Un tanque cilíndrico de acero suave bajo en carbono de $1\text{ m}$ de altura y $50\text{ cm}$ de diámetro contiene agua aireada hasta un nivel de $60\text{ cm}$. Muestra una pérdida de masa por corrosión de $304\text{ g}$ tras 6 semanas. Calcular la intensidad de corrosión y la densidad de corriente ($M_{\text{Fe}} = 55.85\text{ g/mol}$, $n = 2$).
+
+\textbf{Solución:}
+\begin{enumerate}
+    \item Tiempo total en segundos:
+          \begin{equation*}
+              t = 6\text{ sem} \cdot 7\text{ días/sem} \cdot 24\text{ h/día} \cdot 3600\text{ s/h} = 3\,628\,800\text{ s}
+          \end{equation*}
+    \item Intensidad de corriente de corrosión ($I_{\text{corr}}$):
+          \begin{equation*}
+              I_{\text{corr}} = \frac{w \cdot n \cdot F}{t \cdot M} = \frac{304\text{ g} \cdot 2 \cdot 96\,500\text{ A}\cdot\text{s/mol}}{3\,628\,800\text{ s} \cdot 55.85\text{ g/mol}} = \mathbf{0.289\text{ A}}
+          \end{equation*}
+    \item Área mojada expuesta a corrosión (fondo circular + pared cilíndrica hasta $60\text{ cm}$):
+          \begin{equation*}
+              A = \frac{\pi \cdot D^2}{4} + \pi \cdot D \cdot h = \frac{\pi \cdot (50\text{ cm})^2}{4} + \pi \cdot (50\text{ cm}) \cdot (60\text{ cm}) = 1963.5 + 9424.8 = 11\,388.3\text{ cm}^2
+          \end{equation*}
+    \item Densidad de corriente de corrosión ($i_{\text{corr}}$):
+          \begin{equation*}
+              i_{\text{corr}} = \frac{0.289\text{ A}}{11\,388.3\text{ cm}^2} = \mathbf{2.53 \times 10^{-5}\text{ A/cm}^2}
+          \end{equation*}
+\end{enumerate}
+}
+
+\subsection{Tipos de polarización}
+El proceso de corrosión consta de tres etapas en serie; la etapa más lenta actúa como etapa limitante y determina el tipo de polarización:
+\begin{enumerate}
+    \item \textbf{Polarización por activación:} Controlada por la velocidad de las reacciones electroquímicas en la interfase metal-electrolito (transferencia de electrones).
+    \item \textbf{Polarización por concentración:} Controlada por la velocidad de transporte difusivo de los iones reactivos en el electrolito hacia la superficie del electrodo. Disminuye con el aumento de temperatura y la agitación/velocidad del fluido.
+    \item \textbf{Polarización por resistencia (óhmica):} Debida a la caída de tensión en el electrolito o a la resistencia eléctrica que ofrece una película compacta de productos de corrosión depositados sobre los electrodos.
+\end{enumerate}
+
+\nt{La \textbf{despolarización} es la eliminación o reducción de la polarización debida a la acción de un agente despolarizador (por ejemplo, el $\text{O}_2$ disuelto actúa como despolarizador catódico al consumir el hidrógeno atómico acumulado).}
+
+%=============================================================================
+\section{Formas y Mecanismos de Corrosión}
+
+La clasificación sistemática de los tipos de corrosión se basa en la apariencia morfológica del daño:
+
+\subsection{1. Corrosión Uniforme o Generalizada}
+Ataque químico o electroquímico regular sobre toda la superficie expuesta.
+\begin{itemize}
+    \item Es la forma más común y la que genera \textbf{mayor cantidad de masa de metal disuelta}, pero es la \textbf{menos peligrosa desde el punto de vista del colapso estructural imprevisto}, al ser fácilmente predecible y medible.
+    \item Se compensa mediante sobreespesores de diseño y se controla con pinturas, inhibidores y protección catódica.
+\end{itemize}
+
+\subsection{2. Corrosión Galvánica o Bimetálica}
+Generada por el contacto eléctrico entre dos metales con diferente potencial electroquímico en un electrolito conductor.
+\begin{itemize}
+    \item El metal anódico (más activo) se corroe aceleradamente, mientras que el catódico (más noble) queda protegido.
+    \item \textbf{Efecto del área relativa ($A_{\text{cátodo}}/A_{\text{ánodo}}$):} Un cátodo grande acoplado a un ánodo pequeño produce una densidad de corriente de corrosión extremadamente alta en el ánodo, acelerando catastróficamente su perforación.
+    \item \textbf{Prevención:} Emplear metales contiguos en la serie galvánica, aislar eléctricamente las uniones con juntas no conductoras (teflón), asegurar que el área del ánodo sea siempre mucho mayor que la del cátodo, o utilizar ánodos de sacrificio (galvanizado con zinc).
+\end{itemize}
+
+\subsection{3. Corrosión por Picaduras (\textit{Pitting})}
+Forma de ataque extremadamente localizado que genera cavidades o agujeros profundos en el espesor del material.
+\begin{itemize}
+    \item \textbf{Peligro:} Provoca fallos catastróficos con \textbf{pérdidas de masa globales mínimas}, siendo muy difícil de detectar visualmente.
+    \item \textbf{Mecanismo autocatalítico:} La disolución rápida dentro de la picadura genera un exceso de cationes $\text{M}^{n+}$, provocando la migración de iones cloruro ($\text{Cl}^-$) para mantener la electroneutralidad. La hidrólisis de los cloruros metálicos genera ácido clorhídrico libre ($\text{HCl}$):
+          \begin{equation}
+              \text{M}^+\text{Cl}^- + \text{H}_2\text{O} \longrightarrow \text{MOH} + \text{H}^+\text{Cl}^-
+          \end{equation}
+          La acidificación local y la concentración de $\text{Cl}^-$ aceleran la disolución anódica dentro de la picadura, mientras que la superficie exterior circundante actúa como cátodo protector.
+    \item \textbf{Factores promotores y prevención:} Favorecida por haluros ($\text{Cl}^-$, $\text{Br}^-$) y condiciones de estancamiento. Se previene con agitación continua y adición de elementos de aleación pasivantes como \textbf{molibdeno} (acero AISI 316 con 2-3\% Mo frente a AISI 304).
+\end{itemize}
+
+\subsection{4. Corrosión por Grietas o Rendijas (\textit{Crevice Corrosion})}
+Ataque localizado en el interior de intersticios estrechos, uniones roscadas, solapas remachadas o bajo depósitos no metálicos.
+\begin{itemize}
+    \item Se origina por el rápido agotamiento del oxígeno en el interior de la grieta estancada, formándose una celda de aireación diferencial que evoluciona hacia un mecanismo autocatalítico análogo al de picaduras.
+    \item \textbf{Prevención:} Diseñar uniones soldadas a tope continuas en lugar de uniones roblonadas/remachadas, evitar esquinas muertas y emplear juntas no absorbentes (PTFE/Teflón).
+\end{itemize}
+
+\subsection{5. Corrosión Filiforme}
+Variante especial de corrosión por grietas que avanza en forma de filamentos vermiformes bajo recubrimientos protectores orgánicos (esmaltes, barnices, lacas) en envases de hojalata y aluminio.
+\begin{itemize}
+    \item \textbf{Mecanismo:} Cabeza activa del filamento a bajo $\text{pH}$ y desaireada (ánodo) y cola pasiva aireada donde precipita $\text{Fe(OH)}_3$ (cátodo).
+    \item \textbf{Factores:} Aparece fundamentalmente en atmósferas con \textbf{humedad relativa entre 65\% y 90\%}. No altera la resistencia mecánica pero destruye el aspecto comercial del producto.
+\end{itemize}
+
+\subsection{6. Corrosión Intergranular}
+Ataque selectivo a lo largo de los límites de grano de una aleación metálica.
+\begin{itemize}
+    \item \textbf{Sensibilización de aceros inoxidables austeníticos (18-8):} Al calentar o soldar en el rango de $500 - 800^\circ\text{C}$, el carbono difunde hacia los bordes de grano y reacciona con el cromo precipitando carburos de cromo ($\text{Cr}_{23}\text{C}_6$). Las zonas adyacentes al borde de grano se empobrecen en cromo por debajo del \textbf{12\%}, perdiendo su carácter inoxidable y convirtiéndose en microánodos activos frente al resto del grano catódico.
+    \item \textbf{Métodos de prevención:}
+          \begin{enumerate}
+              \item \textbf{Tratamiento térmico de hipertemple/disolución:} Calentar a $1050-1100^\circ\text{C}$ para redisolver los carburos de cromo y enfriar bruscamente con agua.
+              \item \textbf{Empleo de aceros estabilizados:} Adición de elementos con mayor avidez por el carbono que el cromo, como titanio (AISI 321) o niobio (AISI 347).
+              \item \textbf{Empleo de aceros de muy bajo carbono (\textit{Low Carbon}):} Limitar el contenido de carbono a $C \leq 0.03\%$ (acero AISI 304L o 316L).
+          \end{enumerate}
+\end{itemize}
+
+\subsection{7. Corrosión Erosiva y Cavitación}
+\begin{itemize}
+    \item \textbf{Corrosión erosiva:} Aceleración del ataque electroquímico debido al movimiento relativo a alta velocidad de un fluido corrosivo, gases o sólidos en suspensión (\textit{slurries}), que desgastan y arrancan mecánicamente las capas protectoras pasivantes. Es especialmente severa en codos de tuberías, impulsores y válvulas. El hierro con \textbf{14.5\% de Silicio} presenta una resistencia excepcional a este fenómeno.
+    \item \textbf{Corrosión por cavitación:} Destrucción de películas protectoras por el colapso violento de burbujas de vapor generadas por variaciones bruscas de presión hidrodinámica (con ondas de choque de hasta $60\,000\text{ psi}$). Se previene aumentando la presión neta positiva de aspiración (NPSH), incrementando diámetros de tubería, evitando cambios bruscos de dirección y empleando materiales de elevada dureza superficial.
+\end{itemize}
+
+\subsection{8. Disolución Selectiva o Desaleado}
+Eliminación preferencial de un elemento de una aleación sólida. El caso más habitual es la \textbf{descincificación de latones} ($\text{Cu}-\text{Zn}$ 70/30), donde el zinc se disuelve selectivamente dejando una estructura esponjosa de cobre sin resistencia mecánica. Se previene reduciendo el contenido de zinc a $< 15\%$ o añadiendo inhibidores (arsénico, antimonio o fósforo).
+
+\subsection{9. Corrosión Bajo Tensión o Esfuerzo (SCC)}
+Agrietamiento y fractura frágil producidos por la acción combinada y simultánea de un \textbf{ambiente corrosivo específico} y \textbf{tensiones mecánicas de tracción} (estáticas o residuales de soldadura/conformado).
+\begin{itemize}
+    \item \textbf{Naturaleza de los esfuerzos:} Solo las tensiones de \textbf{tracción} (residuales u operacionales) son perjudiciales; los esfuerzos de \textbf{compresión superficial} anulan el agrietamiento.
+    \item \textbf{Prevención:} Tratamientos térmicos de recocido de alivio de tensiones, granallado/martilleo superficial con perdigones para inducir tensiones de compresión, o sustitución por aleaciones con alto contenido en níquel (Inconel).
+\end{itemize}
+
+\subsection{10. Daño por Hidrógeno}
+Deterioro originado por la absorción y difusión de hidrógeno atómico ($\text{H}$) en la red cristalina metálica:
+\begin{itemize}
+    \item \textbf{Ampollamiento (\textit{Hydrogen Blistering}):} El hidrógeno atómico difunde hacia huecos e inclusiones internas, recombinándose en $\text{H}_2$ gaseoso molecular; al no poder difundir, genera presiones colosales que abomban y rompen la pared metálica.
+    \item \textbf{Fragilización por hidrógeno:} Pérdida drástica de ductilidad por formación de hidruros quebradizos (como en titanio).
+    \item \textbf{Descarburación:} A alta temperatura y presión, el hidrógeno reacciona con el carbono de los aceros formando metano ($\text{CH}_4$), generando microfisuras internas y pérdida de resistencia. Se evita aleando con cromo y molibdeno.
+\end{itemize}
+
+\subsection{11. Oxidación a Alta Temperatura}
+Reacción directa del metal con gases oxidantes ($O_2$, $SO_2$, vapor de agua) a elevadas temperaturas formando cascarillas de óxido.
+\begin{itemize}
+    \item \textbf{Relación de Pilling-Bedworth (P.B.):} Relación entre el volumen del óxido formado y el volumen de metal consumido:
+          \begin{equation}
+              \text{P.B.} = \frac{V_{\text{óxido}}}{V_{\text{metal}}} = \frac{M_{\text{óxido}} \cdot D_{\text{metal}}}{n_{\text{metal}} \cdot M_{\text{metal}} \cdot D_{\text{óxido}}}
+              \label{eq:pilling_bedworth}
+          \end{equation}
+          \begin{itemize}
+              \item $\text{P.B.} < 1$: Óxido poroso y no protector (metales alcalinos, $\text{Na} = 0.58$, $\text{K} = 0.45$).
+              \item $\text{P.B.} > 1$ excesivo: Óxido sometido a grandes tensiones de compresión que se agrieta y desprende ($\text{Fe}_2\text{O}_3 = 2.15$).
+              \item $\text{P.B.} \approx 1 - 2$: Óxido compacto, adherente y protector ($\text{Al}_2\text{O}_3 = 1.29 - 1.38$).
+          \end{itemize}
+    \item \textbf{Cinéticas de crecimiento:}
+          \begin{itemize}
+              \item \textit{Lineal:} $W = k_L \cdot t$ (películas porosas o volátiles, no protectoras).
+              \item \textit{Parabólica:} $W^2 = k_p \cdot t + C$ (controlada por difusión iónica a través de la capa de óxido; $\text{Fe}$, $\text{Cu}$, $\text{Co}$).
+              \item \textit{Logarítmica:} $W = k_e \log(C\cdot t + A)$ (películas muy delgadas y altamente impermeables a temperatura moderada; $\text{Al}$).
+          \end{itemize}
+\end{itemize}
+
+%=============================================================================
+\section{Métodos de Control y Protección Frente a la Corrosión}
+
+El control de la corrosión debe fundamentarse en análisis técnicos y viabilidad económica:
+
+\subsection{1. Selección de Materiales}
+\begin{itemize}
+    \item \textbf{Condiciones reductoras o no oxidantes (ácidos libres de aire):} Aleaciones de níquel y cromo (Monel, Hastelloy B).
+    \item \textbf{Condiciones oxidantes (ácido nítrico):} Aceros inoxidables con alto contenido en cromo.
+    \item \textbf{Condiciones altamente oxidantes y cloruradas a alta temperatura:} Aleaciones de titanio o tántalo.
+\end{itemize}
+
+\subsection{2. Modificación del Medio e Inhibidores}
+\begin{itemize}
+    \item \textbf{Desaireación:} Eliminación de $\text{O}_2$ disuelto en aguas de calderas mediante desgasificadores térmicos o aditivos químicos (\textbf{secuestradores de oxígeno} como sulfito sódico $\text{Na}_2\text{SO}_3$ e hidracina $\text{N}_2\text{H}_4$).
+    \item \textbf{Inhibidores de adsorción:} Compuestos orgánicos (aminas) que se adsorben formando una película hidrófoba molecular.
+    \item \textbf{Inhibidores anódicos (Pasivadores):} Cromatos, nitratos, fosfatos y silicatos que precipitan sales insolubles sobre los ánodos.
+    \item \textbf{Inhibidores catódicos:} Sales de magnesio o zinc que forman hidróxidos insolubles sobre los cátodos locales.
+\end{itemize}
+
+\subsection{3. Diseño Geométrico de Equipos}
+Reglas fundamentales para minimizar la corrosión:
+\begin{itemize}
+    \item Prever sobreespesor por corrosión adecuado al tiempo de vida útil.
+    \item Diseñar fondos cónicos e inclinados con drenaje completo para evitar zonas de líquido estancado.
+    \item Preferir recipientes soldados con soldaduras continuas y sin poros frente a uniones remachadas.
+    \item Ubicar calentadores e intercambiadores en el centro del fluido para evitar la formación de puntos calientes en las paredes.
+    \item Colocar las entradas de fluidos concentrados lejos de las paredes para prevenir celdas de concentración diferencial.
+    \item Usar deflectores y diafragmas de choque frente a turbulencias y cavitación.
+\end{itemize}
+
+\subsection{4. Recubrimientos Protectores}
+\begin{itemize}
+    \item \textbf{Metálicos:} Recubrimientos de sacrificio (\textbf{galvanizado de zinc} sobre acero) o recubrimientos barrera multicapa (como el \textbf{cromado}: capa interior de cobre para adherencia, intermedia de níquel para resistencia a la corrosión y exterior de cromo para acabado y dureza).
+    \item \textbf{Inorgánicos:} Aceros vidriados y esmaltes cerámicos de alta inercia química.
+    \item \textbf{Orgánicos:} Pinturas, lacas y resinas epoxi. \textit{Precaución:} roturas locales en la pintura generan una relación de áreas muy desfavorable (ánodo microscópico con alta densidad de corriente), acelerando la perforación.
+\end{itemize}
+
+\subsection{5. Protección Catódica}
+Consiste en forzar a toda la estructura metálica a operar como \textbf{cátodo}, suministrando electrones para desplazar su potencial a la \textbf{zona de inmunidad}:
+\begin{enumerate}
+    \item \textbf{Corriente impresa:} Se conecta el polo negativo de una fuente de corriente continua a la estructura a proteger y el polo positivo a un ánodo auxiliar inerte (grafito).
+    \item \textbf{Ánodos de sacrificio:} Conexión galvánica directa con metales más activos (magnesio, zinc, aluminio) que se disuelven protegiendo al acero.
+\end{enumerate}
+
+\subsection{6. Protección Anódica}
+Consiste en desplazar controladamente el potencial de un metal activo-pasivo hacia su \textbf{zona de pasivación} mediante una fuente externa conectada al polo positivo y regulada con un \textbf{potenciostato} y electrodo de referencia.
+\begin{itemize}
+    \item Solo es aplicable a metales con comportamiento activo-pasivo ($\text{Fe}$, $\text{Ti}$, $\text{Cr}$, aceros inoxidables) en medios fuertemente agresivos (como ácido sulfúrico concentrado en tanques y cambiadores de calor).
+    \item Requiere densidades de corriente elevadas para alcanzar la pasivación inicial, pero corrientes mínimas para su mantenimiento, resultando muy económica en operación.
+\end{itemize}
+
+%=============================================================================
+\section{Cuestionario de Autoevaluación del Tema 2}
+
+\begin{enumerate}
+    \item Indicar la respuesta correcta:
+          \begin{enumerate}[label=\alph*.]
+              \item Ambas son correctas
+              \item El cromado es un sistema de protección frente a la corrosión mediante el uso de recubrimientos que consiste en la aplicación de una única capa de cromo sobre la superficie del metal, protegiéndolo frente a la corrosión.
+              \item \textcolor{red!85!black}{El uso de pinturas o barnices como medio de protección frente a la corrosión puede provocar una corrosión rápida del material en el caso de que aparezcan roturas debido a que aumenta la densidad de corrosión en esa rotura.}
+          \end{enumerate}
+          \nt{El cromado industrial convencional utiliza tres capas (cobre para adherencia, níquel para resistencia a corrosión y cromo superficial). Una fisura puntual en una pintura genera una relación anódica/catódica muy desfavorable con una densidad de corriente de corrosión extremadamente alta en la rotura.}
+
+    \item Seleccione la afirmación correcta. Tal y como se observa en el diagrama de Pourbaix:
+          \begin{enumerate}[label=\alph*.]
+              \item El diagrama de Pourbaix del hierro nos indica que el acero puede ser pasivado para cualquier valor de pH elegido, de ahí que su uso sea tan frecuente en la industria química.
+              \item Todos los metales cuentan con una zona de pasivación, lo que permite a todos los metales ser protegidos por protección anódica.
+              \item \textcolor{red!85!black}{Todos los metales tienen un potencial de inmunidad por debajo del cual se considera que el material no sufre corrosión.}
+          \end{enumerate}
+
+    \item La protección anódica:
+          \begin{enumerate}[label=\alph*.]
+              \item Es aplicable a todos los metales. Consiste en aplicar un potencial hasta conseguir que el metal se encuentre a un potencial y pH donde la especie estable sea un producto de corrosión que proteja al resto del metal.
+              \item \textcolor{red!85!black}{Ninguna de las respuestas es correcta.}
+              \item Es aplicable a todos los metales. Consiste en aumentar el potencial por encima del potencial de inmunidad de forma que el material quede protegido frente a la corrosión.
+          \end{enumerate}
+          \nt{La protección anódica \textbf{no} es aplicable a todos los metales, sino únicamente a aquellos que presentan transición activo-pasivo y forman películas pasivantes insolubles y estables en el medio considerado.}
+
+    \item Seleccione la afirmación correcta:
+          \begin{enumerate}[label=\alph*.]
+              \item \textcolor{red!85!black}{La corrosión intergranular aparece en los límites de grano de los metales, pudiendo eliminar el carácter inoxidable de los aceros por formación de carburos de cromo.}
+              \item La corrosión filiforme causa un descenso importante en la resistencia mecánica de los metales que se ven afectados por ella.
+              \item Ambas respuestas son correctas.
+          \end{enumerate}
+          \nt{La corrosión filiforme es un fenómeno superficial bajo recubrimientos que perjudica la estética comercial pero no compromete la resistencia mecánica global.}
+
+    \item Seleccione la afirmación correcta:
+          \begin{enumerate}[label=\alph*.]
+              \item Ambas respuestas son correctas.
+              \item La polarización por activación puede eliminarse fácilmente aumentando la velocidad de flujo que incide en la superficie del metal.
+              \item \textcolor{red!85!black}{La polarización se define como el desplazamiento de los potenciales de electrodo desde sus valores de equilibrio a un potencial constante de valor intermedio, creándose en ese punto un flujo de corriente neto.}
+          \end{enumerate}
+          \nt{Aumentar la velocidad del flujo reduce la polarización por concentración (difusión), pero no la polarización por activación (transferencia de carga).}
+
+    \item Seleccione la afirmación correcta:
+          \begin{enumerate}[label=\alph*.]
+              \item La disolución selectiva es la eliminación preferencial de un elemento en una aleación, como por ejemplo la eliminación de cobre en los bronces.
+              \item \textcolor{red!85!black}{Ambas respuestas son erróneas.}
+              \item La corrosión por esfuerzo se produce por la existencia de tensiones elevadas de compresión o tracción en materiales sometidos a altas presiones.
+          \end{enumerate}
+          \nt{La disolución selectiva típica es la eliminación de zinc en latones (descincificación). La corrosión bajo tensión es promovida exclusivamente por tensiones de tracción, nunca de compresión.}
+
+    \item En una pila galvánica con electrolitos ácidos o alcalinos sin iones metálicos presentes:
+          \begin{enumerate}[label=\alph*.]
+              \item Ninguna respuesta es correcta.
+              \item \textcolor{red!85!black}{En medio neutro o básico en presencia de $\text{O}_2$, el $\text{O}_2$ reacciona con el agua para formar iones $\text{OH}^-$.}
+              \item En un medio ácido, la reacción de oxidación será la de $\text{H}^+$ hasta $\text{H}_2$.
+          \end{enumerate}
+          \nt{La reacción catódica en medio neutro/básico aireado es $\text{O}_2 + 2\text{H}_2\text{O} + 4e^- \longrightarrow 4\text{OH}^-$. En medio ácido, la reducción del protón genera hidrógeno ($2\text{H}^+ + 2e^- \longrightarrow \text{H}_2$).}
+
+    \item Seleccione la afirmación correcta:
+          \begin{enumerate}[label=\alph*.]
+              \item \textcolor{red!85!black}{Cuando un metal se encuentra enterrado es más susceptible de sufrir corrosión debido a la formación de celdas de concentración diferencial.}
+              \item En celdas de temperatura diferencial, las zonas con menor temperatura son las más susceptibles de sufrir corrosión.
+              \item Ninguna respuesta es correcta.
+          \end{enumerate}
+
+    \item Seleccione la afirmación correcta:
+          \begin{enumerate}[label=\alph*.]
+              \item \textcolor{red!85!black}{Ambas respuestas son correctas.}
+              \item Ante la cavitación podemos optar como medio de prevención la optimización del diseño para evitar turbulencias, mayor espesor en zonas más vulnerables o el uso de materiales más resistentes endurecidos superficialmente.
+              \item El hierro con 14.5\% de Si es uno de los materiales más resistentes a la corrosión erosiva.
+          \end{enumerate}
+
+    \item Dentro de los distintos tipos de corrosión existentes:
+          \begin{enumerate}[label=\alph*.]
+              \item La corrosión por picaduras hace que el metal pierda una pequeña cantidad de metal debido a corrosión, pero reduce su sección de forma relevante, por lo que reduce de forma importante la resistencia mecánica del metal.
+              \item La corrosión uniforme genera una cantidad muy elevada de productos de corrosión, pero realmente no hace perder una resistencia mecánica importante en el metal.
+              \item \textcolor{red!85!black}{Ambas son correctas.}
+          \end{enumerate}
+
+    \item La corrosión por esfuerzo:
+          \begin{enumerate}[label=\alph*.]
+              \item \textcolor{red!85!black}{Ambas respuestas son correctas.}
+              \item Cuando los metales son soldados o bien se enfrían rápidamente, son susceptibles a este tipo de corrosión, ya que pueden aparecer tensiones residuales de tracción.
+              \item Comienza por la superficie, por lo que la deformación plástica de los metales reduce la aparición de este tipo de corrosión.
+          \end{enumerate}
+
+    \item Seleccione la afirmación correcta:
+          \begin{enumerate}[label=\alph*.]
+              \item Ninguna respuesta es correcta.
+              \item La corrosión se produce debido a una reacción electroquímica entre cualquier material (metálico, cerámico o plástico) y su entorno.
+              \item \textcolor{red!85!black}{Los materiales cerámicos pueden ser atacados por sales fundidas a altas temperaturas.}
+          \end{enumerate}
+
+    \item Seleccione la afirmación correcta:
+          \begin{enumerate}[label=\alph*.]
+              \item La ecuación de Nernst nos permite determinar la velocidad con que se produce la reacción de corrosión entre un material y su entorno.
+              \item \textcolor{red!85!black}{Ninguna respuesta es correcta.}
+              \item El diagrama de Pourbaix nos permitirá seleccionar las condiciones en que un material puede ser utilizado (pH y potencial) en un uso industrial, ya que nos indica la velocidad con que se corroe, y por tanto, nos permitirá determinar la vida útil del metal y a partir de ahí el espesor debido a corrosión.
+          \end{enumerate}
+          \nt{Tanto Nernst como Pourbaix son herramientas estrictamente termodinámicas (indican tendencias y equilibrios), pero no proporcionan información sobre velocidades de reacción ni cinética.}
+
+    \item La protección catódica:
+          \begin{enumerate}[label=\alph*.]
+              \item \textcolor{red!85!black}{Puede aplicarse mediante el uso de baterías que aporte corriente continua o bien mediante el uso de ánodos de sacrificio.}
+              \item Ambas respuestas son correctas.
+              \item Es aplicable a todos los metales. Consiste en aumentar el potencial por encima del potencial de inmunidad de forma que el material quede protegido frente a la corrosión.
+          \end{enumerate}
+
+    \item Indicar la respuesta correcta:
+          \begin{enumerate}[label=\alph*.]
+              \item \textcolor{red!85!black}{Ambas respuestas son correctas.}
+              \item A menor temperatura los materiales metálicos suelen sufrir menor velocidad de corrosión, salvo cuando están en presencia de disoluciones acuosas y el oxígeno interviene en el proceso de corrosión.
+              \item Los materiales cerámicos suelen presentar una buena resistencia a las temperaturas altas y a la corrosión por erosión.
+          \end{enumerate}
+
+    \item Selecciona la afirmación correcta:
+          \begin{enumerate}[label=\alph*.]
+              \item La galvanización es un tratamiento que protege a los metales mediante el recubrimiento de cinc que se corroe y protege al resto del metal.
+              \item La corrosión por picaduras está muy influenciada por la presencia de iones de haluros, apareciendo principalmente en el fondo de tanques.
+              \item \textcolor{red!85!black}{Ambas respuestas son correctas.}
+          \end{enumerate}
+
+    \item Indicar la respuesta correcta:
+          \begin{enumerate}[label=\alph*.]
+              \item \textcolor{red!85!black}{La descarburación por hidrógeno consiste en la formación de hidrocarburos en aceros debido a la presencia de hidrógeno, altas temperaturas y altas presiones.}
+              \item Cuando el coeficiente de Pilling-Bedworth de un metal es próximo a 1 garantiza totalmente que el óxido protege al material y evita su corrosión.
+              \item Ambas respuestas son correctas.
+          \end{enumerate}
+          \nt{Un índice P.B. próximo a 1 es condición necesaria pero no suficiente; la capa debe poseer además buena adherencia, alto punto de fusión, bajo coeficiente de difusión iónica y compatibilidad térmica.}
+
+    \item Para evitar la aparición de corrosión es recomendable:
+          \begin{enumerate}[label=\alph*.]
+              \item Los puntos de calefacción de los recipientes deben ubicarse en las proximidades de las paredes de forma que se formen puntos calientes cerca de las paredes que evitan la aparición de corrosión por esfuerzo.
+              \item \textcolor{red!85!black}{El uso de uniones soldadas en lugar de remachadas, ya que se reduce la corrosión por grieta.}
+              \item Soportar los equipos sobre una base de cemento/hormigón en lugar de soportes metálicos: la elección de soportes realizados con cemento/hormigón hace que se reduzca la aparición de corrosión.
+          \end{enumerate}
+
+    \item Seleccione la afirmación correcta:
+          \begin{enumerate}[label=\alph*.]
+              \item Metales con un potencial estándar de reducción positivo tienen mayor tendencia a corroerse que los de potencial estándar de reducción negativo.
+              \item Ambas respuestas son erróneas.
+              \item \textcolor{red!85!black}{El estaño (potencial estándar de reducción de $-0.136\text{ V}$) se corroería frente al electrodo de referencia $\text{H}^+/\text{H}_2$.}
+          \end{enumerate}
+
+    \item Indique la respuesta correcta:
+          \begin{enumerate}[label=\alph*.]
+              \item El diagrama de Pourbaix nos indica las especies estables en función del pH y potencial del sistema, señalando cuándo un material es apto en uso real para un pH y potencial determinado.
+              \item \textcolor{red!85!black}{El diagrama de Pourbaix nos indica las especies estables en función del pH y potencial del sistema, pero no nos indica cuándo un material es apto en uso real para un pH y potencial determinado ya que no considera la velocidad de corrosión.}
+              \item El diagrama de Pourbaix nos indica el potencial y pH para el cual la polarización de un metal se alcanza, lo que nos permite seleccionar un material para un uso concreto.
+          \end{enumerate}
+
+    \item Si los potenciales estándar de reducción de $\text{Al}^{3+}/\text{Al}$ y $\text{Fe}^{3+}/\text{Fe}^{2+}$ son, respectivamente, $-1.662\text{ V}$ y $+0.771\text{ V}$, la reacción espontánea que se produciría si la concentración de iones es constante es:
+          \begin{enumerate}[label=\alph*.]
+              \item $\text{Al} + 3\text{Fe}^{2+} \longrightarrow \text{Al}^{3+} + 3\text{Fe}^{3+}$
+              \item $\text{Al}^{3+} + 3\text{Fe}^{2+} \longrightarrow \text{Al} + 3\text{Fe}^{3+}$
+              \item \textcolor{red!85!black}{$\text{Al} + 3\text{Fe}^{3+} \longrightarrow \text{Al}^{3+} + 3\text{Fe}^{2+}$}
+          \end{enumerate}
+          \nt{El aluminio posee un potencial estándar mucho más negativo ($-1.662\text{ V}$), por lo que actúa como ánodo cediendo 3 electrones ($\text{Al} \rightarrow \text{Al}^{3+} + 3e^-$), mientras que el $\text{Fe}^{3+}$ actúa como cátodo reduciéndose a $\text{Fe}^{2+}$ ($\text{Fe}^{3+} + e^- \rightarrow \text{Fe}^{2+}$). La suma neta da $\text{Al} + 3\text{Fe}^{3+} \longrightarrow \text{Al}^{3+} + 3\text{Fe}^{2+}$.}
+\end{enumerate}

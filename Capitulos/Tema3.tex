@@ -1,115 +1,533 @@
-\chapter{Introduccion a la resistencia de materiales}
-\section{Objetivo de la resistencia de materiales}
+\chapter{Introducción a la Resistencia de Materiales}
 
-los solidos estan compuesto por atomos unidos unos a otros, y estos estan unido al entorno por una ligadura es decir estan apoyados
+\section{Objeto y Fundamentos de la Resistencia de Materiales}
 
-ejemplo en un edificio la carga se va transmitiendo el esfuerzo por la estructura hasta los cimientos por lo que la distancia entre los atomos va aumentando/disminuyendo produciendo la deformacion
+Los cuerpos y elementos estructurales están compuestos a nivel microscópico por átomos enlazados entre sí a distancias de equilibrio interatómico. En las estructuras e instalaciones de ingeniería, estos cuerpos se encuentran vinculados al entorno mediante \textbf{sustentaciones, apoyos o ligaduras}.
 
-esta en equilibrio cuando al aplicarse una carga llega a la posicion final y no se deforma mas.
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.95\textwidth}{%
+    \begin{tikzpicture}[node distance=2.2cm, auto, >=Latex]
+        \node [draw, rectangle, rounded corners, fill=blue!10, text width=4.5cm, align=center, thick] (fuerza) {\textbf{Acción de Fuerzas Exteriores}\\(Cargas de servicio y peso propio)};
+        \node [draw, rectangle, rounded corners, fill=yellow!15, text width=4.8cm, align=center, thick, right=2.5cm of fuerza] (transmision) {\textbf{Transmisión Interatómica}\\(Las fuerzas se transmiten átomo a átomo hasta la cimentación)};
+        \node [draw, rectangle, rounded corners, fill=red!10, text width=4.5cm, align=center, thick, below=1.8cm of transmision] (deformacion) {\textbf{Deformación del Sólido}\\(Los átomos varían su distancia relativa: tracción/compresión)};
+        \node [draw, rectangle, rounded corners, fill=green!10, text width=4.5cm, align=center, thick, below=1.8cm of fuerza] (equilibrio) {\textbf{Posición de Equilibrio Final}\\(Cesan los movimientos relativos)};
+        
+        \draw [->, line width=1.2pt] (fuerza) -- (transmision);
+        \draw [->, line width=1.2pt] (transmision) -- (deformacion);
+        \draw [->, line width=1.2pt] (deformacion) -- (equilibrio);
+        \draw [->, line width=1.2pt, dashed] (equilibrio) -- node[midway, left=4pt, align=center] {\textit{Estado de estudio}} (fuerza);
+    \end{tikzpicture}%
+    }
+    \caption{Mecanismo físico de respuesta tensional y deformacional de un sólido sometido a cargas.}
+    \label{fig:respuesta_solido}
+\end{figure}
 
-Analizaremos las fuerzas interiores, las cargas de fuera, las tensiones que aparecen y la deformacion final del cuerpo, ademas de los desplazamientos.
-
-estudiaremos la Elasticidad que es una parte de la fisica que se encarga del estudio de los solidos deformable elasticamente. Calculando tensiones y deformaciones en todos sus puntos
-Con mucho rigor matematico y con solucion exacta aunque en muy pocos casos, por lo que se asume unas hipotesis simplificativas constrastadas con la experiencia resolviendo la gran mayoria de problemas, modelizaremos las estructuras dividiendo el cuerpo en prismas
-ejemplo un portico que seran 2 prismas laterales y 1 superior, calcularemos las fuerzas internas que se han producido al someter a unas cargas externas,ademas de las deformaciones, 
-
-\nt{Un cuerpo es muy rigido cuando se opone a la deformacion}
-
-En este curso estudiaremos con un par de prismas no mucho mas, todo lo anterior tiene que cumplir 2 condiciones:
+Alcanzada la posición final de equilibrio estable, el análisis resistente persigue dos objetivos fundamentales:
 \begin{itemize}
-    \item Que resistencia
-    \item Que sea economica (dentro de todas las estructuras la mas economica que sera la mas pequeña o la mas delgada es decir la que tenga menos material)
-    \item que cumplan su cometido
+    \item Determinar las \textbf{fuerzas exteriores} aplicadas y las \textbf{fuerzas interiores} que mantienen la integridad y cohesión del cuerpo.
+    \item Calcular las \textbf{deformaciones y desplazamientos} que describen el cambio de configuración geométrica del sólido.
 \end{itemize}
 
-Ejemplo un forjado de una planta que este formado por viguetas que estan sometidos a un esfuerzo bidimensional  tendria flexion y aunque resistan no cumplen su cometido (insertar dibujo) viendo que lo que baje en su punto maximo de flexion sea menor a lo que diga la normativas (Se ha dibujado el desplazamiento)
+\subsection{Mecánica, Teoría de la Elasticidad y Resistencia de Materiales}
+Dentro de la Física y la Ingeniería Mecánica se distinguen tres niveles de aproximación:
+\begin{enumerate}
+    \item \textbf{Mecánica General:} Parte de la física que estudia el movimiento y reposo de los cuerpos bajo la acción de fuerzas, considerando prioritariamente el modelo de \textbf{sólido rígido indeformable}.
+    \item \textbf{Teoría de la Elasticidad:} Rama de la mecánica de medios continuos que estudia los sólidos deformables elásticos. Calcula de forma matemáticamente rigurosa y tridimensional las funciones continuas de tensión y deformación en todos y cada uno de los puntos del sólido. Su elevada complejidad analítica hace que solo admita \textbf{solución exacta en geometrías muy limitadas}.
+    \item \textbf{Resistencia de Materiales:} Disciplina técnica que combina los principios generales de la Elasticidad con una serie de \textbf{hipótesis simplificativas contrastadas por la experiencia}. Modela las estructuras complejas a partir de elementos prismáticos sencillos (\textbf{prismas mecánicos}), calculando esfuerzos, tensiones medias, deformaciones y desplazamientos seccionales con suficiente precisión para el diseño y la práctica ingenieril.
+\end{enumerate}
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.95\textwidth}{%
+    \begin{tikzpicture}[>=Latex]
+        \node [draw, rectangle, rounded corners, fill=blue!10, text width=5.2cm, align=center, thick] (elast) {\textbf{Principios Generales de la Elasticidad}};
+        \node [draw, rectangle, rounded corners, fill=yellow!15, text width=5.2cm, align=center, thick, below=1.2cm of elast] (hip) {\textbf{Hipótesis Simplificativas}\\(Contrastadas por la experiencia)};
+        \node [draw, rectangle, rounded corners, fill=green!15, text width=5.5cm, align=center, thick, right=2.8cm of elast, yshift=-1.1cm] (rm) {\textbf{Resistencia de Materiales}\\\small Estudio de piezas prismáticas:\\Resistencia, Rigidez y Estabilidad};
+        
+        \draw [->, line width=1.5pt] (elast) -| (rm);
+        \draw [->, line width=1.5pt] (hip) -| (rm);
+    \end{tikzpicture}%
+    }
+    \caption{Fundamento conceptual de la Resistencia de Materiales.}
+    \label{fig:fundamento_rm}
+\end{figure}
+
+\subsection{Tipología de problemas en Resistencia de Materiales}
+En el ejercicio profesional del ingeniero químico y mecánico se abordan dos tipos de problemas:
+\begin{table}[H]
+    \centering
+    \caption{Clasificación de los problemas básicos en Resistencia de Materiales.}
+    \adjustbox{max width=\textwidth}{%
+    \begin{tabular}{lll}
+        \toprule
+        \textbf{Tipo de Problema} & \textbf{Datos de Partida} & \textbf{Objetivo a Determinar} \\
+        \midrule
+        \textbf{De Dimensionamiento} & 
+        \begin{tabular}{l}
+            $\bullet$ Solicitaciones / Cargas de servicio \\
+            $\bullet$ Propiedades del material ($\sigma_{\text{adm}}, E, \nu$)
+        \end{tabular} & 
+        \begin{tabular}{l}
+            Calcular las dimensiones de la sección transversal\\
+            para que el elemento sea \textbf{seguro y económico}.
+        \end{tabular} \\
+        \midrule
+        \textbf{De Comprobación} & 
+        \begin{tabular}{l}
+            $\bullet$ Geometría y dimensiones existentes \\
+            $\bullet$ Propiedades del material \\
+            $\bullet$ Solicitaciones aplicadas
+        \end{tabular} & 
+        \begin{tabular}{l}
+            Verificar que las tensiones y deformaciones reales\\
+            no superan los límites admisibles (\textbf{servicio seguro}).
+        \end{tabular} \\
+        \bottomrule
+    \end{tabular}%
+    }
+    \label{tab:tipos_problemas}
+\end{table}
+
+\subsection{Las Variables y el Diagrama de Tonti}
+Las magnitudes que intervienen en el análisis elasto-resistente se estructuran y relacionan a través del denominado \textbf{Diagrama de Tonti}:
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.98\textwidth}{%
+    \begin{tikzpicture}[>=Latex]
+        % Nodos superiores
+        \node [draw, rectangle, rounded corners, fill=red!10, text width=4.3cm, align=center, thick] (fuerzas) at (0,4.6) {\textbf{Fuerzas / Momentos}\\\small(Acciones exteriores)};
+        \node [draw, rectangle, rounded corners, fill=blue!10, text width=4.3cm, align=center, thick] (desplaz) at (8.2,4.6) {\textbf{Desplazamientos}\\\small($u, v, w, \theta_x, \theta_y, \theta_z$)};
+        
+        % Nodos inferiores
+        \node [draw, rectangle, rounded corners, fill=orange!15, text width=4.3cm, align=center, thick] (tensiones) at (0,0) {\textbf{Esfuerzos / Tensiones}\\\small($N, Q, M_f, T \;\longleftrightarrow\; \sigma, \tau$)};
+        \node [draw, rectangle, rounded corners, fill=cyan!15, text width=4.3cm, align=center, thick] (deform) at (8.2,0) {\textbf{Deformaciones}\\\small($\varepsilon, \gamma$)};
+
+        % Flechas verticales con texto espaciado
+        \draw [<->, line width=1.4pt, red!70!black] (fuerzas) -- node[midway, left=8pt, text width=3.3cm, align=right] {\small\textbf{Ec. de Equilibrio}\\(Estático y Elástico)} (tensiones);
+        \draw [<->, line width=1.4pt, blue!70!black] (desplaz) -- node[midway, right=8pt, text width=3.3cm, align=left] {\small\textbf{Ec. de Compatibilidad}\\Geométrica} (deform);
+
+        % Flecha horizontal con texto con suficiente altura
+        \draw [<->, line width=1.4pt, green!60!black] (tensiones) -- node[midway, above=8pt, align=center] {\textbf{Leyes de Comportamiento}\\\footnotesize(Ley de Hooke: $\sigma = E\cdot\varepsilon,\; \tau = G\cdot\gamma$)} (deform);
+    \end{tikzpicture}%
+    }
+    \caption{Diagrama de Tonti: interrelación entre magnitudes estáticas, tensionales, cinemáticas y constitutivas.}
+    \label{fig:diagrama_tonti}
+\end{figure}
+
+\imp{
+\textbf{Objetivos de diseño en el cálculo de estructuras:}
 \begin{itemize}
-    \item en base a unos datos, tenemos solicitaciones o cargas tenemos la propiedad del material y hay que calcular la dimension
-    \item de comrpobaciones determinando que sera seguro el dimensionamiento del material que nos hayan dado
+    \item \textbf{Estructuras Seguras (Resistencia):} A partir de las solicitaciones exteriores $\longrightarrow$ Esfuerzos $\longrightarrow$ Tensiones $\longrightarrow$ \textbf{Comparar con Tensiones Admisibles} ($\sigma_{\text{max}} \leq \sigma_{\text{adm}}$).
+    \item \textbf{Estructuras Útiles (Funcionalidad/Rigidez):} A partir de las solicitaciones exteriores $\longrightarrow$ Esfuerzos $\longrightarrow$ Deformaciones $\longrightarrow$ Desplazamientos $\longrightarrow$ \textbf{Comparar con Desplazamientos Límites} ($\delta_{\text{max}} \leq \delta_{\text{adm}}$).
+    \item \textbf{Estructuras Económicas:} Minimizar el consumo de material y costes de conformado cumpliendo los dos criterios de seguridad y utilidad.
+\end{itemize}
+}
+
+%=============================================================================
+\section{Sólido Deformable Elástico y Prisma Mecánico}
+
+\subsection{Tipos de sólidos en mecánica}
+\begin{enumerate}
+    \item \textbf{Sólido Rígido:} Modelo ideal indeformable. Su condición de equilibrio exige que no experimente desplazamientos ni giros:
+          \begin{align}
+              \text{Traslaciones impedidas:} & \quad R_x = 0, \quad R_y = 0, \quad R_z = 0 \implies \sum \vec{F} = \vec{0} \\
+              \text{Rotaciones impedidas:} & \quad M_{ox} = 0, \quad M_{oy} = 0, \quad M_{oz} = 0 \implies \sum \vec{M}_o = \vec{0}
+          \end{align}
+    \item \textbf{Sólido Elástico Deformable:} Sólido que se deforma bajo la acción de cargas y recupera íntegramente su geometría original al descargarse. Se modeliza bajo tres hipótesis:
+          \begin{itemize}
+              \item \textbf{Isotropía:} Las propiedades elásticas son iguales en todas las direcciones espaciales.
+              \item \textbf{Homogeneidad:} La composición y propiedades mecánicas son idénticas en cualquier punto del volumen.
+              \item \textbf{Continuidad:} La materia llena el espacio de forma continua sin poros, oquedades ni fisuras.
+          \end{itemize}
+    \item \textbf{Sólido Verdadero / Real:} Los materiales reales son heterogéneos a escala microscópica, anisótropos y presentan discontinuidades y tensiones residuales.
+\end{enumerate}
+
+\subsection{Definición y geometría del Prisma Mecánico}
+
+\dfn{Prisma Mecánico}{Cuerpo geométrico generado por una superficie plana $\Omega$ (sección transversal) cuyo baricentro o centro de gravedad $G$ recorre una curva continua orientada denominada \textbf{línea directriz} ($C$), manteniéndose el plano de la sección en todo momento normal a la directriz.}
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.95\textwidth}{%
+    \begin{tikzpicture}[scale=1.1, >=Latex]
+        % Directriz
+        \draw[thick, blue!80!black, dashed] (-3.8,-0.6) to[out=25,in=205] (0,0) to[out=25,in=190] (4.8,0.7);
+        \node[blue!80!black, above=2pt] at (3.0,0.6) {$C$ (Directriz)};
+        \filldraw[black] (-3.8,-0.6) circle (1.5pt) node[left=2pt] {$G_1$};
+        \filldraw[black] (4.8,0.7) circle (1.5pt) node[right=2pt] {$G_2$};
+
+        % Contorno exterior del prisma
+        \draw[thick] (-3.8,0.8) to[out=25,in=170] (0,1.4) to[out=-10,in=190] (4.8,1.8);
+        \draw[thick] (-3.8,-2.0) to[out=25,in=195] (0,-1.4) to[out=15,in=190] (4.8,-0.4);
+        \draw[thick] (-3.8,0.8) arc (90:270:0.4cm and 1.4cm);
+        \draw[thick, dashed] (-3.8,-2.0) arc (-90:90:0.4cm and 1.4cm);
+        \draw[thick] (4.8,0.7) ellipse (0.5cm and 1.1cm);
+
+        % Sección transversal Omega
+        \draw[thick, fill=gray!25, fill opacity=0.75] (0,0) ellipse (0.7cm and 1.4cm);
+        \node at (0.25,0.9) {$\Sigma$};
+        \node[below right=2pt] at (0.4,-1.1) {$\Omega$};
+
+        % Centro de gravedad G
+        \filldraw[black] (0,0) circle (2pt) node[below left=2pt] {$G$};
+
+        % Triedro intrínseco local (ejes x, y, z)
+        \draw[->, line width=1.5pt, red!80!black] (0,0) -- (2.3,0.38) node[right=2pt] {$x$};
+        \draw[->, line width=1.5pt, green!60!black] (0,0) -- (0,2.3) node[above=2pt] {$y$};
+        \draw[->, line width=1.5pt, cyan!80!black] (0,0) -- (-1.1,-0.9) node[below left=2pt] {$z$};
+    \end{tikzpicture}%
+    }
+    \caption{Geometría de un prisma mecánico y triedro intrínseco local $(G, x, y, z)$.}
+    \label{fig:prisma_mecanico_triedro}
+\end{figure}
+
+\subsection{Clasificación de los prismas mecánicos en ingeniería}
+\begin{enumerate}
+    \item \textbf{Barra o Viga:} Las dimensiones transversales de la sección ($b, h$) son muy pequeñas en comparación con la longitud de su línea media ($L$). Permite simplificar el cálculo tridimensional a un modelo unidimensional/bidimensional:
+          \begin{equation}
+              L > 10 - 20 \cdot D \quad (D = \text{canto o dimensión transversal})
+          \end{equation}
+    \item \textbf{Placa:} Prisma delimitado por dos superficies planas paralelas donde la distancia entre ambas (\textbf{espesor} $e$) es muy pequeña frente a las otras dos dimensiones en planta ($L > 40\cdot e$). Se define respecto a su \textit{superficie media}.
+    \item \textbf{Lámina o Cáscara:} Estructura bidimensional semejante a la placa pero cuyas superficies delimitadoras son \textbf{curvas} (bóvedas, depósitos cilíndricos y esféricos).
+\end{enumerate}
+
+%=============================================================================
+\section{Principios Generales de la Resistencia de Materiales}
+
+\subsection{1. Principio de Rigidez Relativa (Teoría de Primer Orden)}
+\textbf{Hipótesis de pequeñas deformaciones y desplazamientos:} Las deformaciones que experimentan las piezas elásticas son tan reducidas que \textbf{las ecuaciones de equilibrio estático se formulan sobre la geometría inicial indeformada} del sistema sin cometer errores apreciables.
+
+\subsection{2. Principio de Superposición}
+Se fundamenta en la combinación de la \textbf{Ley de Hooke (comportamiento elástico-lineal)} y el \textbf{Principio de Rigidez Relativa}:
+\dfn{Principio de Superposición}{El efecto producido por un sistema complejo de fuerzas actuando conjuntamente es igual a la suma de los efectos producidos por cada una de las fuerzas actuando de manera independiente.}
+\imp{Bajo condiciones elásticas y pequeñas deformaciones, el orden de aplicación de las cargas no altera el estado final de tensiones ni de deformaciones.}
+
+\subsection{3. Principio de Saint-Venant}
+\dfn{Principio de Saint-Venant}{Salvo en las inmediaciones directas del punto de aplicación de las cargas, los estados tensionales y deformacionales producidos por dos sistemas de cargas estáticamente equivalentes son prácticamente idénticos a una distancia suficiente ($x \geq d_{\text{transversal}}$).}
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.92\textwidth}{%
+    \begin{tikzpicture}[scale=0.9, >=Latex]
+        % Caso 1: Carga puntual concentrada P
+        \draw[thick, fill=blue!5] (0,0) rectangle (2.5,4);
+        \draw[<-, line width=1.5pt, red!80!black] (1.25,4) -- (1.25,5.2) node[above=2pt] {$P$ (Puntual)};
+        
+        % Flechas de tension en la base
+        \foreach \x in {0.2,0.6,1.0,1.4,1.8,2.2} {
+            \draw[->, line width=1pt, blue!70!black] (\x,0) -- (\x,-0.7);
+        }
+        % Texto debajo de las flechas (sin superposicion)
+        \node[below=4pt] at (1.25,-0.75) {$\displaystyle \sigma = \frac{P}{\Omega}$};
+        
+        % Equivalencia con separacion adecuada
+        \draw[<->, line width=1.8pt, green!60!black] (3.4,2) -- (6.0,2);
+        \node[above=4pt, text width=2.8cm, align=center] at (4.7,2) {\small\textbf{Sistemas}\\\small\textbf{Equivalentes}};
+
+        % Caso 2: Carga distribuida uniforme
+        \draw[thick, fill=blue!5] (6.8,0) rectangle (9.3,4);
+        \foreach \x in {7.0,7.4,7.8,8.2,8.6,9.0} {
+            \draw[<-, line width=1pt, red!80!black] (\x,4) -- (\x,4.8);
+        }
+        \draw[line width=1pt, red!80!black] (7.0,4.8) -- (9.0,4.8) node[midway, above=2pt] {$P$ (Distribuida)};
+        
+        % Flechas de tension en la base
+        \foreach \x in {7.0,7.4,7.8,8.2,8.6,9.0} {
+            \draw[->, line width=1pt, blue!70!black] (\x,0) -- (\x,-0.7);
+        }
+        % Texto debajo de las flechas (sin superposicion)
+        \node[below=4pt] at (8.05,-0.75) {$\displaystyle \sigma = \frac{P}{\Omega}$};
+    \end{tikzpicture}%
+    }
+    \caption{Principio de Saint-Venant: distribución uniforme de tensiones $\sigma = P/\Omega$ a una distancia representativa de la sección de carga.}
+    \label{fig:saint_venant}
+\end{figure}
+
+\subsection{4. Hipótesis de Navier-Bernoulli (Secciones Planas)}
+\dfn{Hipótesis de Navier-Bernoulli}{Las secciones planas y perpendiculares a la línea directriz de una pieza antes de la deformación permanecen planas y normales a la directriz deformada después de la flexión.}
+\nt{Esta hipótesis es estrictamente válida para vigas esbeltas ($L > 10\cdot h$). Para vigas de gran canto ($L < 10\cdot h$) o bajo elevados esfuerzos cortantes, las secciones sufren alabeo transversal y debe aplicarse la teoría de vigas gruesas de Timoshenko.}
+
+%=============================================================================
+\section{Solicitaciones Exteriores, Ligaduras y Reacciones}
+
+\subsection{Clasificación de las solicitaciones exteriores}
+Las acciones mecánicas exteriores se dividen en:
+\begin{enumerate}
+    \item \textbf{Acciones directas o Cargas ($F + M$):}
+          \begin{itemize}
+              \item \textit{Fuerzas de volumen ($F_v$):} Actúan sobre cada elemento diferencial de masa (peso propio, fuerzas centrífugas).
+              \item \textit{Fuerzas de superficie ($F_\Omega$):} Actúan sobre las caras exteriores (presiones hidrostáticas, empuje de viento).
+              \item \textit{Momentos aplicados:} Pares de fuerzas torsores o flectores.
+              \item \textit{Distribución:} Cargas concentradas (puntuales) o cargas repartidas (uniformes o variables).
+          \end{itemize}
+    \item \textbf{Fuerzas de Reacción ($F + M$):} Fuerzas y momentos que los apoyos ejercen sobre el sólido para coaccionar sus grados de libertad:
+          \begin{itemize}
+              \item Si se restringe un \textbf{desplazamiento}, aparece una \textbf{fuerza de reacción} en la dirección del movimiento impedido.
+              \item Si se restringe un \textbf{giro}, aparece un \textbf{momento de reacción} que se opone a dicho giro.
+          \end{itemize}
+\end{enumerate}
+
+\subsection{Ligaduras y reacciones en 3D y 2D}
+\begin{itemize}
+    \item \textbf{En el espacio tridimensional (3D):} Un punto libre posee \textbf{6 grados de libertad} (3 desplazamientos $u, v, w$ y 3 giros $\theta_x, \theta_y, \theta_z$).
+          \begin{itemize}
+              \item \textbf{Empotramiento 3D:} Restringe los 6 grados de libertad $\implies \mathbf{6\text{ Reacciones}}$ (3 Fuerzas $R_x, R_y, R_z$ y 3 Momentos $M_{tx}, M_{fy}, M_{fz}$).
+              \item \textbf{Rótula esférica / Articulación 3D:} Restringe los 3 desplazamientos $\implies \mathbf{3\text{ Reacciones de fuerza}}$ ($R_x, R_y, R_z$).
+          \end{itemize}
+    \item \textbf{En el plano bidimensional (2D):} Un punto posee \textbf{3 grados de libertad} (2 desplazamientos $u, v$ y 1 giro $\theta_z$).
 \end{itemize}
 
-Variables pueden ser carga tipo fuerza o momento, otra variable son tensiones otra deformaciones y otra desplazamientos
+\begin{table}[H]
+    \centering
+    \caption{Tipos de enlaces en estructuras planas (2D) y reacciones originadas.}
+    \adjustbox{max width=\textwidth}{%
+    \begin{tabular}{lcp{6cm}c}
+        \toprule
+        \textbf{Tipo de Apoyo} & \textbf{Símbolo 2D} & \textbf{Movimientos Permitidos / Coaccionados} & \textbf{Reacciones} \\
+        \midrule
+        \textbf{Apoyo Móvil / Carrito} & \begin{tikzpicture}[scale=0.5]
+            \draw[thick] (0,0.4) -- (1,0.4) -- (0.5,1) -- cycle;
+            \draw[thick] (0.2,0.2) circle (0.15);
+            \draw[thick] (0.8,0.2) circle (0.15);
+            \draw[line width=1pt] (-0.3,0) -- (1.3,0);
+        \end{tikzpicture} & 
+        \begin{tabular}{l}
+            $\bullet$ Permite traslación horizontal ($u$) \\
+            $\bullet$ Permite giro ($\theta_z$) \\
+            $\bullet$ Impide traslación vertical ($v$)
+        \end{tabular} & \textbf{1 Fuerza} ($R_y$) \\
+        \midrule
+        \textbf{Articulación Fija} & \begin{tikzpicture}[scale=0.5]
+            \draw[thick] (0,0) -- (1,0) -- (0.5,1) -- cycle;
+            \draw[line width=1pt] (-0.3,0) -- (1.3,0);
+            \foreach \x in {-0.2,0.1,0.4,0.7,1.0} \draw (\x,0) -- (\x-0.2,-0.3);
+        \end{tikzpicture} & 
+        \begin{tabular}{l}
+            $\bullet$ Permite giro en el plano ($\theta_z$) \\
+            $\bullet$ Impide traslación horizontal ($u$) \\
+            $\bullet$ Impide traslación vertical ($v$)
+        \end{tabular} & \textbf{2 Fuerzas} ($R_x, R_y$) \\
+        \midrule
+        \textbf{Empotramiento} & \begin{tikzpicture}[scale=0.5]
+            \draw[line width=1.5pt] (0,-0.5) -- (0,1.5);
+            \foreach \y in {-0.4,0.1,0.6,1.1} \draw (0,\y) -- (-0.3,\y-0.2);
+            \draw[thick] (0,0.5) -- (1.2,0.5);
+        \end{tikzpicture} & 
+        \begin{tabular}{l}
+            $\bullet$ Impide traslación horizontal ($u$) \\
+            $\bullet$ Impide traslación vertical ($v$) \\
+            $\bullet$ Impide giro en el plano ($\theta_z$)
+        \end{tabular} & \textbf{3 Reacciones} ($R_x, R_y, M_z$) \\
+        \bottomrule
+    \end{tabular}%
+    }
+    \label{tab:apoyos_2d}
+\end{table}
 
-Partiendo de las fuerzas o momentos que serian las cargas desde las ecuaciones de equilibrio (estatica) sum momentos = 0 sum cargas = 0
-y tambien por sumatoria de equilibrio elastico se calculan los esfuerzos
-
-con otras ecuaciones sean las tensiones y apartir de las leyes de comportamiento las deformaciones y desde ahi con las ecuaciones de compatibilidad los desplazamientos.
-
-para imponer que la estructura resista:
-
-Solicitaciones exteriores (Cargas): con las ecuaciones de equilibrio calculamos los esfuerzos , con otras ecuaciones a partir del esfuerzo se calcula la tension, con la tension comprobamos si resiste (\textbf{la Tension es algo interno}) se calcula la tension maxima de todo el cuerpo y se compara con la admisible de todo el material.
-
-Tambien hay que calcular que no sean excesivos calculando los desplazamientos a partir de solicitaciones esfuerzos con ello las deformaciones y finalmente los desplazamientos comparandolo con los desplazamientos limites 
-
-en un problema completo hay que calcular ambos aunque algunas veces en clase se veran solo una parte.
-
-\nt{ejercicios tipicos de examen, tirantes flexion calcular deformacion, libros ortiz berrocal consultar en la guia}
-
-
-Tipos de solido:
-
+\subsection{Clasificación estática de los sistemas estructurales}
+Sea $R$ el número total de reacciones incógnita y $E$ el número de ecuaciones de equilibrio estático independientes ($E=3$ en 2D, $E=6$ en 3D, más posibles ecuaciones de despiece por rótulas internas):
 \begin{itemize}
-\item Solido rigido: con las ecuaciones de equilibrio estatico %! Añadir las ecuaciones posteriormente
-\item Solido elastico deformable:  que si se aplica una carga tiene que cumplir tambien que cumpla la condicion de equilibrio elastico (Que sea isotropo, homogeneo y que exista continuidad es decir que no haya huecos)
-\item Solido verdadero (ni son isotropicos ni continuos)
+    \item \textbf{Sistema Isostático ($R = E$):} Las ecuaciones de la estática son estrictamente suficientes para determinar todas las reacciones de enlace.
+    \item \textbf{Sistema Hipoestático ($R < E$):} El número de coacciones es insuficiente; la estructura posee movilidad interna y se comporta como un \textbf{mecanismo}.
+    \item \textbf{Sistema Hiperestático ($R > E$):} El número de reacciones supera al de ecuaciones de equilibrio estático. El sistema posee ligaduras redundantes y se define el \textbf{Grado de Hiperestaticidad ($GH$)}:
+          \begin{equation}
+              GH = R - E
+              \label{eq:grado_hiperestaticidad}
+          \end{equation}
+          Para resolver un sistema hiperestático es obligatorio plantear $GH$ \textbf{ecuaciones adicionales de compatibilidad de deformaciones}.
 \end{itemize}
 
-\dfn{Prima mecanico}{Superficie omega centro de gravedad G va inscribiendo una curva que va desde G1 a G2 engendrando un volumen esa linea que va dessde G1 a G2 que une todos los centros de gravedad se llama directriz, las secciones (plano perpendicular a la directriz) el eje X sera siempre tangente a la directriz pasando por el centro de gravedad G, el eje Y vertical y e eje Z el que queda perpendicular a ambos en sentido destrogiro.}
+%=============================================================================
+\section{Concepto Riguroso de Tensión}
 
-hay tres tipo de prismas
+Consideremos un cuerpo continuo en equilibrio seccionado imaginariamente por una superficie plana $\Omega$. En el entorno de un punto $P$ de la sección, sobre un elemento diferencial de área $\Delta \Omega$ con vector normal unitario $\vec{n}$, actúa una fuerza interna resultante $\Delta \vec{f}$.
 
-Prisma tipo barra sus secciones transversales son mucho mas pequeña que la longitudinal (2 pequeñas una grande) aunque tambien se dice viga. (la longitud debe ser mayor a 20 veces el diametro)
-Prisma tipo Placa: son 2 superficies planas y la distancia entre una y otra que es el espesor es muy pequeña 
-Prisma tipo lamina igual que cuando son placas pero las 2 superficies no son planas
+\dfn{Vector Tensión}{Límite del cociente entre la fuerza elemental interna y el área cuando ésta tiende a cero:}
+\begin{equation}
+    \vec{t} = \vec{\sigma} = \lim_{\Delta \Omega \to 0} \left( \frac{\Delta \vec{f}}{\Delta \Omega} \right) = \frac{d\vec{f}}{d\Omega}
+    \label{eq:vector_tension}
+\end{equation}
 
-\section{Principios Generales de la resistencia de materiales}
-Principio de rigidez relativa: Hipotesis de las pequeñas deformaciones y desplazamientos (Teoria de primer orden): las deformaciones son lo suficientemnete pequeña como para que al aplicar las ecuaciones en la geometria inicial el error no es importante.
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.92\textwidth}{%
+    \begin{tikzpicture}[scale=1.1, >=Latex]
+        % Superficie de corte
+        \draw[thick, fill=cyan!15] (0,0) ellipse (1.5cm and 2.2cm);
+        \node[above=4pt] at (0,2.2) {Sección transversal $\Omega$};
+        
+        % Elemento de area dOmega
+        \draw[thick, fill=yellow!40] (0.3,0.3) rectangle (0.8,0.8);
+        \node[below left=1pt] at (0.3,0.3) {$d\Omega$};
+        
+        % Vector tension total
+        \draw[->, line width=1.5pt, red!80!black] (0.55,0.55) -- (2.4,1.8) node[above right=2pt] {$\vec{t} = \vec{\sigma}$ (Vector Tensión)};
+        
+        % Descomposicion intrinseca
+        \draw[->, line width=1.3pt, blue!80!black] (0.55,0.55) -- (0.55,2.1) node[left=2pt] {$\vec{\sigma}_n$ (Tensión normal)};
+        \draw[->, line width=1.3pt, green!60!black] (0.55,0.55) -- (2.2,0.55) node[below right=2pt] {$\vec{\tau}$ (Tensión tangencial)};
+        \draw[dashed, gray] (2.2,0.55) -- (2.4,1.8) -- (0.55,2.1);
+    \end{tikzpicture}%
+    }
+    \caption{Vector tensión en un punto y sus componentes intrínsecas normal ($\sigma_n$) y tangencial ($\tau$).}
+    \label{fig:componentes_tension}
+\end{figure}
 
-A lo largo del curso se resolveran problemas del tipo 2 tirantes uno formando un angulo alpha y otro Beta una vez que tire con una fuerza la que sea quiero saber su posicion final en su movimiento giraran los cables de acero y se moveran un poco pero entonces los angulos sera un alpha + incremnto de alpha y el segundo Beta menos incremento de Beta
-
-Para estudiar el equilibrio se pone las ecuaciones sum x = 0 y sum y = 0 sum momento = 0.
-
-para aplicar las ecuaciones es necesario conocer la posicion final del sistema, lo que nos dice donde sera es este principio, las deformaciones y giros seran pequeños y si aplicamos estas ecuaciones en la posicion inicial me permite resolver el problema sin obtener unos grandes errores. es decir se pone en geometria inicial.
-
-en un elemento barra tampoco seguiria esta hipotesis 
-
-Principio de superposición: ley de comportamiento  (ley de hooke), ley de comportamiento elastico lineal.
-
-\dfn{Ley de hooke}{Si tengo una columna de un material elastico y le aplico una carga ejemplo una pesa (P) y esta se deforma el doble si le aplico el doble de peso, tendra un desplaamiento U si represento en el eje xy F vs u sera de forma lineal} %!introducir imagen y grafico luego
-
-Principio de superposicion: Para que se cumpla deben cumplirse previamente los otros 2 es decir deben tener deformaciones pequeñas y el material debe ser elastico, nos sirve para resolver problemas con muchas cargas de forma sencilla
-
-viga unida al terreno por 2 ligaduras (la segunda tiene unas ruedecitas el triangulo) y se le aplica una carga F1 hacia abajo y una F2 a la derecha, al cumplirse este principio podemos descomponer en 2 problemas uno con la carga F1 hacia abajo y otra a la derecha y luego se sumaran ambos
-
-Tensiones representados con la letra sigma deformacion con la letra epsilon u desplazamientos
-
-\imp{El orden de aplicacion de las cargas en el principio de superposicion no importa.}
-
-Principio de Saint Venant: Si tenemos 2 sistemas de cargas equivalentes en uno tenemos solo 1 carga P en el centro y en el otro esta distribuida a lo largo de toda la superficie salvo en distancia muy proximas al punto de aplicacion de la carga, salvo en las zonas muy proximas al punto de aplicacion de la carga se producira el mismo estado de tensiones y deformaciones.
-
-tension ec fuerza/superficie ( sigma = P/omega ) la distribucion sera igual a una distancia suficiente del punto de aplicacion de la carga.
-
-Hipotesis de bernouilli: Secciones planas (cortes perpendiculares a la directriz) antes de la deformacion se mantendran planas despues de la deformacion y perpendiculares a la directriz no siempre se cumple cuando las... %!terminar luego
-
-\section{Solicitaciones exteriores}
-
-Se dividen en cargas y reacciones, los tipos de cargas son tipo fuerza o tipo momento (fuerza de volumen de superficie o puntual aunque realmente son concentradas idealizadas) y pueden estar uniformemente repartidas localizadas o repartidas de forma varibales, las reacciones (los solidos elasticos estan ligados al entorno y esos puntos de ligadura o apoyos son dispositivos que impiden algun tipo de movimiento)
-el entorno hace una fuerza sobre la pieza para restringir el movimiento, por ejemplo si tiene encima del triangulo una bola puede girar y si tiene 2 debajo puede desplazarse, lo que impide en ese caso es que se mueva verticalmente, esa fuerza es la reaccion que sera vertical en ese caso.
-
-dfn{reaccion}{Son fuerzas (o momentos) que el entorno ejerce sobre un cuerpo para impedir que se mueva}
-
-otro ejemplo es un empotramiento de una viga que es una ligadura que impide todos los movimientos, donde aparecen 3 reacciones, una vertical, otra horizontal y otra que impide el giro, es decir un momento.
-
-\section{ligaduras y reacciones}
-
-en un putno del espacio hay 3 giros 3 desplazamientos es decir 6 grados de libertad
-
-puntos de apoyo tipicos:
+\textbf{Características del vector tensión:}
 \begin{itemize}
-    \item Tipo empotramiento: Restringe todos los grados de libertad
-    \item Articulacion: Permite todos los giros pero no los desplazamientos es decir 3 reacciones tipo fuerza
+    \item Cada vector tensión está unívocamente asociado a la orientación del plano de corte ($\vec{n}$).
+    \item En general, el vector $\vec{t}$ no es perpendicular al plano de la sección.
+    \item \textbf{Componente normal ($\sigma_n$):} Proyección perpendicular a la sección (produce tracción o compresión).
+    \item \textbf{Componente tangencial ($\tau$):} Proyección contenida en el plano de la sección (produce cizalladura o cortadura).
+    \item \textbf{Módulo del vector tensión:} $|\vec{t}| = \sqrt{\sigma_n^2 + \tau^2}$.
+    \item \textbf{Unidades de tensión:} $\text{N/m}^2 = \text{Pa}$, empleándose en ingeniería:
+          \begin{equation}
+              1\text{ MPa} = 1\text{ N/mm}^2 = 10\text{ kp/cm}^2
+          \end{equation}
 \end{itemize}
-%^ Poner arriba en el subitem de articulacion
-en el apoyo fijo siempre puede girar y se puede dibujar con la rotula encima o no el triangulito 
 
-el articulado movil se puede girar y desplazar
+%=============================================================================
+\section{Concepto de Deformación y Ley de Hooke Generalizada}
+
+\subsection{Componentes de la deformación}
+Bajo la acción de cargas, un paralelepípedo elemental de dimensiones $dx \cdot dy \cdot dz$ experimenta un movimiento general compuesto por:
+\begin{equation}
+    \text{Movimiento total} = \text{Traslación de sólido rígido} + \text{Rotación de sólido rígido} + \textbf{Deformación propiamente dicha}
+\end{equation}
+La deformación propiamente dicha se descompone en:
+\begin{enumerate}
+    \item \textbf{Dilatación o Deformación longitudinal unitaria ($\varepsilon$):} Cambio de tamaño (variación de longitud por unidad de longitud) manteniendo los ángulos rectos iniciales:
+          \begin{equation}
+              \varepsilon_x = \frac{\Delta L_x}{L_{0x}}
+          \end{equation}
+    \item \textbf{Distorsión angular ($\gamma$):} Cambio de forma geométrica (variación del ángulo recto original entre dos direcciones ortogonales) a volumen constante:
+          \begin{equation}
+              \gamma_{xy} = \frac{\pi}{2} - \theta'_{xy} \quad [\text{radianes}]
+          \end{equation}
+\end{enumerate}
+
+\subsection{Ley de Hooke Uniaxial y Coeficiente de Poisson}
+Para un ensayo de tracción uniaxial en la dirección $X$ ($\sigma_x \neq 0, \sigma_y = \sigma_z = 0$):
+\begin{align}
+    \text{Deformación longitudinal:} & \quad \varepsilon_x = \frac{\sigma_x}{E} \\
+    \text{Deformaciones transversales:} & \quad \varepsilon_y = -\nu \cdot \varepsilon_x = -\nu \frac{\sigma_x}{E}, \qquad \varepsilon_z = -\nu \cdot \varepsilon_x = -\nu \frac{\sigma_x}{E}
+\end{align}
+donde $E$ es el \textbf{módulo de elasticidad longitudinal (Módulo de Young)} y $\nu$ es el \textbf{coeficiente de Poisson} ($\nu \approx 0.28 - 0.33$ en aceros).
+
+Para tensiones tangenciales puras:
+\begin{equation}
+    \tau = G \cdot \gamma
+\end{equation}
+donde $G$ es el \textbf{módulo de elasticidad transversal o de cortadura}, relacionado elásticamente con $E$ y $\nu$ mediante:
+\begin{equation}
+    G = \frac{E}{2(1 + \nu)}
+    \label{eq:modulo_cizalladura_G}
+\end{equation}
+
+\subsection{Ley de Hooke Generalizada (Estado Tensional Tridimensional)}
+Aplicando el principio de superposición de efectos a un elemento paralelepípedo sometido a un tensor de tensiones general:
+\begin{equation}
+\begin{cases}
+    \varepsilon_x = \dfrac{\sigma_x}{E} - \dfrac{\nu}{E}(\sigma_y + \sigma_z), & \gamma_{xy} = \dfrac{\tau_{xy}}{G} \\[10pt]
+    \varepsilon_y = \dfrac{\sigma_y}{E} - \dfrac{\nu}{E}(\sigma_z + \sigma_x), & \gamma_{yz} = \dfrac{\tau_{yz}}{G} \\[10pt]
+    \varepsilon_z = \dfrac{\sigma_z}{E} - \dfrac{\nu}{E}(\sigma_x + \sigma_y), & \gamma_{zx} = \dfrac{\tau_{zx}}{G}
+\end{cases}
+\label{eq:hooke_generalizada}
+\end{equation}
+
+%=============================================================================
+\section{Concepto de Esfuerzo y Criterio de Signos}
+
+\subsection{Definición vectorial de esfuerzos}
+Al realizar un corte transversal a un prisma mecánico por una sección $\Omega$, las fuerzas que la parte derecha ejerce sobre la parte izquierda se reducen en el baricentro $G$ a una \textbf{fuerza resultante} $\vec{R}$ y a un \textbf{momento resultante} $\vec{M}$:
+
+\dfn{Esfuerzos Seccionales}{Componentes escalares de los vectores $\vec{R}$ y $\vec{M}$ proyectadas sobre los ejes del triedro intrínseco $(G, X, Y, Z)$:}
+\begin{align}
+    \vec{R} &= N\vec{i} + Q_y\vec{j} + Q_z\vec{k} \\
+    \vec{M} &= T\vec{i} + M_{fy}\vec{j} + M_{fz}\vec{k}
+\end{align}
+
+\begin{itemize}
+    \item \textbf{Esfuerzo Axil ($N$):} Componente de $\vec{R}$ normal a la sección (eje $X$). Produce tracción ($N > 0$) o compresión ($N < 0$).
+    \item \textbf{Esfuerzos Cortantes ($Q_y, Q_z$ o $T_y, T_z$):} Componentes de $\vec{R}$ contenidas en el plano de la sección (ejes $Y, Z$).
+    \item \textbf{Momento Torsor ($T$ o $M_t$):} Componente de $\vec{M}$ alrededor del eje longitudinal $X$. Tiende a retorcer la barra sobre su directriz.
+    \item \textbf{Momentos Flectores ($M_{fy}, M_{fz}$):} Componentes de $\vec{M}$ alrededor de los ejes transversales $Y$ y $Z$. Tienden a curvar la viga.
+\end{itemize}
+
+\subsection{Problemas planos (2D)}
+En piezas simétricas con cargas contenidas en su plano medio, los esfuerzos activos se reducen a tres:
+\begin{equation}
+    \text{Axil } N \quad (\text{eje } X), \qquad \text{Cortante } Q \quad (\text{eje } Y), \qquad \text{Momento Flector } M_z \quad (\text{alrededor del eje } Z)
+\end{equation}
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.95\textwidth}{%
+    \begin{tikzpicture}[scale=1.0, >=Latex]
+        % AXIL POSITIVO
+        \draw[thick] (0,0) rectangle (1.5,1);
+        \draw[<-, line width=1.3pt, red!80!black] (-0.7,0.5) -- (0,0.5);
+        \draw[->, line width=1.3pt, red!80!black] (1.5,0.5) -- (2.2,0.5);
+        \node[below] at (0.75,-0.2) {\textbf{Axil (+)}: Tracción};
+
+        % CORTANTE POSITIVO
+        \draw[thick] (4,0) rectangle (5.5,1);
+        \draw[->, line width=1.3pt, blue!80!black] (3.6,0.2) -- (3.6,1.0);
+        \draw[->, line width=1.3pt, blue!80!black] (5.9,0.8) -- (5.9,0.0);
+        \node[below] at (4.75,-0.2) {\textbf{Cortante (+)}};
+
+        % MOMENTO FLECTOR POSITIVO
+        \draw[thick] (8,0) rectangle (9.5,1);
+        \draw[->, line width=1.3pt, green!60!black] (7.5,0.2) arc (-90:90:0.4);
+        \draw[->, line width=1.3pt, green!60!black] (10.0,0.8) arc (90:270:0.4);
+        \node[below] at (8.75,-0.2) {\textbf{Flector (+)}: Tracciona fibra inferior};
+    \end{tikzpicture}%
+    }
+    \caption{Criterio de signos estándar para esfuerzos en vigas planas 2D.}
+    \label{fig:criterio_signos_esfuerzos}
+\end{figure}
+
+%=============================================================================
+\section{Relaciones Integrales entre Tensiones y Esfuerzos}
+
+Las tensiones ($\sigma, \tau$) distribuidas en cada punto diferencial $dS$ de la sección transversal $S$ son estáticamente equivalentes a los esfuerzos resultantes ($N, Q, M, T$):
+
+\begin{align}
+    \text{Esfuerzo Axil:} & \quad N = \int_S \sigma_x \, dS \label{eq:int_axil} \\[6pt]
+    \text{Esfuerzo Cortante en $Y$:} & \quad Q_y = T_y = \int_S \tau_{xy} \, dS \label{eq:int_qy} \\[6pt]
+    \text{Esfuerzo Cortante en $Z$:} & \quad Q_z = T_z = \int_S \tau_{xz} \, dS \label{eq:int_qz} \\[6pt]
+    \text{Momento Torsor:} & \quad M_t = T = \int_S (\tau_{xz}\cdot y - \tau_{xy}\cdot z) \, dS \label{eq:int_torsor} \\[6pt]
+    \text{Momento Flector respecto a $Y$:} & \quad M_{fy} = M_y = \int_S \sigma_x \cdot z \, dS \label{eq:int_my} \\[6pt]
+    \text{Momento Flector respecto a $Z$:} & \quad M_{fz} = M_z = -\int_S \sigma_x \cdot y \, dS \label{eq:int_mz}
+\end{align}
+
+%=============================================================================
+\section{Concepto de Seguridad Estructural}
+
+En el diseño mecánico real, los cálculos analíticos y los ensayos de laboratorio están sujetos a \textbf{factores de incertidumbre}:
+\begin{itemize}
+    \item \textbf{Incertidumbres en la solicitación y modelo:} La geometría real fabricada difiere de la nominal de cálculo, las cargas y puntos de aplicación varían con el tiempo, y los métodos de cálculo contienen aproximaciones.
+    \item \textbf{Incertidumbres en el material:} Los materiales reales presentan dispersión de propiedades, defectos microestructurales y los ensayos mecánicos tienen tolerancias de medición.
+\end{itemize}
+
+Para garantizar que la estructura nunca alcance el fallo bajo servicio, se aplican los \textbf{Coeficientes de Seguridad}:
+\begin{enumerate}
+    \item \textbf{Mayoración de cargas ($\gamma_f > 1$):} Define la \textbf{tensión de cálculo o de diseño} ($\sigma_d$):
+          \begin{equation}
+              \sigma_d = \sigma_{\text{max}} \cdot \gamma_f
+          \end{equation}
+    \item \textbf{Minoración de resistencia ($\gamma_s > 1$):} Define la \textbf{tensión admisible del material} ($\sigma_{\text{adm}}$) a partir del límite elástico ($\sigma_e$ o $\sigma_{0.2}$):
+          \begin{equation}
+              \sigma_{\text{adm}} = \frac{\sigma_e}{\gamma_s}
+          \end{equation}
+\end{enumerate}
+
+\imp{
+\textbf{Condición fundamental de seguridad de cálculo:}
+\begin{equation}
+    \sigma_d \leq \sigma_{\text{adm}} \iff \sigma_{\text{max}} \cdot \gamma_f \leq \frac{\sigma_e}{\gamma_s}
+    \label{eq:condicion_seguridad_final}
+\end{equation}
+}

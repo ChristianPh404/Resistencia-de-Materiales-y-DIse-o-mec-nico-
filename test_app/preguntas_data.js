@@ -1,0 +1,365 @@
+// Banco de preguntas auto-generado desde Capitulos/*.tex
+window.EMBEDDED_QUESTIONS = [
+  {
+    "id": "Tema1_q1",
+    "theme": "Test de Autoevaluación - Tema 1",
+    "file": "Tema1.tex",
+    "questionNumber": 1,
+    "question": "Los materiales compuestos .....",
+    "options": [
+      "Tienen propiedades homogéneas en todas las direcciones del espacio",
+      "Muestran un buen comportamiento frente a cargas cíclicas.",
+      "Presentan una resistencia específica inferior a la de los metales."
+    ],
+    "correctIndex": 1,
+    "explanation": "Respuesta correcta: Muestran un buen comportamiento frente a cargas cíclicas."
+  },
+  {
+    "id": "Tema1_q2",
+    "theme": "Test de Autoevaluación - Tema 1",
+    "file": "Tema1.tex",
+    "questionNumber": 2,
+    "question": "Si se desea el uso de un material que requiera tener baja densidad y alta flexibilidad, de forma general recurriríamos al uso de un material....",
+    "options": [
+      "Cerámico",
+      "Polimérico termoplástico.",
+      "Polimérico termoestable"
+    ],
+    "correctIndex": 1,
+    "explanation": "Respuesta correcta: Polimérico termoplástico."
+  },
+  {
+    "id": "Tema1_q3",
+    "theme": "Test de Autoevaluación - Tema 1",
+    "file": "Tema1.tex",
+    "questionNumber": 3,
+    "question": "Cuando un material sufre una deformación elástica...",
+    "options": [
+      "Recupera sus dimensiones al dejar de aplicarse la carga.",
+      "Recupera sus dimensiones siempre que no se haya superado el límite de fluencia o cedencia.",
+      "Aumenta su límite de proporcionalidad tras dejar de aplicarse la carga."
+    ],
+    "correctIndex": 0,
+    "explanation": "Respuesta correcta: Recupera sus dimensiones al dejar de aplicarse la carga."
+  },
+  {
+    "id": "Tema1_q4",
+    "theme": "Test de Autoevaluación - Tema 1",
+    "file": "Tema1.tex",
+    "questionNumber": 4,
+    "question": "Señale la respuesta correcta:",
+    "options": [
+      "Un mayor valor del módulo de resiliencia indica que el material tiene mayor resistencia a la deformación plástica.",
+      "Un mayor valor del Alargamiento a la rotura y de la Estricción indica que el material es más dúctil.",
+      "Ambas respuestas son correctas"
+    ],
+    "correctIndex": 1,
+    "explanation": "Respuesta correcta: Un mayor valor del Alargamiento a la rotura y de la Estricción indica que el material es más dúctil."
+  },
+  {
+    "id": "Tema1_q5",
+    "theme": "Test de Autoevaluación - Tema 1",
+    "file": "Tema1.tex",
+    "questionNumber": 5,
+    "question": "Señale la respuesta correcta:",
+    "options": [
+      "El objetivo del ensayo de tracción normalizado permite comparar el comportamiento de materiales entre sí.",
+      "El ensayo tracción-deformación suele mostrar la tensión real que sufre un material en función de su deformación unitaria.",
+      "El objetivo del ensayo de tracción normalizado es evaluar el comportamiento que tendrá un material en su uso real."
+    ],
+    "correctIndex": 0,
+    "explanation": "Respuesta correcta: El objetivo del ensayo de tracción normalizado permite comparar el comportamiento de materiales entre sí."
+  },
+  {
+    "id": "Tema1_q6",
+    "theme": "Test de Autoevaluación - Tema 1",
+    "file": "Tema1.tex",
+    "questionNumber": 6,
+    "question": "Señale la respuesta correcta:",
+    "options": [
+      "La cianuración es un tratamiento superficial que pretende aumentar la resistencia mecánica de la superficie del acero mediante la inclusión de grupos $CN^-$ (cianuros) sobre la superficie.",
+      "La nitruración es un tratamiento superficial que pretende aumentar la resistencia mecánica de la superficie del acero mediante la formación de nitratos con base férrea.",
+      "La cementación es un tratamiento superficial que pretende aumentar la resistencia mecánica de la superficie del acero mediante la formación de carburo de hierro."
+    ],
+    "correctIndex": 0,
+    "explanation": "Respuesta correcta: La cianuración es un tratamiento superficial que pretende aumentar la resistencia mecánica de la superficie del acero mediante la inclusión de grupos $CN^-$ (cianuros) sobre la superficie."
+  },
+  {
+    "id": "Tema1_q7",
+    "theme": "Test de Autoevaluación - Tema 1",
+    "file": "Tema1.tex",
+    "questionNumber": 7,
+    "question": "Señale la respuesta correcta:",
+    "options": [
+      "Ambas respuestas son correctas",
+      "Un aumento en el contenido en carbono de los aceros los hace menos tenaces.",
+      "Un material es más tenaz cuando es capaz de absorber mayor energía plástica y elástica antes de su rotura."
+    ],
+    "correctIndex": 0,
+    "explanation": "Respuesta correcta: Ambas respuestas son correctas"
+  },
+  {
+    "id": "Tema1_q8",
+    "theme": "Test de Autoevaluación - Tema 1",
+    "file": "Tema1.tex",
+    "questionNumber": 8,
+    "question": "Los materiales compuestos .....",
+    "options": [
+      "Están formados por un material que le confiere rigidez (fibras) y otro que actúa de relleno.",
+      "Suelen tener una resistencia mecánica intermedia entre las fibras y la matriz",
+      "Ambas respuestas son correctas"
+    ],
+    "correctIndex": 1,
+    "explanation": "Respuesta correcta: Suelen tener una resistencia mecánica intermedia entre las fibras y la matriz"
+  },
+  {
+    "id": "Tema1_q9",
+    "theme": "Test de Autoevaluación - Tema 1",
+    "file": "Tema1.tex",
+    "questionNumber": 9,
+    "question": "Señale la respuesta correcta:",
+    "options": [
+      "Ambas respuestas son correctas",
+      "La tenacidad es la capacidad de un material de absorber energía plástica antes de su fractura.",
+      "La tenacidad se puede evaluar mediante ensayos que miden la energía de impacto de un martillo sobre el material"
+    ],
+    "correctIndex": 2,
+    "explanation": "Respuesta correcta: La tenacidad se puede evaluar mediante ensayos que miden la energía de impacto de un martillo sobre el material"
+  },
+  {
+    "id": "Tema1_q10",
+    "theme": "Test de Autoevaluación - Tema 1",
+    "file": "Tema1.tex",
+    "questionNumber": 10,
+    "question": "Señale la respuesta correcta:",
+    "options": [
+      "La deformación plástica aumenta el límite elástico de un material",
+      "La deformación plástica disminuye el límite de proporcionalidad de un material.",
+      "La deformación plástica reduce el punto de fluencia de un material"
+    ],
+    "correctIndex": 0,
+    "explanation": "Respuesta correcta: La deformación plástica aumenta el límite elástico de un material"
+  },
+  {
+    "id": "Tema1_q11",
+    "theme": "Test de Autoevaluación - Tema 1",
+    "file": "Tema1.tex",
+    "questionNumber": 11,
+    "question": "Señale la respuesta correcta:",
+    "options": [
+      "Un aumento de la carga en el ensayo de termofluencia conlleva una reducción de la mínima rapidez de termofluencia",
+      "La termofluencia conlleva el endurecimiento del material debido a la deformación plástica sufrida.",
+      "La mínima rapidez de termofluencia se produce en las etapas iniciales del ensayo de termofluencia, y nos permitirá evaluar el tiempo de vida que tendría un equipo."
+    ],
+    "correctIndex": 1,
+    "explanation": "Respuesta correcta: La termofluencia conlleva el endurecimiento del material debido a la deformación plástica sufrida."
+  },
+  {
+    "id": "Tema1_q12",
+    "theme": "Test de Autoevaluación - Tema 1",
+    "file": "Tema1.tex",
+    "questionNumber": 12,
+    "question": "Señale la respuesta correcta:",
+    "options": [
+      "El ensayo de Erichsen permite evaluar la capacidad que tiene un material plano de ser transformado en piezas huecas como fondos, carcasas, etc.",
+      "El ensayo de flexibilidad permite evaluar las propiedades mecánicas de resistencia que tiene un material.",
+      "Dentro de los ensayos no destructivos podemos encontrar el ensayo de dureza Rockwell superficial"
+    ],
+    "correctIndex": 0,
+    "explanation": "Respuesta correcta: El ensayo de Erichsen permite evaluar la capacidad que tiene un material plano de ser transformado en piezas huecas como fondos, carcasas, etc."
+  },
+  {
+    "id": "Tema1_q13",
+    "theme": "Test de Autoevaluación - Tema 1",
+    "file": "Tema1.tex",
+    "questionNumber": 13,
+    "question": "Señale la respuesta correcta:",
+    "options": [
+      "El límite de proporcionalidad y el límite de elasticidad siempre coinciden.",
+      "El límite de fluencia inferior es un punto característico del material",
+      "Ambas respuestas son correctas"
+    ],
+    "correctIndex": 1,
+    "explanation": "Respuesta correcta: El límite de fluencia inferior es un punto característico del material"
+  },
+  {
+    "id": "Tema1_q14",
+    "theme": "Test de Autoevaluación - Tema 1",
+    "file": "Tema1.tex",
+    "questionNumber": 14,
+    "question": "En cuanto a la resistencia por fatiga que tienen los materiales",
+    "options": [
+      "La resistencia a la fatiga dependerá de la resistencia mecánica propia que tenga el material, pero no del ambiente de trabajo en el que desarrolle su labor.",
+      "Superficies más pulidas conllevarán mayor resistencia a la fatiga.",
+      "Los procesos superficiales de carburación, nitruración, etc. no mejora la resistencia a la fatiga del material ya que la resistencia mecánica del material completo sigue siendo la misma."
+    ],
+    "correctIndex": 1,
+    "explanation": "Respuesta correcta: Superficies más pulidas conllevarán mayor resistencia a la fatiga."
+  },
+  {
+    "id": "Tema1_q15",
+    "theme": "Test de Autoevaluación - Tema 1",
+    "file": "Tema1.tex",
+    "questionNumber": 15,
+    "question": "La tensión ingenieril se define como:",
+    "options": [
+      "Ambas son incorrectas",
+      "Cociente entre la carga aplicada y la sección (inicial) del material transversal a la dirección de aplicación de la carga.",
+      "Cociente entre la carga aplicada y la sección (en cada momento del ensayo) del material transversal a la dirección de aplicación de la carga."
+    ],
+    "correctIndex": 1,
+    "explanation": "Respuesta correcta: Cociente entre la carga aplicada y la sección (inicial) del material transversal a la dirección de aplicación de la carga."
+  },
+  {
+    "id": "Tema1_q16",
+    "theme": "Test de Autoevaluación - Tema 1",
+    "file": "Tema1.tex",
+    "questionNumber": 16,
+    "question": "Señale la respuesta correcta:",
+    "options": [
+      "Un aumento de la temperatura hace que generalmente los materiales sean más rígidos.",
+      "Los ensayos de termofluencia permiten evaluar el comportamiento de un material frente a temperaturas y cargas elevadas en función del tiempo.",
+      "Ambas respuestas son correctas"
+    ],
+    "correctIndex": 1,
+    "explanation": "Respuesta correcta: Los ensayos de termofluencia permiten evaluar el comportamiento de un material frente a temperaturas y cargas elevadas en función del tiempo."
+  },
+  {
+    "id": "Tema1_q17",
+    "theme": "Test de Autoevaluación - Tema 1",
+    "file": "Tema1.tex",
+    "questionNumber": 17,
+    "question": "Señale la respuesta correcta:",
+    "options": [
+      "El laminado del acero tiene como objetivo la reducción del espesor de la plancha de metal",
+      "El carácter inoxidable de un acero se lo da el contenido en cromo en la aleación, que suele estar entre en una proporción de 10-27%.",
+      "Uno de los aceros inoxidables más utilizados en la industria alimentaria es el AISI 9228."
+    ],
+    "correctIndex": 1,
+    "explanation": "Respuesta correcta: El carácter inoxidable de un acero se lo da el contenido en cromo en la aleación, que suele estar entre en una proporción de 10-27%."
+  },
+  {
+    "id": "Tema1_q18",
+    "theme": "Test de Autoevaluación - Tema 1",
+    "file": "Tema1.tex",
+    "questionNumber": 18,
+    "question": "Señale la respuesta correcta:",
+    "options": [
+      "La deformación unitaria se define como el cociente entre el alargamiento y la longitud inicial de la probeta",
+      "Ambas son correctas",
+      "El alargamiento o deformación se define como la elongación que sufre un material en la dirección de aplicación de la carga"
+    ],
+    "correctIndex": 1,
+    "explanation": "Respuesta correcta: Ambas son correctas"
+  },
+  {
+    "id": "Tema1_q19",
+    "theme": "Test de Autoevaluación - Tema 1",
+    "file": "Tema1.tex",
+    "questionNumber": 19,
+    "question": "Señale la respuesta correcta:",
+    "options": [
+      "La resistencia máxima a la tracción es el punto donde la tensión real aplicada es máxima",
+      "Ambas respuestas son correctas",
+      "En caso de que el límite de fluencia no esté claro, se puede definir como la tensión para la cual la deformación plástica es del 0.2%."
+    ],
+    "correctIndex": 2,
+    "explanation": "Respuesta correcta: En caso de que el límite de fluencia no esté claro, se puede definir como la tensión para la cual la deformación plástica es del 0.2%."
+  },
+  {
+    "id": "Tema1_q20",
+    "theme": "Test de Autoevaluación - Tema 1",
+    "file": "Tema1.tex",
+    "questionNumber": 20,
+    "question": "Señale la respuesta correcta:",
+    "options": [
+      "Un aumento de la temperatura en el ensayo de termofluencia conlleva una reducción de la mínima rapidez de termofluencia",
+      "La fluencia lenta o termofluencia es mayor en las etapas iniciales del ensayo",
+      "La mínima rapidez de termofluencia nos muestra el crecimiento exponencial de la deformación que sufre un material."
+    ],
+    "correctIndex": 2,
+    "explanation": "Respuesta correcta: La mínima rapidez de termofluencia nos muestra el crecimiento exponencial de la deformación que sufre un material."
+  },
+  {
+    "id": "Tema1_q21",
+    "theme": "Test de Autoevaluación - Tema 1",
+    "file": "Tema1.tex",
+    "questionNumber": 21,
+    "question": "Si se desea el uso de un material que requiera tener alta dureza, resistencia al desgaste y con propiedades aislantes y térmicas, de forma general recurriríamos al uso de un material....",
+    "options": [
+      "Polimérico",
+      "Metálico",
+      "Cerámico"
+    ],
+    "correctIndex": 2,
+    "explanation": "Respuesta correcta: Cerámico"
+  },
+  {
+    "id": "Tema1_q22",
+    "theme": "Test de Autoevaluación - Tema 1",
+    "file": "Tema1.tex",
+    "questionNumber": 22,
+    "question": "Señale la respuesta correcta:",
+    "options": [
+      "La tensión de trabajo coincide con la tensión en el punto de fluencia o con la resistencia máxima a la tracción, seleccionándose uno de estos valores en función de las condiciones de servicio del material.",
+      "La tensión de seguridad o tensión de trabajo es la tensión máxima que puede soportar un material en sus condiciones de servicio.",
+      "El producto de la tensión en el punto de fluencia o en el punto de máxima tracción (dependiendo del material y uso del mismo) por el coeficiente de seguridad nos determinará la tensión de trabajo del material."
+    ],
+    "correctIndex": 1,
+    "explanation": "Respuesta correcta: La tensión de seguridad o tensión de trabajo es la tensión máxima que puede soportar un material en sus condiciones de servicio."
+  },
+  {
+    "id": "Tema1_q23",
+    "theme": "Test de Autoevaluación - Tema 1",
+    "file": "Tema1.tex",
+    "questionNumber": 23,
+    "question": "El acero es una aleación hierro-carbono donde.....",
+    "options": [
+      "Cuanto mayor porcentaje en carbono mayor presente, mayor resistencia mecánica tendrá el material",
+      "Ambas respuestas son correctas",
+      "La ferrita es hierro casi puro y la cementita es un carburo de hierro"
+    ],
+    "correctIndex": 1,
+    "explanation": "Respuesta correcta: Ambas respuestas son correctas"
+  },
+  {
+    "id": "Tema1_q24",
+    "theme": "Test de Autoevaluación - Tema 1",
+    "file": "Tema1.tex",
+    "questionNumber": 24,
+    "question": "Señale la respuesta correcta:",
+    "options": [
+      "Ambas respuestas son correctas",
+      "La ductilidad es una medida de la deformación plástica que sufre un material antes de su fractura.",
+      "La tenacidad es una medida de la deformación elástica que sufre un material antes de su fractura."
+    ],
+    "correctIndex": 1,
+    "explanation": "Respuesta correcta: La ductilidad es una medida de la deformación plástica que sufre un material antes de su fractura."
+  },
+  {
+    "id": "Tema1_q25",
+    "theme": "Test de Autoevaluación - Tema 1",
+    "file": "Tema1.tex",
+    "questionNumber": 25,
+    "question": "Señale la respuesta correcta:",
+    "options": [
+      "Los tratamientos mecánicos tienen como objetivo producir una deformación plástica en el material para conferir una resistencia determinada.",
+      "Un enfriamiento rápido del material desde la temperatura crítica máxima tiene como objetivo reducir las tensiones residuales que aparecen en el material tras un proceso térmico más severo.",
+      "Los tratamientos superficiales aplicados a aceros pretenden dar al material una mayor resistencia mecánica al material debido a la deformación plástica que sufre la superficie."
+    ],
+    "correctIndex": 0,
+    "explanation": "Respuesta correcta: Los tratamientos mecánicos tienen como objetivo producir una deformación plástica en el material para conferir una resistencia determinada."
+  },
+  {
+    "id": "Tema1_q26",
+    "theme": "Test de Autoevaluación - Tema 1",
+    "file": "Tema1.tex",
+    "questionNumber": 26,
+    "question": "Ensayo de microdureza:",
+    "options": [
+      "Vickers y Knoop"
+    ],
+    "correctIndex": 0,
+    "explanation": "Respuesta correcta: Vickers y Knoop"
+  }
+];

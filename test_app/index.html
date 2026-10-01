@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Repaso Test & Flashcards - Resistencia de Materiales y Diseño Mecánico</title>
+  
+  <!-- Fuentes Google -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Fira+Code&display=swap" rel="stylesheet">
+  
+  <!-- KaTeX para renderizar fórmulas matemáticas en LaTeX -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+
+  <!-- Estilos principales -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Header & Navegación -->
+  <header>
+    <div class="header-container">
+      <a href="#" class="logo-area" onclick="returnToSetup(); return false;">
+        <div class="logo-icon">⚡</div>
+        <div>
+          <span>ResisTest</span>
+          <span style="font-size: 0.75rem; display: block; font-weight: 500; color: var(--text-secondary); line-height: 1;">RMDM • Grado Ing.</span>
+        </div>
+      </a>
+
+      <!-- Pestañas de modo -->
+      <nav class="nav-tabs">
+        <button id="modeQuizBtn" class="nav-tab active">
+          <span>📝</span> Cuestionario
+        </button>
+        <button id="modeFlashcardsBtn" class="nav-tab">
+          <span>🎴</span> Flashcards
+        </button>
+        <button id="modeExamBtn" class="nav-tab">
+          <span>⏱️</span> Examen
+        </button>
+      </nav>
+
+      <!-- Acciones de cabecera -->
+      <div class="header-actions">
+        <button id="openImportBtn" class="btn-icon" title="Importar o añadir temas">
+          📥
+        </button>
+        <button id="themeToggleBtn" class="btn-icon" title="Cambiar tema">
+          🌙
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- VISTA 1: Configuración & Selector de Tema -->
+    <section id="setupView" class="glass-card fade-enter">
+      <div class="setup-header">
+        <h1>Repaso Interactivo para el Examen</h1>
+        <p style="color: var(--text-secondary);">Selecciona el tema y modo de estudio para afianzar conceptos clave de test</p>
+      </div>
+
+      <!-- Resumen de estadísticas previas -->
+      <div class="stats-badge-row">
+        <div class="stat-pill">
+          <span>📚 Total preguntas disponibles:</span>
+          <strong id="totalQuestionsStat">0</strong>
+        </div>
+        <div class="stat-pill">
+          <span>⚠️ Preguntas para repasar:</span>
+          <strong id="failedQuestionsStat" style="color: var(--danger);">0</strong>
+        </div>
+      </div>
+
+      <div class="setup-grid">
+        <!-- Selector de tema -->
+        <div class="config-box">
+          <label for="themeSelect">📖 Seleccionar Tema:</label>
+          <select id="themeSelect">
+            <option value="all">🌟 Todos los Temas</option>
+          </select>
+        </div>
+
+        <!-- Opciones de estudio -->
+        <div class="config-box">
+          <label>⚙️ Opciones de práctica:</label>
+          <div class="toggle-group">
+            <label class="toggle-item">
+              <input type="checkbox" id="shuffleQuestions" checked>
+              <span>Aleatorizar orden de preguntas</span>
+            </label>
+            <label class="toggle-item">
+              <input type="checkbox" id="shuffleOptions" checked>
+              <span>Aleatorizar orden de respuestas (A, B, C)</span>
+            </label>
+            <label class="toggle-item">
+              <input type="checkbox" id="onlyFailed">
+              <span>Modo Repaso (solo preguntas falladas)</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <button id="startBtn" class="btn-primary-large">
+        <span>🚀</span> Comenzar Cuestionario
+      </button>
+    </section>
+
+    <!-- VISTA 2: Cuestionario / Test Interactivo -->
+    <section id="quizView" class="glass-card" style="display: none;">
+      <!-- Barra superior de estado -->
+      <div class="quiz-top-bar">
+        <button id="quitQuizBtn" class="btn-secondary" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;">
+          ✕ Salir
+        </button>
+        <div class="progress-container">
+          <div class="progress-info">
+            <span>Pregunta <span id="currentQuestionNum">1</span> de <span id="totalQuestionsNum">10</span></span>
+            <div class="score-counter">
+              <span id="scoreCorrect" class="badge-success">✓ 0</span>
+              <span id="scoreIncorrect" class="badge-danger">✗ 0</span>
+            </div>
+          </div>
+          <div class="progress-bar-bg">
+            <div id="progressBarFill" class="progress-bar-fill" style="width: 0%;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contenido de la pregunta -->
+      <div class="question-container">
+        <span id="questionThemeTag" class="question-theme-tag">Tema 1</span>
+        <div id="questionText" class="question-text">Cargando enunciado...</div>
+      </div>
+
+      <!-- Lista de opciones -->
+      <div id="optionsList" class="options-list">
+        <!-- Se rellenan dinámicamente -->
+      </div>
+
+      <!-- Feedback tras responder -->
+      <div id="feedbackBox" class="feedback-box" style="display: none;">
+        <div id="feedbackTitle" class="feedback-title">¡Correcto!</div>
+        <div id="feedbackDesc" class="feedback-desc"></div>
+      </div>
+
+      <!-- Acciones de navegación -->
+      <div class="quiz-actions">
+        <button id="prevBtn" class="btn-secondary" style="visibility: hidden;">
+          ❮ Anterior
+        </button>
+        <button id="nextBtn" class="btn-primary">
+          Siguiente ❯
+        </button>
+      </div>
+    </section>
+
+    <!-- VISTA 3: Flashcards 3D -->
+    <section id="flashcardView" style="display: none;">
+      <div class="quiz-top-bar" style="margin-bottom: 1rem;">
+        <button id="quitCardsBtn" class="btn-secondary" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;">
+          ✕ Salir
+        </button>
+        <div class="progress-container">
+          <div class="progress-info">
+            <span>Tarjeta <span id="cardCounter">1/10</span></span>
+          </div>
+          <div class="progress-bar-bg">
+            <div id="cardProgressFill" class="progress-bar-fill" style="width: 0%;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tarjeta 3D interactiva -->
+      <div class="flashcard-container">
+        <div id="flashcard" class="flashcard">
+          <!-- Cara frontal (Pregunta) -->
+          <div class="flashcard-face flashcard-front">
+            <div>
+              <span id="cardThemeTag" class="question-theme-tag">Tema 1</span>
+              <div id="cardQuestionText" class="question-text" style="margin-top: 1rem; font-size: 1.3rem;"></div>
+            </div>
+            <div class="flashcard-hint">
+              👆 Haz clic o pulsa [Espacio] para ver la respuesta
+            </div>
+          </div>
+
+          <!-- Cara trasera (Respuesta correcta) -->
+          <div class="flashcard-face flashcard-back">
+            <div>
+              <div class="flashcard-answer-heading">✓ Respuesta Correcta</div>
+              <div id="cardAnswerText" class="flashcard-answer-text"></div>
+            </div>
+            <div class="flashcard-hint" style="color: #cbd5e1;">
+              👆 Vuelve a hacer clic para voltear
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Botones de autoevaluación de la flashcard -->
+      <div class="flashcard-controls">
+        <button id="cardPrevBtn" class="btn-secondary" style="visibility: hidden;">
+          ❮ Anterior
+        </button>
+        <button id="cardFailBtn" class="btn-pill-action btn-pill-danger">
+          <span>❌</span> Necesito repasar
+        </button>
+        <button id="cardPassBtn" class="btn-pill-action btn-pill-success">
+          <span>✅</span> Me la sé bien
+        </button>
+        <button id="cardNextBtn" class="btn-secondary">
+          Saltar ❯
+        </button>
+      </div>
+    </section>
+
+    <!-- VISTA 4: Resultados y Resumen -->
+    <section id="resultsView" class="glass-card results-card" style="display: none;">
+      <h2 style="font-size: 1.8rem; font-weight: 800; margin-bottom: 0.5rem;">¡Sesión Completada! 🎉</h2>
+      <p style="color: var(--text-secondary);">Aquí tienes el resumen de tu rendimiento en este repaso:</p>
+
+      <div id="finalScoreCircle" class="score-circle">
+        <div class="score-circle-inner">
+          <div id="finalScore" class="score-big">8.5</div>
+          <div class="score-label">Nota / 10</div>
+        </div>
+      </div>
+
+      <div class="results-stats-grid">
+        <div class="stat-card">
+          <div id="statTotalAnswered" class="stat-card-val">26/26</div>
+          <div class="stat-card-label">Preguntas respondidas</div>
+        </div>
+        <div class="stat-card">
+          <div id="statCorrectCount" class="stat-card-val" style="color: var(--success);">22</div>
+          <div class="stat-card-label">Aciertos</div>
+        </div>
+        <div class="stat-card">
+          <div id="statIncorrectCount" class="stat-card-val" style="color: var(--danger);">4</div>
+          <div class="stat-card-label">Fallos / Dudas</div>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+        <button id="reviewFailedBtn" class="btn-primary" style="background: linear-gradient(135deg, #f59e0b, #ea580c);">
+          <span>🔄</span> Repasar preguntas falladas
+        </button>
+        <button id="restartBtn" class="btn-primary">
+          <span>🔁</span> Repetir test
+        </button>
+        <button id="backToSetupBtn" class="btn-secondary">
+          🏠 Cambiar de tema
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <!-- Modal para Importar / Añadir Nuevos Temas -->
+  <div id="importModal" class="modal-backdrop">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>📥 Añadir o Actualizar Temas</h2>
+        <button id="closeImportBtn" class="close-btn">&times;</button>
+      </div>
+
+      <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">
+        Puedes arrastrar cualquier archivo <code>.tex</code> de apuntes o un <code>preguntas.json</code> para incorporar nuevos temas al instante.
+      </p>
+
+      <!-- Zona Drag & Drop -->
+      <div id="dropZone" class="dropzone">
+        <div style="font-size: 2rem; margin-bottom: 0.5rem;">📄</div>
+        <div style="font-weight: 600;">Haz clic o arrastra un archivo .tex / .json aquí</div>
+        <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.25rem;">(ej: Tema2.tex, Tema3.tex...)</div>
+        <input type="file" id="fileInput" accept=".tex,.json" style="display: none;">
+      </div>
+
+      <div style="margin: 1.5rem 0 0.5rem 0; font-weight: 600; font-size: 0.95rem;">
+        O pega el texto LaTeX del test directamente:
+      </div>
+      <textarea id="texTextInput" rows="5" placeholder="\begin{enumerate}&#10;  \item Pregunta...&#10;    \begin{enumerate}&#10;      \item \textcolor{red!85!black}{Opción correcta}&#10;    \end{enumerate}&#10;\end{enumerate}" style="width: 100%; padding: 0.75rem; background: var(--bg-primary); color: var(--text-primary); border: 1px solid var(--border-color); border-radius: 8px; font-family: var(--font-code); font-size: 0.85rem; outline: none; resize: vertical;"></textarea>
+
+      <div style="display: flex; justify-content: flex-end; margin-top: 1rem; gap: 0.75rem;">
+        <button id="parseTexBtn" class="btn-primary" style="padding: 0.6rem 1.2rem;">
+          Procesar e Importar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="preguntas_data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
