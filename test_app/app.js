@@ -345,9 +345,15 @@ function renderCurrentQuestion() {
     elements.feedbackTitle.innerHTML = isCorrect ? '🎉 ¡Correcto!' : '❌ Incorrecto';
     
     const correctOpt = q.processedOptions.find(o => o.isCorrect);
-    elements.feedbackDesc.innerHTML = isCorrect 
-      ? '¡Muy bien! Has acertado esta pregunta.' 
-      : `<strong>Solución:</strong> ${correctOpt ? renderMath(correctOpt.text) : ''}`;
+    let descHtml = isCorrect 
+      ? '<div>¡Muy bien! Has acertado esta pregunta.</div>' 
+      : `<div><strong>Solución:</strong> ${correctOpt ? renderMath(correctOpt.text) : ''}</div>`;
+    
+    if (q.explanation && q.explanation.trim()) {
+      descHtml += `<div class="feedback-explanation">💡 <strong>Explicación:</strong> ${renderMath(q.explanation)}</div>`;
+    }
+
+    elements.feedbackDesc.innerHTML = descHtml;
   } else {
     elements.feedbackBox.style.display = 'none';
   }
@@ -404,7 +410,11 @@ function renderCurrentFlashcard() {
   
   // Buscar opción correcta
   const correctOpt = q.options[q.correctIndex] || (q.processedOptions ? q.processedOptions.find(o => o.isCorrect)?.text : 'Sin respuesta');
-  elements.cardAnswerText.innerHTML = renderMath(correctOpt);
+  let cardHtml = `<div class="flashcard-answer-main">${renderMath(correctOpt)}</div>`;
+  if (q.explanation && q.explanation.trim()) {
+    cardHtml += `<div class="flashcard-answer-explanation">💡 <strong>Detalle:</strong> ${renderMath(q.explanation)}</div>`;
+  }
+  elements.cardAnswerText.innerHTML = cardHtml;
 
   elements.cardCounter.textContent = `${state.currentIndex + 1} / ${state.filteredQuestions.length}`;
   const pct = ((state.currentIndex + 1) / state.filteredQuestions.length) * 100;
@@ -480,29 +490,79 @@ function returnToSetup() {
 
 // Parser de LaTeX al vuelo desde el navegador
 function parseLatexContent(text, filename = 'Importado.tex') {
-  // Limpieza
-  const cleanLatex = (str) => {
-    return str
-      .replace(/\\textcolor\{[^}]+\}\{(.*?)\}/gs, '$1')
-      .replace(/\\textbf\{(.*?)\}/gs, '$1')
-      .replace(/\\textit\{(.*?)\}/gs, '$1')
-      .replace(/\\text\{(.*?)\}/gs, '$1')
-      .replace(/\\%/g, '%')
-      .replace(/\s+/g, ' ')
-      .trim();
+  const unwrapMacro = (str, cmd, hasPrefixArg = false) => {
+    let result = '';
+    let i = 0;
+    const n = str.length;
+    while (i < n) {
+      if (str.substring(i).startsWith(cmd) && (i + cmd.length === n || !/[a-zA-Z]/.test(str[i + cmd.length]))) {
+        let pos = i + cmd.length;
+        while (pos < n && /\s/.test(str[pos])) pos++;
+        if (pos < n && str[pos] === '[') {
+          let bCount = 1;
+          pos++;
+          while (pos < n && bCount > 0) {
+            if (str[pos] === '[') bCount++;
+            else if (str[pos] === ']') bCount--;
+            pos++;
+          }
+        }
+        if (hasPrefixArg) {
+          while (pos < n && /\s/.test(str[pos])) pos++;
+          if (pos < n && str[pos] === '{') {
+            let bCount = 1;
+            pos++;
+            while (pos < n && bCount > 0) {
+              if (str[pos] === '{') bCount++;
+              else if (str[pos] === '}') bCount--;
+              pos++;
+            }
+          }
+        }
+        while (pos < n && /\s/.test(str[pos])) pos++;
+        if (pos < n && str[pos] === '{') {
+          let bCount = 1;
+          pos++;
+          const start = pos;
+          while (pos < n && bCount > 0) {
+            if (str[pos] === '{') bCount++;
+            else if (str[pos] === '}') bCount--;
+            pos++;
+          }
+          result += str.substring(start, pos - 1);
+          i = pos;
+          continue;
+        }
+      }
+      result += str[i];
+      i++;
+    }
+    return result;
   };
 
-  const sectionMatch = text.match(/\\section\*?\{([^}]*Test[^}]*)\}/i);
-  const themeTitle = sectionMatch ? sectionMatch[1] : filename.replace(/\.tex$/i, '');
+  const cleanLatex = (str) => {
+    if (!str) return '';
+    let s = unwrapMacro(str, '\\textcolor', true);
+    for (const cmd of ['\\textbf', '\\textit', '\\emph', '\\text']) {
+      s = unwrapMacro(s, cmd);
+    }
+    return s.replace(/\\%/g, '%').replace(/\s+/g, ' ').trim();
+  };
 
+  const sectionMatch = text.match(/\\section\*?\{([^}]*(?:Test|Cuestionario|Autoevaluaci[oó]n|Preguntas|Examen)[^}]*)\}/i);
+  const themeTitle = sectionMatch ? sectionMatch[1].trim() : filename.replace(/\.tex$/i, '');
   const testContent = sectionMatch ? text.substring(sectionMatch.index) : text;
   
-  // Encontrar enumerate
-  const enumMatch = testContent.match(/\\begin\{enumerate\}(?:\[.*?\])?(.*?)\\end\{enumerate\}/s);
-  if (!enumMatch) return [];
+  const firstEnumIdx = testContent.indexOf('\\begin{enumerate}');
+  if (firstEnumIdx === -1) return [];
 
-  const inner = enumMatch[1];
-  const questionRegex = /\\item\s+(.*?)\\begin\{enumerate\}(?:\[.*?\])?(.*?)\\end\{enumerate\}/gs;
+  const nextSecMatch = testContent.substring(firstEnumIdx).match(/\n\\section\*?\{/);
+  const testBlock = nextSecMatch ? testContent.substring(firstEnumIdx, firstEnumIdx + nextSecMatch.index) : testContent.substring(firstEnumIdx);
+  const lastEnumIdx = testBlock.lastIndexOf('\\end{enumerate}');
+  if (lastEnumIdx === -1) return [];
+
+  let inner = testBlock.substring(0, lastEnumIdx).replace(/^\\begin\{enumerate\}(?:\[.*?\])?/, '').trim();
+  const questionRegex = /\\item\s+(.*?)\\begin\{enumerate\}(?:\[.*?\])?(.*?)\\end\{enumerate\}(?:\s*\\nt\{((?:[^{}]|\{[^{}]*\})*)\})?/gs;
   
   let match;
   const questions = [];
@@ -511,6 +571,7 @@ function parseLatexContent(text, filename = 'Importado.tex') {
   while ((match = questionRegex.exec(inner)) !== null) {
     const qText = cleanLatex(match[1]);
     const optionsRaw = match[2];
+    const noteRaw = match[3];
 
     const optItems = optionsRaw.split(/\\item\s+/).filter(o => o.trim());
     const options = [];
@@ -522,15 +583,23 @@ function parseLatexContent(text, filename = 'Importado.tex') {
       if (isCorrect) correctIndex = idx;
     });
 
+    let explanation = '';
+    if (noteRaw && noteRaw.trim()) {
+      explanation = cleanLatex(noteRaw);
+    } else if (correctIndex >= 0 && correctIndex < options.length) {
+      explanation = `Respuesta correcta: ${options[correctIndex]}`;
+    }
+
     if (options.length > 0) {
       questions.push({
-        id: `${themeTitle.replace(/\s+/g, '_')}_q${qIdx}`,
+        id: `${filename.replace(/\.tex$/i, '')}_q${qIdx}`,
         theme: themeTitle,
         file: filename,
         questionNumber: qIdx,
         question: qText,
         options: options,
-        correctIndex: correctIndex
+        correctIndex: correctIndex,
+        explanation: explanation
       });
       qIdx++;
     }
@@ -608,20 +677,85 @@ function shuffleArray(arr) {
   return a;
 }
 
-// Renderizador KaTeX para fórmulas $...$
+// Renderizador KaTeX para fórmulas matemáticas ($...$, $$...$$, \(...\), \[...\])
 function renderMath(text) {
   if (!text) return '';
-  if (window.renderMathInElement && window.katex) {
-    // Si KaTeX está disponible, renderizar inline
-    return text.replace(/\$([^\$]+)\$/g, (match, math) => {
+
+  // 1. Si KaTeX está disponible
+  if (typeof window.katex !== 'undefined' && typeof window.katex.renderToString === 'function') {
+    let res = text;
+
+    // Fórmulas display $$...$$ o \[...\]
+    res = res.replace(/\$\$([\s\S]+?)\$\$/g, (_, math) => {
       try {
-        return katex.renderToString(math, { throwOnError: false, displayMode: false });
+        return katex.renderToString(math.trim(), { throwOnError: false, displayMode: true });
       } catch (e) {
-        return match;
+        return math;
       }
     });
+
+    res = res.replace(/\\\[([\s\S]+?)\\\]/g, (_, math) => {
+      try {
+        return katex.renderToString(math.trim(), { throwOnError: false, displayMode: true });
+      } catch (e) {
+        return math;
+      }
+    });
+
+    // Fórmulas inline $...$ o \(...\)
+    res = res.replace(/\$([^\$\n]+?)\$/g, (_, math) => {
+      try {
+        return katex.renderToString(math.trim(), { throwOnError: false, displayMode: false });
+      } catch (e) {
+        return math;
+      }
+    });
+
+    res = res.replace(/\\\((.+?)\\\)/g, (_, math) => {
+      try {
+        return katex.renderToString(math.trim(), { throwOnError: false, displayMode: false });
+      } catch (e) {
+        return math;
+      }
+    });
+
+    return res;
   }
-  return text;
+
+  // 2. Fallback de renderizado en caso de no disponer de KaTeX
+  return fallbackRenderMath(text);
+}
+
+// Fallback ligero para símbolos y superíndices si falla la carga del CDN
+function fallbackRenderMath(text) {
+  return text.replace(/\$([^\$\n]+?)\$/g, (_, math) => {
+    let m = math
+      .replace(/\\longrightarrow|\\rightarrow/g, ' → ')
+      .replace(/\\leftarrow/g, ' ← ')
+      .replace(/\\pm/g, ' ± ')
+      .replace(/\\times/g, ' × ')
+      .replace(/\\cdot/g, ' · ')
+      .replace(/\\leq/g, ' ≤ ')
+      .replace(/\\geq/g, ' ≥ ')
+      .replace(/\\approx/g, ' ≈ ')
+      .replace(/\\neq/g, ' ≠ ')
+      .replace(/\\sigma/g, 'σ')
+      .replace(/\\tau/g, 'τ')
+      .replace(/\\alpha/g, 'α')
+      .replace(/\\beta/g, 'β')
+      .replace(/\\gamma/g, 'γ')
+      .replace(/\\delta/g, 'δ')
+      .replace(/\\varepsilon|\\epsilon/g, 'ε')
+      .replace(/\\mu/g, 'μ')
+      .replace(/\\nu/g, 'ν')
+      .replace(/\\pi/g, 'π')
+      .replace(/\\text\{([^}]+)\}/g, '$1')
+      .replace(/\^([0-9\+\-]+)/g, '<sup>$1</sup>')
+      .replace(/\^\{([^}]+)\}/g, '<sup>$1</sup>')
+      .replace(/_([0-9a-zA-Z\+\-]+)/g, '<sub>$1</sub>')
+      .replace(/_\{([^}]+)\}/g, '<sub>$1</sub>');
+    return `<span class="math-fallback">${m}</span>`;
+  });
 }
 
 // Atajos de teclado
