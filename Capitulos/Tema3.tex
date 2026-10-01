@@ -325,12 +325,12 @@ Las acciones mecánicas exteriores se dividen en:
     }
     \label{tab:apoyos_2d}
 \end{table}
-
+Tambien aparecen solicitaciones interiores que son los esfuerzos (lo que pasa por dentro). 
 \subsection{Clasificación estática de los sistemas estructurales}
 Sea $R$ el número total de reacciones incógnita y $E$ el número de ecuaciones de equilibrio estático independientes ($E=3$ en 2D, $E=6$ en 3D, más posibles ecuaciones de despiece por rótulas internas):
 \begin{itemize}
     \item \textbf{Sistema Isostático ($R = E$):} Las ecuaciones de la estática son estrictamente suficientes para determinar todas las reacciones de enlace.
-    \item \textbf{Sistema Hipoestático ($R < E$):} El número de coacciones es insuficiente; la estructura posee movilidad interna y se comporta como un \textbf{mecanismo}.
+    \item \textbf{Sistema Hipoestático ($R < E$):} El número de coacciones es insuficiente; la estructura posee movilidad interna y se comporta como un \textbf{mecanismo} (ejemplo en una viga con 2 ligaduras tipo apoyo móvil se traslada la viga horizontalmente al haber 2 incognitas R1 R2 y 3 ecuaciones).
     \item \textbf{Sistema Hiperestático ($R > E$):} El número de reacciones supera al de ecuaciones de equilibrio estático. El sistema posee ligaduras redundantes y se define el \textbf{Grado de Hiperestaticidad ($GH$)}:
           \begin{equation}
               GH = R - E
@@ -338,9 +338,11 @@ Sea $R$ el número total de reacciones incógnita y $E$ el número de ecuaciones
           \end{equation}
           Para resolver un sistema hiperestático es obligatorio plantear $GH$ \textbf{ecuaciones adicionales de compatibilidad de deformaciones}.
 \end{itemize}
-
+\nt{Nosotros trabajaremos con los sistemas Isostaticos, cuando hay una rotula siempre hay una ecuación mas}
 %=============================================================================
 \section{Concepto Riguroso de Tensión}
+\nt{Si un cuerpo esta en equilibrio cualquier parte interna de el tambien lo esta si dieramos un corte al prisma mostrado, la seccion cortada estaria tambien en equilibrio, Condicion de equilibrio elastico, las solicitaciones exteriores estan en equilibrio con todas las interiores (esto es importante por que con ello calcularemos los esfuerzos)} %!revisar figura papel 
+
 
 Consideremos un cuerpo continuo en equilibrio seccionado imaginariamente por una superficie plana $\Omega$. En el entorno de un punto $P$ de la sección, sobre un elemento diferencial de área $\Delta \Omega$ con vector normal unitario $\vec{n}$, actúa una fuerza interna resultante $\Delta \vec{f}$.
 
@@ -349,6 +351,7 @@ Consideremos un cuerpo continuo en equilibrio seccionado imaginariamente por una
     \vec{t} = \vec{\sigma} = \lim_{\Delta \Omega \to 0} \left( \frac{\Delta \vec{f}}{\Delta \Omega} \right) = \frac{d\vec{f}}{d\Omega}
     \label{eq:vector_tension}
 \end{equation}
+% !!!!!!!!!!!!!!!!!!!!!!!!!!!  arreglar el error vissual de lim  !!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 \begin{figure}[H]
     \centering
@@ -379,8 +382,8 @@ Consideremos un cuerpo continuo en equilibrio seccionado imaginariamente por una
 \begin{itemize}
     \item Cada vector tensión está unívocamente asociado a la orientación del plano de corte ($\vec{n}$).
     \item En general, el vector $\vec{t}$ no es perpendicular al plano de la sección.
-    \item \textbf{Componente normal ($\sigma_n$):} Proyección perpendicular a la sección (produce tracción o compresión).
-    \item \textbf{Componente tangencial ($\tau$):} Proyección contenida en el plano de la sección (produce cizalladura o cortadura).
+    \item \textbf{Componente normal ($\sigma_n$):} Proyección perpendicular a la sección (produce tracción o compresión, es decir produce cambios de tamaño deformacion por dilatacion).
+    \item \textbf{Componente tangencial ($\tau$):} Proyección contenida en el plano de la sección (produce cizalladura o cortadura, produce deformacion por distorsion angular).
     \item \textbf{Módulo del vector tensión:} $|\vec{t}| = \sqrt{\sigma_n^2 + \tau^2}$.
     \item \textbf{Unidades de tensión:} $\text{N/m}^2 = \text{Pa}$, empleándose en ingeniería:
           \begin{equation}
@@ -455,7 +458,7 @@ Al realizar un corte transversal a un prisma mecánico por una sección $\Omega$
     \item \textbf{Momento Torsor ($T$ o $M_t$):} Componente de $\vec{M}$ alrededor del eje longitudinal $X$. Tiende a retorcer la barra sobre su directriz.
     \item \textbf{Momentos Flectores ($M_{fy}, M_{fz}$):} Componentes de $\vec{M}$ alrededor de los ejes transversales $Y$ y $Z$. Tienden a curvar la viga.
 \end{itemize}
-
+los momentos siempre son pares de esfuerzos o momentos, pero siempre van de 2 en 2
 \subsection{Problemas planos (2D)}
 En piezas simétricas con cargas contenidas en su plano medio, los esfuerzos activos se reducen a tres:
 \begin{equation}
