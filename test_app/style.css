@@ -849,3 +849,55 @@ select:focus, input[type="number"]:focus {
     grid-template-columns: 1fr;
   }
 }
+
+/* Fórmulas matemáticas (KaTeX) & Explicaciones */
+.katex {
+  font-size: 1.05em;
+  color: inherit;
+}
+
+.katex-display {
+  margin: 0.75rem 0 !important;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.25rem 0;
+}
+
+.option-text .katex {
+  font-size: 1.02em;
+}
+
+.math-fallback {
+  font-family: 'Fira Code', var(--font-code), 'Cambria Math', serif;
+  font-style: italic;
+  letter-spacing: 0.02em;
+}
+
+.feedback-explanation {
+  margin-top: 0.85rem;
+  padding-top: 0.75rem;
+  border-top: 1px dashed rgba(255, 255, 255, 0.15);
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: var(--text-primary);
+}
+
+[data-theme="light"] .feedback-explanation {
+  border-top-color: rgba(0, 0, 0, 0.12);
+}
+
+.flashcard-answer-main {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.flashcard-answer-explanation {
+  margin-top: 1rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--border-color);
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+

@@ -360,5 +360,299 @@
     ],
     "correctIndex": 0,
     "explanation": "Respuesta correcta: Vickers y Knoop"
+  },
+  {
+    "id": "Tema2_q1",
+    "theme": "Cuestionario de Autoevaluación del Tema 2",
+    "file": "Tema2.tex",
+    "questionNumber": 1,
+    "question": "Indicar la respuesta correcta:",
+    "options": [
+      "Ambas son correctas",
+      "El cromado es un sistema de protección frente a la corrosión mediante el uso de recubrimientos que consiste en la aplicación de una única capa de cromo sobre la superficie del metal, protegiéndolo frente a la corrosión.",
+      "El uso de pinturas o barnices como medio de protección frente a la corrosión puede provocar una corrosión rápida del material en el caso de que aparezcan roturas debido a que aumenta la densidad de corrosión en esa rotura."
+    ],
+    "correctIndex": 2,
+    "explanation": "El cromado industrial convencional utiliza tres capas (cobre para adherencia, níquel para resistencia a corrosión y cromo superficial). Una fisura puntual en una pintura genera una relación anódica/catódica muy desfavorable con una densidad de corriente de corrosión extremadamente alta en la rotura."
+  },
+  {
+    "id": "Tema2_q2",
+    "theme": "Cuestionario de Autoevaluación del Tema 2",
+    "file": "Tema2.tex",
+    "questionNumber": 2,
+    "question": "Seleccione la afirmación correcta. Tal y como se observa en el diagrama de Pourbaix:",
+    "options": [
+      "El diagrama de Pourbaix del hierro nos indica que el acero puede ser pasivado para cualquier valor de pH elegido, de ahí que su uso sea tan frecuente en la industria química.",
+      "Todos los metales cuentan con una zona de pasivación, lo que permite a todos los metales ser protegidos por protección anódica.",
+      "Todos los metales tienen un potencial de inmunidad por debajo del cual se considera que el material no sufre corrosión."
+    ],
+    "correctIndex": 2,
+    "explanation": "Respuesta correcta: Todos los metales tienen un potencial de inmunidad por debajo del cual se considera que el material no sufre corrosión."
+  },
+  {
+    "id": "Tema2_q3",
+    "theme": "Cuestionario de Autoevaluación del Tema 2",
+    "file": "Tema2.tex",
+    "questionNumber": 3,
+    "question": "La protección anódica:",
+    "options": [
+      "Es aplicable a todos los metales. Consiste en aplicar un potencial hasta conseguir que el metal se encuentre a un potencial y pH donde la especie estable sea un producto de corrosión que proteja al resto del metal.",
+      "Ninguna de las respuestas es correcta.",
+      "Es aplicable a todos los metales. Consiste en aumentar el potencial por encima del potencial de inmunidad de forma que el material quede protegido frente a la corrosión."
+    ],
+    "correctIndex": 1,
+    "explanation": "La protección anódica no es aplicable a todos los metales, sino únicamente a aquellos que presentan transición activo-pasivo y forman películas pasivantes insolubles y estables en el medio considerado."
+  },
+  {
+    "id": "Tema2_q4",
+    "theme": "Cuestionario de Autoevaluación del Tema 2",
+    "file": "Tema2.tex",
+    "questionNumber": 4,
+    "question": "Seleccione la afirmación correcta:",
+    "options": [
+      "La corrosión intergranular aparece en los límites de grano de los metales, pudiendo eliminar el carácter inoxidable de los aceros por formación de carburos de cromo.",
+      "La corrosión filiforme causa un descenso importante en la resistencia mecánica de los metales que se ven afectados por ella.",
+      "Ambas respuestas son correctas."
+    ],
+    "correctIndex": 0,
+    "explanation": "La corrosión filiforme es un fenómeno superficial bajo recubrimientos que perjudica la estética comercial pero no compromete la resistencia mecánica global."
+  },
+  {
+    "id": "Tema2_q5",
+    "theme": "Cuestionario de Autoevaluación del Tema 2",
+    "file": "Tema2.tex",
+    "questionNumber": 5,
+    "question": "Seleccione la afirmación correcta:",
+    "options": [
+      "Ambas respuestas son correctas.",
+      "La polarización por activación puede eliminarse fácilmente aumentando la velocidad de flujo que incide en la superficie del metal.",
+      "La polarización se define como el desplazamiento de los potenciales de electrodo desde sus valores de equilibrio a un potencial constante de valor intermedio, creándose en ese punto un flujo de corriente neto."
+    ],
+    "correctIndex": 2,
+    "explanation": "Aumentar la velocidad del flujo reduce la polarización por concentración (difusión), pero no la polarización por activación (transferencia de carga)."
+  },
+  {
+    "id": "Tema2_q6",
+    "theme": "Cuestionario de Autoevaluación del Tema 2",
+    "file": "Tema2.tex",
+    "questionNumber": 6,
+    "question": "Seleccione la afirmación correcta:",
+    "options": [
+      "La disolución selectiva es la eliminación preferencial de un elemento en una aleación, como por ejemplo la eliminación de cobre en los bronces.",
+      "Ambas respuestas son erróneas.",
+      "La corrosión por esfuerzo se produce por la existencia de tensiones elevadas de compresión o tracción en materiales sometidos a altas presiones."
+    ],
+    "correctIndex": 1,
+    "explanation": "La disolución selectiva típica es la eliminación de zinc en latones (descincificación). La corrosión bajo tensión es promovida exclusivamente por tensiones de tracción, nunca de compresión."
+  },
+  {
+    "id": "Tema2_q7",
+    "theme": "Cuestionario de Autoevaluación del Tema 2",
+    "file": "Tema2.tex",
+    "questionNumber": 7,
+    "question": "En una pila galvánica con electrolitos ácidos o alcalinos sin iones metálicos presentes:",
+    "options": [
+      "Ninguna respuesta es correcta.",
+      "En medio neutro o básico en presencia de $O_2$, el $O_2$ reacciona con el agua para formar iones $OH^-$.",
+      "En un medio ácido, la reacción de oxidación será la de $H^+$ hasta $H_2$."
+    ],
+    "correctIndex": 1,
+    "explanation": "La reacción catódica en medio neutro/básico aireado es $O_2 + 2H_2O + 4e^- \\longrightarrow 4OH^-$. En medio ácido, la reducción del protón genera hidrógeno ($2H^+ + 2e^- \\longrightarrow H_2$)."
+  },
+  {
+    "id": "Tema2_q8",
+    "theme": "Cuestionario de Autoevaluación del Tema 2",
+    "file": "Tema2.tex",
+    "questionNumber": 8,
+    "question": "Seleccione la afirmación correcta:",
+    "options": [
+      "Cuando un metal se encuentra enterrado es más susceptible de sufrir corrosión debido a la formación de celdas de concentración diferencial.",
+      "En celdas de temperatura diferencial, las zonas con menor temperatura son las más susceptibles de sufrir corrosión.",
+      "Ninguna respuesta es correcta."
+    ],
+    "correctIndex": 0,
+    "explanation": "Respuesta correcta: Cuando un metal se encuentra enterrado es más susceptible de sufrir corrosión debido a la formación de celdas de concentración diferencial."
+  },
+  {
+    "id": "Tema2_q9",
+    "theme": "Cuestionario de Autoevaluación del Tema 2",
+    "file": "Tema2.tex",
+    "questionNumber": 9,
+    "question": "Seleccione la afirmación correcta:",
+    "options": [
+      "Ambas respuestas son correctas.",
+      "Ante la cavitación podemos optar como medio de prevención la optimización del diseño para evitar turbulencias, mayor espesor en zonas más vulnerables o el uso de materiales más resistentes endurecidos superficialmente.",
+      "El hierro con 14.5% de Si es uno de los materiales más resistentes a la corrosión erosiva."
+    ],
+    "correctIndex": 0,
+    "explanation": "Respuesta correcta: Ambas respuestas son correctas."
+  },
+  {
+    "id": "Tema2_q10",
+    "theme": "Cuestionario de Autoevaluación del Tema 2",
+    "file": "Tema2.tex",
+    "questionNumber": 10,
+    "question": "Dentro de los distintos tipos de corrosión existentes:",
+    "options": [
+      "La corrosión por picaduras hace que el metal pierda una pequeña cantidad de metal debido a corrosión, pero reduce su sección de forma relevante, por lo que reduce de forma importante la resistencia mecánica del metal.",
+      "La corrosión uniforme genera una cantidad muy elevada de productos de corrosión, pero realmente no hace perder una resistencia mecánica importante en el metal.",
+      "Ambas son correctas."
+    ],
+    "correctIndex": 2,
+    "explanation": "Respuesta correcta: Ambas son correctas."
+  },
+  {
+    "id": "Tema2_q11",
+    "theme": "Cuestionario de Autoevaluación del Tema 2",
+    "file": "Tema2.tex",
+    "questionNumber": 11,
+    "question": "La corrosión por esfuerzo:",
+    "options": [
+      "Ambas respuestas son correctas.",
+      "Cuando los metales son soldados o bien se enfrían rápidamente, son susceptibles a este tipo de corrosión, ya que pueden aparecer tensiones residuales de tracción.",
+      "Comienza por la superficie, por lo que la deformación plástica de los metales reduce la aparición de este tipo de corrosión."
+    ],
+    "correctIndex": 0,
+    "explanation": "Respuesta correcta: Ambas respuestas son correctas."
+  },
+  {
+    "id": "Tema2_q12",
+    "theme": "Cuestionario de Autoevaluación del Tema 2",
+    "file": "Tema2.tex",
+    "questionNumber": 12,
+    "question": "Seleccione la afirmación correcta:",
+    "options": [
+      "Ninguna respuesta es correcta.",
+      "La corrosión se produce debido a una reacción electroquímica entre cualquier material (metálico, cerámico o plástico) y su entorno.",
+      "Los materiales cerámicos pueden ser atacados por sales fundidas a altas temperaturas."
+    ],
+    "correctIndex": 2,
+    "explanation": "Respuesta correcta: Los materiales cerámicos pueden ser atacados por sales fundidas a altas temperaturas."
+  },
+  {
+    "id": "Tema2_q13",
+    "theme": "Cuestionario de Autoevaluación del Tema 2",
+    "file": "Tema2.tex",
+    "questionNumber": 13,
+    "question": "Seleccione la afirmación correcta:",
+    "options": [
+      "La ecuación de Nernst nos permite determinar la velocidad con que se produce la reacción de corrosión entre un material y su entorno.",
+      "Ninguna respuesta es correcta.",
+      "El diagrama de Pourbaix nos permitirá seleccionar las condiciones en que un material puede ser utilizado (pH y potencial) en un uso industrial, ya que nos indica la velocidad con que se corroe, y por tanto, nos permitirá determinar la vida útil del metal y a partir de ahí el espesor debido a corrosión."
+    ],
+    "correctIndex": 1,
+    "explanation": "Tanto Nernst como Pourbaix son herramientas estrictamente termodinámicas (indican tendencias y equilibrios), pero no proporcionan información sobre velocidades de reacción ni cinética."
+  },
+  {
+    "id": "Tema2_q14",
+    "theme": "Cuestionario de Autoevaluación del Tema 2",
+    "file": "Tema2.tex",
+    "questionNumber": 14,
+    "question": "La protección catódica:",
+    "options": [
+      "Puede aplicarse mediante el uso de baterías que aporte corriente continua o bien mediante el uso de ánodos de sacrificio.",
+      "Ambas respuestas son correctas.",
+      "Es aplicable a todos los metales. Consiste en aumentar el potencial por encima del potencial de inmunidad de forma que el material quede protegido frente a la corrosión."
+    ],
+    "correctIndex": 0,
+    "explanation": "Respuesta correcta: Puede aplicarse mediante el uso de baterías que aporte corriente continua o bien mediante el uso de ánodos de sacrificio."
+  },
+  {
+    "id": "Tema2_q15",
+    "theme": "Cuestionario de Autoevaluación del Tema 2",
+    "file": "Tema2.tex",
+    "questionNumber": 15,
+    "question": "Indicar la respuesta correcta:",
+    "options": [
+      "Ambas respuestas son correctas.",
+      "A menor temperatura los materiales metálicos suelen sufrir menor velocidad de corrosión, salvo cuando están en presencia de disoluciones acuosas y el oxígeno interviene en el proceso de corrosión.",
+      "Los materiales cerámicos suelen presentar una buena resistencia a las temperaturas altas y a la corrosión por erosión."
+    ],
+    "correctIndex": 0,
+    "explanation": "Respuesta correcta: Ambas respuestas son correctas."
+  },
+  {
+    "id": "Tema2_q16",
+    "theme": "Cuestionario de Autoevaluación del Tema 2",
+    "file": "Tema2.tex",
+    "questionNumber": 16,
+    "question": "Selecciona la afirmación correcta:",
+    "options": [
+      "La galvanización es un tratamiento que protege a los metales mediante el recubrimiento de cinc que se corroe y protege al resto del metal.",
+      "La corrosión por picaduras está muy influenciada por la presencia de iones de haluros, apareciendo principalmente en el fondo de tanques.",
+      "Ambas respuestas son correctas."
+    ],
+    "correctIndex": 2,
+    "explanation": "Respuesta correcta: Ambas respuestas son correctas."
+  },
+  {
+    "id": "Tema2_q17",
+    "theme": "Cuestionario de Autoevaluación del Tema 2",
+    "file": "Tema2.tex",
+    "questionNumber": 17,
+    "question": "Indicar la respuesta correcta:",
+    "options": [
+      "La descarburación por hidrógeno consiste en la formación de hidrocarburos en aceros debido a la presencia de hidrógeno, altas temperaturas y altas presiones.",
+      "Cuando el coeficiente de Pilling-Bedworth de un metal es próximo a 1 garantiza totalmente que el óxido protege al material y evita su corrosión.",
+      "Ambas respuestas son correctas."
+    ],
+    "correctIndex": 0,
+    "explanation": "Un índice P.B. próximo a 1 es condición necesaria pero no suficiente; la capa debe poseer además buena adherencia, alto punto de fusión, bajo coeficiente de difusión iónica y compatibilidad térmica."
+  },
+  {
+    "id": "Tema2_q18",
+    "theme": "Cuestionario de Autoevaluación del Tema 2",
+    "file": "Tema2.tex",
+    "questionNumber": 18,
+    "question": "Para evitar la aparición de corrosión es recomendable:",
+    "options": [
+      "Los puntos de calefacción de los recipientes deben ubicarse en las proximidades de las paredes de forma que se formen puntos calientes cerca de las paredes que evitan la aparición de corrosión por esfuerzo.",
+      "El uso de uniones soldadas en lugar de remachadas, ya que se reduce la corrosión por grieta.",
+      "Soportar los equipos sobre una base de cemento/hormigón en lugar de soportes metálicos: la elección de soportes realizados con cemento/hormigón hace que se reduzca la aparición de corrosión."
+    ],
+    "correctIndex": 1,
+    "explanation": "Respuesta correcta: El uso de uniones soldadas en lugar de remachadas, ya que se reduce la corrosión por grieta."
+  },
+  {
+    "id": "Tema2_q19",
+    "theme": "Cuestionario de Autoevaluación del Tema 2",
+    "file": "Tema2.tex",
+    "questionNumber": 19,
+    "question": "Seleccione la afirmación correcta:",
+    "options": [
+      "Metales con un potencial estándar de reducción positivo tienen mayor tendencia a corroerse que los de potencial estándar de reducción negativo.",
+      "Ambas respuestas son erróneas.",
+      "El estaño (potencial estándar de reducción de $-0.136 V$) se corroería frente al electrodo de referencia $H^+/H_2$."
+    ],
+    "correctIndex": 2,
+    "explanation": "Respuesta correcta: El estaño (potencial estándar de reducción de $-0.136 V$) se corroería frente al electrodo de referencia $H^+/H_2$."
+  },
+  {
+    "id": "Tema2_q20",
+    "theme": "Cuestionario de Autoevaluación del Tema 2",
+    "file": "Tema2.tex",
+    "questionNumber": 20,
+    "question": "Indique la respuesta correcta:",
+    "options": [
+      "El diagrama de Pourbaix nos indica las especies estables en función del pH y potencial del sistema, señalando cuándo un material es apto en uso real para un pH y potencial determinado.",
+      "El diagrama de Pourbaix nos indica las especies estables en función del pH y potencial del sistema, pero no nos indica cuándo un material es apto en uso real para un pH y potencial determinado ya que no considera la velocidad de corrosión.",
+      "El diagrama de Pourbaix nos indica el potencial y pH para el cual la polarización de un metal se alcanza, lo que nos permite seleccionar un material para un uso concreto."
+    ],
+    "correctIndex": 1,
+    "explanation": "Respuesta correcta: El diagrama de Pourbaix nos indica las especies estables en función del pH y potencial del sistema, pero no nos indica cuándo un material es apto en uso real para un pH y potencial determinado ya que no considera la velocidad de corrosión."
+  },
+  {
+    "id": "Tema2_q21",
+    "theme": "Cuestionario de Autoevaluación del Tema 2",
+    "file": "Tema2.tex",
+    "questionNumber": 21,
+    "question": "Si los potenciales estándar de reducción de $Al^{3+}/Al$ y $Fe^{3+}/Fe^{2+}$ son, respectivamente, $-1.662 V$ y $+0.771 V$, la reacción espontánea que se produciría si la concentración de iones es constante es:",
+    "options": [
+      "$Al + 3Fe^{2+} \\longrightarrow Al^{3+} + 3Fe^{3+}$",
+      "$Al^{3+} + 3Fe^{2+} \\longrightarrow Al + 3Fe^{3+}$",
+      "$Al + 3Fe^{3+} \\longrightarrow Al^{3+} + 3Fe^{2+}$"
+    ],
+    "correctIndex": 2,
+    "explanation": "El aluminio posee un potencial estándar mucho más negativo ($-1.662 V$), por lo que actúa como ánodo cediendo 3 electrones ($Al \\rightarrow Al^{3+} + 3e^-$), mientras que el $Fe^{3+}$ actúa como cátodo reduciéndose a $Fe^{2+}$ ($Fe^{3+} + e^- \\rightarrow Fe^{2+}$). La suma neta da $Al + 3Fe^{3+} \\longrightarrow Al^{3+} + 3Fe^{2+}$."
   }
 ]
