@@ -534,3 +534,88 @@ Para garantizar que la estructura nunca alcance el fallo bajo servicio, se aplic
     \label{eq:condicion_seguridad_final}
 \end{equation}
 }
+Valores caracteristicos son los reales los de calculo son los minorados o mayorados, se hace tanto la minoracion como la miyoracion para tener seguridad.
+%========================================================
+%Resumen
+\section{Resumen}
+\ex{Viga con forjado}{si en una viga con dos soportes fijos en los extremos se le pone una carga y la deformacion que tiene por los esfuerzos es muy amplia no sirve}
+Solido cuerpo elastico (objeto ovalado con apoyos en ambos extremo izquierda fijo derecha movil , esquina superior izquierda f1 f2 en la derecha f3 tendremos r1 r2 en la izquierda r3 derecha)
+si hacemos un corte como debe estar en equilibrio cualquier parte de ella debe estarlo es decir cumple sumfx = 0 sumfy=0 summ=0 se deben sumar las fuerzas internas f1 f2.... la condicion de equilibrio elastico dice que las solicitaciones exteriores estan con las interiores
+el vector tension se puede descomponer en las componentes intrinsecas del vector tension
+\dfn{Esfuerzo}{con la imagen de antes: dando un corte por un plano perpendicular a la directriz, al estar cualquier parte en equilibio si quita una parte en el centro de gravedad de la otra seccion se debe poner un sistema de fuerza resultantes que tenga el mismo efecto que la parte que hemos eliminado,luego se descompone R que es el vector resultante en Rx Ry Rz , el par de esfuerzo seran las 2 Rx Ry Rz que son contrarias entre si, por convenio la Rx se le llama axil N, a la Ry se le llama Qy (O Q O V O T) cortante, y a la z Qz cortante
+Criterio de esfuerzo si son de traccion positivo si es de compresion negativo, cortante si izquierda arriba y derecha abajo positivo si es al contrario negativo.}
+si descomponemos los momentos, habra 3 uno alrededor del eje y otro del x y otro del z, MR = MRxi MRyj Mrzk que se escriben realmente de la siguiente forma:T de torsor el mrx , momento flector M_fy M_fz
+criterio de signo para el eje Z 2 que van hacia arriba positivo 2 que van hacia abajo negativo.
+\dfn{Esfuerzos}{Realmente la Resultante en el eje x del segundo sistema sera equivalente a la sumatoria de todas las tau_n que eran perpendiculares a la seccion, como es en una superficie se hace una integral y no una sumatoria es decir 
+es decir es la resultante de las tensiones normales en la superficie
+\eq{
+    N = \int \sigma_n \cdot d \omega
+}}
+al multiplicar cada vector tension por la superficie que ocupa da el axil que es una fuerza
+para Qy = int tau d omega
+para el momento flecto mfz = int - sigma_{ny} \cdot d \omega
+
+\section{Problemas}
+\subsection{Problema con una carga puntual}
+%Dibujo una viga con en el extremo izquierda punto A una ligadura fija en el derecho punto B uno movil la viga son 4m y en el centro hay una fuerza puntuaal F= 10 KN
+Procedimiento:
+\begin{enumerate}
+\item Dibujar el diagrama de cuerpo libre, es decir repetir el mismo dibujo pero quitando los apoyos y poniendo las reacciones que ocurren en ello (flechas a priori las ponemos positvas es decir en la izquier VA hacia arriba y Ha hacia derecha, F se queda igual Vb vertical hacia arriba)
+\item Mirar el tipo de estructura que es si hiperestatica o isoestatica practicamente siempre en el examen sera hiperestatica, numero de incognitas 3 Va Vb Ha, numero de ecuaciones 3 (las de estatica, sumFx = 0 Sumfy = 0 SumM = 0) , por tanto es una estructura isoestatica
+\item Calculo de las reacciones: Escribir las ecuaciones (las de estatica, sumFx = 0 Sumfy = 0 SumM = 0) con los criterios de signos siempre los establecido antes y momentos antihorarios son los positivos,
+\begin{equation}
+    \sum F_x = 0 = H_a = 0 % lo mismo para fy que sera Va *Vb-10 = 0 y en el de momento es simplemente 4vb -2 \cdot 10 
+\end{equation}
+%Vb sale 5 de la ultima ecuacion luego Va 5
+\item Secciones o cortes: como no se puede hacer infinitos cortes se hace unos puntos en estrategico para calcular el esfuerzo se sigue la siguiente norma: cada vez que aparezca o desaparezca una carga se debe dar un corte
+
+%poner ejemplo en una viga en el inicio fuerza 5 vertical hacia arriba en mitad de la viga fuerza vertical hacia abajo que vale 10 y al final otra vertical hacia arriba de 5, damos un corte primero tras el primer 5 (dibujar como ondulaciones ahi) despues del 10 se le da otro y como el 5 del final es lo ultimo que hay ya no se puede dar mas cortes es decir solo se dan 2 
+es decir se da un corte entre 0 y 2 y otro que este entre 2 y 4 (en el eje x) el primer corte es para todos los valores de x que pertenezcan al intervado [0,2]
+se dibuja la primera seccion de 5 con las ondulaciones y despues de ella aparece N Q y mfz , se representa con el criterio de signo positivo de primera, el signo la forma mas clara de verla es si nos quedamos con la parte izquierda el ojo lo veria desde el derecho por tanto en el par de esfuerzos nos quedamos con el de la derecha.
+es decir tendriamos N hacia derecha Q hacia abajo y mfz antihorario se pone en funcion de X siempre
+Con esto se tiene que cumplir la condicion de solido elastico, las solicitaciones exteriores deben estar en equilibrio con las interiores
+\item Calcular el equilibrio de las solicitaciones exteriores con las interiores para cada seccion
+sumFx = 0 , Sumfy = 0 = 5-Q , SumM = $-5 \cdot X  + M_f = 0$ % como ahora esto lo tomamos como fuerzas y no esfuerzos se le aplica el criterio de fuerzas y no como esfuerzos, el momento se da siempre en el punto del corte Q y N no produce momento por que pasan por ese punto y solo queda el del 5 , se pone para x= 0 el momento flector es 0 para x=2 el momento es 10 
+
+En el segundo corte  se dibuja flecha vertical hacia arriba 5 distancia 2 fuerza vertical hacia abajo 10  desde 10 hasta el corte habra una distancia , x sera desde el 5 hasta el corte, N hacia derecha Q hacia abajo Mfz en sentido antihorario
+sumFx = 0 = N 
+Sumfy = 0 = 5 -10 -Q --> Q = -5kn
+SumM = 0 = Mf -5x * (10*(x-2)) 
+para representarlo se dan valores en lso extremos por lo tanto momento flector en x=2 y en x=4 
+\item Representarlo en grafico
+Diagrama para axiles otro para el momento otro para esfuerzos, justo debajo del diagrama inicial
+para la primera seccion en el primero de axil siempre vale 0, en el segundo de Q siempre sale 5 y para x tiene forma de recta en x=0 es 0 en x=2 =10 (en momentos se dibuja de forma contraria es decir iria hacia abajo)
+en el segundo tramo Q ira a -5 y en el momento ira de 10 a 0 que esta dibujado abajo.
+\item Dibujar los criterios de signos en los graficos
+\end{enumerate}
+\imp{La derivada del momento es el cortante es decir la derivda de Mf = Q}
+\nt{Tomar momentos en otro sitio por ejemplo en B y repasar la solucion si sale lo mismo en A esta bien sino esta mal, como consejo de la profesora repasar eso consejo tuerca en el punto donde tomemos las consideraciones por ejemplo en b luego hay una llave inglesa que se le aplica la fuerza en F se ve que es momento antihorario }
+
+La seccion donde tiene el esfuerzo mas grande , es justo en el medio ya que tiene el momento mas grande.
+
+\subsection{Viga en voladizo, empotrada en A carga uniformemente repartida q= 10kN/m y un momento justo en la mitad de la viga de 30knm , la longitud de la viga son 4m}
+%Begin enumerate 1 
+Primero diagrama de cuerpo libre , es decir quitar el apoyo y poner las reacciones que aparecen
+en A HA hacia derecha Va hacia arriba y mA en sentido antihorario , luego el resto igual, N ecuaciones = R numero de incognitas 3 
+% 2
+Calculo de reacciones 
+Sum fx= 0 = HA
+Sum fy = 0 = V_a -40 % esa carga de 10 equivale a una de 40 en el centro  luego en las tensiones no se puede aplicar por el principio de saunt venant
+Sum M = Ma -30 -(40*2) % el momento era horario por tanto -30 , el -40*2 viene de haber tomado como carga puntual la que estaba uniformemente distribuida en el centro
+%3 Secciones
+La seccion 1 que es valido desde 0 hasta 2 por que en 2 esta la carga de 30 , y luego habra una seccion 2 para una x de entre 2 y 4
+
+\nt{Cuando dice si aparece o desaparece es por que en cargas distribuidas se supone que desaparece}
+primer corte reacciones 40 vertical hacia arriba 110 momento en sentido antihorario, y luego se dibuja trozo de la viga hasta el corte distancia x posterioremente N mf sentido antihorario Q hacia abajo
+sumFx = 0 = N
+Sumfy = 0 = 40 - Q - (10x) ---> Q - 10x+ 40
+SumM = 0 = 110 -40x + mf + 10x*(5x^2)  --> mf = -5x^2 + 40x -110%siempre en la seccion de corte, la distancia es x/2  y la fuerza distribuida era 10*x
+
+en la segunda seccion para una x entre 2 y 4 
+nos quedamos esta vez con la parte de la derecha de forma que solo tenemos corte parte derecha que tenia la carga distribuida, esfuerzos en positivo N hacia izquierda Q hacia arriba Mf horario
+4-x sera la distancia para aplicar la carga 
+sumFx = 0 = -N
+Sumfy = 0 = Q- 10(4-x) --->
+SumM = 0 = -mf - 10(4-x) ((4-x)/2)
+
+%Repasar y representar con los diagramas dando valores en los extremos 
