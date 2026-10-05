@@ -135,3 +135,16 @@
 }
 \renewcommand{\qs}[2]{\begin{question}{#1}{}\hypertarget{qs:#1}{}#2\end{question}}
 \newcommand{\prb}[2]{\begin{prueba}{#1}{}\hypertarget{prb:#1}{}#2\end{prueba}}
+
+% Badges de pasos y tramos estilo cálculo estructural
+\newcommand{\paso}[2]{%
+    \vspace{0.3cm}%
+    \noindent\tcbox[colback=myg!85!black, colframe=myg!85!black, coltext=white, on line, boxrule=0pt, arc=3.5pt, boxsep=2.5pt, left=8pt, right=8pt, top=3.5pt, bottom=3.5pt, fontupper=\bfseries\sffamily\small]{Paso #1\quad #2}%
+    \vspace{0.15cm}\par%
+}
+
+\newcommand{\tramobadge}[2]{%
+    \vspace{0.2cm}%
+    \noindent\tcbox[colback=myb!15, colframe=myb!80!black, coltext=myb!90!black, on line, boxrule=0.8pt, arc=3pt, boxsep=2pt, left=6pt, right=6pt, top=2pt, bottom=2pt, fontupper=\bfseries\small]{#1}\quad {\small\bfseries (#2)}%
+    \vspace{0.1cm}\par%
+}

@@ -1,3 +1,4 @@
+% !TeX root = ../apuntes.tex
 \chapter{Introducción a la Resistencia de Materiales}
 
 \section{Objeto y Fundamentos de la Resistencia de Materiales}
@@ -7,17 +8,17 @@ Los cuerpos y elementos estructurales están compuestos a nivel microscópico po
 \begin{figure}[H]
     \centering
     \adjustbox{max width=0.95\textwidth}{%
-    \begin{tikzpicture}[node distance=2.2cm, auto, >=Latex]
-        \node [draw, rectangle, rounded corners, fill=blue!10, text width=4.5cm, align=center, thick] (fuerza) {\textbf{Acción de Fuerzas Exteriores}\\(Cargas de servicio y peso propio)};
-        \node [draw, rectangle, rounded corners, fill=yellow!15, text width=4.8cm, align=center, thick, right=2.5cm of fuerza] (transmision) {\textbf{Transmisión Interatómica}\\(Las fuerzas se transmiten átomo a átomo hasta la cimentación)};
-        \node [draw, rectangle, rounded corners, fill=red!10, text width=4.5cm, align=center, thick, below=1.8cm of transmision] (deformacion) {\textbf{Deformación del Sólido}\\(Los átomos varían su distancia relativa: tracción/compresión)};
-        \node [draw, rectangle, rounded corners, fill=green!10, text width=4.5cm, align=center, thick, below=1.8cm of fuerza] (equilibrio) {\textbf{Posición de Equilibrio Final}\\(Cesan los movimientos relativos)};
-        
-        \draw [->, line width=1.2pt] (fuerza) -- (transmision);
-        \draw [->, line width=1.2pt] (transmision) -- (deformacion);
-        \draw [->, line width=1.2pt] (deformacion) -- (equilibrio);
-        \draw [->, line width=1.2pt, dashed] (equilibrio) -- node[midway, left=4pt, align=center] {\textit{Estado de estudio}} (fuerza);
-    \end{tikzpicture}%
+        \begin{tikzpicture}[node distance=2.2cm, auto, >=Latex]
+            \node [draw, rectangle, rounded corners, fill=blue!10, text width=4.5cm, align=center, thick] (fuerza) {\textbf{Acción de Fuerzas Exteriores}\\(Cargas de servicio y peso propio)};
+            \node [draw, rectangle, rounded corners, fill=yellow!15, text width=4.8cm, align=center, thick, right=2.5cm of fuerza] (transmision) {\textbf{Transmisión Interatómica}\\(Las fuerzas se transmiten átomo a átomo hasta la cimentación)};
+            \node [draw, rectangle, rounded corners, fill=red!10, text width=4.5cm, align=center, thick, below=1.8cm of transmision] (deformacion) {\textbf{Deformación del Sólido}\\(Los átomos varían su distancia relativa: tracción/compresión)};
+            \node [draw, rectangle, rounded corners, fill=green!10, text width=4.5cm, align=center, thick, below=1.8cm of fuerza] (equilibrio) {\textbf{Posición de Equilibrio Final}\\(Cesan los movimientos relativos)};
+
+            \draw [->, line width=1.2pt] (fuerza) -- (transmision);
+            \draw [->, line width=1.2pt] (transmision) -- (deformacion);
+            \draw [->, line width=1.2pt] (deformacion) -- (equilibrio);
+            \draw [->, line width=1.2pt, dashed] (equilibrio) -- node[midway, left=4pt, align=center] {\textit{Estado de estudio}} (fuerza);
+        \end{tikzpicture}%
     }
     \caption{Mecanismo físico de respuesta tensional y deformacional de un sólido sometido a cargas.}
     \label{fig:respuesta_solido}
@@ -40,14 +41,14 @@ Dentro de la Física y la Ingeniería Mecánica se distinguen tres niveles de ap
 \begin{figure}[H]
     \centering
     \adjustbox{max width=0.95\textwidth}{%
-    \begin{tikzpicture}[>=Latex]
-        \node [draw, rectangle, rounded corners, fill=blue!10, text width=5.2cm, align=center, thick] (elast) {\textbf{Principios Generales de la Elasticidad}};
-        \node [draw, rectangle, rounded corners, fill=yellow!15, text width=5.2cm, align=center, thick, below=1.2cm of elast] (hip) {\textbf{Hipótesis Simplificativas}\\(Contrastadas por la experiencia)};
-        \node [draw, rectangle, rounded corners, fill=green!15, text width=5.5cm, align=center, thick, right=2.8cm of elast, yshift=-1.1cm] (rm) {\textbf{Resistencia de Materiales}\\\small Estudio de piezas prismáticas:\\Resistencia, Rigidez y Estabilidad};
-        
-        \draw [->, line width=1.5pt] (elast) -| (rm);
-        \draw [->, line width=1.5pt] (hip) -| (rm);
-    \end{tikzpicture}%
+        \begin{tikzpicture}[>=Latex]
+            \node [draw, rectangle, rounded corners, fill=blue!10, text width=5.2cm, align=center, thick] (elast) {\textbf{Principios Generales de la Elasticidad}};
+            \node [draw, rectangle, rounded corners, fill=yellow!15, text width=5.2cm, align=center, thick, below=1.2cm of elast] (hip) {\textbf{Hipótesis Simplificativas}\\(Contrastadas por la experiencia)};
+            \node [draw, rectangle, rounded corners, fill=green!15, text width=5.5cm, align=center, thick, right=2.8cm of elast, yshift=-1.1cm] (rm) {\textbf{Resistencia de Materiales}\\\small Estudio de piezas prismáticas:\\Resistencia, Rigidez y Estabilidad};
+
+            \draw [->, line width=1.5pt] (elast) -| (rm);
+            \draw [->, line width=1.5pt] (hip) -| (rm);
+        \end{tikzpicture}%
     }
     \caption{Fundamento conceptual de la Resistencia de Materiales.}
     \label{fig:fundamento_rm}
@@ -59,32 +60,32 @@ En el ejercicio profesional del ingeniero químico y mecánico se abordan dos ti
     \centering
     \caption{Clasificación de los problemas básicos en Resistencia de Materiales.}
     \adjustbox{max width=\textwidth}{%
-    \begin{tabular}{lll}
-        \toprule
-        \textbf{Tipo de Problema} & \textbf{Datos de Partida} & \textbf{Objetivo a Determinar} \\
-        \midrule
-        \textbf{De Dimensionamiento} & 
-        \begin{tabular}{l}
-            $\bullet$ Solicitaciones / Cargas de servicio \\
-            $\bullet$ Propiedades del material ($\sigma_{\text{adm}}, E, \nu$)
-        \end{tabular} & 
-        \begin{tabular}{l}
-            Calcular las dimensiones de la sección transversal\\
-            para que el elemento sea \textbf{seguro y económico}.
-        \end{tabular} \\
-        \midrule
-        \textbf{De Comprobación} & 
-        \begin{tabular}{l}
-            $\bullet$ Geometría y dimensiones existentes \\
-            $\bullet$ Propiedades del material \\
-            $\bullet$ Solicitaciones aplicadas
-        \end{tabular} & 
-        \begin{tabular}{l}
-            Verificar que las tensiones y deformaciones reales\\
-            no superan los límites admisibles (\textbf{servicio seguro}).
-        \end{tabular} \\
-        \bottomrule
-    \end{tabular}%
+        \begin{tabular}{lll}
+            \toprule
+            \textbf{Tipo de Problema}                                             & \textbf{Datos de Partida} & \textbf{Objetivo a Determinar} \\
+            \midrule
+            \textbf{De Dimensionamiento}                                          &
+            \begin{tabular}{l}
+                $\bullet$ Solicitaciones / Cargas de servicio \\
+                $\bullet$ Propiedades del material ($\sigma_{\text{adm}}, E, \nu$)
+            \end{tabular} &
+            \begin{tabular}{l}
+                Calcular las dimensiones de la sección transversal \\
+                para que el elemento sea \textbf{seguro y económico}.
+            \end{tabular}                                                                               \\
+            \midrule
+            \textbf{De Comprobación}                                              &
+            \begin{tabular}{l}
+                $\bullet$ Geometría y dimensiones existentes \\
+                $\bullet$ Propiedades del material           \\
+                $\bullet$ Solicitaciones aplicadas
+            \end{tabular}                       &
+            \begin{tabular}{l}
+                Verificar que las tensiones y deformaciones reales \\
+                no superan los límites admisibles (\textbf{servicio seguro}).
+            \end{tabular}                                                                       \\
+            \bottomrule
+        \end{tabular}%
     }
     \label{tab:tipos_problemas}
 \end{table}
@@ -95,34 +96,34 @@ Las magnitudes que intervienen en el análisis elasto-resistente se estructuran 
 \begin{figure}[H]
     \centering
     \adjustbox{max width=0.98\textwidth}{%
-    \begin{tikzpicture}[>=Latex]
-        % Nodos superiores
-        \node [draw, rectangle, rounded corners, fill=red!10, text width=4.3cm, align=center, thick] (fuerzas) at (0,4.6) {\textbf{Fuerzas / Momentos}\\\small(Acciones exteriores)};
-        \node [draw, rectangle, rounded corners, fill=blue!10, text width=4.3cm, align=center, thick] (desplaz) at (8.2,4.6) {\textbf{Desplazamientos}\\\small($u, v, w, \theta_x, \theta_y, \theta_z$)};
-        
-        % Nodos inferiores
-        \node [draw, rectangle, rounded corners, fill=orange!15, text width=4.3cm, align=center, thick] (tensiones) at (0,0) {\textbf{Esfuerzos / Tensiones}\\\small($N, Q, M_f, T \;\longleftrightarrow\; \sigma, \tau$)};
-        \node [draw, rectangle, rounded corners, fill=cyan!15, text width=4.3cm, align=center, thick] (deform) at (8.2,0) {\textbf{Deformaciones}\\\small($\varepsilon, \gamma$)};
+        \begin{tikzpicture}[>=Latex]
+            % Nodos superiores
+            \node [draw, rectangle, rounded corners, fill=red!10, text width=4.3cm, align=center, thick] (fuerzas) at (0,4.6) {\textbf{Fuerzas / Momentos}\\\small(Acciones exteriores)};
+            \node [draw, rectangle, rounded corners, fill=blue!10, text width=4.3cm, align=center, thick] (desplaz) at (8.2,4.6) {\textbf{Desplazamientos}\\\small($u, v, w, \theta_x, \theta_y, \theta_z$)};
 
-        % Flechas verticales con texto espaciado
-        \draw [<->, line width=1.4pt, red!70!black] (fuerzas) -- node[midway, left=8pt, text width=3.3cm, align=right] {\small\textbf{Ec. de Equilibrio}\\(Estático y Elástico)} (tensiones);
-        \draw [<->, line width=1.4pt, blue!70!black] (desplaz) -- node[midway, right=8pt, text width=3.3cm, align=left] {\small\textbf{Ec. de Compatibilidad}\\Geométrica} (deform);
+            % Nodos inferiores
+            \node [draw, rectangle, rounded corners, fill=orange!15, text width=4.3cm, align=center, thick] (tensiones) at (0,0) {\textbf{Esfuerzos / Tensiones}\\\small($N, Q, M_f, T \;\longleftrightarrow\; \sigma, \tau$)};
+            \node [draw, rectangle, rounded corners, fill=cyan!15, text width=4.3cm, align=center, thick] (deform) at (8.2,0) {\textbf{Deformaciones}\\\small($\varepsilon, \gamma$)};
 
-        % Flecha horizontal con texto con suficiente altura
-        \draw [<->, line width=1.4pt, green!60!black] (tensiones) -- node[midway, above=8pt, align=center] {\textbf{Leyes de Comportamiento}\\\footnotesize(Ley de Hooke: $\sigma = E\cdot\varepsilon,\; \tau = G\cdot\gamma$)} (deform);
-    \end{tikzpicture}%
+            % Flechas verticales con texto espaciado
+            \draw [<->, line width=1.4pt, red!70!black] (fuerzas) -- node[midway, left=8pt, text width=3.3cm, align=right] {\small\textbf{Ec. de Equilibrio}\\(Estático y Elástico)} (tensiones);
+            \draw [<->, line width=1.4pt, blue!70!black] (desplaz) -- node[midway, right=8pt, text width=3.3cm, align=left] {\small\textbf{Ec. de Compatibilidad}\\Geométrica} (deform);
+
+            % Flecha horizontal con texto con suficiente altura
+            \draw [<->, line width=1.4pt, green!60!black] (tensiones) -- node[midway, above=8pt, align=center] {\textbf{Leyes de Comportamiento}\\\footnotesize(Ley de Hooke: $\sigma = E\cdot\varepsilon,\; \tau = G\cdot\gamma$)} (deform);
+        \end{tikzpicture}%
     }
     \caption{Diagrama de Tonti: interrelación entre magnitudes estáticas, tensionales, cinemáticas y constitutivas.}
     \label{fig:diagrama_tonti}
 \end{figure}
 
 \imp{
-\textbf{Objetivos de diseño en el cálculo de estructuras:}
-\begin{itemize}
-    \item \textbf{Estructuras Seguras (Resistencia):} A partir de las solicitaciones exteriores $\longrightarrow$ Esfuerzos $\longrightarrow$ Tensiones $\longrightarrow$ \textbf{Comparar con Tensiones Admisibles} ($\sigma_{\text{max}} \leq \sigma_{\text{adm}}$).
-    \item \textbf{Estructuras Útiles (Funcionalidad/Rigidez):} A partir de las solicitaciones exteriores $\longrightarrow$ Esfuerzos $\longrightarrow$ Deformaciones $\longrightarrow$ Desplazamientos $\longrightarrow$ \textbf{Comparar con Desplazamientos Límites} ($\delta_{\text{max}} \leq \delta_{\text{adm}}$).
-    \item \textbf{Estructuras Económicas:} Minimizar el consumo de material y costes de conformado cumpliendo los dos criterios de seguridad y utilidad.
-\end{itemize}
+    \textbf{Objetivos de diseño en el cálculo de estructuras:}
+    \begin{itemize}
+        \item \textbf{Estructuras Seguras (Resistencia):} A partir de las solicitaciones exteriores $\longrightarrow$ Esfuerzos $\longrightarrow$ Tensiones $\longrightarrow$ \textbf{Comparar con Tensiones Admisibles} ($\sigma_{\text{max}} \leq \sigma_{\text{adm}}$).
+        \item \textbf{Estructuras Útiles (Funcionalidad/Rigidez):} A partir de las solicitaciones exteriores $\longrightarrow$ Esfuerzos $\longrightarrow$ Deformaciones $\longrightarrow$ Desplazamientos $\longrightarrow$ \textbf{Comparar con Desplazamientos Límites} ($\delta_{\text{max}} \leq \delta_{\text{adm}}$).
+        \item \textbf{Estructuras Económicas:} Minimizar el consumo de material y costes de conformado cumpliendo los dos criterios de seguridad y utilidad.
+    \end{itemize}
 }
 
 %=============================================================================
@@ -132,8 +133,8 @@ Las magnitudes que intervienen en el análisis elasto-resistente se estructuran 
 \begin{enumerate}
     \item \textbf{Sólido Rígido:} Modelo ideal indeformable. Su condición de equilibrio exige que no experimente desplazamientos ni giros:
           \begin{align}
-              \text{Traslaciones impedidas:} & \quad R_x = 0, \quad R_y = 0, \quad R_z = 0 \implies \sum \vec{F} = \vec{0} \\
-              \text{Rotaciones impedidas:} & \quad M_{ox} = 0, \quad M_{oy} = 0, \quad M_{oz} = 0 \implies \sum \vec{M}_o = \vec{0}
+              \text{Traslaciones impedidas:} & \quad R_x = 0, \quad R_y = 0, \quad R_z = 0 \implies \sum \vec{F} = \vec{0}            \\
+              \text{Rotaciones impedidas:}   & \quad M_{ox} = 0, \quad M_{oy} = 0, \quad M_{oz} = 0 \implies \sum \vec{M}_o = \vec{0}
           \end{align}
     \item \textbf{Sólido Elástico Deformable:} Sólido que se deforma bajo la acción de cargas y recupera íntegramente su geometría original al descargarse. Se modeliza bajo tres hipótesis:
           \begin{itemize}
@@ -151,33 +152,33 @@ Las magnitudes que intervienen en el análisis elasto-resistente se estructuran 
 \begin{figure}[H]
     \centering
     \adjustbox{max width=0.95\textwidth}{%
-    \begin{tikzpicture}[scale=1.1, >=Latex]
-        % Directriz
-        \draw[thick, blue!80!black, dashed] (-3.8,-0.6) to[out=25,in=205] (0,0) to[out=25,in=190] (4.8,0.7);
-        \node[blue!80!black, above=2pt] at (3.0,0.6) {$C$ (Directriz)};
-        \filldraw[black] (-3.8,-0.6) circle (1.5pt) node[left=2pt] {$G_1$};
-        \filldraw[black] (4.8,0.7) circle (1.5pt) node[right=2pt] {$G_2$};
+        \begin{tikzpicture}[scale=1.1, >=Latex]
+            % Directriz
+            \draw[thick, blue!80!black, dashed] (-3.8,-0.6) to[out=25,in=205] (0,0) to[out=25,in=190] (4.8,0.7);
+            \node[blue!80!black, above=2pt] at (3.0,0.6) {$C$ (Directriz)};
+            \filldraw[black] (-3.8,-0.6) circle (1.5pt) node[left=2pt] {$G_1$};
+            \filldraw[black] (4.8,0.7) circle (1.5pt) node[right=2pt] {$G_2$};
 
-        % Contorno exterior del prisma
-        \draw[thick] (-3.8,0.8) to[out=25,in=170] (0,1.4) to[out=-10,in=190] (4.8,1.8);
-        \draw[thick] (-3.8,-2.0) to[out=25,in=195] (0,-1.4) to[out=15,in=190] (4.8,-0.4);
-        \draw[thick] (-3.8,0.8) arc (90:270:0.4cm and 1.4cm);
-        \draw[thick, dashed] (-3.8,-2.0) arc (-90:90:0.4cm and 1.4cm);
-        \draw[thick] (4.8,0.7) ellipse (0.5cm and 1.1cm);
+            % Contorno exterior del prisma
+            \draw[thick] (-3.8,0.8) to[out=25,in=170] (0,1.4) to[out=-10,in=190] (4.8,1.8);
+            \draw[thick] (-3.8,-2.0) to[out=25,in=195] (0,-1.4) to[out=15,in=190] (4.8,-0.4);
+            \draw[thick] (-3.8,0.8) arc (90:270:0.4cm and 1.4cm);
+            \draw[thick, dashed] (-3.8,-2.0) arc (-90:90:0.4cm and 1.4cm);
+            \draw[thick] (4.8,0.7) ellipse (0.5cm and 1.1cm);
 
-        % Sección transversal Omega
-        \draw[thick, fill=gray!25, fill opacity=0.75] (0,0) ellipse (0.7cm and 1.4cm);
-        \node at (0.25,0.9) {$\Sigma$};
-        \node[below right=2pt] at (0.4,-1.1) {$\Omega$};
+            % Sección transversal Omega
+            \draw[thick, fill=gray!25, fill opacity=0.75] (0,0) ellipse (0.7cm and 1.4cm);
+            \node at (0.25,0.9) {$\Sigma$};
+            \node[below right=2pt] at (0.4,-1.1) {$\Omega$};
 
-        % Centro de gravedad G
-        \filldraw[black] (0,0) circle (2pt) node[below left=2pt] {$G$};
+            % Centro de gravedad G
+            \filldraw[black] (0,0) circle (2pt) node[below left=2pt] {$G$};
 
-        % Triedro intrínseco local (ejes x, y, z)
-        \draw[->, line width=1.5pt, red!80!black] (0,0) -- (2.3,0.38) node[right=2pt] {$x$};
-        \draw[->, line width=1.5pt, green!60!black] (0,0) -- (0,2.3) node[above=2pt] {$y$};
-        \draw[->, line width=1.5pt, cyan!80!black] (0,0) -- (-1.1,-0.9) node[below left=2pt] {$z$};
-    \end{tikzpicture}%
+            % Triedro intrínseco local (ejes x, y, z)
+            \draw[->, line width=1.5pt, red!80!black] (0,0) -- (2.3,0.38) node[right=2pt] {$x$};
+            \draw[->, line width=1.5pt, green!60!black] (0,0) -- (0,2.3) node[above=2pt] {$y$};
+            \draw[->, line width=1.5pt, cyan!80!black] (0,0) -- (-1.1,-0.9) node[below left=2pt] {$z$};
+        \end{tikzpicture}%
     }
     \caption{Geometría de un prisma mecánico y triedro intrínseco local $(G, x, y, z)$.}
     \label{fig:prisma_mecanico_triedro}
@@ -210,36 +211,36 @@ Se fundamenta en la combinación de la \textbf{Ley de Hooke (comportamiento elá
 \begin{figure}[H]
     \centering
     \adjustbox{max width=0.92\textwidth}{%
-    \begin{tikzpicture}[scale=0.9, >=Latex]
-        % Caso 1: Carga puntual concentrada P
-        \draw[thick, fill=blue!5] (0,0) rectangle (2.5,4);
-        \draw[<-, line width=1.5pt, red!80!black] (1.25,4) -- (1.25,5.2) node[above=2pt] {$P$ (Puntual)};
-        
-        % Flechas de tension en la base
-        \foreach \x in {0.2,0.6,1.0,1.4,1.8,2.2} {
-            \draw[->, line width=1pt, blue!70!black] (\x,0) -- (\x,-0.7);
-        }
-        % Texto debajo de las flechas (sin superposicion)
-        \node[below=4pt] at (1.25,-0.75) {$\displaystyle \sigma = \frac{P}{\Omega}$};
-        
-        % Equivalencia con separacion adecuada
-        \draw[<->, line width=1.8pt, green!60!black] (3.4,2) -- (6.0,2);
-        \node[above=4pt, text width=2.8cm, align=center] at (4.7,2) {\small\textbf{Sistemas}\\\small\textbf{Equivalentes}};
+        \begin{tikzpicture}[scale=0.9, >=Latex]
+            % Caso 1: Carga puntual concentrada P
+            \draw[thick, fill=blue!5] (0,0) rectangle (2.5,4);
+            \draw[<-, line width=1.5pt, red!80!black] (1.25,4) -- (1.25,5.2) node[above=2pt] {$P$ (Puntual)};
 
-        % Caso 2: Carga distribuida uniforme
-        \draw[thick, fill=blue!5] (6.8,0) rectangle (9.3,4);
-        \foreach \x in {7.0,7.4,7.8,8.2,8.6,9.0} {
-            \draw[<-, line width=1pt, red!80!black] (\x,4) -- (\x,4.8);
-        }
-        \draw[line width=1pt, red!80!black] (7.0,4.8) -- (9.0,4.8) node[midway, above=2pt] {$P$ (Distribuida)};
-        
-        % Flechas de tension en la base
-        \foreach \x in {7.0,7.4,7.8,8.2,8.6,9.0} {
-            \draw[->, line width=1pt, blue!70!black] (\x,0) -- (\x,-0.7);
-        }
-        % Texto debajo de las flechas (sin superposicion)
-        \node[below=4pt] at (8.05,-0.75) {$\displaystyle \sigma = \frac{P}{\Omega}$};
-    \end{tikzpicture}%
+            % Flechas de tension en la base
+            \foreach \x in {0.2,0.6,1.0,1.4,1.8,2.2} {
+                    \draw[->, line width=1pt, blue!70!black] (\x,0) -- (\x,-0.7);
+                }
+            % Texto debajo de las flechas (sin superposicion)
+            \node[below=4pt] at (1.25,-0.75) {$\displaystyle \sigma = \frac{P}{\Omega}$};
+
+            % Equivalencia con separacion adecuada
+            \draw[<->, line width=1.8pt, green!60!black] (3.4,2) -- (6.0,2);
+            \node[above=4pt, text width=2.8cm, align=center] at (4.7,2) {\small\textbf{Sistemas}\\\small\textbf{Equivalentes}};
+
+            % Caso 2: Carga distribuida uniforme
+            \draw[thick, fill=blue!5] (6.8,0) rectangle (9.3,4);
+            \foreach \x in {7.0,7.4,7.8,8.2,8.6,9.0} {
+                    \draw[<-, line width=1pt, red!80!black] (\x,4) -- (\x,4.8);
+                }
+            \draw[line width=1pt, red!80!black] (7.0,4.8) -- (9.0,4.8) node[midway, above=2pt] {$P$ (Distribuida)};
+
+            % Flechas de tension en la base
+            \foreach \x in {7.0,7.4,7.8,8.2,8.6,9.0} {
+                    \draw[->, line width=1pt, blue!70!black] (\x,0) -- (\x,-0.7);
+                }
+            % Texto debajo de las flechas (sin superposicion)
+            \node[below=4pt] at (8.05,-0.75) {$\displaystyle \sigma = \frac{P}{\Omega}$};
+        \end{tikzpicture}%
     }
     \caption{Principio de Saint-Venant: distribución uniforme de tensiones $\sigma = P/\Omega$ a una distancia representativa de la sección de carga.}
     \label{fig:saint_venant}
@@ -283,49 +284,49 @@ Las acciones mecánicas exteriores se dividen en:
     \centering
     \caption{Tipos de enlaces en estructuras planas (2D) y reacciones originadas.}
     \adjustbox{max width=\textwidth}{%
-    \begin{tabular}{lcp{6cm}c}
-        \toprule
-        \textbf{Tipo de Apoyo} & \textbf{Símbolo 2D} & \textbf{Movimientos Permitidos / Coaccionados} & \textbf{Reacciones} \\
-        \midrule
-        \textbf{Apoyo Móvil / Carrito} & \begin{tikzpicture}[scale=0.5]
-            \draw[thick] (0,0.4) -- (1,0.4) -- (0.5,1) -- cycle;
-            \draw[thick] (0.2,0.2) circle (0.15);
-            \draw[thick] (0.8,0.2) circle (0.15);
-            \draw[line width=1pt] (-0.3,0) -- (1.3,0);
-        \end{tikzpicture} & 
-        \begin{tabular}{l}
-            $\bullet$ Permite traslación horizontal ($u$) \\
-            $\bullet$ Permite giro ($\theta_z$) \\
-            $\bullet$ Impide traslación vertical ($v$)
-        \end{tabular} & \textbf{1 Fuerza} ($R_y$) \\
-        \midrule
-        \textbf{Articulación Fija} & \begin{tikzpicture}[scale=0.5]
-            \draw[thick] (0,0) -- (1,0) -- (0.5,1) -- cycle;
-            \draw[line width=1pt] (-0.3,0) -- (1.3,0);
-            \foreach \x in {-0.2,0.1,0.4,0.7,1.0} \draw (\x,0) -- (\x-0.2,-0.3);
-        \end{tikzpicture} & 
-        \begin{tabular}{l}
-            $\bullet$ Permite giro en el plano ($\theta_z$) \\
-            $\bullet$ Impide traslación horizontal ($u$) \\
-            $\bullet$ Impide traslación vertical ($v$)
-        \end{tabular} & \textbf{2 Fuerzas} ($R_x, R_y$) \\
-        \midrule
-        \textbf{Empotramiento} & \begin{tikzpicture}[scale=0.5]
-            \draw[line width=1.5pt] (0,-0.5) -- (0,1.5);
-            \foreach \y in {-0.4,0.1,0.6,1.1} \draw (0,\y) -- (-0.3,\y-0.2);
-            \draw[thick] (0,0.5) -- (1.2,0.5);
-        \end{tikzpicture} & 
-        \begin{tabular}{l}
-            $\bullet$ Impide traslación horizontal ($u$) \\
-            $\bullet$ Impide traslación vertical ($v$) \\
-            $\bullet$ Impide giro en el plano ($\theta_z$)
-        \end{tabular} & \textbf{3 Reacciones} ($R_x, R_y, M_z$) \\
-        \bottomrule
-    \end{tabular}%
+        \begin{tabular}{lcp{6cm}c}
+            \toprule
+            \textbf{Tipo de Apoyo}                             & \textbf{Símbolo 2D}                                                  & \textbf{Movimientos Permitidos / Coaccionados} & \textbf{Reacciones} \\
+            \midrule
+            \textbf{Apoyo Móvil / Carrito}                     & \begin{tikzpicture}[scale=0.5]
+                                                                     \draw[thick] (0,0.4) -- (1,0.4) -- (0.5,1) -- cycle;
+                                                                     \draw[thick] (0.2,0.2) circle (0.15);
+                                                                     \draw[thick] (0.8,0.2) circle (0.15);
+                                                                     \draw[line width=1pt] (-0.3,0) -- (1.3,0);
+                                                                 \end{tikzpicture}                 &
+            \begin{tabular}{l}
+                $\bullet$ Permite traslación horizontal ($u$) \\
+                $\bullet$ Permite giro ($\theta_z$)           \\
+                $\bullet$ Impide traslación vertical ($v$)
+            \end{tabular}   & \textbf{1 Fuerza} ($R_y$)                                                                                                                                                    \\
+            \midrule
+            \textbf{Articulación Fija}                         & \begin{tikzpicture}[scale=0.5]
+                                                                     \draw[thick] (0,0) -- (1,0) -- (0.5,1) -- cycle;
+                                                                     \draw[line width=1pt] (-0.3,0) -- (1.3,0);
+                                                                     \foreach \x in {-0.2,0.1,0.4,0.7,1.0} \draw (\x,0) -- (\x-0.2,-0.3);
+                                                                 \end{tikzpicture} &
+            \begin{tabular}{l}
+                $\bullet$ Permite giro en el plano ($\theta_z$) \\
+                $\bullet$ Impide traslación horizontal ($u$)    \\
+                $\bullet$ Impide traslación vertical ($v$)
+            \end{tabular} & \textbf{2 Fuerzas} ($R_x, R_y$)                                                                                                                                                  \\
+            \midrule
+            \textbf{Empotramiento}                             & \begin{tikzpicture}[scale=0.5]
+                                                                     \draw[line width=1.5pt] (0,-0.5) -- (0,1.5);
+                                                                     \foreach \y in {-0.4,0.1,0.6,1.1} \draw (0,\y) -- (-0.3,\y-0.2);
+                                                                     \draw[thick] (0,0.5) -- (1.2,0.5);
+                                                                 \end{tikzpicture}     &
+            \begin{tabular}{l}
+                $\bullet$ Impide traslación horizontal ($u$) \\
+                $\bullet$ Impide traslación vertical ($v$)   \\
+                $\bullet$ Impide giro en el plano ($\theta_z$)
+            \end{tabular}    & \textbf{3 Reacciones} ($R_x, R_y, M_z$)                                                                                                                                       \\
+            \bottomrule
+        \end{tabular}%
     }
     \label{tab:apoyos_2d}
 \end{table}
-Tambien aparecen solicitaciones interiores que son los esfuerzos (lo que pasa por dentro). 
+Tambien aparecen solicitaciones interiores que son los esfuerzos (lo que pasa por dentro).
 \subsection{Clasificación estática de los sistemas estructurales}
 Sea $R$ el número total de reacciones incógnita y $E$ el número de ecuaciones de equilibrio estático independientes ($E=3$ en 2D, $E=6$ en 3D, más posibles ecuaciones de despiece por rótulas internas):
 \begin{itemize}
@@ -356,23 +357,23 @@ Consideremos un cuerpo continuo en equilibrio seccionado imaginariamente por una
 \begin{figure}[H]
     \centering
     \adjustbox{max width=0.92\textwidth}{%
-    \begin{tikzpicture}[scale=1.1, >=Latex]
-        % Superficie de corte
-        \draw[thick, fill=cyan!15] (0,0) ellipse (1.5cm and 2.2cm);
-        \node[above=4pt] at (0,2.2) {Sección transversal $\Omega$};
-        
-        % Elemento de area dOmega
-        \draw[thick, fill=yellow!40] (0.3,0.3) rectangle (0.8,0.8);
-        \node[below left=1pt] at (0.3,0.3) {$d\Omega$};
-        
-        % Vector tension total
-        \draw[->, line width=1.5pt, red!80!black] (0.55,0.55) -- (2.4,1.8) node[above right=2pt] {$\vec{t} = \vec{\sigma}$ (Vector Tensión)};
-        
-        % Descomposicion intrinseca
-        \draw[->, line width=1.3pt, blue!80!black] (0.55,0.55) -- (0.55,2.1) node[left=2pt] {$\vec{\sigma}_n$ (Tensión normal)};
-        \draw[->, line width=1.3pt, green!60!black] (0.55,0.55) -- (2.2,0.55) node[below right=2pt] {$\vec{\tau}$ (Tensión tangencial)};
-        \draw[dashed, gray] (2.2,0.55) -- (2.4,1.8) -- (0.55,2.1);
-    \end{tikzpicture}%
+        \begin{tikzpicture}[scale=1.1, >=Latex]
+            % Superficie de corte
+            \draw[thick, fill=cyan!15] (0,0) ellipse (1.5cm and 2.2cm);
+            \node[above=4pt] at (0,2.2) {Sección transversal $\Omega$};
+
+            % Elemento de area dOmega
+            \draw[thick, fill=yellow!40] (0.3,0.3) rectangle (0.8,0.8);
+            \node[below left=1pt] at (0.3,0.3) {$d\Omega$};
+
+            % Vector tension total
+            \draw[->, line width=1.5pt, red!80!black] (0.55,0.55) -- (2.4,1.8) node[above right=2pt] {$\vec{t} = \vec{\sigma}$ (Vector Tensión)};
+
+            % Descomposicion intrinseca
+            \draw[->, line width=1.3pt, blue!80!black] (0.55,0.55) -- (0.55,2.1) node[left=2pt] {$\vec{\sigma}_n$ (Tensión normal)};
+            \draw[->, line width=1.3pt, green!60!black] (0.55,0.55) -- (2.2,0.55) node[below right=2pt] {$\vec{\tau}$ (Tensión tangencial)};
+            \draw[dashed, gray] (2.2,0.55) -- (2.4,1.8) -- (0.55,2.1);
+        \end{tikzpicture}%
     }
     \caption{Vector tensión en un punto y sus componentes intrínsecas normal ($\sigma_n$) y tangencial ($\tau$).}
     \label{fig:componentes_tension}
@@ -414,7 +415,7 @@ La deformación propiamente dicha se descompone en:
 \subsection{Ley de Hooke Uniaxial y Coeficiente de Poisson}
 Para un ensayo de tracción uniaxial en la dirección $X$ ($\sigma_x \neq 0, \sigma_y = \sigma_z = 0$):
 \begin{align}
-    \text{Deformación longitudinal:} & \quad \varepsilon_x = \frac{\sigma_x}{E} \\
+    \text{Deformación longitudinal:}    & \quad \varepsilon_x = \frac{\sigma_x}{E}                                                                                                            \\
     \text{Deformaciones transversales:} & \quad \varepsilon_y = -\nu \cdot \varepsilon_x = -\nu \frac{\sigma_x}{E}, \qquad \varepsilon_z = -\nu \cdot \varepsilon_x = -\nu \frac{\sigma_x}{E}
 \end{align}
 donde $E$ es el \textbf{módulo de elasticidad longitudinal (Módulo de Young)} y $\nu$ es el \textbf{coeficiente de Poisson} ($\nu \approx 0.28 - 0.33$ en aceros).
@@ -432,12 +433,12 @@ donde $G$ es el \textbf{módulo de elasticidad transversal o de cortadura}, rela
 \subsection{Ley de Hooke Generalizada (Estado Tensional Tridimensional)}
 Aplicando el principio de superposición de efectos a un elemento paralelepípedo sometido a un tensor de tensiones general:
 \begin{equation}
-\begin{cases}
-    \varepsilon_x = \dfrac{\sigma_x}{E} - \dfrac{\nu}{E}(\sigma_y + \sigma_z), & \gamma_{xy} = \dfrac{\tau_{xy}}{G} \\[10pt]
-    \varepsilon_y = \dfrac{\sigma_y}{E} - \dfrac{\nu}{E}(\sigma_z + \sigma_x), & \gamma_{yz} = \dfrac{\tau_{yz}}{G} \\[10pt]
-    \varepsilon_z = \dfrac{\sigma_z}{E} - \dfrac{\nu}{E}(\sigma_x + \sigma_y), & \gamma_{zx} = \dfrac{\tau_{zx}}{G}
-\end{cases}
-\label{eq:hooke_generalizada}
+    \begin{cases}
+        \varepsilon_x = \dfrac{\sigma_x}{E} - \dfrac{\nu}{E}(\sigma_y + \sigma_z), & \gamma_{xy} = \dfrac{\tau_{xy}}{G} \\[10pt]
+        \varepsilon_y = \dfrac{\sigma_y}{E} - \dfrac{\nu}{E}(\sigma_z + \sigma_x), & \gamma_{yz} = \dfrac{\tau_{yz}}{G} \\[10pt]
+        \varepsilon_z = \dfrac{\sigma_z}{E} - \dfrac{\nu}{E}(\sigma_x + \sigma_y), & \gamma_{zx} = \dfrac{\tau_{zx}}{G}
+    \end{cases}
+    \label{eq:hooke_generalizada}
 \end{equation}
 
 %=============================================================================
@@ -448,8 +449,8 @@ Al realizar un corte transversal a un prisma mecánico por una sección $\Omega$
 
 \dfn{Esfuerzos Seccionales}{Componentes escalares de los vectores $\vec{R}$ y $\vec{M}$ proyectadas sobre los ejes del triedro intrínseco $(G, X, Y, Z)$:}
 \begin{align}
-    \vec{R} &= N\vec{i} + Q_y\vec{j} + Q_z\vec{k} \\
-    \vec{M} &= T\vec{i} + M_{fy}\vec{j} + M_{fz}\vec{k}
+    \vec{R} & = N\vec{i} + Q_y\vec{j} + Q_z\vec{k}       \\
+    \vec{M} & = T\vec{i} + M_{fy}\vec{j} + M_{fz}\vec{k}
 \end{align}
 
 \begin{itemize}
@@ -468,25 +469,25 @@ En piezas simétricas con cargas contenidas en su plano medio, los esfuerzos act
 \begin{figure}[H]
     \centering
     \adjustbox{max width=0.95\textwidth}{%
-    \begin{tikzpicture}[scale=1.0, >=Latex]
-        % AXIL POSITIVO
-        \draw[thick] (0,0) rectangle (1.5,1);
-        \draw[<-, line width=1.3pt, red!80!black] (-0.7,0.5) -- (0,0.5);
-        \draw[->, line width=1.3pt, red!80!black] (1.5,0.5) -- (2.2,0.5);
-        \node[below] at (0.75,-0.2) {\textbf{Axil (+)}: Tracción};
+        \begin{tikzpicture}[scale=1.0, >=Latex]
+            % AXIL POSITIVO
+            \draw[thick] (0,0) rectangle (1.5,1);
+            \draw[<-, line width=1.3pt, red!80!black] (-0.7,0.5) -- (0,0.5);
+            \draw[->, line width=1.3pt, red!80!black] (1.5,0.5) -- (2.2,0.5);
+            \node[below] at (0.75,-0.2) {\textbf{Axil (+)}: Tracción};
 
-        % CORTANTE POSITIVO
-        \draw[thick] (4,0) rectangle (5.5,1);
-        \draw[->, line width=1.3pt, blue!80!black] (3.6,0.2) -- (3.6,1.0);
-        \draw[->, line width=1.3pt, blue!80!black] (5.9,0.8) -- (5.9,0.0);
-        \node[below] at (4.75,-0.2) {\textbf{Cortante (+)}};
+            % CORTANTE POSITIVO
+            \draw[thick] (4,0) rectangle (5.5,1);
+            \draw[->, line width=1.3pt, blue!80!black] (3.6,0.2) -- (3.6,1.0);
+            \draw[->, line width=1.3pt, blue!80!black] (5.9,0.8) -- (5.9,0.0);
+            \node[below] at (4.75,-0.2) {\textbf{Cortante (+)}};
 
-        % MOMENTO FLECTOR POSITIVO
-        \draw[thick] (8,0) rectangle (9.5,1);
-        \draw[->, line width=1.3pt, green!60!black] (7.5,0.2) arc (-90:90:0.4);
-        \draw[->, line width=1.3pt, green!60!black] (10.0,0.8) arc (90:270:0.4);
-        \node[below] at (8.75,-0.2) {\textbf{Flector (+)}: Tracciona fibra inferior};
-    \end{tikzpicture}%
+            % MOMENTO FLECTOR POSITIVO
+            \draw[thick] (8,0) rectangle (9.5,1);
+            \draw[->, line width=1.3pt, green!60!black] (7.5,0.2) arc (-90:90:0.4);
+            \draw[->, line width=1.3pt, green!60!black] (10.0,0.8) arc (90:270:0.4);
+            \node[below] at (8.75,-0.2) {\textbf{Flector (+)}: Tracciona fibra inferior};
+        \end{tikzpicture}%
     }
     \caption{Criterio de signos estándar para esfuerzos en vigas planas 2D.}
     \label{fig:criterio_signos_esfuerzos}
@@ -498,11 +499,11 @@ En piezas simétricas con cargas contenidas en su plano medio, los esfuerzos act
 Las tensiones ($\sigma, \tau$) distribuidas en cada punto diferencial $dS$ de la sección transversal $S$ son estáticamente equivalentes a los esfuerzos resultantes ($N, Q, M, T$):
 
 \begin{align}
-    \text{Esfuerzo Axil:} & \quad N = \int_S \sigma_x \, dS \label{eq:int_axil} \\[6pt]
-    \text{Esfuerzo Cortante en $Y$:} & \quad Q_y = T_y = \int_S \tau_{xy} \, dS \label{eq:int_qy} \\[6pt]
-    \text{Esfuerzo Cortante en $Z$:} & \quad Q_z = T_z = \int_S \tau_{xz} \, dS \label{eq:int_qz} \\[6pt]
-    \text{Momento Torsor:} & \quad M_t = T = \int_S (\tau_{xz}\cdot y - \tau_{xy}\cdot z) \, dS \label{eq:int_torsor} \\[6pt]
-    \text{Momento Flector respecto a $Y$:} & \quad M_{fy} = M_y = \int_S \sigma_x \cdot z \, dS \label{eq:int_my} \\[6pt]
+    \text{Esfuerzo Axil:}                  & \quad N = \int_S \sigma_x \, dS \label{eq:int_axil}                                      \\[6pt]
+    \text{Esfuerzo Cortante en $Y$:}       & \quad Q_y = T_y = \int_S \tau_{xy} \, dS \label{eq:int_qy}                               \\[6pt]
+    \text{Esfuerzo Cortante en $Z$:}       & \quad Q_z = T_z = \int_S \tau_{xz} \, dS \label{eq:int_qz}                               \\[6pt]
+    \text{Momento Torsor:}                 & \quad M_t = T = \int_S (\tau_{xz}\cdot y - \tau_{xy}\cdot z) \, dS \label{eq:int_torsor} \\[6pt]
+    \text{Momento Flector respecto a $Y$:} & \quad M_{fy} = M_y = \int_S \sigma_x \cdot z \, dS \label{eq:int_my}                     \\[6pt]
     \text{Momento Flector respecto a $Z$:} & \quad M_{fz} = M_z = -\int_S \sigma_x \cdot y \, dS \label{eq:int_mz}
 \end{align}
 
@@ -528,94 +529,712 @@ Para garantizar que la estructura nunca alcance el fallo bajo servicio, se aplic
 \end{enumerate}
 
 \imp{
-\textbf{Condición fundamental de seguridad de cálculo:}
-\begin{equation}
-    \sigma_d \leq \sigma_{\text{adm}} \iff \sigma_{\text{max}} \cdot \gamma_f \leq \frac{\sigma_e}{\gamma_s}
-    \label{eq:condicion_seguridad_final}
-\end{equation}
+    \textbf{Condición fundamental de seguridad de cálculo:}
+    \begin{equation}
+        \sigma_d \leq \sigma_{\text{adm}} \iff \sigma_{\text{max}} \cdot \gamma_f \leq \frac{\sigma_e}{\gamma_s}
+        \label{eq:condicion_seguridad_final}
+    \end{equation}
 }
 Valores caracteristicos son los reales los de calculo son los minorados o mayorados, se hace tanto la minoracion como la miyoracion para tener seguridad.
 %========================================================
 %Resumen
 \section{Resumen}
 \ex{Viga con forjado}{si en una viga con dos soportes fijos en los extremos se le pone una carga y la deformacion que tiene por los esfuerzos es muy amplia no sirve}
-Solido cuerpo elastico (objeto ovalado con apoyos en ambos extremo izquierda fijo derecha movil , esquina superior izquierda f1 f2 en la derecha f3 tendremos r1 r2 en la izquierda r3 derecha)
-si hacemos un corte como debe estar en equilibrio cualquier parte de ella debe estarlo es decir cumple sumfx = 0 sumfy=0 summ=0 se deben sumar las fuerzas internas f1 f2.... la condicion de equilibrio elastico dice que las solicitaciones exteriores estan con las interiores
-el vector tension se puede descomponer en las componentes intrinsecas del vector tension
-\dfn{Esfuerzo}{con la imagen de antes: dando un corte por un plano perpendicular a la directriz, al estar cualquier parte en equilibio si quita una parte en el centro de gravedad de la otra seccion se debe poner un sistema de fuerza resultantes que tenga el mismo efecto que la parte que hemos eliminado,luego se descompone R que es el vector resultante en Rx Ry Rz , el par de esfuerzo seran las 2 Rx Ry Rz que son contrarias entre si, por convenio la Rx se le llama axil N, a la Ry se le llama Qy (O Q O V O T) cortante, y a la z Qz cortante
-Criterio de esfuerzo si son de traccion positivo si es de compresion negativo, cortante si izquierda arriba y derecha abajo positivo si es al contrario negativo.}
-si descomponemos los momentos, habra 3 uno alrededor del eje y otro del x y otro del z, MR = MRxi MRyj Mrzk que se escriben realmente de la siguiente forma:T de torsor el mrx , momento flector M_fy M_fz
-criterio de signo para el eje Z 2 que van hacia arriba positivo 2 que van hacia abajo negativo.
-\dfn{Esfuerzos}{Realmente la Resultante en el eje x del segundo sistema sera equivalente a la sumatoria de todas las tau_n que eran perpendiculares a la seccion, como es en una superficie se hace una integral y no una sumatoria es decir 
-es decir es la resultante de las tensiones normales en la superficie
-\eq{
-    N = \int \sigma_n \cdot d \omega
-}}
-al multiplicar cada vector tension por la superficie que ocupa da el axil que es una fuerza
-para Qy = int tau d omega
-para el momento flecto mfz = int - sigma_{ny} \cdot d \omega
+% Sólido elástico completo y corte
+Solido cuerpo elástico: en cualquier estructura en equilibrio, cualquier parte de ella que aislemos también debe estar en equilibrio ($\sum F_x = 0, \sum F_y = 0, \sum M = 0$). Para ello, en la superficie del corte deben aparecer las fuerzas internas ($f_1, f_2, \dots$) que compensan las solicitaciones exteriores.
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \begin{tikzpicture}[scale=0.85, >=Latex]
+            % Contorno del sólido elástico
+            \draw[thick, fill=cyan!10] (0,0.8)
+            to[out=100,in=180] (2.2,2.8)
+            to[out=0,in=110] (5.2,1.8)
+            to[out=-70,in=20] (4.6,0.3)
+            to[out=-160,in=0] (2.5,0.0)
+            to[out=180,in=-80] (0,0.8);
+
+            % Fuerzas exteriores aplicadas
+            % Esquina superior izquierda
+            \draw[->, line width=1.3pt, red!80!black] (0.6, 3.4) -- (1.2, 2.6) node[pos=0.1, above left] {$\vec{F}_1$};
+            \draw[->, line width=1.3pt, red!80!black] (1.8, 3.6) -- (2.0, 2.75) node[pos=0.1, above right] {$\vec{F}_2$};
+            % Derecha
+            \draw[->, line width=1.3pt, red!80!black] (5.7, 2.6) -- (4.8, 1.9) node[pos=0.1, above right] {$\vec{F}_3$};
+
+            % Apoyo Fijo Izquierda (Articulación)
+            \coordinate (A) at (0.8, 0.2);
+            \draw[thick] (A) -- ++(-0.35,-0.6) -- ++(0.7,0) -- cycle;
+            \draw[line width=1pt] ($(A)+(-0.55,-0.6)$) -- ($(A)+(0.55,-0.6)$);
+            \foreach \x in {-0.4,-0.15,0.1,0.35} \draw ($(A)+(\x,-0.6)$) -- ($(A)+(\x-0.15,-0.8)$);
+            % Reacciones izquierda R1 (horizontal) y R2 (vertical) saliendo desde la rótula A
+            \draw[->, line width=1.3pt, blue!80!black] (A) -- ++(0,1.2) node[above left] {$\vec{R}_2$};
+            \draw[->, line width=1.3pt, blue!80!black] (A) -- ++(-1.1,0) node[below left] {$\vec{R}_1$};
+
+            % Apoyo Móvil Derecha (Carrito)
+            \coordinate (B) at (4.0, 0.2);
+            \draw[thick] (B) -- ++(-0.35,-0.4) -- ++(0.7,0) -- cycle;
+            \draw[thick] ($(B)+(-0.2,-0.52)$) circle (0.12);
+            \draw[thick] ($(B)+(0.2,-0.52)$) circle (0.12);
+            \draw[line width=1pt] ($(B)+(-0.55,-0.65)$) -- ($(B)+(0.55,-0.65)$);
+            % Reacción derecha R3 (vertical) saliendo desde la punta del triángulo B
+            \draw[->, line width=1.3pt, blue!80!black] (B) -- ++(0,1.2) node[above right] {$\vec{R}_3$};
+
+            % Linea de corte imaginario
+            \draw[dashed, line width=1.2pt, orange!90!black] (2.6, 3.1) -- (2.6, -0.2) node[below] {Plano de corte};
+        \end{tikzpicture}
+        \caption{Sólido elástico completo en equilibrio.}
+        \label{fig:solido_elastico_completo}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \begin{tikzpicture}[scale=0.85, >=Latex]
+            % Contorno de la porción izquierda seccionada
+            \draw[thick, fill=cyan!10] (0,0.8)
+            to[out=100,in=180] (2.2,2.8)
+            -- (2.6, 2.65)
+            -- (2.6, 0.05)
+            -- (2.5,0.0)
+            to[out=180,in=-80] (0,0.8);
+
+            % Superficie de corte sombreada
+            \draw[thick, fill=orange!25] (2.6, 0.05) rectangle (2.75, 2.65);
+            \draw[dashed, orange!90!black] (2.6, 0.05) -- (2.6, 2.65);
+
+            % Fuerzas exteriores
+            \draw[->, line width=1.3pt, red!80!black] (0.6, 3.4) -- (1.2, 2.6) node[pos=0.1, above left] {$\vec{F}_1$};
+            \draw[->, line width=1.3pt, red!80!black] (1.8, 3.6) -- (2.0, 2.75) node[pos=0.1, above right] {$\vec{F}_2$};
+
+            % Apoyo Fijo Izquierda: Reacciones saliendo desde la rótula A
+            \coordinate (A) at (0.8, 0.2);
+            \draw[thick] (A) -- ++(-0.35,-0.6) -- ++(0.7,0) -- cycle;
+            \draw[line width=1pt] ($(A)+(-0.55,-0.6)$) -- ($(A)+(0.55,-0.6)$);
+            \foreach \x in {-0.4,-0.15,0.1,0.35} \draw ($(A)+(\x,-0.6)$) -- ($(A)+(\x-0.15,-0.8)$);
+            \draw[->, line width=1.3pt, blue!80!black] (A) -- ++(0,1.2) node[above left] {$\vec{R}_2$};
+            \draw[->, line width=1.3pt, blue!80!black] (A) -- ++(-1.1,0) node[below left] {$\vec{R}_1$};
+
+            % Fuerzas internas distribuidas f1, f2, f3 en el corte (separadas de las resultantes)
+            \draw[->, line width=1pt, green!60!black] (2.75, 2.3) -- (3.35, 2.4) node[right] {$\vec{f}_1$};
+            \draw[->, line width=1pt, green!60!black] (2.75, 1.8) -- (3.35, 1.85) node[right] {$\vec{f}_2$};
+            \draw[->, line width=1pt, green!60!black] (2.75, 0.5) -- (3.35, 0.45) node[right] {$\vec{f}_3$};
+
+            % Resultantes internas (Axil N, Cortante Q, Momento Flector Mf) con separación limpia
+            \coordinate (G) at (2.75, 1.15);
+            \draw[->, line width=1.4pt, purple] (G) -- ++(1.4,0) node[right] {$N$};
+            \draw[->, line width=1.4pt, purple] (G) -- ++(0,-1.0) node[below right] {$Q$};
+            \draw[->, line width=1.4pt, purple] ($(G)+(0.55,0.25)$) arc (30:150:0.5) node[above left] {$M_f$};
+        \end{tikzpicture}
+        \caption{Porción aislada con solicitaciones internas.}
+        \label{fig:solido_elastico_corte}
+    \end{subfigure}
+    \caption{Condición de equilibrio de un sólido elástico: equilibrio global y equilibrio tras efectuar una sección o corte.}
+    \label{fig:equilibrio_solido_elastico}
+\end{figure}
+
+si hacemos un corte, como debe estar en equilibrio, cualquier parte de ella debe estarlo; es decir, cumple $\sum F_x = 0, \sum F_y = 0, \sum M = 0$. Se deben sumar las fuerzas internas $f_1, f_2, \dots$. La condición de equilibrio elástico dice que las solicitaciones exteriores están en equilibrio con las interiores.
+
+el vector tensión se puede descomponer en las componentes intrínsecas del vector tensión.
+\dfn{Esfuerzo}{con la imagen de antes: dando un corte por un plano perpendicular a la directriz, al estar cualquier parte en equilibrio si se quita una parte, en el centro de gravedad de la otra sección se debe poner un sistema de fuerzas resultantes que tenga el mismo efecto que la parte que hemos eliminado. Luego se descompone $\vec{R}$ que es el vector resultante en $R_x, R_y, R_z$; el par de esfuerzos serán las $2$ ($R_x, R_y, R_z$) que son contrarias entre sí. Por convenio, a $R_x$ se le llama axil $N$, a $R_y$ se le llama $Q_y$ (o $Q$, $V$, $T$) cortante, y a $R_z$ se le llama $Q_z$ cortante.
+
+    Criterio de esfuerzos: si son de tracción positivo, si es de compresión negativo; cortante si a la izquierda hacia arriba y a la derecha hacia abajo positivo, si es al contrario negativo.}
+
+si descomponemos los momentos, habrá 3: uno alrededor del eje $x$, otro del $y$ y otro del $z$, $\vec{M}_R = M_{Rx}\vec{i} + M_{Ry}\vec{j} + M_{Rz}\vec{k}$, que se escriben de la siguiente forma: $T$ de torsor el $M_{Rx}$, momento flector $M_{fy}, M_{fz}$.
+
+criterio de signo para el eje $z$: 2 que van hacia arriba positivo, 2 que van hacia abajo negativo.
+\dfn{Esfuerzos}{Realmente la Resultante en el eje $x$ del segundo sistema será equivalente a la sumatoria de todas las $\tau_n$ que eran perpendiculares a la sección. Como es en una superficie se hace una integral y no una sumatoria; es decir, es la resultante de las tensiones normales en la superficie:
+    \[
+        N = \int \sigma_n \cdot d \omega
+    \]
+    al multiplicar cada vector tensión por la superficie que ocupa da el axil que es una fuerza.
+    Para $Q_y = \int \tau_y \cdot d \omega$.
+    Para el momento flector $M_{fz} = \int -\sigma_{ny} \cdot d \omega$.}
 
 \section{Problemas}
 \subsection{Problema con una carga puntual}
-%Dibujo una viga con en el extremo izquierda punto A una ligadura fija en el derecho punto B uno movil la viga son 4m y en el centro hay una fuerza puntuaal F= 10 KN
-Procedimiento:
-\begin{enumerate}
-\item Dibujar el diagrama de cuerpo libre, es decir repetir el mismo dibujo pero quitando los apoyos y poniendo las reacciones que ocurren en ello (flechas a priori las ponemos positvas es decir en la izquier VA hacia arriba y Ha hacia derecha, F se queda igual Vb vertical hacia arriba)
-\item Mirar el tipo de estructura que es si hiperestatica o isoestatica practicamente siempre en el examen sera hiperestatica, numero de incognitas 3 Va Vb Ha, numero de ecuaciones 3 (las de estatica, sumFx = 0 Sumfy = 0 SumM = 0) , por tanto es una estructura isoestatica
-\item Calculo de las reacciones: Escribir las ecuaciones (las de estatica, sumFx = 0 Sumfy = 0 SumM = 0) con los criterios de signos siempre los establecido antes y momentos antihorarios son los positivos,
+
+\begin{tcolorbox}[colback=white, colframe=myb!40, arc=4pt, boxrule=0.8pt, left=8pt, right=8pt, top=6pt, bottom=6pt]
+    \textbf{Estructura isostática:} Los esfuerzos internos se obtienen por estática pura. Primero se hallan las reacciones; luego se recorren los tramos de izquierda a derecha, cortando en cada uno y planteando el equilibrio de la porción retenida para hallar $Q(x)$ y $M_f(x)$, con su evaluación en los extremos del tramo.\par\smallskip
+    \small\textbf{Unidades de trabajo:} Longitud $L\,[\text{m}]$, Fuerza $F\,[\text{kN}]$, Momento $M\,[\text{kN}\cdot\text{m}]$, Carga repartida $q\,[\text{kN/m}]$.
+\end{tcolorbox}
+
+\paso{1}{Datos y clasificación estática}
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.85\textwidth}{%
+        \begin{tikzpicture}[scale=1.1, >=Latex]
+            % Viga
+            \draw[line width=3pt, blue!80!black] (0,0) -- (6,0);
+
+            % Apoyo A (Fijo) en x=0 (Nudo 1)
+            \coordinate (A) at (0,0);
+            \draw[thick] (A) -- ++(-0.35,-0.6) -- ++(0.7,0) -- cycle;
+            \draw[line width=1pt] (-0.55,-0.6) -- (0.55,-0.6);
+            \foreach \x in {-0.4,-0.15,0.1,0.35} \draw (\x,-0.6) -- (\x-0.15,-0.8);
+            \node[above left=2pt] at (A) {$A$ \scriptsize (1)};
+
+            % Apoyo B (Móvil) en x=6 (Nudo 2, representa 4m)
+            \coordinate (B) at (6,0);
+            \draw[thick] (B) -- ++(-0.35,-0.4) -- ++(0.7,0) -- cycle;
+            \draw[thick] ($(B)+(-0.2,-0.52)$) circle (0.12);
+            \draw[thick] ($(B)+(0.2,-0.52)$) circle (0.12);
+            \draw[line width=1pt] ($(B)+(-0.55,-0.65)$) -- ($(B)+(0.55,-0.65)$);
+            \node[above right=2pt] at (B) {$B$ \scriptsize (2)};
+
+            % Carga puntual F = 10 kN en el centro (x=3)
+            \draw[<-, line width=1.6pt, red!80!black] (3,0) -- (3,1.8) node[above] {$F = 10\text{ kN}$};
+            \fill[black] (3,0) circle (2pt);
+
+            % Cotas
+            \draw[|<->|, >=Latex] (0,-1.1) -- (3,-1.1) node[midway, fill=white] {$2\text{ m}$};
+            \draw[|<->|, >=Latex] (3,-1.1) -- (6,-1.1) node[midway, fill=white] {$2\text{ m}$};
+            \draw[|<->|, >=Latex] (0,-1.65) -- (6,-1.65) node[midway, fill=white] {$L = 4\text{ m}$};
+        \end{tikzpicture}%
+    }
+    \caption{Geometría, apoyos y cargas de la estructura analizada.}
+    \label{fig:viga_carga_puntual}
+\end{figure}
+
+Con $m = 1$ barras, $r = 3$ reacciones ($V_A, V_B, H_A$), $n = 2$ nudos y $h = 0$ rótulas/liberaciones:
 \begin{equation}
-    \sum F_x = 0 = H_a = 0 % lo mismo para fy que sera Va *Vb-10 = 0 y en el de momento es simplemente 4vb -2 \cdot 10 
+    GH = 3m + r - 3n - h = 3(1) + 3 - 3(2) - 0 = 0 \implies \text{\textbf{Estructura isostática.}}
 \end{equation}
-%Vb sale 5 de la ultima ecuacion luego Va 5
-\item Secciones o cortes: como no se puede hacer infinitos cortes se hace unos puntos en estrategico para calcular el esfuerzo se sigue la siguiente norma: cada vez que aparezca o desaparezca una carga se debe dar un corte
+Número de incógnitas: $3$ ($V_A, V_B, H_A$), número de ecuaciones: $3$ (estática: $\sum F_x = 0, \sum F_y = 0, \sum M = 0$).
 
-%poner ejemplo en una viga en el inicio fuerza 5 vertical hacia arriba en mitad de la viga fuerza vertical hacia abajo que vale 10 y al final otra vertical hacia arriba de 5, damos un corte primero tras el primer 5 (dibujar como ondulaciones ahi) despues del 10 se le da otro y como el 5 del final es lo ultimo que hay ya no se puede dar mas cortes es decir solo se dan 2 
-es decir se da un corte entre 0 y 2 y otro que este entre 2 y 4 (en el eje x) el primer corte es para todos los valores de x que pertenezcan al intervado [0,2]
-se dibuja la primera seccion de 5 con las ondulaciones y despues de ella aparece N Q y mfz , se representa con el criterio de signo positivo de primera, el signo la forma mas clara de verla es si nos quedamos con la parte izquierda el ojo lo veria desde el derecho por tanto en el par de esfuerzos nos quedamos con el de la derecha.
-es decir tendriamos N hacia derecha Q hacia abajo y mfz antihorario se pone en funcion de X siempre
-Con esto se tiene que cumplir la condicion de solido elastico, las solicitaciones exteriores deben estar en equilibrio con las interiores
-\item Calcular el equilibrio de las solicitaciones exteriores con las interiores para cada seccion
-sumFx = 0 , Sumfy = 0 = 5-Q , SumM = $-5 \cdot X  + M_f = 0$ % como ahora esto lo tomamos como fuerzas y no esfuerzos se le aplica el criterio de fuerzas y no como esfuerzos, el momento se da siempre en el punto del corte Q y N no produce momento por que pasan por ese punto y solo queda el del 5 , se pone para x= 0 el momento flector es 0 para x=2 el momento es 10 
+\paso{2}{Reacciones en los apoyos (Diagrama de Cuerpo Libre)}
 
-En el segundo corte  se dibuja flecha vertical hacia arriba 5 distancia 2 fuerza vertical hacia abajo 10  desde 10 hasta el corte habra una distancia , x sera desde el 5 hasta el corte, N hacia derecha Q hacia abajo Mfz en sentido antihorario
-sumFx = 0 = N 
-Sumfy = 0 = 5 -10 -Q --> Q = -5kn
-SumM = 0 = Mf -5x * (10*(x-2)) 
-para representarlo se dan valores en lso extremos por lo tanto momento flector en x=2 y en x=4 
-\item Representarlo en grafico
-Diagrama para axiles otro para el momento otro para esfuerzos, justo debajo del diagrama inicial
-para la primera seccion en el primero de axil siempre vale 0, en el segundo de Q siempre sale 5 y para x tiene forma de recta en x=0 es 0 en x=2 =10 (en momentos se dibuja de forma contraria es decir iria hacia abajo)
-en el segundo tramo Q ira a -5 y en el momento ira de 10 a 0 que esta dibujado abajo.
-\item Dibujar los criterios de signos en los graficos
-\end{enumerate}
+Diagrama de cuerpo libre: se repite el esquema quitando los apoyos y colocando las reacciones que ocurren en ellos (a priori positivas: en la izquierda $V_A$ hacia arriba y $H_A$ hacia la derecha; $F$ se mantiene igual; en la derecha $V_B$ vertical hacia arriba).
+
+Con las cargas aplicadas y las reacciones como incógnitas, las tres ecuaciones de equilibrio estático dan:
+\begin{align}
+    (\rightarrow +) \quad \sum F_x = 0      & \implies \boxed{H_A = 0} \label{eq:reac_fx_puntual}                                                                                    \\
+    (\uparrow +) \quad \sum F_y = 0         & \implies V_A + V_B - 10 = 0 \label{eq:reac_fy_puntual}                                                                                 \\
+    (\circlearrowleft +) \quad \sum M_A = 0 & \implies 4 \cdot V_B - 2 \cdot 10 = 0 \implies \boxed{V_B = 5\text{ kN}} \implies \boxed{V_A = 5\text{ kN}} \label{eq:reac_ma_puntual}
+\end{align}
+
+\paso{3}{Fuerza cortante y momento flector por tramos (método de cortes)}
+
+Como no se pueden hacer infinitos cortes, se eligen puntos estratégicos para calcular los esfuerzos siguiendo la norma: \textbf{cada vez que aparezca o desaparezca una carga se debe dar un corte}. En este caso se divide en dos tramos:
+
+\tramobadge{Tramo 1}{$0 \le x \le 2$}
+
+Se dibuja la sección desde el inicio hasta $x$, apareciendo en el corte los esfuerzos internos positivos ($N$ hacia la derecha, $Q$ hacia abajo y $M_f$ antihorario):
+
+\begin{center}
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \begin{tikzpicture}[scale=0.9, >=Latex]
+            % Tramo de viga 0 <= x <= 2
+            \draw[line width=2.5pt, blue!80!black] (0,0) -- (3.0,0);
+
+            % Reaccion en A
+            \draw[->, line width=1.3pt, blue!80!black] (0,-1.0) -- (0,0) node[pos=0, below] {$V_A = 5\text{ kN}$};
+            \node[above left] at (0,0) {$A$};
+
+            % Corte con ondulacion
+            \draw[thick, fill=gray!20] (3.0,-0.35) to[out=60,in=-60] (3.0,0) to[out=120,in=-120] (3.0,0.35);
+
+            % Cota x
+            \draw[|<->|, >=Latex] (0,-0.6) -- (3.0,-0.6) node[midway, fill=white, font=\footnotesize] {$x$};
+
+            % Esfuerzos internos en la seccion (separados a la derecha del corte)
+            \coordinate (corte1) at (3.25,0);
+            \draw[->, line width=1.3pt, red!80!black] (corte1) -- ++(1.1,0) node[right] {$N(x)$};
+            \draw[->, line width=1.3pt, red!80!black] (corte1) -- ++(0,-1.0) node[below] {$Q(x)$};
+            \draw[-{Latex[length=2.5mm, width=2mm]}, line width=1.3pt, red!80!black] ($(corte1)+(-40:0.55)$) arc (-40:120:0.55) node[above] {$M_f(x)$};
+        \end{tikzpicture}
+    \end{minipage}\hfill
+    \begin{minipage}{0.48\textwidth}
+        Equilibrio de la porción retenida:
+        \begin{align*}
+            \sum F_x = 0              & \implies N(x) = 0                                 \\
+            \sum F_y = 0              & \implies 5 - Q(x) = 0 \implies Q(x) = 5\text{ kN} \\
+            \sum M_{\text{corte}} = 0 & \implies -5 \cdot x + M_f(x) = 0                  \\
+                                      & \implies M_f(x) = 5x\text{ kN}\cdot\text{m}
+        \end{align*}
+    \end{minipage}
+\end{center}
+
+Evaluando en los extremos del tramo:
+\begin{equation}
+    x = 0 \longrightarrow \begin{cases} Q(0) = 5\text{ kN} \\ M_f(0) = 0\text{ kN}\cdot\text{m} \end{cases}
+    \qquad\qquad
+    x = 2 \longrightarrow \begin{cases} Q(2) = 5\text{ kN} \\ M_f(2) = 10\text{ kN}\cdot\text{m} \end{cases}
+\end{equation}
+
+\tramobadge{Tramo 2}{$2 \le x \le 4$}
+
+Se dibuja desde el inicio pasando por la carga de $10\text{ kN}$ a $2\text{ m}$ hasta la sección a distancia $x$:
+
+\begin{center}
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \begin{tikzpicture}[scale=0.9, >=Latex]
+            % Tramo de viga 2 <= x <= 4
+            \draw[line width=2.5pt, blue!80!black] (0,0) -- (4.2,0);
+
+            % Reaccion en A
+            \draw[->, line width=1.3pt, blue!80!black] (0,-1.0) -- (0,0) node[pos=0, below] {$V_A = 5\text{ kN}$};
+            \node[above left] at (0,0) {$A$};
+
+            % Carga F = 10 kN en x=2
+            \draw[<-, line width=1.4pt, red!80!black] (2.0,0) -- (2.0,1.2) node[above, font=\footnotesize] {$F = 10\text{ kN}$};
+
+            % Corte con ondulacion
+            \draw[thick, fill=gray!20] (4.2,-0.35) to[out=60,in=-60] (4.2,0) to[out=120,in=-120] (4.2,0.35);
+
+            % Cotas
+            \draw[|<->|, >=Latex] (0,-0.6) -- (2.0,-0.6) node[midway, fill=white, font=\footnotesize] {$2\text{ m}$};
+            \draw[|<->|, >=Latex] (0,-1.7) -- (4.2,-1.7) node[midway, fill=white, font=\footnotesize] {$x$};
+
+            % Esfuerzos internos en la seccion (separados a la derecha del corte)
+            \coordinate (corte2) at (4.45,0);
+            \draw[->, line width=1.3pt, red!80!black] (corte2) -- ++(1.1,0) node[right] {$N(x)$};
+            \draw[->, line width=1.3pt, red!80!black] (corte2) -- ++(0,-1.0) node[below] {$Q(x)$};
+            \draw[-{Latex[length=2.5mm, width=2mm]}, line width=1.3pt, red!80!black] ($(corte2)+(-40:0.55)$) arc (-40:120:0.55) node[above] {$M_f(x)$};
+        \end{tikzpicture}
+    \end{minipage}\hfill
+    \begin{minipage}{0.48\textwidth}
+        Equilibrio de la porción retenida:
+        \begin{align*}
+            \sum F_x = 0              & \implies N(x) = 0                                       \\
+            \sum F_y = 0              & \implies 5 - 10 - Q(x) = 0 \implies Q(x) = -5\text{ kN} \\
+            \sum M_{\text{corte}} = 0 & \implies -5 \cdot x + 10(x-2) + M_f(x) = 0              \\
+                                      & \implies M_f(x) = (20 - 5x)\text{ kN}\cdot\text{m}
+        \end{align*}
+    \end{minipage}
+\end{center}
+
+Evaluando en los extremos del tramo:
+\begin{equation}
+    x = 2 \longrightarrow \begin{cases} Q(2) = -5\text{ kN} \\ M_f(2) = 10\text{ kN}\cdot\text{m} \end{cases}
+    \qquad\qquad
+    x = 4 \longrightarrow \begin{cases} Q(4) = -5\text{ kN} \\ M_f(4) = 0\text{ kN}\cdot\text{m} \end{cases}
+\end{equation}
+
+\paso{4}{Diagramas de fuerzas internas (leyes de esfuerzos)}
+
+Las funciones analíticas de esfuerzos internos en toda la viga quedan expresadas por tramos:
+\begin{equation}
+    N(x) = 0, \quad
+    Q(x) = \begin{cases}
+        5\text{ kN},  & 0 \leq x < 2 \\
+        -5\text{ kN}, & 2 < x \leq 4
+    \end{cases}, \quad
+    M_f(x) = \begin{cases}
+        5x\text{ kN}\cdot\text{m},        & 0 \leq x \leq 2 \\
+        (20 - 5x)\text{ kN}\cdot\text{m}, & 2 \leq x \leq 4
+    \end{cases}
+\end{equation}
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.88\textwidth}{%
+        \begin{tikzpicture}[scale=1.0, >=Latex]
+            % Esquema de la viga
+            \draw[line width=2pt, black!70] (0,0) -- (6,0);
+            \node[left] at (0,0) {\textbf{Viga}};
+            \draw[<-, line width=1.4pt, red!80!black] (3,0) -- (3,1.2) node[above] {$F=10\text{ kN}$};
+            \draw[->, line width=1.2pt, blue!80!black] (0,-0.8) -- (0,0) node[pos=0, below] {$5\text{ kN}$};
+            \draw[->, line width=1.2pt, blue!80!black] (6,-0.8) -- (6,0) node[pos=0, below] {$5\text{ kN}$};
+            \draw[dashed, gray!60] (0,0.5) -- (0,-6.5);
+            \draw[dashed, gray!60] (3,1.0) -- (3,-6.5);
+            \draw[dashed, gray!60] (6,0.5) -- (6,-6.5);
+
+            % DIAGRAMA DE AXIL N(x)
+            \draw[thick, gray] (0,-1.3) -- (6,-1.3);
+            \draw[line width=1.5pt, blue!80!black] (0,-1.3) -- (6,-1.3);
+            \node[left] at (0,-1.3) {$N(x)$};
+            \node[right] at (6,-1.3) {$N=0$};
+
+            % DIAGRAMA DE CORTANTE Q(x)
+            \draw[thick, gray] (0,-3.2) -- (6,-3.2);
+            \node[left] at (0,-3.2) {$Q(x)$};
+            % Tramo 1: +5 con flechas de criterio de signo positivo (izq arriba, der abajo)
+            \draw[line width=1.5pt, blue!80!black, fill=blue!15] (0,-3.2) -- (0,-2.4) -- (3,-2.4) -- (3,-3.2) -- cycle;
+            \node[above] at (1.5,-2.4) {$+5\text{ kN}$};
+            \node at (1.5,-2.8) {\small $(+)$};
+            \draw[->, line width=0.9pt, blue!80!black] (0.8,-3.05) -- (0.8,-2.55);
+            \draw[->, line width=0.9pt, blue!80!black] (2.2,-2.55) -- (2.2,-3.05);
+
+            % Tramo 2: -5 con flechas de criterio de signo negativo (izq abajo, der arriba)
+            \draw[line width=1.5pt, blue!80!black, fill=blue!15] (3,-3.2) -- (3,-4.0) -- (6,-4.0) -- (6,-3.2) -- cycle;
+            \node[below] at (4.5,-4.0) {$-5\text{ kN}$};
+            \node at (4.5,-3.6) {\small $(-)$};
+            \draw[->, line width=0.9pt, blue!80!black] (3.8,-3.35) -- (3.8,-3.85);
+            \draw[->, line width=0.9pt, blue!80!black] (5.2,-3.85) -- (5.2,-3.35);
+
+            % DIAGRAMA DE MOMENTO FLECTOR M_f(x)
+            \draw[thick, gray] (0,-5.2) -- (6,-5.2);
+            \node[left] at (0,-5.2) {$M_f(x)$};
+            % Triángulo con flechas de criterio de signo de momento flector positivo (tracciona fibra inferior)
+            \draw[line width=1.5pt, green!60!black, fill=green!15] (0,-5.2) -- (3,-6.4) -- (6,-5.2) -- cycle;
+            \node[below] at (3,-6.4) {$+10\text{ kN}\cdot\text{m}$};
+            \node at (3,-5.7) {\small $(+)$};
+            \draw[->, line width=0.9pt, green!60!black] (2.3,-5.95) arc (180:90:0.25);
+            \draw[->, line width=0.9pt, green!60!black] (3.7,-5.95) arc (0:90:0.25);
+
+            % Cotas inferiores
+            \draw[|<->|, >=Latex] (0,-6.9) -- (3,-6.9) node[midway, fill=white, font=\footnotesize] {$2\text{ m}$};
+            \draw[|<->|, >=Latex] (3,-6.9) -- (6,-6.9) node[midway, fill=white, font=\footnotesize] {$2\text{ m}$};
+        \end{tikzpicture}%
+    }
+    \caption{Diagramas de leyes de esfuerzos axil $N(x)$, cortante $Q(x)$ y momento flector $M_f(x)$ con indicación de criterios de signos.}
+    \label{fig:diagramas_esfuerzos_puntual}
+\end{figure}
+
 \imp{La derivada del momento es el cortante es decir la derivda de Mf = Q}
 \nt{Tomar momentos en otro sitio por ejemplo en B y repasar la solucion si sale lo mismo en A esta bien sino esta mal, como consejo de la profesora repasar eso consejo tuerca en el punto donde tomemos las consideraciones por ejemplo en b luego hay una llave inglesa que se le aplica la fuerza en F se ve que es momento antihorario }
 
 La seccion donde tiene el esfuerzo mas grande , es justo en el medio ya que tiene el momento mas grande.
 
-\subsection{Viga en voladizo, empotrada en A carga uniformemente repartida q= 10kN/m y un momento justo en la mitad de la viga de 30knm , la longitud de la viga son 4m}
-%Begin enumerate 1 
-Primero diagrama de cuerpo libre , es decir quitar el apoyo y poner las reacciones que aparecen
-en A HA hacia derecha Va hacia arriba y mA en sentido antihorario , luego el resto igual, N ecuaciones = R numero de incognitas 3 
-% 2
-Calculo de reacciones 
-Sum fx= 0 = HA
-Sum fy = 0 = V_a -40 % esa carga de 10 equivale a una de 40 en el centro  luego en las tensiones no se puede aplicar por el principio de saunt venant
-Sum M = Ma -30 -(40*2) % el momento era horario por tanto -30 , el -40*2 viene de haber tomado como carga puntual la que estaba uniformemente distribuida en el centro
-%3 Secciones
-La seccion 1 que es valido desde 0 hasta 2 por que en 2 esta la carga de 30 , y luego habra una seccion 2 para una x de entre 2 y 4
+\subsection{Ejemplo: Viga en voladizo con carga distribuida y momento concentrado}
 
-\nt{Cuando dice si aparece o desaparece es por que en cargas distribuidas se supone que desaparece}
-primer corte reacciones 40 vertical hacia arriba 110 momento en sentido antihorario, y luego se dibuja trozo de la viga hasta el corte distancia x posterioremente N mf sentido antihorario Q hacia abajo
-sumFx = 0 = N
-Sumfy = 0 = 40 - Q - (10x) ---> Q - 10x+ 40
-SumM = 0 = 110 -40x + mf + 10x*(5x^2)  --> mf = -5x^2 + 40x -110%siempre en la seccion de corte, la distancia es x/2  y la fuerza distribuida era 10*x
+\begin{tcolorbox}[colback=blue!3!white, colframe=blue!40!black, arc=3pt, boxrule=0.8pt, left=8pt, right=8pt, top=6pt, bottom=6pt]
+    \centering
+    {\Large\bfseries\color{blue!60!black} Método de cortes (diagramas $V$, $M$)}\\[2pt]
+    {\normalsize\bfseries Viga en voladizo con carga uniforme y momento puntual}
 
-en la segunda seccion para una x entre 2 y 4 
-nos quedamos esta vez con la parte de la derecha de forma que solo tenemos corte parte derecha que tenia la carga distribuida, esfuerzos en positivo N hacia izquierda Q hacia arriba Mf horario
-4-x sera la distancia para aplicar la carga 
-sumFx = 0 = -N
-Sumfy = 0 = Q- 10(4-x) --->
-SumM = 0 = -mf - 10(4-x) ((4-x)/2)
+    \vspace{4pt}\hrule\vspace{4pt}
+    {\small\textbf{Unidades de trabajo:} $L\,[\text{m}] \quad F\,[\text{kN}] \quad M\,[\text{kN}\cdot\text{m}] \quad q\,[\text{kN/m}] \quad \delta\,[\text{mm}] \quad E\,[\text{kN/m}^2] \quad A\,[\text{m}^2] \quad I\,[\text{m}^4]$}
+\end{tcolorbox}
 
-%Repasar y representar con los diagramas dando valores en los extremos 
+\paso{1}{Datos y clasificación estática}
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.88\textwidth}{%
+        \begin{tikzpicture}[scale=1.1, >=Latex]
+            % Empotramiento en nudo A
+            \draw[line width=1.5pt] (0,-0.7) -- (0,0.7);
+            \foreach \y in {-0.6, -0.3, 0.0, 0.3, 0.6} \draw[thick] (0,\y) -- (-0.22,\y-0.18);
+
+            % Viga (azul)
+            \draw[line width=2.5pt, blue!80!black] (0,0) -- (6,0);
+            \filldraw[black] (0,0) circle (2pt) node[above right=1pt, font=\scriptsize] {$A$};
+            \filldraw[black] (6,0) circle (2pt) node[above right=1pt, font=\scriptsize] {$B$};
+
+            % Carga repartida q = 10 kN/m (roja, color diferente a la viga)
+            \draw[line width=0.9pt, red!80!black] (0,0.9) -- (6,0.9);
+            \foreach \x in {0, 0.6, 1.2, 1.8, 2.4, 3.0, 3.6, 4.2, 4.8, 5.4, 6.0} {
+                    \draw[->, line width=0.8pt, red!80!black] (\x, 0.9) -- (\x, 0);
+                }
+            \node[above, red!80!black, font=\footnotesize] at (3.0, 0.95) {$q = 10\text{ kN/m}$};
+
+            % Momento concentrado horario en x = 2m (magenta)
+            \draw[-{Latex[length=2.5mm, width=1.8mm]}, line width=1.2pt, magenta!80!black] ($(3.0,0)+(140:0.45)$) arc (140:-140:0.45);
+            \node[below, magenta!80!black, font=\footnotesize] at (3.0,-0.45) {$M_0 = 30\text{ kN}\cdot\text{m}$};
+
+            % Cotas parciales y total
+            \draw[|<->|, >=Latex] (0,-0.9) -- (3.0,-0.9) node[midway, fill=white, font=\footnotesize] {$2\text{ m}$};
+            \draw[|<->|, >=Latex] (3.0,-0.9) -- (6.0,-0.9) node[midway, fill=white, font=\footnotesize] {$2\text{ m}$};
+            \draw[|<->|, >=Latex] (0,-1.6) -- (6.0,-1.6) node[midway, fill=white, font=\footnotesize] {$4\text{ m}$};
+        \end{tikzpicture}%
+    }
+    \caption*{\textit{\small Geometría, apoyos y cargas de la estructura analizada.}}
+\end{figure}
+
+Con $m = 1$ barras, $r = 3$ reacciones ($H_A, V_A, M_A$), $n = 2$ nudos y $h = 0$ liberaciones:
+\begin{equation}
+    GH = 3m + r - 3n - h = 3(1) + 3 - 3(2) - 0 = 0 \implies \text{\textbf{Estructura isostática.}}
+\end{equation}
+
+\paso{2}{Reacciones en los apoyos (Diagrama de Cuerpo Libre)}
+
+Primero diagrama de cuerpo libre, es decir, quitar el apoyo y poner las reacciones que aparecen en $A$: $H_A$ hacia la derecha, $V_A$ hacia arriba y $M_A$ en sentido antihorario, luego el resto igual. Número de ecuaciones = $R$ número de incógnitas = 3.
+
+La carga continua de $10\text{ kN/m}$ equivale estáticamente a una fuerza resultante $R_q = q \cdot L = 10 \cdot 4 = 40\text{ kN}$ aplicada en el centro de gravedad ($x = 2\text{ m}$).
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.88\textwidth}{%
+        \begin{tikzpicture}[scale=1.1, >=Latex]
+            % Viga esquema DCL (azul)
+            \draw[line width=2.5pt, blue!80!black] (0,0) -- (6,0);
+            \filldraw[black] (0,0) circle (2pt) node[above left=1pt, font=\scriptsize] {$A$};
+            \filldraw[black] (6,0) circle (2pt) node[above right=1pt, font=\scriptsize] {$B$};
+
+            % Reacciones en nudo A (verde)
+            \draw[->, dashed, line width=1.1pt, green!50!black] (-0.9,0) -- (0,0) node[pos=0, left, font=\footnotesize] {$H_A$};
+            \draw[->, dashed, line width=1.1pt, green!50!black] (0,-1.0) -- (0,0) node[pos=0, below, font=\footnotesize] {$V_A$};
+            \draw[-{Latex[length=2.5mm, width=1.8mm]}, line width=1.2pt, green!50!black] ($(0,0)+(140:0.55)$) arc (140:340:0.55) node[above right=4pt, font=\footnotesize] {$M_A$};
+
+            % Carga resultante equivalente: 10 * 4 = 40 en x = 2m (rojo)
+            \draw[->, line width=1.4pt, red!80!black] (3.0,1.2) -- (3.0,0) node[pos=0, above, font=\footnotesize] {$10 \cdot 4 = 40\text{ kN}$};
+
+            % Momento concentrado horario en x = 2m (magenta)
+            \draw[-{Latex[length=2.5mm, width=1.8mm]}, line width=1.2pt, magenta!80!black] ($(3.0,0)+(140:0.45)$) arc (140:-140:0.45);
+            \node[below, magenta!80!black, font=\footnotesize] at (3.0,-0.45) {$30\text{ kN}\cdot\text{m}$};
+
+            % Cota a la resultante
+            \draw[|<->|, >=Latex] (0,-0.85) -- (3.0,-0.85) node[midway, fill=white, font=\footnotesize] {$2\text{ m}$};
+        \end{tikzpicture}%
+    }
+\end{figure}
+
+Planteando las tres ecuaciones de equilibrio estático del sólido rígido:
+\begin{align*}
+    (\rightarrow +) \quad \sum F_x = 0      & \implies H_A = 0           \\[4pt]
+    (\uparrow +) \quad \sum F_y = 0         & \implies V_A - 40 = 0      \\[4pt]
+    (\circlearrowleft +) \quad \sum M_A = 0 & \implies M_A - 80 - 30 = 0 \\
+                                            & \implies M_A - 110 = 0
+\end{align*}
+\begin{align*}
+     & \implies H_A = \boxed{0\text{ kN}}                \\
+     & \implies V_A = \boxed{40\text{ kN}}               \\
+     & \implies M_A = \boxed{110\text{ kN}\cdot\text{m}}
+\end{align*}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[scale=1.1, >=Latex]
+        % Empotramiento en nudo A con reacciones obtenidas
+        \draw[line width=1.5pt] (0,-0.6) -- (0,0.6);
+        \foreach \y in {-0.5, -0.25, 0.0, 0.25, 0.5} \draw[thick] (0,\y) -- (-0.2,\y-0.15);
+        \draw[line width=2.5pt, blue!80!black] (0,0) -- (4.5,0);
+        \filldraw[black] (0,0) circle (2pt) node[above right=1pt, font=\scriptsize] {$A$};
+        \filldraw[black] (4.5,0) circle (2pt) node[above right=1pt, font=\scriptsize] {$B$};
+
+        % Reacciones dibujadas
+        \draw[->, line width=1.2pt, green!50!black] (0,-0.9) -- (0,0) node[pos=0, below, font=\footnotesize] {$V_A = 40\text{ kN}$};
+        \draw[-{Latex[length=2.5mm, width=1.8mm]}, line width=1.2pt, green!50!black] ($(0,0)+(140:0.5)$) arc (140:340:0.5) node[right=4pt, font=\footnotesize] {$M_A = 110\text{ kN}\cdot\text{m}$};
+    \end{tikzpicture}
+    \caption*{\textit{\small Reacciones en los apoyos ($\text{kN}$, $\text{kN}\cdot\text{m}$).}}
+\end{figure}
+
+\paso{3}{Fuerza cortante y momento flector por tramos (método de cortes)}
+
+La sección 1 es válida para $x \in [0, 2]$ (hasta el punto de aplicación del momento concentrado de $30\text{ kN}\cdot\text{m}$), y la sección 2 para $x \in [2, 4]$.
+
+\nt{Cuando dice si aparece o desaparece es porque en cargas distribuidas se supone que desaparece al realizar el corte en la porción no considerada.}
+
+\tramobadge{Tramo 1}{$0 \le x \le 2$}
+
+Se calcula el momento y los esfuerzos en el punto estratégico.
+
+\begin{center}
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \begin{tikzpicture}[scale=0.95, >=Latex]
+            % Empotramiento en A
+            \draw[line width=1.4pt] (0,-0.7) -- (0,0.7);
+            \foreach \y in {-0.6, -0.3, 0.0, 0.3, 0.6} \draw[thick] (0,\y) -- (-0.2,\y-0.15);
+
+            % Tramo cortado (azul)
+            \draw[line width=2.5pt, blue!80!black] (0,0) -- (3.2,0);
+            \node[above left=1pt, font=\scriptsize] at (0,0) {$A$};
+
+            % Reacciones en A (verde, MA más abajo para no solapar con la viga)
+            \draw[->, line width=1.1pt, green!50!black] (0,-0.9) -- (0,0) node[pos=0, below, font=\scriptsize] {$V_A$};
+            \draw[-{Latex[length=2mm, width=1.5mm]}, line width=1.1pt, green!50!black] ($(0,0)+(140:0.45)$) arc (140:340:0.45) node[below right=-2pt, font=\scriptsize] {$M_A$};
+
+            % Carga distribuida (roja, la primera flecha en x=0 eliminada para no solapar con el empotramiento)
+            \draw[line width=0.8pt, red!80!black] (0,0.8) -- (3.2,0.8);
+            \foreach \x in {0.6, 1.2, 1.8, 2.4, 3.0} {
+                    \draw[->, line width=0.7pt, red!80!black] (\x, 0.8) -- (\x, 0);
+                }
+            \node[above, red!80!black, font=\scriptsize] at (1.6, 0.85) {$q = 10\text{ kN/m}$};
+
+            % Corte ondulado a la derecha
+            \draw[thick, fill=gray!20] (3.2,-0.35) to[out=60,in=-60] (3.2,0) to[out=120,in=-120] (3.2,0.35);
+
+            % Punto gordo en la cara de corte
+            \filldraw[black] (3.2,0) circle (2pt);
+
+            % Esfuerzos internos en la seccion
+            % Cortante Q(x) hacia abajo y M_f(x) naciendo donde empieza Q(x) con un giro de 87 grados hacia el 4o cuadrante
+            \draw[->, line width=1.2pt, purple!80!black] (3.2,0) -- (3.2,-0.9) node[below, font=\scriptsize] {$Q(x)$};
+            \draw[-{Latex[length=2.2mm, width=1.6mm]}, line width=1.2pt, purple!80!black] ($(3.2,0)+(-90:0.45)$) arc (-90:-3:0.45) node[right=1pt, font=\scriptsize] {$M_f(x)$};
+
+            % Cota x
+            \draw[|<->|, >=Latex] (0,-0.6) -- (3.2,-0.6) node[midway, fill=white, font=\footnotesize] {$x$};
+        \end{tikzpicture}
+    \end{minipage}\hfill
+    \begin{minipage}{0.48\textwidth}
+        \begin{align*}
+            Q(x)   & = V_A - 10x                            \\
+                   & = 40 - 10x                             \\
+                   & = \mathbf{-10x + 40}                   \\[6pt]
+            M_f(x) & = V_A\,x - M_A - 10x \cdot \frac{x}{2} \\
+                   & = 40x - 110 - 10x \cdot \frac{x}{2}    \\
+                   & = \mathbf{-5x^2 + 40x - 110}
+        \end{align*}
+        \vspace{2pt}
+        \begin{equation*}
+            \begin{aligned}
+                x = 0\,(A) & \to \begin{cases} Q(0) = 40\text{ kN} \\ M_f(0) = -110\text{ kN}\cdot\text{m} \end{cases}  \\[4pt]
+                x = 2      & \to \begin{cases} Q(2) = 20\text{ kN} \\ M_f(2^-) = -50\text{ kN}\cdot\text{m} \end{cases}
+            \end{aligned}
+        \end{equation*}
+    \end{minipage}
+\end{center}
+
+\vspace{1em}
+\tramobadge{Tramo 2}{$2 \le x \le 4$}
+
+En la segunda sección para $x \in [2, 4]$, quedándonos con la porción de la derecha (longitud $4-x$) desde la sección cortada hasta el extremo libre $B$:
+
+\begin{center}
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \begin{tikzpicture}[scale=0.95, >=Latex]
+            % Tramo derecho cortado (azul) de longitud 4-x
+            \draw[line width=2.5pt, blue!80!black] (0,0) -- (3.2,0);
+            \node[above right=1pt, font=\scriptsize] at (3.2,0) {$B$};
+
+            % Corte ondulado a la izquierda
+            \draw[thick, fill=gray!20] (0,-0.35) to[out=60,in=-60] (0,0) to[out=120,in=-120] (0,0.35);
+
+            % Punto gordo en la cara de corte
+            \filldraw[black] (0,0) circle (2pt);
+
+            % Carga distribuida (roja) sobre el tramo derecho
+            \draw[line width=0.8pt, red!80!black] (0,0.8) -- (3.2,0.8);
+            \foreach \x in {0.3, 0.9, 1.5, 2.1, 2.7} {
+                    \draw[->, line width=0.7pt, red!80!black] (\x, 0.8) -- (\x, 0);
+                }
+            \node[above, red!80!black, font=\scriptsize] at (1.6, 0.85) {$q = 10\text{ kN/m}$};
+
+            % Esfuerzos internos en la cara izquierda (desplazados ligeramente a la izquierda)
+            % Cortante Q(x) hacia arriba y M_f(x) naciendo en el mismo punto de origen
+            \draw[->, line width=1.2pt, purple!80!black] (-0.3,0) -- (-0.3,0.9) node[above, font=\scriptsize] {$Q(x)$};
+            \draw[-{Latex[length=2.2mm, width=1.6mm]}, line width=1.2pt, purple!80!black] ($(-0.3,0)+(90:0.45)$) arc (90:260:0.45) node[left=1pt, font=\scriptsize] {$M_f(x)$};
+
+            % Cota (4-x)
+            \draw[|<->|, >=Latex] (0,-0.6) -- (3.2,-0.6) node[midway, fill=white, font=\footnotesize] {$4 - x$};
+        \end{tikzpicture}
+    \end{minipage}\hfill
+    \begin{minipage}{0.48\textwidth}
+        Equilibrio de la porción retenida (derecha):
+        \begin{align*}
+            \sum F_y = 0              & \implies Q - 10(4-x) = 0                                \\
+                                      & \implies Q(x) = 10(4-x) = \mathbf{40 - 10x}             \\[6pt]
+            \sum M_{\text{corte}} = 0 & \implies -M_f(x) - 10(4-x)\frac{4-x}{2} = 0             \\
+                                      & \implies M_f(x) = -5(4-x)^2 = \mathbf{-5x^2 + 40x - 80}
+        \end{align*}
+        \vspace{2pt}
+        \begin{equation*}
+            \begin{aligned}
+                x = 2      & \to \begin{cases} Q(2) = 20\text{ kN} \\ M_f(2^+) = -20\text{ kN}\cdot\text{m} \end{cases} \\[4pt]
+                x = 4\,(B) & \to \begin{cases} Q(4) = 0\text{ kN} \\ M_f(4) = 0\text{ kN}\cdot\text{m} \end{cases}
+            \end{aligned}
+        \end{equation*}
+    \end{minipage}
+\end{center}
+
+\nt{En $x = 2\text{ m}$ el cortante $Q(x)$ es continuo ($20\text{ kN}$), mientras que el momento flector experimenta un salto vertical brusco de $\Delta M_f = -20 - (-50) = +30\text{ kN}\cdot\text{m}$, correspondiente exactamente al momento puntual concentrado horario aplicado.}
+
+\vspace{1em}
+\paso{4}{Diagramas de fuerzas internas}
+\begin{center}
+    \textit{\small Esfuerzo axial $N$, fuerza cortante $Q$ y momento flector $M_f$}
+\end{center}
+
+Las funciones analíticas completas para toda la viga son:
+\begin{equation}
+    N(x) = 0, \quad
+    Q(x) = 40 - 10x\text{ kN} \quad (0 \le x \le 4), \quad
+    M_f(x) = \begin{cases}
+        -5x^2 + 40x - 110\text{ kN}\cdot\text{m}, & 0 \le x < 2 \\
+        -5x^2 + 40x - 80\text{ kN}\cdot\text{m},  & 2 < x \le 4
+    \end{cases}
+\end{equation}
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=\textwidth}{%
+        \begin{tikzpicture}[scale=1.1, >=Latex]
+            % Líneas de referencia verticales
+            \draw[dashed, gray!40] (0,0.5) -- (0,-8.0);
+            \draw[dashed, gray!40] (3.5,0.5) -- (3.5,-8.0);
+            \draw[dashed, gray!40] (7.0,0.5) -- (7.0,-8.0);
+
+            % 1. ESQUEMA DE LA ESTRUCTURA
+            \draw[line width=1.4pt] (0,-0.3) -- (0,0.3);
+            \foreach \y in {-0.25, -0.1, 0.05, 0.2} \draw[thick] (0,\y) -- (-0.18,\y-0.12);
+            \draw[line width=2.5pt, blue!80!black] (0,0) -- (7.0,0);
+            \filldraw[black] (0,0) circle (1.8pt) node[above left=1pt, font=\tiny] {$A$};
+            \filldraw[black] (7.0,0) circle (1.8pt) node[above right=1pt, font=\tiny] {$B$};
+
+            % Carga uniforme (roja)
+            \draw[line width=0.8pt, red!80!black] (0,0.65) -- (7.0,0.65);
+            \foreach \x in {0, 0.7, 1.4, 2.1, 2.8, 3.5, 4.2, 4.9, 5.6, 6.3, 7.0} {
+                    \draw[->, line width=0.6pt, red!80!black] (\x, 0.65) -- (\x, 0);
+                }
+            \node[above, red!80!black, font=\scriptsize] at (3.5, 0.68) {$10\text{ kN/m}$};
+
+            % Momento concentrado (magenta)
+            \draw[-{Latex[length=2mm, width=1.5mm]}, line width=1.1pt, magenta!80!black] ($(3.5,0)+(140:0.35)$) arc (140:-140:0.35);
+            \node[above, magenta!80!black, font=\tiny] at (3.5,0.35) {$30\text{ kN}\cdot\text{m}$};
+
+            % Cotas superiores
+            \draw[|<->|, >=Latex] (0,-0.6) -- (3.5,-0.6) node[midway, fill=white, font=\scriptsize] {$2\text{ m}$};
+            \draw[|<->|, >=Latex] (3.5,-0.6) -- (7.0,-0.6) node[midway, fill=white, font=\scriptsize] {$2\text{ m}$};
+
+            % 2. DIAGRAMA DE AXIL N(x)
+            \coordinate (n0) at (0,-1.6);
+            \draw[line width=1pt, black!80] (0,-1.6) -- (7.0,-1.6);
+            \draw[line width=1.5pt, blue!80!black] (0,-1.6) -- (7.0,-1.6);
+            \node[left=6pt, font=\footnotesize] at (0,-1.6) {\shortstack{$N$\\{\tiny (kN)}}};
+            \node[right, font=\scriptsize] at (7.0,-1.6) {$N=0$};
+
+            % 3. DIAGRAMA DE CORTANTE Q(x)
+            \coordinate (v0) at (0,-3.4);
+            \draw[line width=1pt, black!80] (0,-3.4) -- (7.0,-3.4);
+            \node[left=6pt, font=\footnotesize] at (0,-3.4) {\shortstack{$Q$\\{\tiny (kN)}}};
+
+            % Relleno y trazo del cortante (positivo arriba)
+            \fill[red!15] (0,-3.4) -- (0,-2.3) -- (3.5,-2.85) -- (7.0,-3.4) -- cycle;
+            \draw[line width=1.3pt, red!70!black] (0,-3.4) -- (0,-2.3) -- (7.0,-3.4);
+
+            % Valores
+            \node[left, red!80!black, font=\scriptsize] at (0,-2.3) {$+40.00$};
+            \node[above, red!80!black, font=\scriptsize] at (3.5,-2.82) {$+20.00$};
+
+            % Signo (+) y flechas de cortante positivo
+            \node at (2.2,-3.1) {\small $(+)$};
+            \draw[->, line width=0.8pt, red!80!black] (1.2,-3.3) -- (1.2,-2.7);
+            \draw[->, line width=0.8pt, red!80!black] (3.0,-2.7) -- (3.0,-3.3);
+
+            % 4. DIAGRAMA DE MOMENTO FLECTOR M_f(x)
+            % Convenio: Momentos negativos dibujados hacia arriba (tracción fibra superior)
+            \coordinate (m0) at (0,-6.3);
+            \draw[line width=1pt, black!80] (0,-6.3) -- (7.0,-6.3);
+            \node[left=6pt, font=\footnotesize] at (0,-6.3) {\shortstack{$M_f$\\{\tiny ($\text{kN}\cdot\text{m}$)}}};
+
+            % Relleno y curva de momento (parábolas)
+            \fill[blue!15] (0,-6.3)
+            -- (0,-4.3)
+            to[out=-32, in=170] (3.5,-5.35)
+            -- (3.5,-5.88)
+            to[out=-18, in=180] (7.0,-6.3) -- cycle;
+
+            \draw[line width=1.3pt, blue!70!black]
+            (0,-6.3) -- (0,-4.3)
+            to[out=-32, in=170] (3.5,-5.35)
+            -- (3.5,-5.88)
+            to[out=-18, in=180] (7.0,-6.3);
+
+            % Valores y cotas de salto
+            \node[above left, blue!90!black, font=\scriptsize] at (0,-4.3) {$-110.00$};
+            \node[above left, blue!90!black, font=\scriptsize] at (3.5,-5.35) {$-50.00$};
+            \node[above right, blue!90!black, font=\scriptsize] at (3.5,-5.88) {$-20.00$};
+
+            % Signo (-) en x = 1 m y flechas de criterio de signos para momento flector
+            % Izquierda: antihorario hacia abajo | Derecha: horario hacia abajo
+            \node at (1.75,-5.2) {\small $(-)$};
+            \draw[-{Latex[length=2mm, width=1.5mm]}, line width=0.8pt, blue!70!black] ($(1.2,-5.7)+(40:0.35)$) arc (40:180:0.35);
+            \draw[-{Latex[length=2mm, width=1.5mm]}, line width=0.8pt, blue!70!black] ($(2.3,-5.7)+(140:0.35)$) arc (140:0:0.35);
+
+            % Pie de figura: momento máximo
+            \node[below, font=\small\bfseries] at (1.6,-6.9) {$M_{\text{max}} = -110.00\text{ kN}\cdot\text{m en } x = 0$};
+        \end{tikzpicture}%
+    }
+\end{figure}
+
+
+
+
+
