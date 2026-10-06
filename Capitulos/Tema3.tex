@@ -705,7 +705,32 @@ Número de incógnitas: $3$ ($V_A, V_B, H_A$), número de ecuaciones: $3$ (está
 
 \paso{2}{Reacciones en los apoyos (Diagrama de Cuerpo Libre)}
 
-Diagrama de cuerpo libre: se repite el esquema quitando los apoyos y colocando las reacciones que ocurren en ellos (a priori positivas: en la izquierda $V_A$ hacia arriba y $H_A$ hacia la derecha; $F$ se mantiene igual; en la derecha $V_B$ vertical hacia arriba).
+Diagrama de cuerpo libre: se liberan los apoyos y se sustituyen por las reacciones correspondientes ($H_A$ y $V_A$ en el apoyo fijo $A$, y $V_B$ en el apoyo móvil $B$).
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.88\textwidth}{%
+        \begin{tikzpicture}[scale=1.1, >=Latex]
+            % Viga esquema DCL (azul)
+            \draw[line width=2.5pt, blue!80!black] (0,0) -- (6,0);
+            \filldraw[black] (0,0) circle (2pt) node[above left=1pt, font=\scriptsize] {$A$};
+            \filldraw[black] (6,0) circle (2pt) node[above right=1pt, font=\scriptsize] {$B$};
+
+            % Reacciones en apoyos (verde)
+            \draw[->, dashed, line width=1.2pt, green!50!black] (-0.9,0) -- (0,0) node[pos=0, left, font=\footnotesize] {$H_A$};
+            \draw[->, line width=1.2pt, green!50!black] (0,-1.0) -- (0,0) node[pos=0, below, font=\footnotesize] {$V_A$};
+            \draw[->, line width=1.2pt, green!50!black] (6.0,-1.0) -- (6.0,0) node[pos=0, below, font=\footnotesize] {$V_B$};
+
+            % Carga puntual F = 10 kN en el centro (x = 3.0m) (rojo)
+            \draw[->, line width=1.4pt, red!80!black] (3.0,1.2) -- (3.0,0) node[pos=0, above, font=\footnotesize] {$F = 10\text{ kN}$};
+
+            % Cotas de 2m y 2m
+            \draw[|<->|, >=Latex] (0,-1.5) -- (3.0,-1.5) node[midway, fill=white, font=\footnotesize] {$2\text{ m}$};
+            \draw[|<->|, >=Latex] (3.0,-1.5) -- (6.0,-1.5) node[midway, fill=white, font=\footnotesize] {$2\text{ m}$};
+        \end{tikzpicture}%
+    }
+    \caption*{\textit{\small Diagrama de Cuerpo Libre (DCL) de la viga.}}
+\end{figure}
 
 Con las cargas aplicadas y las reacciones como incógnitas, las tres ecuaciones de equilibrio estático dan:
 \begin{align}
@@ -1235,6 +1260,58 @@ Las funciones analíticas completas para toda la viga son:
 \end{figure}
 
 
+\subsection{Viga en voladizo con carga distribuida triangular}
 
+\subsubsection*{Paso 1: Datos y clasificación estática}
 
+Consideramos una viga en voladizo empotrada en su extremo izquierdo (nodo $A$) y libre en su extremo derecho (nodo $B$), de longitud total $L = 6\text{ m}$. Sobre la viga actúa una carga linealmente variable (triangular) que crece desde $q(0) = 0$ en el empotramiento hasta $q(6) = 30\text{ kN/m}$ en el extremo libre.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[>=latex, scale=1.1]
+        % Viga
+        \draw[line width=2.5pt, blue!80!black] (0,0) -- (6,0);
+
+        % Empotramiento en A (izquierda)
+        \draw[line width=1.2pt] (0,-1.2) -- (0,1.2);
+        \foreach \y in {-1.0,-0.7,...,1.0} {
+                \draw[line width=0.8pt] (0,\y) -- (-0.35,\y+0.25);
+            }
+
+        % Carga triangular (0 en x=0, 1.8cm de alto en x=6)
+        \draw[line width=1.2pt, red!80!black] (0,0) -- (6,1.8);
+        \foreach \x in {0.75, 1.5, 2.25, 3.0, 3.75, 4.5, 5.25, 6.0} {
+                \pgfmathsetmacro{\h}{\x*0.3}
+                \draw[->, line width=1pt, red!80!black] (\x, \h) -- (\x, 0.05);
+            }
+        \node[above, red!80!black, font=\small\bfseries] at (6, 1.85) {$30\text{ kN/m}$};
+
+        % Fuerza equivalente / Centro de gravedad (en 2/3 de L = 4m desde A)
+        \draw[->, line width=1.2pt, cyan!80!black, dashed] (4, 1.2) -- (4, -0.05);
+        \node[right, cyan!80!black, font=\footnotesize] at (4, 0.6) {$R_q = 90\text{ kN}$};
+
+        % Nodos A y B
+        \fill[black] (0,0) circle (2pt) node[below left] {$A$};
+        \fill[black] (6,0) circle (2pt) node[below right] {$B$};
+
+        % Cotas principales e intermedias (4m y 2m / 2/3 y 1/3)
+        \draw[|<->|, line width=0.6pt] (0,-0.7) -- (4,-0.7) node[midway, fill=white, inner sep=1pt, font=\small] {$4\text{ m } \left(\frac{2}{3}L\right)$};
+        \draw[|<->|, line width=0.6pt] (4,-0.7) -- (6,-0.7) node[midway, fill=white, inner sep=1pt, font=\small] {$2\text{ m } \left(\frac{1}{3}L\right)$};
+        \draw[|<->|, line width=0.6pt] (0,-1.3) -- (6,-1.3) node[midway, fill=white, inner sep=1pt, font=\small\bfseries] {$L = 6\text{ m}$};
+    \end{tikzpicture}
+    \caption{Viga en voladizo con carga distribuida triangular.}
+    \label{fig:viga_triangular_paso1}
+\end{figure}
+
+\paragraph{Clasificación estática del sistema:}
+\begin{itemize}
+    \item Grados de libertad de la viga ($N$ barras): $3 \cdot 1 = 3$.
+    \item Coacciones introducidas por los apoyos (Empotramiento en $A$): $r = 3$ ($V_A, H_A, M_A$).
+    \item Grado de hiperestaticidad:
+          \[
+              GH = r - 3 = 3 - 3 = 0 \implies \text{\textbf{Estructura isostática.}}
+          \]
+\end{itemize}
+
+\paso{1}{Reacciones en los apoyos (Diagrama de Cuerpo Libre)}
 
