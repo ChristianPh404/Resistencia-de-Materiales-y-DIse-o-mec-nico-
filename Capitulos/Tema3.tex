@@ -1560,6 +1560,115 @@ Consideramos una viga apoyada de $L = 12\text{ m}$ sometida a una carga trapezoi
     }
     \caption*{\textit{\small Diagramas de esfuerzo axil ($N$), esfuerzo cortante ($Q$) y momento flector ($M_f$).}}
 \end{figure}
+%Calculo de reacciones sum fx= 0 =HA , sum fy= 0 =va+vb + (18*6/2)  --> va 18kn , sum M_a = Vb*6 -((18*6/2) *(2/3)*6) --> 36kn  %! en un triangulo el centro esta a 1/3 del angulo recto
+% otro paso: secciones, hasta que no acabe la carga triangular no hay que dar otro corte, por lo que en este caso solo hay un corte 
+%sumfx= 0 = N , sumfy = 0 = 18-Q 3x*x/2, Sum M = M_f -18x + (3xx/2)*(x/3) ---> (-x^3)/2 + 18x %%! calculamos la carga arriba que es q(x) por semejanza de triangulos es decir 18/6 es como q(x)/x , se despeja y q(x) = 3x
+% dar valores a los extremos para dibujar Q(0) = 18 Q(6) = -36 , Mf (0) =0 Mf (6) = 0 
+% si la curvatura es positiva la curva tiene minimo si es negativa tiene maximo para el momento flector para todos los valores van entre 0 6 por lo que mantiene el mismo signo, el maximo estara justo donde este el 0 en el diagrama de Q 
+% es necesario calcular el momento flector maximo al igualar a 0 Q, es -3x^2/2 + 18 = 0 --> +- 3.46 que nos quedamos con el positivo, luego al dar este valor a -3x^3/2 *18x da 41.57 knm , siempre el esfuerzo maximo sera con el momento 
+% \imp{para comprobar si esta bien la derivada del momento tiene que salir igual que el cortante, la derivada del cortante es la carga repartida, (al derivar 2 veces el momento da la carga repartida que era 3x) los esfuerzos en los extremos coinciden con las reacciones, en valor y sentido no en signo a no ser que haya una fuerza aplicada (la flecha que tiene que coincidir es la que este mas en el exterior es decir en la izquierda ambos valores deben coincidir y la flecha de la izquierda debe coindiri tanto de Q como en el diagrama de cuerpo libre, si hay una fuerza aplicada por ejemplo en un extremo un momento que vale 8 debe acabar en 8) , saltos incremento de Q coincide con la carga aplicada, y lo mismo en los momentos un salto en la ley de momento coincide en el diagrama de forma que incremento de mf= -m , en el de cortantes seria incremento Q = F, si hay cargas uniformemente repartidas Q =f(x) y Mf = f(x^2), si es triangular Q = f(x^2) y Mf = f(x^3)}
+
+\subsection{Ejemplo 4: Viga con apoyo fijo y móvil con carga trapezoidal (triangular compuesta)}
+
+\begin{tcolorbox}[colback=blue!3!white, colframe=blue!40!black, arc=3pt, boxrule=0.8pt, left=8pt, right=8pt, top=6pt, bottom=6pt]
+    \centering
+    {\Large\bfseries\color{blue!60!black} Método de cortes (diagramas $N, Q, M_f$)}\\[2pt]
+    {\normalsize\bfseries Viga apoyada de $L = 12\text{ m}$ con carga linealmente variable de $7.5\text{ kN/m}$ a $18\text{ kN/m}$}
+
+    \vspace{4pt}\hrule\vspace{4pt}
+    {\small\textbf{Unidades de trabajo:} $L\,[\text{m}] \quad F\,[\text{kN}] \quad M\,[\text{kN}\cdot\text{m}] \quad q\,[\text{kN/m}]$}
+\end{tcolorbox}
+\nt{1 diagrama de cuerpo libre con las reacciones en cada punto , Ni=3 Ne=3 isostatica, segundo paso calcular las reacciones}
+\paso{1}{Datos y clasificación estática}
+
+Consideramos una viga apoyada de $L = 12\text{ m}$ sometida a una carga trapezoidal que crece desde $q(0) = 7.5\text{ kN/m}$ en el apoyo fijo $A$ ($x=0$) hasta $q(12) = 15\text{ kN/m}$ en el apoyo móvil $B$ ($x=12\text{ m}$).
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.98\textwidth}{%
+        \begin{tikzpicture}[scale=1.0, >=Latex]
+            % Viga (azul)
+            \draw[line width=2.5pt, blue!80!black] (0,0) -- (6,0);
+
+            % Apoyo A (Fijo) en x=0
+            \coordinate (A) at (0,0);
+            \draw[thick] (A) -- ++(-0.35,-0.5) -- ++(0.7,0) -- cycle;
+            \draw[line width=1pt] (-0.5,-0.5) -- (0.5,-0.5);
+            \foreach \x in {-0.35,-0.1,0.15,0.4} \draw (\x,-0.5) -- (\x-0.15,-0.7);
+            \node[above left=2pt] at (A) {$A$};
+
+            % Apoyo B (Móvil) en x=6 (representa 12m)
+            \coordinate (B) at (6,0);
+            \draw[thick] (B) -- ++(-0.35,-0.35) -- ++(0.7,0) -- cycle;
+            \draw[thick] ($(B)+(-0.2,-0.47)$) circle (0.12);
+            \draw[thick] ($(B)+(0.2,-0.47)$) circle (0.12);
+            \draw[line width=1pt] ($(B)+(-0.5,-0.6)$) -- ($(B)+(0.5,-0.6)$);
+            \node[above right=2pt] at (B) {$B$};
+
+            % Carga trapezoidal (roja): de h=0.75 a h=1.8
+            \draw[line width=1.1pt, red!80!black] (0,0.75) -- (6,1.8);
+            \foreach \x in {0, 0.75, 1.5, 2.25, 3.0, 3.75, 4.5, 5.25, 6.0} {
+                    \pgfmathsetmacro{\h}{0.75 + \x*(1.05/6.0)}
+                    \draw[->, line width=0.8pt, red!80!black] (\x, \h) -- (\x, 0.05);
+                }
+            \node[above left, red!80!black, font=\small\bfseries] at (0, 0.75) {$7.5\text{ kN/m}$};
+            \node[above right, red!80!black, font=\small\bfseries] at (6, 1.8) {$15\text{ kN/m}$};
+
+            % Cotas
+            \draw[|<->|, >=Latex] (0,-1.0) -- (6,-1.0) node[midway, fill=white, font=\small\bfseries] {$L = 12\text{ m}$};
+        \end{tikzpicture}%
+    }
+    \caption*{\textit{\small Esquema de la viga con carga trapezoidal (distribuida variable).}}
+\end{figure}
+
+\paragraph{Clasificación estática:}
+\[
+    GH = r - 3 = 3 - 3 = 0 \implies \text{\textbf{Estructura isostática.}}
+\]
+
+\paso{2}{Diagramas de esfuerzos internos ($N, Q, M_f$)}
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.98\textwidth}{%
+        \begin{tikzpicture}[scale=1.0, >=Latex]
+            \draw[dotted, line width=0.7pt, gray] (0, 0.5) -- (0, -7.5);
+            \draw[dotted, line width=0.7pt, gray] (6, 0.5) -- (6, -7.5);
+            \draw[dotted, line width=0.7pt, gray] (3.15, 0.5) -- (3.15, -7.5);
+
+            % --- DIAGRAMA N(x) ---
+            \node[left=6pt, font=\small\bfseries] at (0,0) {$N$};
+            \draw[line width=1.2pt] (0,0) -- (6,0);
+            \node[above, font=\small] at (3,0) {$N = 0$};
+
+            % --- DIAGRAMA Q(x) ---
+            \draw[line width=0.8pt, gray!60] (0,-2.5) -- (6,-2.5);
+            \node[left=6pt, font=\small\bfseries] at (0,-2.5) {$Q$};
+
+            \fill[blue!15] (0,-2.5) to[out=-15, in=150] (3.15,-2.5) -- (6,-2.5-1.5) -- (6,-2.5) -- cycle;
+            \fill[blue!15] (0,-2.5) -- (0,-2.5+1.2) to[out=-15, in=150] (3.15,-2.5) -- cycle;
+            \draw[line width=1.3pt, blue!70!black] (0,-2.5+1.2) to[out=-15, in=150] (3.15,-2.5) to[out=-30, in=165] (6,-2.5-1.5);
+
+            \node[above left, blue!90!black, font=\scriptsize] at (0,-2.5+1.2) {$60.00\text{ kN}$};
+            \node[below right, blue!90!black, font=\scriptsize] at (6,-2.5-1.5) {$-75.00\text{ kN}$};
+
+            \draw[|<->|, >=Latex] (0,-4.1) -- (3.15,-4.1) node[midway, fill=white, font=\tiny] {$6.30\text{ m}$};
+
+            % --- DIAGRAMA M_f(x) ---
+            \draw[line width=0.8pt, gray!60] (0,-5.5) -- (6,-5.5);
+            \node[left=6pt, font=\small\bfseries] at (0,-5.5) {$M_f$};
+
+            \fill[blue!15] (0,-5.5) to[out=-35, in=180] (3.15,-5.5-1.6) to[out=0, in=155] (6,-5.5) -- cycle;
+            \draw[line width=1.3pt, blue!70!black] (0,-5.5) to[out=-35, in=180] (3.15,-5.5-1.6) to[out=0, in=155] (6,-5.5);
+
+            \node[below, blue!90!black, font=\scriptsize\bfseries] at (3.15,-5.5-1.6) {$203.00\text{ kN}\cdot\text{m}$};
+
+            \draw[-{Latex[length=2mm, width=1.5mm]}, line width=0.8pt, blue!70!black] ($(2.0,-6.3)+(140:0.3)$) arc (140:0:0.3);
+            \draw[-{Latex[length=2mm, width=1.5mm]}, line width=0.8pt, blue!70!black] ($(2.6,-6.3)+(40:0.3)$) arc (40:180:0.3);
+        \end{tikzpicture}%
+    }
+    \caption*{\textit{\small Diagramas de esfuerzo axil ($N$), esfuerzo cortante ($Q$) y momento flector ($M_f$).}}
+\end{figure}
 
 
 \subsection{Ejemplo 5: Viga simplemente apoyada con carga triangular doble (triangular en cumbre)}
@@ -3365,5 +3474,13 @@ Momento de empotramiento en $B$ ($x = 5\text{ m}$):
     \caption*{\textit{\small Diagramas de esfuerzo axil ($N$), esfuerzo cortante ($Q$) y momento flector ($M_f$).}}
 \end{figure}
 
+%Ejemplo nuevo izquierda ligadura empotramiento durante 2 m carga uniforme distribuida 20kn/m  al acabar puntual de 10  luego 2m mas hasta el final acaba sin ligaduras (voladizo) momento en el extremo 5 horario
+% reacciones  sumfx = 0 =va , sumfy -20*2+ Ha -10 ---> Ha= 50 , sum Ma = Ma- 5- (20*2*1) -(10*2) --> Ma = 65
+% cortes primera seccion  sumfx= 0 = Ha , sumfy 0  = 50*20x- Q ---> Q = -20x +50 , summ = -50x+ 65+ 20x x/2 + mf --> mf = -10x^2 +50x -65 
+%valores Q0 = 50 q2 = 10, M0 = -65, m2 = -5
+%seccion 2  sumfx = - N , sumfy = Q , sum M = -5 -mf , 
+%valores Q , M -5 
 
-
+%! escribir comprobaciones
+% si hay una carga inclinada hay que descomponer la fuerza , ejemplo si hay una fuerza puntual inclinada en una viga con 2 ligaduras hay que hacer 2 cortes
+% 
