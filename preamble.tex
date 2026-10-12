@@ -662,7 +662,42 @@
 \newcommand{\dfnc}[2]{\begin{Definición}[colbacktitle=red!75!black]{#1}{}#2\end{Definición}}
 \newcommand{\qs}[2]{\begin{question}{#1}{}#2\end{question}}
 \newcommand{\pf}[2]{\begin{myproof}[#1]#2\end{myproof}}
+\newtcolorbox{comprobacion}[1][]{%
+    enhanced jigsaw,
+    colback=brown!12!white,%
+    colframe=brown!75!black,
+    size=small,
+    boxrule=1pt,
+    title=\textbf{Comprobación:-},
+    halign title=flush center,
+    coltitle=black,
+    breakable,
+    drop shadow=black!40!white,
+    attach boxed title to top left={xshift=1cm,yshift=-\tcboxedtitleheight/2,yshifttext=-\tcboxedtitleheight/2},
+    minipage boxed title=2.8cm,
+    boxed title style={%
+            colback=white,
+            size=fbox,
+            boxrule=1pt,
+            boxsep=2pt,
+            underlay={%
+                    \coordinate (dotA) at ($(interior.west) + (-0.5pt,0)$);
+                    \coordinate (dotB) at ($(interior.east) + (0.5pt,0)$);
+                    \begin{scope}
+                        \clip (interior.north west) rectangle ([xshift=3ex]interior.east);
+                        \filldraw [white, blur shadow={shadow opacity=60, shadow yshift=-.75ex}, rounded corners=2pt] (interior.north west) rectangle (interior.south east);
+                    \end{scope}
+                    \begin{scope}[brown!75!black]
+                        \fill (dotA) circle (2pt);
+                        \fill (dotB) circle (2pt);
+                    \end{scope}
+                },
+        },
+    #1,
+}
+
 \newcommand{\nt}[1]{\begin{note}#1\end{note}}
+\newcommand{\comp}[1]{\begin{comprobacion}#1\end{comprobacion}}
 
 \newcommand*\circled[1]{\tikz[baseline=(char.base)]{
         \node[shape=circle,draw,inner sep=1pt] (char) {#1};}}
