@@ -1,0 +1,59 @@
+\documentclass{report}
+
+\input{preamble}
+\input{macros}
+\input{letterfonts}
+\usepackage[utf8]{inputenc}  % para PDFLaTeX
+\usepackage[T1]{fontenc}
+
+\usepackage{chemfig}
+\usepackage{multicol}
+\usepackage{booktabs}
+\usepackage{siunitx}
+\usepackage{cancel}
+\usepackage{adjustbox}
+\usepackage{pdflscape}
+\usepackage[backend=biber, style=apa]{biblatex}
+\usepackage{caption}
+\usepackage[spanish]{babel}
+\usepackage{lmodern}
+\usepackage{multirow}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning, calc, decorations.pathreplacing, babel, shapes.geometric, patterns, patterns.meta}
+\usepackage{amsmath}
+\usepackage{minted}
+\usepackage{csquotes}
+\usepackage{subcaption}
+\usepackage{float}
+\addto\captionsspanish{
+  \renewcommand{\contentsname}{Índice}
+}
+
+\definecolor{darkgreen}{rgb}{0,0.6,0}
+
+\title{
+    \includegraphics[width=0.4\textwidth]{escudo.png}\\[2cm] % logo arriba
+    {\Huge TEMA 3}\\[1.5em]
+    {\Huge Introducción a la Resistencia de Materiales}\\[2em]
+}
+\vspace{2em}
+\author{\Large Pérez Hita, Christian \\[1em]}
+\vspace{1cm}
+\date{13 de octubre de 2026}
+
+\begin{document}
+\spanishdeactivate{.<>}
+\setcounter{tocdepth}{3}
+\maketitle
+\newpage
+
+\pdfbookmark[section]{\contentsname}{contenidos}
+\tableofcontents
+\pagebreak
+
+\graphicspath{ {./Imagenes/} }
+
+\setcounter{chapter}{2} % Para que empiece como Capítulo 3
+\input{Capitulos/Tema3}
+
+\end{document}
