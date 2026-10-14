@@ -1644,7 +1644,7 @@ Sustituimos el empotramiento en $A$ por sus correspondientes reacciones de enlac
 
 La resultante total de la carga triangular exterior es el área del triángulo de carga:
 \begin{equation}
-    R_q = \frac{1}{2} \cdot q_{\max} \cdot L = \frac{30\text{ kN/m} \cdot 6\text{ m}}{2} = 90\text{ kN}
+    R_q = \frac{1}{2} \cdot q_{\text{máx}} \cdot L = \frac{30\text{ kN/m} \cdot 6\text{ m}}{2} = 90\text{ kN}
 \end{equation}
 Su punto de aplicación (centro de gravedad) se ubica a $\frac{2}{3}L$ del vértice en $A$:
 \begin{equation}
@@ -3120,8 +3120,10 @@ Representamos alineados verticalmente el DCL global y las funciones continuas de
             \node[above, blue!90!black, font=\scriptsize] at (3,-2.5+0.56) {$+18.00$};
             \node[below, blue!90!black, font=\scriptsize] at (6,-2.5) {$0\text{ kN}$};
 
-            % Signo cortante positivo
-            \node[font=\small\bfseries, blue!90!black] at (1.5,-2.5+0.5) {$+$};
+            % Criterio de signo cortante positivo con flechas (completamente dentro del área azul)
+            \draw[-{Latex[length=1.5mm, width=1.0mm]}, line width=0.65pt, blue!80!black] (1.2,-2.5+0.35) -- (1.2,-2.5+0.75);
+            \node[font=\tiny\bfseries, blue!80!black] at (1.45,-2.5+0.55) {$+$};
+            \draw[-{Latex[length=1.5mm, width=1.0mm]}, line width=0.65pt, blue!80!black] (1.7,-2.5+0.75) -- (1.7,-2.5+0.35);
 
             % --- 4. DIAGRAMA M_f(x) ---
             \draw[line width=0.8pt, gray!60] (0,-5.5) -- (6,-5.5);
@@ -3146,10 +3148,16 @@ Representamos alineados verticalmente el DCL global y las funciones continuas de
             \node[above right, orange!90!black, font=\scriptsize\bfseries] at (3.0,-5.5+0.45) {$-18.00$};
             \node[below, orange!90!black, font=\scriptsize] at (6,-5.5) {$0\text{ kN}\cdot\text{m}$};
 
-            % Criterio signo momento negativo
+            % Criterio signo momento negativo en zona superior (amplia)
             \draw[-{Stealth[length=2mm, width=1.4mm]}, line width=0.8pt, orange!85!black] ($(0.4,-5.5+0.5)+(90:0.25)$) arc (90:270:0.25);
             \node[font=\small\bfseries, orange!90!black] at (0.75,-5.5+0.5) {$-$};
             \draw[-{Stealth[length=2mm, width=1.4mm]}, line width=0.8pt, orange!85!black] ($(1.1,-5.5+0.5)+(90:0.25)$) arc (90:-90:0.25);
+
+            % Criterio signo momento positivo debajo del diagrama indicado con flecha discontinua gris
+            \draw[->, >=Latex, dashed, line width=0.7pt, gray] (2.85,-6.35) -- (2.85,-5.5-0.2);
+            \draw[-{Stealth[length=1.5mm, width=1.1mm]}, line width=0.7pt, orange!85!black] ($(2.5,-6.65)+(-90:0.2)$) arc (-90:-270:0.2);
+            \node[font=\footnotesize\bfseries, orange!90!black] at (2.85,-6.65) {$+$};
+            \draw[-{Stealth[length=1.5mm, width=1.1mm]}, line width=0.7pt, orange!85!black] ($(3.2,-6.65)+(-90:0.2)$) arc (-90:90:0.2);
         \end{tikzpicture}%
     }
     \caption{Diagrama de cuerpo libre y diagramas continuos de esfuerzo axil ($N$), esfuerzo cortante ($Q$) y momento flector ($M_f$).}
@@ -3194,9 +3202,18 @@ Representamos alineados verticalmente el DCL global y las funciones continuas de
     {\small\textbf{Unidades de trabajo:} $L\,[\text{m}] \quad F\,[\text{kN}] \quad M\,[\text{kN}\cdot\text{m}] \quad q\,[\text{kN/m}]$}
 \end{tcolorbox}
 
-\paso{1}{Datos y clasificación estática}
+\paso{1}{Datos, clasificación estática y Diagrama de Cuerpo Libre (DCL)}
 
-Consideramos una viga de $L = 10\text{ m}$ apoyada en un carrito móvil en el extremo izquierdo $A$ ($x=0$) y un apoyo fijo en el extremo derecho $C$ ($x=10\text{ m}$). Presenta un momento concentrado de $30\text{ kN}\cdot\text{m}$ en $A$, una carga uniforme de $40\text{ kN/m}$ en el primer tramo de $4\text{ m}$, y una fuerza inclinada de $10\text{ kN}$ a $45^\circ$ en $x = 7\text{ m}$.
+\noindent Consideramos una viga de longitud total $L = 10\text{ m}$ sustentada mediante un apoyo móvil (carrito) en el extremo izquierdo $A$ ($x = 0$) y un apoyo fijo articulado en el extremo derecho $C$ ($x = 10\text{ m}$). Sobre la viga actúan:
+\begin{itemize}
+    \item Un momento puntual exterior concentrado $M_A = 30\text{ kN}\cdot\text{m}$ en el apoyo $A$ (en sentido horario, comprimiendo fibras superiores y traccionando inferiores).
+    \item Una carga distribuida uniforme $q = 40\text{ kN/m}$ a lo largo de los primeros $4\text{ m}$ de la viga ($x \in [0, 4\text{ m}]$).
+    \item Una fuerza puntual inclinada $F = 10\text{ kN}$ con ángulo de $45^\circ$ respecto a la directriz en la sección $D$ ($x = 7\text{ m}$), cuyas componentes ortogonales son:
+          \begin{align*}
+              F_x & = F \cos 45^\circ = 10 \cdot \frac{\sqrt{2}}{2} \approx 7.07\text{ kN} \quad (\leftarrow\text{ hacia la izquierda}), \\
+              F_y & = F \sin 45^\circ = 10 \cdot \frac{\sqrt{2}}{2} \approx 7.07\text{ kN} \quad (\uparrow\text{ ascendente}).
+          \end{align*}
+\end{itemize}
 
 \begin{figure}[H]
     \centering
@@ -3211,18 +3228,18 @@ Consideramos una viga de $L = 10\text{ m}$ apoyada en un carrito móvil en el ex
             \draw[thick] ($(A)+(-0.2,-0.47)$) circle (0.12);
             \draw[thick] ($(A)+(0.2,-0.47)$) circle (0.12);
             \draw[line width=1pt] ($(A)+(-0.5,-0.6)$) -- ($(A)+(0.5,-0.6)$);
-            \node[above left=2pt] at (A) {$A$};
+            \node at (-0.25, 0.20) {$A$};
 
             % Apoyo C (Fijo) en x=6 (10m)
             \coordinate (C) at (6,0);
             \draw[thick] (C) -- ++(-0.35,-0.5) -- ++(0.7,0) -- cycle;
-            \draw[line width=1pt] (-0.5,-0.5) -- (0.5,-0.5);
+            \draw[line width=1pt] ($(C)+(-0.5,-0.5)$) -- ($(C)+(0.5,-0.5)$);
             \foreach \x in {-0.35,-0.1,0.15,0.4} \draw (\x+6,-0.5) -- (\x+5.85,-0.7);
             \node[above right=2pt] at (C) {$C$};
 
-            % Momento concentrado en A (30 kN*m)
-            \draw[-{Latex[length=2.5mm, width=1.8mm]}, line width=1.2pt, magenta!80!black] ($(A)+(-0.5,0.3)$) arc (140:340:0.4);
-            \node[left, magenta!80!black, font=\small\bfseries] at (-0.5, 0.3) {$30\text{ kN}\cdot\text{m}$};
+            % Momento concentrado en A (30 kN*m) horario (desde segundo cuadrante 140º a 25º)
+            \draw[-{Latex[length=2.5mm, width=1.8mm]}, line width=1.2pt, magenta!80!black] ($(A)+(140:0.45)$) arc (140:25:0.45);
+            \node[above left=2pt, magenta!80!black, font=\small\bfseries] at ($(A)+(-0.25, 0.42)$) {$30\text{ kN}\cdot\text{m}$};
 
             % Carga uniforme q = 40 kN/m en tramo de 4m (x=0 a 2.4 en escala)
             \draw[line width=0.9pt, red!80!black] (0,0.9) -- (2.4,0.9);
@@ -3231,9 +3248,11 @@ Consideramos una viga de $L = 10\text{ m}$ apoyada en un carrito móvil en el ex
                 }
             \node[above, red!80!black, font=\small\bfseries] at (1.2, 0.95) {$40\text{ kN/m}$};
 
-            % Fuerza inclinada F = 10 kN a 45º en x = 4.2 (7m)
+            % Fuerza inclinada F = 10 kN a 45º en x = 4.2 (7m) con línea discontinua de ángulo
             \draw[<-, line width=1.5pt, red!80!black] (4.2,0) -- ++(45:1.2) node[above right, font=\small\bfseries] {$10\text{ kN}$};
-            \node[right, font=\tiny] at (4.4,0.3) {$45^\circ$};
+            \draw[dashed, line width=0.6pt, gray] (4.2,0) -- ++(1.0,0);
+            \draw[line width=0.6pt, gray] ($(4.2,0)+(0:0.5)$) arc (0:45:0.5);
+            \node[right, font=\tiny] at (4.75,0.2) {$45^\circ$};
 
             % Cotas: 4m, 3m, 3m
             \draw[|<->|, >=Latex] (0,-0.9) -- (2.4,-0.9) node[midway, fill=white, font=\small] {$4\text{ m}$};
@@ -3241,86 +3260,453 @@ Consideramos una viga de $L = 10\text{ m}$ apoyada en un carrito móvil en el ex
             \draw[|<->|, >=Latex] (4.2,-0.9) -- (6.0,-0.9) node[midway, fill=white, font=\small] {$3\text{ m}$};
         \end{tikzpicture}%
     }
-    \caption{Esquema de la viga con carga uniforme, momento en A y carga inclinada.}
+    \caption{Esquema geométrico y de cargas exteriores de la viga simplemente apoyada.}
+    \label{fig:ejemplo6_esquema}
 \end{figure}
 
 \paragraph{Clasificación estática:}
 \[
-    GH = r - 3 = 3 - 3 = 0 \implies \text{\textbf{Estructura isostática.}}
+    GH = r - 3 = (1 + 2) - 3 = 0 \implies \text{\textbf{Estructura isostática exteriormente.}}
 \]
 
-\paso{2}{Diagramas de esfuerzos internos ($N, Q, M_f$)}
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.98\textwidth}{%
+        \begin{tikzpicture}[scale=1.1, >=Latex]
+            % Viga DCL (azul)
+            \draw[line width=2.5pt, blue!80!black] (0,0) -- (6,0);
+            \fill (0,0) circle (2pt) node[above left=2pt, font=\bfseries] {$A$};
+            \fill (2.4,0) circle (1.8pt) node[below=2pt, font=\bfseries] {$B$};
+            \fill (4.2,0) circle (1.8pt) node[below=2pt, font=\bfseries] {$D$};
+            \fill (6.0,0) circle (2pt) node[above right=2pt, font=\bfseries] {$C$};
+
+            % Reacciones en A y C (verde)
+            \draw[->, >=Latex, line width=1.4pt, green!60!black] (0,-1.1) -- (0,-0.05) node[midway, left=2pt, font=\footnotesize\bfseries] {$V_A$};
+            \draw[->, >=Latex, line width=1.4pt, green!60!black] (6.0,-1.1) -- (6.0,-0.05) node[midway, right=2pt, font=\footnotesize\bfseries] {$V_C$};
+            \draw[->, >=Latex, line width=1.4pt, green!60!black] (7.1,0) -- (6.05,0) node[midway, above=1pt, font=\footnotesize\bfseries] {$H_C$};
+
+            % Momento en A (trasladado a la izquierda)
+            \draw[-{Latex[length=2.5mm, width=1.8mm]}, line width=1.2pt, magenta!80!black] ($(0,0)+(60:0.55)$) arc (60:-180:0.55);
+            \node[above left=4pt, magenta!80!black, font=\small\bfseries] at (-0.35,0.45) {$M_A = 30\text{ kN}\cdot\text{m}$};
+
+            % Carga uniforme repartida y su resultante equivalente
+            \draw[line width=0.9pt, red!80!black] (0,0.9) -- (2.4,0.9);
+            \foreach \x in {0, 0.6, 1.2, 1.8, 2.4} {
+                    \draw[->, line width=0.8pt, red!80!black] (\x, 0.9) -- (\x, 0.05);
+                }
+            \node[above, red!80!black, font=\small\bfseries] at (1.2, 0.95) {$40\text{ kN/m}$};
+            \draw[->, >=Latex, line width=1.3pt, magenta!80!black, dashed] (1.2,1.8) -- (1.2,0.05) node[pos=0, above=2pt, font=\footnotesize\bfseries] {$R_q = 160\text{ kN}$};
+
+            % Fuerza inclinada descompuesta en D (x = 4.2 en escala -> 7 m)
+            \draw[->, >=Latex, line width=1.4pt, red!80!black] (4.2,0.05) -- (4.2,1.15) node[pos=1, above=2pt, font=\footnotesize\bfseries] {$F_y = 7.07\text{ kN}$};
+            \draw[->, >=Latex, line width=1.4pt, red!80!black] (4.2,0) -- ++(-1.1,0) node[midway, below=3pt, font=\footnotesize\bfseries] {$F_x = 7.07\text{ kN}$};
+
+            % Cotas
+            \draw[|<->|, >=Latex] (0,-0.85) -- (2.4,-0.85) node[midway, fill=white, font=\footnotesize] {$4\text{ m}$};
+            \draw[|<->|, >=Latex] (2.4,-0.85) -- (4.2,-0.85) node[midway, fill=white, font=\footnotesize] {$3\text{ m}$};
+            \draw[|<->|, >=Latex] (4.2,-0.85) -- (6.0,-0.85) node[midway, fill=white, font=\footnotesize] {$3\text{ m}$};
+            \draw[|<->|, >=Latex] (0,-1.4) -- (1.2,-1.4) node[midway, fill=white, font=\tiny] {$2\text{ m}$};
+            \draw[|<->|, >=Latex] (1.2,-1.4) -- (2.4,-1.4) node[midway, fill=white, font=\tiny] {$2\text{ m}$};
+        \end{tikzpicture}%
+    }
+    \caption{Diagrama de Cuerpo Libre (DCL) global de la viga sustituyendo las ligaduras por sus correspondientes reacciones.}
+    \label{fig:ejemplo6_dcl}
+\end{figure}
+
+\paso{2}{Reacciones en los apoyos}
+
+La carga repartida uniforme de $40\text{ kN/m}$ en $4\text{ m}$ produce una resultante equivalente vertical de $R_q = 40 \cdot 4 = 160\text{ kN}$ aplicada en el punto medio del tramo cargado ($x = 2\text{ m}$). Planteamos las tres ecuaciones fundamentales del equilibrio estático del sólido rígido:
+\begin{align}
+    (\leftarrow +) \quad \sum F_x = 0       & \implies H_C - F_x = 0 \implies H_C - 7.07 = 0 \implies \boxed{H_C = 7.07\text{ kN}\;(\rightarrow)}                          \\
+    (\circlearrowleft +) \quad \sum M_A = 0 & \implies V_C \cdot 10 + F_y \cdot 7 - R_q \cdot 2 - M_A = 0 \nonumber                                                        \\
+                                            & \implies 10\,V_C + 7.0711 \cdot 7 - 160 \cdot 2 - 30 = 0 \nonumber                                                           \\
+                                            & \implies 10\,V_C + 49.50 - 320 - 30 = 0 \implies 10\,V_C = 300.50 \implies \boxed{V_C = 30.05\text{ kN}\;(\uparrow)}         \\
+    (\uparrow +) \quad \sum F_y = 0         & \implies V_A + V_C + F_y - R_q = 0 \implies V_A + 30.05 + 7.07 - 160 = 0 \implies \boxed{V_A = 122.88\text{ kN}\;(\uparrow)}
+\end{align}
+
+\paso{3}{Cálculo de los esfuerzos internos (Método de los cortes)}
+
+Dividimos la viga en tres tramos funcionales definidos por las secciones singulares:
+\begin{itemize}
+    \item \textbf{Tramo 1 ($0 \le x \le 4\text{ m}$):} Entre el apoyo $A$ y el final de la carga uniforme repartida ($B$).
+    \item \textbf{Tramo 2 ($4\text{ m} \le x \le 7\text{ m}$):} Tramo intermedio sin carga repartida hasta el punto de aplicación de la fuerza inclinada ($D$).
+    \item \textbf{Tramo 3 ($7\text{ m} \le x \le 10\text{ m}$):} Tramo final hasta el apoyo fijo $C$.
+\end{itemize}
+
+% ----------------- TRAMO 1 -----------------
+\tramobadge{Tramo 1}{$0 \le x \le 4\text{ m}$}
+
+Efectuamos un corte a una distancia genérica $x \in [0, 4\text{ m}]$ desde el origen $A$ y estudiamos el equilibrio de la porción izquierda aislada:
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.88\textwidth}{%
+        \begin{tikzpicture}[scale=1.1, >=Latex]
+            % Viga cortada
+            \draw[line width=2.5pt, blue!80!black] (0,0) -- (4.5,0);
+            \fill (0,0) circle (2pt) node[above left=2pt, font=\bfseries] {$A$};
+
+            % Corte seccional a la derecha
+            \draw[thick, fill=gray!20] (4.5,-0.35) to[out=60,in=-60] (4.5,0) to[out=120,in=-120] (4.5,0.35);
+
+            % Reacción en A
+            \draw[->, >=Latex, line width=1.4pt, green!60!black] (0,-1.1) -- (0,-0.05) node[midway, left=2pt, font=\footnotesize\bfseries] {$V_A = 122.88\text{ kN}$};
+
+            % Momento concentrado en A (trasladado a la izquierda)
+            \draw[-{Latex[length=2.5mm, width=1.8mm]}, line width=1.2pt, magenta!80!black] ($(0,0)+(60:0.5)$) arc (60:-180:0.5);
+            \node[above left=3pt, magenta!80!black, font=\footnotesize\bfseries] at (-0.35,0.4) {$M_A = 30\text{ kN}\cdot\text{m}$};
+
+            % Carga uniforme parcial
+            \draw[line width=0.9pt, red!80!black] (0,0.9) -- (4.5,0.9);
+            \foreach \x in {0.5, 1.3, 2.1, 2.9, 3.7, 4.5} {
+                    \draw[->, line width=0.7pt, red!80!black] (\x, 0.9) -- (\x, 0.05);
+                }
+            \node[above, red!80!black, font=\footnotesize\bfseries] at (2.25, 0.95) {$q = 40\text{ kN/m}$};
+            \draw[->, >=Latex, line width=1.2pt, magenta!80!black, dashed] (2.25,1.7) -- (2.25,0.05) node[pos=0, above=2pt, font=\footnotesize\bfseries] {$R_q(x) = 40x$};
+
+            % Cotas
+            \draw[|<->|, >=Latex] (0,-0.65) -- (2.25,-0.65) node[midway, fill=white, font=\tiny] {$x/2$};
+            \draw[|<->|, >=Latex] (2.25,-0.65) -- (4.5,-0.65) node[midway, fill=white, font=\tiny] {$x/2$};
+            \draw[|<->|, >=Latex] (0,-1.3) -- (4.5,-1.3) node[midway, fill=white, font=\footnotesize\bfseries] {$x$};
+
+            % Esfuerzos internos en la sección de corte
+            \coordinate (corte) at (4.5,0);
+            \draw[->, line width=1.3pt, purple!80!black] (corte) -- ++(1.1,0) node[right, font=\footnotesize\bfseries] {$N(x)$};
+            \draw[->, line width=1.3pt, purple!80!black] (corte) -- ++(0,-1.0) node[below right=2pt, font=\footnotesize\bfseries] {$Q(x)$};
+            \draw[-{Latex[length=2.3mm, width=1.6mm]}, line width=1.3pt, purple!80!black] ($(corte)+(-40:0.55)$) arc (-40:120:0.55);
+            \node[right=2pt, purple!80!black, font=\footnotesize\bfseries] at ($(corte)+(40:0.75)$) {$M_f(x)$};
+            \filldraw[black] (corte) circle (2.2pt);
+        \end{tikzpicture}%
+    }
+    \caption{Diagrama de equilibrio seccional en la porción aislada del Tramo 1 ($0 \le x \le 4\text{ m}$).}
+    \label{fig:ejemplo6_corte1}
+\end{figure}
+
+Ecuaciones de equilibrio estático en la sección genérica $x$:
+\begin{itemize}
+    \item \textbf{Esfuerzo axil ($N$):}
+          \begin{equation}
+              \sum F_x = 0 \implies \boxed{N(x) = 0\text{ kN}}
+          \end{equation}
+
+    \item \textbf{Esfuerzo cortante ($Q$):}
+          \begin{equation}
+              \sum F_y = 0 \implies V_A - 40\,x - Q(x) = 0 \implies \boxed{Q(x) = 122.88 - 40\,x\text{ [kN]}}
+          \end{equation}
+          Valores en los extremos del tramo:
+          \begin{align*}
+              Q(0^+) & = 122.88 - 40(0) = \boxed{+122.88\text{ kN}}                  \\
+              Q(4^-) & = 122.88 - 40(4) = 122.88 - 160.00 = \boxed{-37.12\text{ kN}}
+          \end{align*}
+
+          \paragraph{Punto de cortante nulo ($Q = 0$):}
+          Al verificarse un cambio de signo en este tramo, existe una sección interior $x_0 \in (0, 4\text{ m})$ donde el cortante se anula:
+          \begin{equation}
+              122.88 - 40\,x_0 = 0 \implies \boxed{x_0 = \frac{122.88}{40} = 3.072\text{ m}}
+          \end{equation}
+
+    \item \textbf{Momento flector ($M_f$):}
+          Tomando momentos respecto al centro de gravedad del corte:
+          \begin{equation}
+              \sum M_{\text{corte}} = 0 \implies M_f(x) - M_A - V_A \cdot x + (40\,x)\cdot\frac{x}{2} = 0
+          \end{equation}
+          \begin{equation}
+              \boxed{M_f(x) = 30.00 + 122.88\,x - 20\,x^2\text{ [kN}\cdot\text{m]}}
+          \end{equation}
+          Nótese que la derivada respecto a $x$ reproduce exactamente la ley de esfuerzo cortante:
+          \begin{equation}
+              \frac{dM_f}{dx} = 122.88 - 40\,x = Q(x)
+          \end{equation}
+
+          Valores en los extremos:
+          \begin{align*}
+              M_f(0)   & = 30.00 + 122.88(0) - 20(0)^2 = \boxed{+30.00\text{ kN}\cdot\text{m}}                            \\
+              M_f(4^-) & = 30.00 + 122.88(4) - 20(4)^2 = 30.00 + 491.52 - 320.00 = \boxed{+201.52\text{ kN}\cdot\text{m}}
+          \end{align*}
+
+          \comp{
+              \textbf{Comprobación y evaluación del momento flector máximo:}
+              Dado que $\dfrac{dM_f}{dx} = Q(x)$, la condición necesaria de extremo relativo se cumple en $x_0 = 3.072\text{ m}$. Comprobamos su condición de máximo con la segunda derivada:
+              \begin{equation}
+                  \left.\frac{d^2 M_f}{dx^2}\right|_{x_0} = \left.\frac{dQ}{dx}\right|_{x_0} = -40\text{ kN/m} < 0 \implies \textbf{Máximo absoluto positivo.}
+              \end{equation}
+              Evaluamos numéricamente el momento flector máximo en $x_0 = 3.072\text{ m}$:
+              \begin{equation}
+                  \boxed{M_{f,\text{máx}} = M_f(3.072) = 30.00 + 122.88(3.072) - 20(3.072)^2 \approx +218.74\text{ kN}\cdot\text{m}}
+              \end{equation}
+          }
+\end{itemize}
+
+% ----------------- TRAMO 2 -----------------
+\tramobadge{Tramo 2}{$4\text{ m} \le x \le 7\text{ m}$}
+
+Aislamos la porción comprendida entre $x = 0$ y una sección genérica $x \in [4, 7\text{ m}]$, donde la carga distribuida ya ha finalizado:
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.88\textwidth}{%
+        \begin{tikzpicture}[scale=1.1, >=Latex]
+            % Viga cortada
+            \draw[line width=2.5pt, blue!80!black] (0,0) -- (5.0,0);
+            \fill (0,0) circle (2pt) node[above left=2pt, font=\bfseries] {$A$};
+            \fill (2.67,0) circle (1.8pt) node[below=2pt, font=\bfseries] {$B$};
+
+            % Corte seccional a la derecha
+            \draw[thick, fill=gray!20] (5.0,-0.35) to[out=60,in=-60] (5.0,0) to[out=120,in=-120] (5.0,0.35);
+
+            % Reacción en A y momento (trasladado a la izquierda)
+            \draw[->, >=Latex, line width=1.4pt, green!60!black] (0,-1.1) -- (0,-0.05) node[midway, left=2pt, font=\footnotesize\bfseries] {$V_A = 122.88\text{ kN}$};
+            \draw[-{Latex[length=2.5mm, width=1.8mm]}, line width=1.2pt, magenta!80!black] ($(0,0)+(60:0.5)$) arc (60:-180:0.5);
+            \node[above left=3pt, magenta!80!black, font=\footnotesize\bfseries] at (-0.35,0.4) {$M_A = 30\text{ kN}\cdot\text{m}$};
+
+            % Carga uniforme completa en tramo AB
+            \draw[line width=0.9pt, red!80!black] (0,0.9) -- (2.67,0.9);
+            \foreach \x in {0.4, 1.1, 1.8, 2.5} {
+                    \draw[->, line width=0.7pt, red!80!black] (\x, 0.9) -- (\x, 0.05);
+                }
+            \node[above, red!80!black, font=\footnotesize\bfseries] at (1.33, 0.95) {$40\text{ kN/m}$};
+            \draw[->, >=Latex, line width=1.2pt, magenta!80!black, dashed] (1.33,1.7) -- (1.33,0.05) node[pos=0, above=2pt, font=\footnotesize\bfseries] {$R_q = 160\text{ kN}$};
+
+            % Cotas
+            \draw[|<->|, >=Latex] (0,-0.65) -- (2.67,-0.65) node[midway, fill=white, font=\footnotesize] {$4\text{ m}$};
+            \draw[|<->|, >=Latex] (2.67,-0.65) -- (5.0,-0.65) node[midway, fill=white, font=\footnotesize] {$x - 4$};
+            \draw[|<->|, >=Latex] (0,-1.3) -- (5.0,-1.3) node[midway, fill=white, font=\footnotesize\bfseries] {$x$};
+            \draw[|<->|, >=Latex] (1.33,-0.65) -- (5.0,-0.65) node[midway, fill=white, font=\tiny] {$x - 2$};
+
+            % Esfuerzos internos en la sección de corte
+            \coordinate (corte) at (5.0,0);
+            \draw[->, line width=1.3pt, purple!80!black] (corte) -- ++(1.1,0) node[right, font=\footnotesize\bfseries] {$N(x)$};
+            \draw[->, line width=1.3pt, purple!80!black] (corte) -- ++(0,-1.0) node[below right=2pt, font=\footnotesize\bfseries] {$Q(x)$};
+            \draw[-{Latex[length=2.3mm, width=1.6mm]}, line width=1.3pt, purple!80!black] ($(corte)+(-40:0.55)$) arc (-40:120:0.55);
+            \node[right=2pt, purple!80!black, font=\footnotesize\bfseries] at ($(corte)+(40:0.75)$) {$M_f(x)$};
+            \filldraw[black] (corte) circle (2.2pt);
+        \end{tikzpicture}%
+    }
+    \caption{Diagrama de esfuerzos internos en la porción aislada del Tramo 2 ($4\text{ m} \le x \le 7\text{ m}$).}
+    \label{fig:ejemplo6_corte2}
+\end{figure}
+
+Ecuaciones de equilibrio estático:
+\begin{itemize}
+    \item \textbf{Esfuerzo axil ($N$):}
+          \begin{equation}
+              \sum F_x = 0 \implies \boxed{N(x) = 0\text{ kN}}
+          \end{equation}
+
+    \item \textbf{Esfuerzo cortante ($Q$):}
+          \begin{equation}
+              \sum F_y = 0 \implies V_A - 160.00 - Q(x) = 0 \implies \boxed{Q(x) = 122.88 - 160.00 = -37.12\text{ kN}} \quad (\text{constante})
+          \end{equation}
+
+    \item \textbf{Momento flector ($M_f$):}
+          Tomando momentos respecto al corte:
+          \begin{equation}
+              \sum M_{\text{corte}} = 0 \implies M_f(x) - M_A - V_A \cdot x + 160(x - 2) = 0
+          \end{equation}
+          \begin{equation}
+              \boxed{M_f(x) = 30.00 + 122.88\,x - 160\,x + 320.00 = 350.00 - 37.12\,x\text{ [kN}\cdot\text{m]}}
+          \end{equation}
+          Nótese que $\dfrac{dM_f}{dx} = -37.12 = Q(x)$.
+          Valores en los extremos:
+          \begin{align*}
+              M_f(4^+) & = 350.00 - 37.12(4) = \boxed{+201.52\text{ kN}\cdot\text{m}}                  \\
+              M_f(7^-) & = 350.00 - 37.12(7) = 350.00 - 259.84 = \boxed{+90.16\text{ kN}\cdot\text{m}}
+          \end{align*}
+\end{itemize}
+
+% ----------------- TRAMO 3 -----------------
+\tramobadge{Tramo 3}{$7\text{ m} \le x \le 10\text{ m}$}
+
+Para el tramo final, aislamos la \textbf{porción derecha} comprendida entre la sección de corte en $x$ y el apoyo $C$ ($x = 10\text{ m}$), de longitud $(10 - x) \in [0, 3\text{ m}]$, facilitando extraordinariamente el cálculo:
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.82\textwidth}{%
+        \begin{tikzpicture}[scale=1.1, >=Latex]
+            % Viga cortada por la izquierda
+            \draw[line width=2.5pt, blue!80!black] (0,0) -- (4.0,0);
+            \fill (4.0,0) circle (2pt);
+
+            % Corte seccional a la izquierda
+            \draw[thick, fill=gray!20] (0,-0.35) to[out=120,in=-120] (0,0) to[out=60,in=-60] (0,0.35);
+
+            % Reacciones en apoyo C
+            \draw[->, >=Latex, line width=1.4pt, green!60!black] (4.0,-1.1) -- (4.0,-0.05) node[midway, right=2pt, font=\footnotesize\bfseries] {$V_C = 30.05\text{ kN}$};
+            \draw[->, >=Latex, line width=1.4pt, green!60!black] (5.1,0) -- (4.05,0) node[midway, above=1pt, font=\footnotesize\bfseries] {$H_C = 7.07\text{ kN}$};
+
+            % Cota (10 - x)
+            \draw[|<->|, >=Latex] (0,-0.65) -- (4.0,-0.65) node[midway, fill=white, font=\footnotesize\bfseries] {$10 - x$};
+
+            % Esfuerzos internos en la cara izquierda del corte
+            \coordinate (corte) at (0,0);
+            \draw[->, line width=1.3pt, purple!80!black] (corte) -- ++(-1.1,0) node[left, font=\footnotesize\bfseries] {$N(x)$};
+            \draw[->, line width=1.3pt, purple!80!black] (corte) -- ++(0,1.0) node[above, font=\footnotesize\bfseries] {$Q(x)$};
+            \draw[-{Latex[length=2.3mm, width=1.6mm]}, line width=1.3pt, purple!80!black] ($(corte)+(-140:0.55)$) arc (-140:40:0.55);
+            \node[left=2pt, purple!80!black, font=\footnotesize\bfseries] at ($(corte)+(140:0.75)$) {$M_f(x)$};
+            \filldraw[black] (corte) circle (2.2pt);
+        \end{tikzpicture}%
+    }
+    \caption{Diagrama de esfuerzos internos aislando la porción derecha en el Tramo 3 ($7\text{ m} \le x \le 10\text{ m}$).}
+    \label{fig:ejemplo6_corte3}
+\end{figure}
+
+Ecuaciones de equilibrio estático de la porción derecha:
+\begin{itemize}
+    \item \textbf{Esfuerzo axil ($N$):}
+          \begin{equation}
+              \sum F_x = 0 \implies -N(x) - H_C = 0 \implies \boxed{N(x) = -H_C = -7.07\text{ kN}} \quad (\text{compresión constante})
+          \end{equation}
+          En la sección singular $x = 7\text{ m}$ la componente horizontal aplicada $F_x = 7.07\text{ kN}\;(\leftarrow)$ introduce el axil:
+          \begin{equation}
+              \Delta N = N(7^+) - N(7^-) = -7.07 - 0 = -7.07\text{ kN}
+          \end{equation}
+
+    \item \textbf{Esfuerzo cortante ($Q$):}
+          \begin{equation}
+              \sum F_y = 0 \implies Q(x) + V_C = 0 \implies \boxed{Q(x) = -V_C = -30.05\text{ kN}} \quad (\text{constante})
+          \end{equation}
+          Discontinuidad de cortante en $x = 7\text{ m}$ producida por la componente vertical ascendente $F_y = 7.07\text{ kN}\;(\uparrow)$:
+          \begin{equation}
+              \Delta Q = Q(7^+) - Q(7^-) = -30.05 - (-37.12) = +7.07\text{ kN} = +F_y
+          \end{equation}
+
+    \item \textbf{Momento flector ($M_f$):}
+          Tomando momentos respecto a la sección de corte:
+          \begin{equation}
+              \sum M_{\text{corte}} = 0 \implies -M_f(x) + V_C(10 - x) = 0 \implies \boxed{M_f(x) = 30.05(10 - x)\text{ [kN}\cdot\text{m]}}
+          \end{equation}
+          Nótese que $\dfrac{dM_f}{dx} = -30.05 = Q(x)$.
+          Valores en los extremos:
+          \begin{align*}
+              M_f(7^+) & = 30.05(10 - 7) = 30.05(3) = \boxed{+90.15\text{ kN}\cdot\text{m}} \\
+              M_f(10)  & = 30.05(10 - 10) = \boxed{0\text{ kN}\cdot\text{m}}
+          \end{align*}
+          \nt{En la sección $x = 7\text{ m}$ no actúan momentos concentrados aplicados, por lo que la ley de momentos flectores es estrictamente continua: $M_f(7^-) = M_f(7^+) \approx 90.16\text{ kN}\cdot\text{m}$.}
+\end{itemize}
+
+\paso{4}{Diagrama de cuerpo libre y diagramas de esfuerzos ($N, Q, M_f$)}
+
+Representamos de forma conjunta el Diagrama de Cuerpo Libre (DCL) completo precediendo a los diagramas continuos y alineados de esfuerzos internos:
 
 \begin{figure}[H]
     \centering
     \adjustbox{max width=0.98\textwidth}{%
         \begin{tikzpicture}[scale=1.0, >=Latex]
-            \draw[dotted, line width=0.7pt, gray] (0, 0.5) -- (0, -7.5);
-            \draw[dotted, line width=0.7pt, gray] (2.4, 0.5) -- (2.4, -7.5);
-            \draw[dotted, line width=0.7pt, gray] (4.2, 0.5) -- (4.2, -7.5);
-            \draw[dotted, line width=0.7pt, gray] (6.0, 0.5) -- (6.0, -7.5);
+            % Ejes de referencia vertical
+            \draw[dotted, line width=0.7pt, gray] (0, 2.2) -- (0, -7.5);
+            \draw[dotted, line width=0.7pt, gray] (2.4, 2.2) -- (2.4, -7.5);
+            \draw[dotted, line width=0.7pt, gray] (4.2, 2.2) -- (4.2, -7.5);
+            \draw[dotted, line width=0.7pt, gray] (6.0, 2.2) -- (6.0, -7.5);
 
-            % --- DIAGRAMA N(x) ---
-            \node[left=6pt, font=\small\bfseries] at (0,0) {$N$};
-            \draw[line width=1.2pt] (0,0) -- (6,0);
-            \fill[blue!15] (4.2,0) -- (6,0) -- (6,-0.6) -- (4.2,-0.6) -- cycle;
-            \draw[line width=1.3pt, blue!70!black] (0,0) -- (4.2,0) -- (4.2,-0.6) -- (6,-0.6);
-            \node[below, blue!90!black, font=\scriptsize] at (5.1,-0.6) {$-7.07\text{ kN}$};
+            % --- 1. DIAGRAMA DE CUERPO LIBRE (DCL) SUPERIOR ---
+            \draw[line width=2.5pt, blue!80!black] (0,1.2) -- (6,1.2);
+            \fill (0,1.2) circle (2pt) node[above left=2pt, font=\scriptsize\bfseries] {$A$};
+            \fill (2.4,1.2) circle (1.8pt) node[below=2pt, font=\scriptsize\bfseries] {$B$};
+            \fill (4.2,1.2) circle (1.8pt) node[below=2pt, font=\scriptsize\bfseries] {$D$};
+            \fill (6.0,1.2) circle (2pt) node[above right=2pt, font=\scriptsize\bfseries] {$C$};
 
-            % --- DIAGRAMA Q(x) ---
+            % Reacciones en DCL
+            \draw[->, >=Latex, line width=1.2pt, green!60!black] (0,0.3) -- (0,1.15) node[pos=0, below, font=\scriptsize\bfseries] {$V_A=122.88$};
+            \draw[->, >=Latex, line width=1.2pt, green!60!black] (6,0.3) -- (6,1.15) node[pos=0, below, font=\scriptsize\bfseries] {$V_C=30.05$};
+            \draw[->, >=Latex, line width=1.2pt, green!60!black] (7.0,1.2) -- (6.05,1.2) node[pos=0, right, font=\scriptsize\bfseries] {$H_C=7.07$};
+
+            % Carga uniforme y fuerza inclinada
+            \draw[line width=0.8pt, red!80!black] (0,1.8) -- (2.4,1.8);
+            \foreach \x in {0, 0.6, 1.2, 1.8, 2.4} {
+                    \draw[->, line width=0.6pt, red!80!black] (\x, 1.8) -- (\x, 1.25);
+                }
+            \node[above, red!80!black, font=\scriptsize\bfseries] at (1.2, 1.85) {$40\text{ kN/m}$};
+            \draw[-{Latex[length=2.2mm, width=1.5mm]}, line width=1.0pt, magenta!80!black] ($(0,1.2)+(140:0.45)$) arc (140:340:0.45);
+            \node[above left=2pt, magenta!80!black, font=\scriptsize\bfseries] at (0,1.55) {$30\text{ kN}\cdot\text{m}$};
+
+            \draw[<-, line width=1.3pt, red!80!black] (4.2,1.2) -- ++(45:0.9) node[above right, font=\scriptsize\bfseries] {$10\text{ kN}$};
+
+            % --- 2. DIAGRAMA N(x) EN COLOR NEGRO ---
+            \node[left=6pt, font=\small\bfseries] at (0,-0.4) {$N$};
+            \draw[line width=1.2pt] (0,-0.4) -- (6,-0.4);
+            \fill[gray!20] (4.2,-0.4) -- (6,-0.4) -- (6,-0.4-0.5) -- (4.2,-0.4-0.5) -- cycle;
+            \draw[line width=1.3pt, black] (0,-0.4) -- (4.2,-0.4) -- (4.2,-0.4-0.5) -- (6,-0.4-0.5) -- (6,-0.4);
+            \node[below, black, font=\scriptsize\bfseries] at (5.1,-0.4-0.5) {$-7.07\text{ kN}$};
+            \node[above, font=\scriptsize] at (2.1,-0.4) {$N = 0$};
+            % Criterio signo axil de compresión dentro del diagrama
+            \draw[->, >=Latex, line width=0.65pt, black] (4.7,-0.4-0.25) -- (4.95,-0.4-0.25);
+            \node[font=\tiny\bfseries, black] at (5.1,-0.4-0.25) {$-$};
+            \draw[->, >=Latex, line width=0.65pt, black] (5.5,-0.4-0.25) -- (5.25,-0.4-0.25);
+
+            % --- 3. DIAGRAMA Q(x) ---
             \draw[line width=0.8pt, gray!60] (0,-2.5) -- (6,-2.5);
             \node[left=6pt, font=\small\bfseries] at (0,-2.5) {$Q$};
 
-            \fill[blue!15] (0,-2.5) -- (0,-2.5+1.4) -- (1.84,-2.5) -- cycle;
-            \fill[blue!15] (1.84,-2.5) -- (2.4,-2.5-0.45) -- (4.2,-2.5-0.45) -- (4.2,-2.5-0.35) -- (6,-2.5-0.35) -- (6,-2.5) -- cycle;
-            \draw[line width=1.3pt, blue!70!black] (0,-2.5+1.4) -- (2.4,-2.5-0.45) -- (4.2,-2.5-0.45) -- (4.2,-2.5-0.35) -- (6,-2.5-0.35);
+            % Áreas de Q(x):
+            % Región positiva [0, 3.072 m]: lineal de +122.88 a 0 (1.843 en escala)
+            \fill[blue!15] (0,-2.5) -- (0,-2.5+1.35) -- (1.843,-2.5) -- cycle;
+            % Región negativa [3.072, 4 m]: lineal de 0 a -37.12 (-0.45 en escala)
+            \fill[blue!15] (1.843,-2.5) -- (2.4,-2.5-0.45) -- (4.2,-2.5-0.45) -- (4.2,-2.5-0.36) -- (6,-2.5-0.36) -- (6,-2.5) -- cycle;
+            \draw[line width=1.3pt, blue!70!black] (0,-2.5+1.35) -- (2.4,-2.5-0.45) -- (4.2,-2.5-0.45) -- (4.2,-2.5-0.36) -- (6,-2.5-0.36);
 
-            \node[above left, blue!90!black, font=\scriptsize] at (0,-2.5+1.4) {$122.88\text{ kN}$};
-            \node[below, blue!90!black, font=\scriptsize] at (3.3,-2.5-0.45) {$-37.12\text{ kN}$};
-            \node[below right, blue!90!black, font=\scriptsize] at (6,-2.5-0.35) {$-30.05\text{ kN}$};
+            \node[above left, blue!90!black, font=\scriptsize] at (0,-2.5+1.35) {$+122.88$};
+            \node[below, blue!90!black, font=\scriptsize] at (3.3,-2.5-0.45) {$-37.12$};
+            \node[below right, blue!90!black, font=\scriptsize] at (6,-2.5-0.36) {$-30.05\text{ kN}$};
 
-            % --- DIAGRAMA M_f(x) ---
+            % Criterios de signos para cortante con flechas (completamente dentro del triángulo)
+            % Positivo en vano izquierdo (entre x=0.4 y x=0.8, donde la altura del triángulo es > 0.75)
+            \draw[-{Latex[length=1.4mm, width=0.9mm]}, line width=0.6pt, blue!80!black] (0.45,-2.5+0.25) -- (0.45,-2.5+0.65);
+            \node[font=\tiny\bfseries, blue!80!black] at (0.65,-2.5+0.45) {$+$};
+            \draw[-{Latex[length=1.4mm, width=0.9mm]}, line width=0.6pt, blue!80!black] (0.85,-2.5+0.65) -- (0.85,-2.5+0.25);
+
+            % Negativo en tramo central
+            \draw[-{Latex[length=1.4mm, width=0.9mm]}, line width=0.6pt, blue!80!black] (3.0,-2.5-0.12) -- (3.0,-2.5-0.36);
+            \node[font=\tiny\bfseries, blue!80!black] at (3.2,-2.5-0.24) {$-$};
+            \draw[-{Latex[length=1.4mm, width=0.9mm]}, line width=0.6pt, blue!80!black] (3.4,-2.5-0.36) -- (3.4,-2.5-0.12);
+
+            % Cortante nulo en x = 3.072 m
+            \draw[dotted, line width=0.7pt, red!80!black] (1.843, -2.5) -- (1.843, -7.5);
+            \draw[|<->|, >=Latex] (0,-3.9) -- (1.843,-3.9) node[midway, fill=white, font=\tiny] {$3.072\text{ m}$};
+
+            % --- 4. DIAGRAMA M_f(x) EN TONO NARANJA ---
             \draw[line width=0.8pt, gray!60] (0,-5.5) -- (6,-5.5);
-            \node[left=6pt, font=\small\bfseries] at (0,-5.5) {$M_f$};
+            \node[left=12pt, font=\small\bfseries] at (0,-5.5) {$M_f$};
 
-            \fill[blue!15] (0,-5.5) -- (0,-5.5-0.45) to[out=-40, in=180] (1.84,-5.5-1.7) to[out=0, in=160] (2.4,-5.5-1.5) -- (4.2,-5.5-0.7) -- (6,-5.5) -- cycle;
-            \draw[line width=1.3pt, blue!70!black] (0,-5.5-0.45) to[out=-40, in=180] (1.84,-5.5-1.7) to[out=0, in=160] (2.4,-5.5-1.5) -- (4.2,-5.5-0.7) -- (6,-5.5);
+            \fill[orange!20] (0,-5.5) -- (0,-5.5-0.3) to[out=-35, in=180] (1.843,-5.5-1.65) to[out=0, in=165] (2.4,-5.5-1.5) -- (4.2,-5.5-0.7) -- (6,-5.5) -- cycle;
+            \draw[line width=1.3pt, orange!85!black] (0,-5.5-0.3) to[out=-35, in=180] (1.843,-5.5-1.65) to[out=0, in=165] (2.4,-5.5-1.5) -- (4.2,-5.5-0.7) -- (6,-5.5);
 
-            \node[left, blue!90!black, font=\scriptsize] at (0,-5.5-0.45) {$30.00$};
-            \node[below, blue!90!black, font=\scriptsize\bfseries] at (1.84,-5.5-1.7) {$218.74\text{ kN}\cdot\text{m}$};
-            \node[below, blue!90!black, font=\scriptsize] at (2.4,-5.5-1.5) {$201.50$};
-            \node[below, blue!90!black, font=\scriptsize] at (4.2,-5.5-0.7) {$90.16$};
+            \node[below left=1pt, orange!90!black, font=\scriptsize] at (0,-5.5-0.35) {$+30.00$};
+            \node[below, orange!90!black, font=\scriptsize\bfseries] at (1.843,-5.5-1.72) {$+218.74\text{ kN}\cdot\text{m}$};
+            \node[below right=1pt, orange!90!black, font=\scriptsize] at (2.4,-5.5-1.5) {$+201.52$};
+            \node[below, orange!90!black, font=\scriptsize] at (4.3,-5.5-0.7) {$+90.16$};
+            \node[above right, orange!90!black, font=\scriptsize] at (6,-5.5) {$0$};
 
-            % Criterio signo momento flector positivo
-            \draw[-{Stealth[length=2mm, width=1.4mm]}, line width=0.8pt, blue!70!black] ($(3.0,-6.3)+(-90:0.25)$) arc (-90:-270:0.25);
-            \node[font=\small\bfseries, blue!90!black] at (3.35,-6.3) {$+$};
-            \draw[-{Stealth[length=2mm, width=1.4mm]}, line width=0.8pt, blue!70!black] ($(3.7,-6.3)+(-90:0.25)$) arc (-90:90:0.25);
+            % Criterio signo momento flector positivo centrado en x = 1.843 coincidiendo con el eje del máximo
+            \draw[-{Stealth[length=2mm, width=1.4mm]}, line width=0.8pt, orange!85!black] ($(1.5,-6.15)+(-90:0.25)$) arc (-90:-270:0.25);
+            \node[font=\small\bfseries, orange!90!black] at (1.843,-6.15) {$+$};
+            \draw[-{Stealth[length=2mm, width=1.4mm]}, line width=0.8pt, orange!85!black] ($(2.186,-6.15)+(-90:0.25)$) arc (-90:90:0.25);
         \end{tikzpicture}%
     }
-    \caption{Diagramas de esfuerzo axil ($N$), esfuerzo cortante ($Q$) y momento flector ($M_f$).}
+    \caption{Diagrama de cuerpo libre global y diagramas de esfuerzo axil ($N$), esfuerzo cortante ($Q$) y momento flector ($M_f$).}
+    \label{fig:ejemplo6_diagramas}
 \end{figure}
 
 \comp{
-    \textbf{Comprobaciones de las leyes y diagramas de esfuerzos:}
+    \textbf{Comprobación sistemática de los diagramas de esfuerzos:}
     \begin{enumerate}
-        \item \textbf{Relaciones diferenciales:}
+        \item \textbf{Relaciones diferenciales de equilibrio interno:}
               \begin{itemize}
                   \item Tramo 1 ($0 < x < 4\text{ m}$): $M_f(x) = 30 + 122.88x - 20x^2 \implies \dfrac{dM_f}{dx} = 122.88 - 40x = Q(x)$, y $\dfrac{dQ}{dx} = -40\text{ kN/m} = -q(x)$.
-                  \item Máximo de momento en el cortante nulo: $Q(x_0) = 0 \implies 122.88 - 40x_0 = 0 \implies x_0 \approx 3.07\text{ m}$ (en escala relativa $1.84$), donde se alcanza $M_{f,\text{máx}} = 218.74\text{ kN}\cdot\text{m}$.
-                  \item Tramos sin carga distribuida ($x > 4\text{ m}$): $\dfrac{dQ}{dx} = 0$ (cortante constante en cada tramo) y $\dfrac{dM_f}{dx} = Q$ (leyes lineales).
+                  \item Cortante nulo en $x_0 = 3.072\text{ m}$: $Q(x_0) = 0 \implies \left.\dfrac{dM_f}{dx}\right|_{x_0} = 0$, alcanzándose el máximo absoluto de momento flector $M_{f,\text{máx}} = +218.74\text{ kN}\cdot\text{m}$.
+                  \item Tramos 2 y 3 ($x > 4\text{ m}$): sin carga distribuida ($q = 0$) $\implies Q(x) = \text{cte}$, resultando diagramas de momento lineales continuos con pendientes que reproducen el cortante.
               \end{itemize}
         \item \textbf{Condiciones de contorno y correspondencia con el DCL:}
               \begin{itemize}
-                  \item En el apoyo móvil $A$ ($x = 0$): el cortante arranca en $Q(0^+) = +122.88\text{ kN} = V_A\uparrow$.
-                  \item En $x = 0$ actúa el par puntual horario $M_A = 30\text{ kN}\cdot\text{m}$, por lo que el momento flector arranca en $M_f(0) = +30\text{ kN}\cdot\text{m}$.
-                  \item En el apoyo fijo $C$ ($x = 10\text{ m}$): el cortante termina en $Q(10^-) = -30.05\text{ kN}$, equilibrando la reacción vertical ascendente $V_C = 30.05\text{ kN}\uparrow$, y $M_f(10) = 0$.
-                  \item Axil: el salto en $x = 7\text{ m}$ debido a la componente horizontal $F_x = 10\cos 45^\circ \approx 7.07\text{ kN}$ lleva el axil a compresión $N = -7.07\text{ kN}$, que cierra con la reacción horizontal en $C$ ($H_C = 7.07\text{ kN}$).
+                  \item En $x = 0$ (apoyo $A$): $Q(0^+) = +122.88\text{ kN} = V_A\uparrow$ y $M_f(0) = +30.00\text{ kN}\cdot\text{m} = M_A$ (tracción en fibras inferiores).
+                  \item En $x = 10\text{ m}$ (apoyo $C$): $Q(10^-) = -30.05\text{ kN}$, equilibrado por la reacción vertical ascendente $V_C = 30.05\text{ kN}\uparrow$, y $M_f(10) = 0$.
+                  \item En $x = 10\text{ m}$: el esfuerzo axil cierra en $N = -7.07\text{ kN}$ con la reacción horizontal $H_C = 7.07\text{ kN}$.
               \end{itemize}
         \item \textbf{Discontinuidades y saltos por acciones puntuales:}
               \begin{itemize}
-                  \item En $x = 7\text{ m}$ actúa la componente vertical $F_y = 10\sin 45^\circ \approx 7.07\text{ kN}\downarrow$: salto en cortante $\Delta Q = -37.12 - (-30.05) = -7.07\text{ kN}$.
+                  \item En $x = 7\text{ m}$ la componente vertical ascendente $F_y = 7.07\text{ kN}$ introduce un salto ascendente en el cortante: $\Delta Q = -30.05 - (-37.12) = +7.07\text{ kN} = +F_y$.
+                  \item En $x = 7\text{ m}$ la componente horizontal $F_x = 7.07\text{ kN}\;(\leftarrow)$ provoca el salto de axil a compresión: $\Delta N = -7.07\text{ kN}$.
               \end{itemize}
-        \item \textbf{Grados polinómicos:} Tramo con carga uniforme ($0 < x < 4$) $\implies$ $Q(x)$ lineal y $M_f(x)$ parabólico; tramos sin carga $\implies$ $Q(x)$ constante y $M_f(x)$ lineal.
+        \item \textbf{Grados polinómicos:} Carga uniforme ($0 < x < 4$) $\implies$ $Q(x)$ lineal de grado 1, $M_f(x)$ parabólico de grado 2; tramos sin carga $\implies$ $Q(x)$ constante de grado 0, $M_f(x)$ lineal de grado 1.
     \end{enumerate}
 }
 
@@ -3417,8 +3803,8 @@ Con $m = 1$ barra, $r = 3$ reacciones ($H_A, V_A, V_C$), $n = 2$ nudos y $h = 0$
 
             % Carga puntual F = 10 kN y Momento M = 4 kN*m en x = 4m (representado en 4.8)
             \draw[<-, line width=1.6pt, red!80!black] (4.8,0.05) -- (4.8,1.6) node[above, font=\small\bfseries] {$10\text{ kN}$};
-            \draw[-{Latex[length=2.5mm, width=1.8mm]}, line width=1.2pt, magenta!80!black] ($(4.8,0)+(40:0.45)$) arc (40:320:0.45);
-            \node[above right, magenta!80!black, font=\small\bfseries] at (5.0,0.3) {$4\text{ kN}\cdot\text{m}$};
+            \draw[-{Latex[length=2.5mm, width=1.8mm]}, line width=1.2pt, magenta!80!black] ($(4.8,0)+(40:0.65)$) arc (40:320:0.65);
+            \node[above right=3pt, magenta!80!black, font=\small\bfseries] at (5.0,0.45) {$4\text{ kN}\cdot\text{m}$};
 
             % Cotas
             \draw[|<->|, >=Latex] (0,-0.85) -- (2.4,-0.85) node[midway, fill=white, font=\footnotesize] {$2\text{ m}$};
@@ -3687,7 +4073,7 @@ Reunimos el Diagrama de Cuerpo Libre completo y la representación gráfica cont
 \begin{figure}[H]
     \centering
     \adjustbox{max width=0.98\textwidth}{%
-        \begin{tikzpicture}[scale=1.0, >=Latex]
+        \begin{tikzpicture}[xscale=1.2, yscale=1.0, >=Latex]
             % Ejes de alineación vertical
             \draw[dotted, line width=0.7pt, gray] (0, 1.8) -- (0, -7.5);
             \draw[dotted, line width=0.7pt, gray] (2.4, 1.8) -- (2.4, -7.5);
@@ -3713,8 +4099,9 @@ Reunimos el Diagrama de Cuerpo Libre completo y la representación gráfica cont
                 }
             \node[above, red!80!black, font=\scriptsize\bfseries] at (1.2, 1.85) {$10\text{ kN/m}$};
             \draw[<-, line width=1.3pt, red!80!black] (4.8,1.25) -- (4.8,2.2) node[above, font=\scriptsize\bfseries] {$10\text{ kN}$};
-            \draw[-{Latex[length=2.2mm, width=1.5mm]}, line width=1.0pt, magenta!80!black] ($(4.8,1.2)+(40:0.35)$) arc (40:320:0.35);
-            \node[right, magenta!80!black, font=\scriptsize\bfseries] at (4.95,1.55) {$4\text{ kN}\cdot\text{m}$};
+            % Momento puntual en D (x = 4 m, coord 4.8) más amplio para no superponerse con D
+            \draw[-{Latex[length=2.2mm, width=1.5mm]}, line width=1.0pt, magenta!80!black] ($(4.8,1.2)+(40:0.55)$) arc (40:320:0.55);
+            \node[above right=2pt, magenta!80!black, font=\scriptsize\bfseries] at (4.95,1.6) {$4\text{ kN}\cdot\text{m}$};
 
             % --- 2. DIAGRAMA N(x) ---
             \node[left=6pt, font=\small\bfseries] at (0,-0.4) {$N$};
@@ -3733,9 +4120,20 @@ Reunimos el Diagrama de Cuerpo Libre completo y la representación gráfica cont
             \fill[blue!15] (2.256,-2.5) -- (2.4,-2.5-0.12) -- (4.8,-2.5-0.12) -- (4.8,-2.5-0.95) -- (6,-2.5-0.95) -- (6,-2.5) -- cycle;
             \draw[line width=1.3pt, blue!70!black] (0,-2.5+1.25) -- (2.4,-2.5-0.12) -- (4.8,-2.5-0.12) -- (4.8,-2.5-0.95) -- (6,-2.5-0.95) -- (6,-2.5);
 
-            \node[above left, blue!90!black, font=\scriptsize] at (0,-2.5+1.25) {$18.80$};
+            \node[above left, blue!90!black, font=\scriptsize] at (0,-2.5+1.25) {$+18.80$};
             \node[below left, blue!90!black, font=\scriptsize] at (2.4,-2.5-0.12) {$-1.20$};
             \node[below right, blue!90!black, font=\scriptsize] at (6,-2.5-0.95) {$-11.20\text{ kN}$};
+
+            % Criterios de signos con flechas para cortante Q
+            % Positivo en vano izquierdo
+            \draw[-{Latex[length=1.5mm, width=1.0mm]}, line width=0.65pt, blue!80!black] (0.8,-2.5+0.25) -- (0.8,-2.5+0.65);
+            \node[font=\tiny\bfseries, blue!80!black] at (1.05,-2.5+0.45) {$+$};
+            \draw[-{Latex[length=1.5mm, width=1.0mm]}, line width=0.65pt, blue!80!black] (1.3,-2.5+0.65) -- (1.3,-2.5+0.25);
+
+            % Negativo en tramo derecho
+            \draw[-{Latex[length=1.5mm, width=1.0mm]}, line width=0.65pt, blue!80!black] (5.1,-2.5-0.25) -- (5.1,-2.5-0.65);
+            \node[font=\tiny\bfseries, blue!80!black] at (5.35,-2.5-0.45) {$-$};
+            \draw[-{Latex[length=1.5mm, width=1.0mm]}, line width=0.65pt, blue!80!black] (5.6,-2.5-0.65) -- (5.6,-2.5-0.25);
 
             % Cortante nulo en x = 1.88 m
             \draw[dotted, line width=0.7pt, red!80!black] (2.256, -2.5) -- (2.256, -7.5);
@@ -3748,28 +4146,29 @@ Reunimos el Diagrama de Cuerpo Libre completo y la representación gráfica cont
             % M(0) = 0
             % M(1.88m) = 17.67 kN*m (máximo positivo en x0)
             % M(2m) = 17.60 kN*m
-            % M(4m antes) = 15.20 kN*m
-            % Salto hacia abajo en 4m por momento horario M = 4: de 15.20 a 11.20 kN*m
+            % M(4m antes) = 15.20 kN*m (abajo en el dibujo porque es positivo y mayor: y = -5.5 - 1.15)
+            % Salto hacia arriba en 4m por momento horario M = 4: de 15.20 a 11.20 kN*m (y = -5.5 - 0.85)
             % M(5m) = 0
             \fill[orange!15] (0,-5.5) to[out=-35, in=180] (2.256,-5.5-1.45) to[out=0, in=165] (2.4,-5.5-1.42) -- (4.8,-5.5-1.15) -- (4.8,-5.5-0.85) -- (6,-5.5) -- cycle;
             \draw[line width=1.3pt, orange!85!black] (0,-5.5) to[out=-35, in=180] (2.256,-5.5-1.45) to[out=0, in=165] (2.4,-5.5-1.42) -- (4.8,-5.5-1.15) -- (4.8,-5.5-0.85) -- (6,-5.5);
 
-            % Etiquetas numéricas con separación espacial
+            % Etiquetas numéricas con separación espacial (15.20 abajo en el salto, 11.20 arriba y desplazado a la derecha)
             \node[below left=3pt, orange!90!black, font=\scriptsize\bfseries] at (2.1,-5.5-1.45) {$17.67\text{ kN}\cdot\text{m}$};
             \node[below right=3pt, orange!90!black, font=\scriptsize] at (2.45,-5.5-1.42) {$17.60$};
-            \node[above left=3pt, orange!90!black, font=\scriptsize] at (4.78,-5.5-0.7) {$15.20$};
-            \node[below right=3pt, orange!90!black, font=\scriptsize] at (4.85,-5.5-1.15) {$11.20$};
+            \node[below left=2pt, orange!90!black, font=\scriptsize] at (4.78,-5.5-1.15) {$15.20$};
+            \node[right=2pt, above=1pt, orange!90!black, font=\scriptsize] at (4.82,-5.5-0.78) {$11.20$};
 
-            % Criterio de signos positivo
-            \draw[-{Stealth[length=2mm, width=1.4mm]}, line width=0.8pt, orange!85!black] ($(3.15,-6.3)+(-90:0.25)$) arc (-90:-270:0.25);
-            \node[font=\small\bfseries, orange!90!black] at (3.5,-6.3) {$+$};
-            \draw[-{Stealth[length=2mm, width=1.4mm]}, line width=0.8pt, orange!85!black] ($(3.85,-6.3)+(-90:0.25)$) arc (-90:90:0.25);
+            % Criterio de signos positivo (desplazado a la izquierda, flecha izquierda en x = 2.4 de B)
+            \draw[-{Stealth[length=2mm, width=1.4mm]}, line width=0.8pt, orange!85!black] ($(2.4,-6.3)+(-90:0.25)$) arc (-90:-270:0.25);
+            \node[font=\small\bfseries, orange!90!black] at (2.75,-6.3) {$+$};
+            \draw[-{Stealth[length=2mm, width=1.4mm]}, line width=0.8pt, orange!85!black] ($(3.1,-6.3)+(-90:0.25)$) arc (-90:90:0.25);
         \end{tikzpicture}%
     }
     \caption{Diagrama de cuerpo libre y diagramas continuos de esfuerzo axil ($N$), esfuerzo cortante ($Q$) y momento flector ($M_f$).}
     \label{fig:ejemplo7_diagramas}
 \end{figure}
 
+\newpage
 \comp{
     \textbf{Comprobaciones de las leyes y diagramas de esfuerzos:}
     \begin{enumerate}
@@ -3806,9 +4205,16 @@ Reunimos el Diagrama de Cuerpo Libre completo y la representación gráfica cont
     {\small\textbf{Unidades de trabajo:} $L\,[\text{m}] \quad F\,[\text{kN}] \quad M\,[\text{kN}\cdot\text{m}] \quad q\,[\text{kN/m}]$}
 \end{tcolorbox}
 
-\paso{1}{Datos y clasificación estática}
 
-Consideramos una viga de longitud total $L = 7\text{ m}$ apoyada en el nodo $A$ ($x=0$) mediante un apoyo fijo y en el nodo $C$ ($x=7\text{ m}$) mediante un apoyo móvil. En los primeros $3\text{ m}$ actúa una carga triangular que crece de $0$ a $60\text{ kN/m}$. En la sección $x = 5\text{ m}$ actúan una fuerza puntual descendente $F = 30\text{ kN}$ y un momento concentrado antihorario $M = 20\text{ kN}\cdot\text{m}$.
+
+\paso{1}{Datos, clasificación estática y Diagrama de Cuerpo Libre (DCL)}
+
+Consideramos una viga de longitud total $L = 7\text{ m}$ sustentada mediante un apoyo fijo articulado en el extremo izquierdo $A$ ($x = 0$) y un apoyo móvil (carrito) en el extremo derecho $C$ ($x = 7\text{ m}$). Sobre la viga actúan:
+\begin{itemize}
+    \item Una carga distribuida triangular linealmente creciente en los primeros $3\text{ m}$ de la viga ($x \in [0, 3\text{ m}]$), variando desde $q(0) = 0$ hasta un valor máximo de $q_{\text{máx}} = 60\text{ kN/m}$ en $x = 3\text{ m}$.
+    \item Una fuerza puntual vertical descendente $F = 30\text{ kN}$ aplicada en la sección $D$ ($x = 5\text{ m}$).
+    \item Un momento concentrado puntual horario $M_0 = 20\text{ kN}\cdot\text{m}$ aplicado en la misma sección $D$ ($x = 5\text{ m}$).
+\end{itemize}
 
 \begin{figure}[H]
     \centering
@@ -3842,8 +4248,8 @@ Consideramos una viga de longitud total $L = 7\text{ m}$ apoyada en el nodo $A$ 
 
             % Carga puntual F = 30 kN y Momento M = 20 kN*m en x = 5m
             \draw[<-, line width=1.6pt, red!80!black] (5,0.05) -- (5,1.6) node[above, font=\small\bfseries] {$30\text{ kN}$};
-            \draw[-{Latex[length=2.5mm, width=1.8mm]}, line width=1.2pt, magenta!80!black] ($(5,0)+(40:0.45)$) arc (40:320:0.45);
-            \node[above right, magenta!80!black, font=\small\bfseries] at (5.2,0.3) {$20\text{ kN}\cdot\text{m}$};
+            \draw[-{Latex[length=2.5mm, width=1.8mm]}, line width=1.2pt, magenta!80!black] ($(5,0)+(140:0.55)$) arc (140:-140:0.55);
+            \node[above right=3pt, magenta!80!black, font=\small\bfseries] at (5.1,0.4) {$20\text{ kN}\cdot\text{m}$};
 
             % Cotas: 3m, 2m, 2m
             \draw[|<->|, >=Latex] (0,-0.9) -- (3,-0.9) node[midway, fill=white, font=\small] {$3\text{ m}$};
@@ -3851,94 +4257,460 @@ Consideramos una viga de longitud total $L = 7\text{ m}$ apoyada en el nodo $A$ 
             \draw[|<->|, >=Latex] (5,-0.9) -- (7,-0.9) node[midway, fill=white, font=\small] {$2\text{ m}$};
         \end{tikzpicture}%
     }
-    \caption{Esquema de la viga con carga triangular parcial, puntual y momento.}
+    \caption{Esquema geométrico y de acciones exteriores de la viga simplemente apoyada.}
+    \label{fig:ejemplo8_esquema}
 \end{figure}
 
 \paragraph{Clasificación estática:}
 \[
-    GH = r - 3 = 3 - 3 = 0 \implies \text{\textbf{Estructura isostática.}}
+    GH = r - 3 = (2 + 1) - 3 = 0 \implies \text{\textbf{Estructura isostática.}}
 \]
 
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.98\textwidth}{%
+        \begin{tikzpicture}[scale=1.1, >=Latex]
+            % Viga DCL (azul)
+            \draw[line width=2.5pt, blue!80!black] (0,0) -- (7,0);
+            \fill (0,0) circle (2pt) node[above left=2pt, font=\bfseries] {$A$};
+            \fill (3,0) circle (1.8pt) node[below=2pt, font=\bfseries] {$B$};
+            \fill (5,0) circle (1.8pt) node[below=2pt, font=\bfseries] {$D$};
+            \fill (7,0) circle (2pt) node[above right=2pt, font=\bfseries] {$C$};
+
+            % Reacciones en A y C (verde)
+            \draw[->, >=Latex, line width=1.4pt, green!60!black] (-1.1,0) -- (-0.05,0) node[midway, above=1pt, font=\footnotesize\bfseries] {$H_A$};
+            \draw[->, >=Latex, line width=1.4pt, green!60!black] (0,-1.1) -- (0,-0.05) node[midway, left=2pt, font=\footnotesize\bfseries] {$V_A$};
+            \draw[->, >=Latex, line width=1.4pt, green!60!black] (7,-1.1) -- (7,-0.05) node[midway, right=2pt, font=\footnotesize\bfseries] {$V_C$};
+
+            % Carga triangular y resultante equivalente
+            \draw[line width=1.1pt, red!80!black] (0,0) -- (3,1.8);
+            \foreach \x in {0.6, 1.2, 1.8, 2.4, 3.0} {
+                    \pgfmathsetmacro{\h}{\x*(1.8/3.0)}
+                    \draw[->, line width=0.8pt, red!80!black] (\x, \h) -- (\x, 0.05);
+                }
+            \node[above, red!80!black, font=\small\bfseries] at (3, 1.85) {$60\text{ kN/m}$};
+            \draw[->, >=Latex, line width=1.3pt, magenta!80!black, dashed] (2,2.0) -- (2,0.05) node[pos=0, above=2pt, font=\footnotesize\bfseries] {$R_q = 90\text{ kN}$};
+
+            % Carga puntual F y momento concentrado en D (x = 5 m)
+            \draw[<-, line width=1.6pt, red!80!black] (5,0.05) -- (5,1.7) node[above, font=\small\bfseries] {$F = 30\text{ kN}$};
+            \draw[-{Latex[length=2.5mm, width=1.8mm]}, line width=1.2pt, magenta!80!black] ($(5,0)+(140:0.6)$) arc (140:-140:0.6);
+            \node[above right=3pt, magenta!80!black, font=\small\bfseries] at (5.1,0.5) {$M_0 = 20\text{ kN}\cdot\text{m}$};
+
+            % Cotas
+            \draw[|<->|, >=Latex] (0,-0.85) -- (3,-0.85) node[midway, fill=white, font=\footnotesize] {$3\text{ m}$};
+            \draw[|<->|, >=Latex] (3,-0.85) -- (5,-0.85) node[midway, fill=white, font=\footnotesize] {$2\text{ m}$};
+            \draw[|<->|, >=Latex] (5,-0.85) -- (7,-0.85) node[midway, fill=white, font=\footnotesize] {$2\text{ m}$};
+            \draw[|<->|, >=Latex] (0,-1.4) -- (2,-1.4) node[midway, fill=white, font=\tiny] {$2\text{ m}$};
+            \draw[|<->|, >=Latex] (2,-1.4) -- (3,-1.4) node[midway, fill=white, font=\tiny] {$1\text{ m}$};
+        \end{tikzpicture}%
+    }
+    \caption{Diagrama de Cuerpo Libre (DCL) global de la viga sustituyendo las ligaduras por reacciones.}
+    \label{fig:ejemplo8_dcl}
+\end{figure}
+
 \paso{2}{Reacciones en los apoyos}
-Fuerza resultante de la carga triangular: $R_q = \frac{1}{2} \cdot 3 \cdot 60 = 90\text{ kN}$ a $x = 2\text{ m}$ desde $A$.
+
+La carga triangular se extiende en una longitud de $3\text{ m}$ con altura máxima $q_{\text{máx}} = 60\text{ kN/m}$. Su fuerza resultante equivalente y posición del centro de gravedad son:
+\[
+    R_q = \frac{1}{2} \cdot 3\text{ m} \cdot 60\text{ kN/m} = 90\text{ kN}, \qquad x_G = \frac{2}{3}(3\text{ m}) = 2\text{ m} \quad (\text{a } 2\text{ m de } A).
+\]
+Aplicando las tres condiciones de equilibrio estático del sólido rígido:
 \begin{align}
-    (\rightarrow +) \quad \sum F_x = 0      & \implies \boxed{H_A = 0}                                                                                        \\
-    (\circlearrowleft +) \quad \sum M_A = 0 & \implies 7\,V_C - 90 \cdot 2 - 30 \cdot 5 + 20 = 0 \implies 7\,V_C = 310 \implies \boxed{V_C = 50.00\text{ kN}} \\
-    (\uparrow +) \quad \sum F_y = 0         & \implies V_A + 50 - 90 - 30 = 0 \implies \boxed{V_A = 70.00\text{ kN}}
+    (\rightarrow +) \quad \sum F_x = 0      & \implies \boxed{H_A = 0\text{ kN}}                                                                                     \\
+    (\circlearrowleft +) \quad \sum M_A = 0 & \implies V_C \cdot 7 - R_q \cdot 2 - F \cdot 5 - M_0 = 0 \nonumber                                                     \\
+                                            & \implies 7\,V_C - 90 \cdot 2 - 30 \cdot 5 - 20 = 0 \nonumber                                                           \\
+                                            & \implies 7\,V_C - 180 - 150 - 20 = 0 \implies 7\,V_C = 350 \implies \boxed{V_C = 50.00\text{ kN}\;(\uparrow)}          \\
+    (\uparrow +) \quad \sum F_y = 0         & \implies V_A + V_C - R_q - F = 0 \implies V_A + 50.00 - 90 - 30 = 0 \implies \boxed{V_A = 70.00\text{ kN}\;(\uparrow)}
 \end{align}
 
-\paso{3}{Diagramas de esfuerzos internos ($N, Q, M_f$)}
+\paso{3}{Cálculo de los esfuerzos internos (Método de los cortes)}
+
+Dividimos la viga en tres tramos funcionales delimitados por las secciones singulares:
+\begin{itemize}
+    \item \textbf{Tramo 1 ($0 \le x \le 3\text{ m}$):} Tramo con carga triangular creciente.
+    \item \textbf{Tramo 2 ($3\text{ m} \le x \le 5\text{ m}$):} Tramo intermedio sin carga repartida.
+    \item \textbf{Tramo 3 ($5\text{ m} \le x \le 7\text{ m}$):} Tramo final tras la acción de la carga puntual y el momento concentrado.
+\end{itemize}
+
+% ----------------- TRAMO 1 -----------------
+\tramobadge{Tramo 1}{$0 \le x \le 3\text{ m}$}
+
+Efectuamos un corte a una distancia genérica $x \in [0, 3\text{ m}]$ desde el origen $A$. La intensidad de carga local en la sección $x$ por semejanza de triángulos es:
+\[
+    q(x) = 60 \cdot \frac{x}{3} = 20\,x\text{ [kN/m]}.
+\]
+La resultante de la carga triangular interceptada entre el origen y el corte, y su brazo respecto a dicha sección, son:
+\[
+    R_q(x) = \frac{1}{2} \cdot x \cdot (20\,x) = 10\,x^2\text{ [kN]}, \qquad d_{\text{corte}} = \frac{x}{3}\text{ [m]}.
+\]
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.88\textwidth}{%
+        \begin{tikzpicture}[scale=1.1, >=Latex]
+            % Viga cortada
+            \draw[line width=2.5pt, blue!80!black] (0,0) -- (4.5,0);
+            \fill (0,0) circle (2pt) node[above left=2pt, font=\bfseries] {$A$};
+
+            % Corte seccional a la derecha
+            \draw[thick, fill=gray!20] (4.5,-0.35) to[out=60,in=-60] (4.5,0) to[out=120,in=-120] (4.5,0.35);
+
+            % Reacción en A (H_A a la izquierda)
+            \draw[->, >=Latex, line width=1.4pt, green!60!black] (0,-1.1) -- (0,-0.05) node[midway, left=2pt, font=\footnotesize\bfseries] {$V_A = 70.00\text{ kN}$};
+            \draw[->, >=Latex, line width=1.4pt, green!60!black] (-1.3,0) -- (-0.05,0) node[pos=0, left=1pt, font=\footnotesize\bfseries] {$H_A = 0$};
+
+            % Carga triangular parcial
+            \draw[line width=1.1pt, red!80!black] (0,0) -- (4.5,1.5);
+            \foreach \x in {0.9, 1.8, 2.7, 3.6, 4.5} {
+                    \pgfmathsetmacro{\h}{\x*(1.5/4.5)}
+                    \draw[->, line width=0.7pt, red!80!black] (\x, \h) -- (\x, 0.05);
+                }
+            \node[above, red!80!black, font=\footnotesize\bfseries] at (4.5, 1.55) {$q(x) = 20x$};
+            \draw[->, >=Latex, line width=1.2pt, magenta!80!black, dashed] (3.0,1.8) -- (3.0,0.05) node[pos=0, above=2pt, font=\footnotesize\bfseries] {$R_q(x) = 10x^2$};
+
+            % Cotas
+            \draw[|<->|, >=Latex] (0,-0.65) -- (3.0,-0.65) node[midway, fill=white, font=\tiny] {$2x/3$};
+            \draw[|<->|, >=Latex] (3.0,-0.65) -- (4.5,-0.65) node[midway, fill=white, font=\tiny] {$x/3$};
+            \draw[|<->|, >=Latex] (0,-1.3) -- (4.5,-1.3) node[midway, fill=white, font=\footnotesize\bfseries] {$x$};
+
+            % Esfuerzos internos en la sección de corte
+            \coordinate (corte) at (4.5,0);
+            \draw[->, line width=1.3pt, purple!80!black] (corte) -- ++(1.1,0) node[right, font=\footnotesize\bfseries] {$N(x)$};
+            \draw[->, line width=1.3pt, purple!80!black] (corte) -- ++(0,-1.0) node[below right=2pt, font=\footnotesize\bfseries] {$Q(x)$};
+            \draw[-{Latex[length=2.3mm, width=1.6mm]}, line width=1.3pt, purple!80!black] ($(corte)+(-40:0.55)$) arc (-40:120:0.55);
+            \node[right=2pt, purple!80!black, font=\footnotesize\bfseries] at ($(corte)+(40:0.75)$) {$M_f(x)$};
+            \filldraw[black] (corte) circle (2.2pt);
+        \end{tikzpicture}%
+    }
+    \caption{Diagrama de esfuerzos internos en la porción aislada del Tramo 1 ($0 \le x \le 3\text{ m}$).}
+    \label{fig:ejemplo8_corte1}
+\end{figure}
+
+Ecuaciones de equilibrio estático en la sección de corte:
+\begin{itemize}
+    \item \textbf{Esfuerzo axil ($N$):}
+          \begin{equation}
+              \sum F_x = 0 \implies \boxed{N(x) = 0\text{ kN}}
+          \end{equation}
+
+    \item \textbf{Esfuerzo cortante ($Q$):}
+          \begin{equation}
+              \sum F_y = 0 \implies V_A - R_q(x) - Q(x) = 0 \implies \boxed{Q(x) = 70.00 - 10\,x^2\text{ [kN]}}
+          \end{equation}
+          Valores en los extremos del tramo:
+          \begin{align*}
+              Q(0)   & = 70.00 - 10(0)^2 = \boxed{+70.00\text{ kN}}                 \\
+              Q(3^-) & = 70.00 - 10(3)^2 = 70.00 - 90.00 = \boxed{-20.00\text{ kN}}
+          \end{align*}
+
+          \paragraph{Punto de cortante nulo ($Q = 0$):}
+          Dado que el cortante cambia de signo en este tramo, determinamos la sección interior $x_0 \in (0, 3\text{ m})$ con $Q(x_0) = 0$:
+          \begin{equation}
+              70.00 - 10\,x_0^2 = 0 \implies x_0^2 = 7 \implies \boxed{x_0 = \sqrt{7} \approx 2.646\text{ m}}
+          \end{equation}
+
+    \item \textbf{Momento flector ($M_f$):}
+          Tomando momentos respecto al centro de gravedad del corte:
+          \begin{equation}
+              \sum M_{\text{corte}} = 0 \implies M_f(x) - V_A \cdot x + R_q(x)\cdot \frac{x}{3} = 0
+          \end{equation}
+          \begin{equation}
+              \boxed{M_f(x) = 70.00\,x - \frac{10}{3}\,x^3\text{ [kN}\cdot\text{m]}}
+          \end{equation}
+          Nótese que la derivada respecto a $x$ coincide rigurosamente con el cortante:
+          \begin{equation}
+              \frac{dM_f}{dx} = 70.00 - \frac{10}{3}\cdot 3\,x^2 = 70.00 - 10\,x^2 = Q(x)
+          \end{equation}
+
+          Valores en los extremos:
+          \begin{align*}
+              M_f(0)   & = 70.00(0) - \frac{10}{3}(0)^3 = \boxed{0\text{ kN}\cdot\text{m}}                       \\
+              M_f(3^-) & = 70.00(3) - \frac{10}{3}(27) = 210.00 - 90.00 = \boxed{+120.00\text{ kN}\cdot\text{m}}
+          \end{align*}
+
+          \comp{
+              \textbf{Comprobación y evaluación del momento flector máximo:}
+              La condición de extremo $\dfrac{dM_f}{dx} = 0$ se verifica en $x_0 = \sqrt{7}\text{ m}$. Comprobamos su condición de máximo con la segunda derivada:
+              \begin{equation}
+                  \left.\frac{d^2 M_f}{dx^2}\right|_{x_0} = \left.\frac{dQ}{dx}\right|_{x_0} = -20\,x_0 = -20\sqrt{7} \approx -52.92 < 0 \implies \textbf{Máximo absoluto positivo.}
+              \end{equation}
+              Evaluamos analítica y numéricamente el momento flector máximo en $x_0 = \sqrt{7}\text{ m}$:
+              \begin{align}
+                  M_{f,\text{máx}} = M_f(\sqrt{7}) & = 70\sqrt{7} - \frac{10}{3}(\sqrt{7})^3 = 70\sqrt{7} - \frac{70}{3}\sqrt{7} \nonumber \\
+                                                   & = \frac{140\sqrt{7}}{3} \approx \boxed{+123.47\text{ kN}\cdot\text{m}}
+              \end{align}
+          }
+\end{itemize}
+
+% ----------------- TRAMO 2 -----------------
+\tramobadge{Tramo 2}{$3\text{ m} \le x \le 5\text{ m}$}
+
+Aislamos la porción izquierda comprendida entre el apoyo $A$ y una sección genérica $x \in [3, 5\text{ m}]$, interviniendo la carga triangular completa con su resultante $R_q = 90\text{ kN}$ a $x_G = 2\text{ m}$:
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.88\textwidth}{%
+        \begin{tikzpicture}[scale=1.1, >=Latex]
+            % Viga cortada
+            \draw[line width=2.5pt, blue!80!black] (0,0) -- (5.0,0);
+            \fill (0,0) circle (2pt) node[above left=2pt, font=\bfseries] {$A$};
+            \fill (3.0,0) circle (1.8pt) node[below=2pt, font=\bfseries] {$B$};
+
+            % Corte seccional a la derecha
+            \draw[thick, fill=gray!20] (5.0,-0.35) to[out=60,in=-60] (5.0,0) to[out=120,in=-120] (5.0,0.35);
+
+            % Reacción en A
+            \draw[->, >=Latex, line width=1.4pt, green!60!black] (0,-1.1) -- (0,-0.05) node[midway, left=2pt, font=\footnotesize\bfseries] {$V_A = 70.00\text{ kN}$};
+            \draw[->, >=Latex, line width=1.4pt, green!60!black] (-1.3,0) -- (-0.05,0) node[pos=0, left=1pt, font=\footnotesize\bfseries] {$H_A = 0$};
+
+            % Carga triangular completa en AB
+            \draw[line width=1.1pt, red!80!black] (0,0) -- (3.0,1.5);
+            \foreach \x in {0.6, 1.2, 1.8, 2.4, 3.0} {
+                    \pgfmathsetmacro{\h}{\x*(1.5/3.0)}
+                    \draw[->, line width=0.7pt, red!80!black] (\x, \h) -- (\x, 0.05);
+                }
+            \node[above, red!80!black, font=\footnotesize\bfseries] at (3.0, 1.55) {$60\text{ kN/m}$};
+            \draw[->, >=Latex, line width=1.2pt, magenta!80!black, dashed] (2.0,1.8) -- (2.0,0.05) node[pos=0, above=2pt, font=\footnotesize\bfseries] {$R_q = 90\text{ kN}$};
+
+            % Cotas
+            \draw[|<->|, >=Latex] (0,-0.65) -- (2.0,-0.65) node[midway, fill=white, font=\tiny] {$2\text{ m}$};
+            \draw[|<->|, >=Latex] (2.0,-0.65) -- (5.0,-0.65) node[midway, fill=white, font=\tiny] {$x - 2$};
+            \draw[|<->|, >=Latex] (0,-1.3) -- (5.0,-1.3) node[midway, fill=white, font=\footnotesize\bfseries] {$x$};
+
+            % Esfuerzos internos en la sección de corte
+            \coordinate (corte) at (5.0,0);
+            \draw[->, line width=1.3pt, purple!80!black] (corte) -- ++(1.1,0) node[right, font=\footnotesize\bfseries] {$N(x)$};
+            \draw[->, line width=1.3pt, purple!80!black] (corte) -- ++(0,-1.0) node[below right=2pt, font=\footnotesize\bfseries] {$Q(x)$};
+            \draw[-{Latex[length=2.3mm, width=1.6mm]}, line width=1.3pt, purple!80!black] ($(corte)+(-40:0.55)$) arc (-40:120:0.55);
+            \node[right=2pt, purple!80!black, font=\footnotesize\bfseries] at ($(corte)+(40:0.75)$) {$M_f(x)$};
+            \filldraw[black] (corte) circle (2.2pt);
+        \end{tikzpicture}%
+    }
+    \caption{Diagrama de esfuerzos internos en la porción aislada del Tramo 2 ($3\text{ m} \le x \le 5\text{ m}$).}
+    \label{fig:ejemplo8_corte2}
+\end{figure}
+
+Ecuaciones de equilibrio estático:
+\begin{itemize}
+    \item \textbf{Esfuerzo axil ($N$):}
+          \begin{equation}
+              \sum F_x = 0 \implies \boxed{N(x) = 0\text{ kN}}
+          \end{equation}
+
+    \item \textbf{Esfuerzo cortante ($Q$):}
+          \begin{equation}
+              \sum F_y = 0 \implies V_A - R_q - Q(x) = 0 \implies \boxed{Q(x) = 70.00 - 90.00 = -20.00\text{ kN}} \quad (\text{constante})
+          \end{equation}
+
+    \item \textbf{Momento flector ($M_f$):}
+          Tomando momentos respecto al centro de gravedad del corte:
+          \begin{equation}
+              \sum M_{\text{corte}} = 0 \implies M_f(x) - V_A \cdot x + R_q(x - 2) = 0
+          \end{equation}
+          \begin{equation}
+              \boxed{M_f(x) = 70.00\,x - 90(x - 2) = 180.00 - 20.00\,x\text{ [kN}\cdot\text{m]}}
+          \end{equation}
+          Nótese que $\dfrac{dM_f}{dx} = -20.00 = Q(x)$.
+          Valores en los extremos:
+          \begin{align*}
+              M_f(3^+) & = 180.00 - 20.00(3) = \boxed{+120.00\text{ kN}\cdot\text{m}}                  \\
+              M_f(5^-) & = 180.00 - 20.00(5) = 180.00 - 100.00 = \boxed{+80.00\text{ kN}\cdot\text{m}}
+          \end{align*}
+\end{itemize}
+
+% ----------------- TRAMO 3 -----------------
+\tramobadge{Tramo 3}{$5\text{ m} \le x \le 7\text{ m}$}
+
+Para el último tramo, aislamos la \textbf{porción derecha} comprendida entre la sección de corte en $x$ y el apoyo móvil $C$ ($x = 7\text{ m}$), de longitud $(7 - x) \in [0, 2\text{ m}]$:
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.78\textwidth}{%
+        \begin{tikzpicture}[scale=1.1, >=Latex]
+            % Viga cortada por la izquierda
+            \draw[line width=2.5pt, blue!80!black] (0,0) -- (3.5,0);
+            \fill (3.5,0) circle (2pt) node[above right=2pt, font=\bfseries] {$C$};
+
+            % Corte seccional a la izquierda
+            \draw[thick, fill=gray!20] (0,-0.35) to[out=120,in=-120] (0,0) to[out=60,in=-60] (0,0.35);
+
+            % Reacción en apoyo C
+            \draw[->, >=Latex, line width=1.4pt, green!60!black] (3.5,-1.1) -- (3.5,-0.05) node[midway, right=2pt, font=\footnotesize\bfseries] {$V_C = 50.00\text{ kN}$};
+
+            % Cota (7 - x)
+            \draw[|<->|, >=Latex] (0,-0.65) -- (3.5,-0.65) node[midway, fill=white, font=\footnotesize\bfseries] {$7 - x$};
+
+            % Esfuerzos internos en la cara izquierda del corte
+            \coordinate (corte) at (0,0);
+            \draw[->, line width=1.3pt, purple!80!black] (corte) -- ++(-1.1,0) node[left, font=\footnotesize\bfseries] {$N(x)$};
+            \draw[->, line width=1.3pt, purple!80!black] (corte) -- ++(0,1.0) node[above, font=\footnotesize\bfseries] {$Q(x)$};
+            \draw[-{Latex[length=2.3mm, width=1.6mm]}, line width=1.3pt, purple!80!black] ($(corte)+(-140:0.55)$) arc (-140:40:0.55);
+            \node[left=2pt, purple!80!black, font=\footnotesize\bfseries] at ($(corte)+(140:0.75)$) {$M_f(x)$};
+            \filldraw[black] (corte) circle (2.2pt);
+        \end{tikzpicture}%
+    }
+    \caption{Diagrama de esfuerzos internos aislando la porción derecha en el Tramo 3 ($5\text{ m} \le x \le 7\text{ m}$).}
+    \label{fig:ejemplo8_corte3}
+\end{figure}
+
+Ecuaciones de equilibrio estático en la porción derecha:
+\begin{itemize}
+    \item \textbf{Esfuerzo axil ($N$):}
+          \begin{equation}
+              \sum F_x = 0 \implies \boxed{N(x) = 0\text{ kN}}
+          \end{equation}
+
+    \item \textbf{Esfuerzo cortante ($Q$):}
+          \begin{equation}
+              \sum F_y = 0 \implies Q(x) + V_C = 0 \implies \boxed{Q(x) = -V_C = -50.00\text{ kN}} \quad (\text{constante})
+          \end{equation}
+          En la sección singular $x = 5\text{ m}$ actúa la fuerza puntual vertical descendente $F = 30\text{ kN}\;(\downarrow)$, produciendo el salto en cortante:
+          \begin{equation}
+              \Delta Q = Q(5^+) - Q(5^-) = -50.00 - (-20.00) = -30.00\text{ kN} = -F
+          \end{equation}
+
+    \item \textbf{Momento flector ($M_f$):}
+          Tomando momentos respecto a la sección de corte:
+          \begin{equation}
+              \sum M_{\text{corte}} = 0 \implies -M_f(x) + V_C(7 - x) = 0 \implies \boxed{M_f(x) = 50.00(7 - x)\text{ [kN}\cdot\text{m]}}
+          \end{equation}
+          Nótese que $\dfrac{dM_f}{dx} = -50.00 = Q(x)$.
+          Valores en los extremos:
+          \begin{align*}
+              M_f(5^+) & = 50.00(7 - 5) = 50.00(2) = \boxed{+100.00\text{ kN}\cdot\text{m}} \\
+              M_f(7)   & = 50.00(7 - 7) = \boxed{0\text{ kN}\cdot\text{m}}
+          \end{align*}
+          \nt{En la sección singular $x = 5\text{ m}$ actúa el momento concentrado horario $M_0 = 20\text{ kN}\cdot\text{m}$, provocando un salto ascendente en la ley de momentos flectores:
+              \[
+                  \Delta M_f = M_f(5^+) - M_f(5^-) = 100.00 - 80.00 = +20.00\text{ kN}\cdot\text{m} = +M_0.
+              \]
+          }
+\end{itemize}
+
+\paso{4}{Diagrama de cuerpo libre y diagramas de esfuerzos ($N, Q, M_f$)}
+
+Representamos de forma conjunta el Diagrama de Cuerpo Libre (DCL) completo precediendo a los diagramas continuos y alineados de esfuerzos internos:
 
 \begin{figure}[H]
     \centering
     \adjustbox{max width=0.98\textwidth}{%
         \begin{tikzpicture}[scale=1.0, >=Latex]
-            \draw[dotted, line width=0.7pt, gray] (0, 0.5) -- (0, -7.5);
-            \draw[dotted, line width=0.7pt, gray] (3, 0.5) -- (3, -7.5);
-            \draw[dotted, line width=0.7pt, gray] (5, 0.5) -- (5, -7.5);
-            \draw[dotted, line width=0.7pt, gray] (7, 0.5) -- (7, -7.5);
+            % Ejes de referencia vertical
+            \draw[dotted, line width=0.7pt, gray] (0, 2.2) -- (0, -7.5);
+            \draw[dotted, line width=0.7pt, gray] (3, 2.2) -- (3, -7.5);
+            \draw[dotted, line width=0.7pt, gray] (5, 2.2) -- (5, -7.5);
+            \draw[dotted, line width=0.7pt, gray] (7, 2.2) -- (7, -7.5);
 
-            % --- DIAGRAMA N(x) ---
-            \node[left=6pt, font=\small\bfseries] at (0,0) {$N$};
-            \draw[line width=1.2pt] (0,0) -- (7,0);
-            \node[above, font=\small] at (3.5,0) {$N = 0$};
+            % --- 1. DIAGRAMA DE CUERPO LIBRE (DCL) SUPERIOR ---
+            \draw[line width=2.5pt, blue!80!black] (0,1.2) -- (7,1.2);
+            \fill (0,1.2) circle (2pt) node[above left=2pt, font=\scriptsize\bfseries] {$A$};
+            \fill (3,1.2) circle (1.8pt) node[below=2pt, font=\scriptsize\bfseries] {$B$};
+            \fill (5,1.2) circle (1.8pt) node[below=2pt, font=\scriptsize\bfseries] {$D$};
+            \fill (7,1.2) circle (2pt) node[above right=2pt, font=\scriptsize\bfseries] {$C$};
 
-            % --- DIAGRAMA Q(x) ---
+            % Reacciones en DCL
+            \draw[->, >=Latex, line width=1.2pt, green!60!black] (0,0.3) -- (0,1.15) node[pos=0, below, font=\scriptsize\bfseries] {$V_A=70.00$};
+            \draw[->, >=Latex, line width=1.2pt, green!60!black] (-0.8,1.2) -- (-0.05,1.2) node[pos=0, left, font=\scriptsize\bfseries] {$H_A=0$};
+            \draw[->, >=Latex, line width=1.2pt, green!60!black] (7,0.3) -- (7,1.15) node[pos=0, below, font=\scriptsize\bfseries] {$V_C=50.00$};
+
+            % Carga triangular y puntual/momento
+            \draw[line width=0.8pt, red!80!black] (0,1.2) -- (3,2.1);
+            \foreach \x in {0.6, 1.2, 1.8, 2.4, 3.0} {
+                    \pgfmathsetmacro{\h}{1.2 + \x*(0.9/3.0)}
+                    \draw[->, line width=0.6pt, red!80!black] (\x, \h) -- (\x, 1.25);
+                }
+            \node[above, red!80!black, font=\scriptsize\bfseries] at (3, 2.12) {$60\text{ kN/m}$};
+            \draw[<-, line width=1.3pt, red!80!black] (5,1.25) -- (5,2.2) node[above, font=\scriptsize\bfseries] {$30\text{ kN}$};
+            \draw[-{Latex[length=2.2mm, width=1.5mm]}, line width=1.0pt, magenta!80!black] ($(5,1.2)+(140:0.48)$) arc (140:-140:0.48);
+            \node[above right=2pt, magenta!80!black, font=\scriptsize\bfseries] at (5.05,1.55) {$20\text{ kN}\cdot\text{m}$};
+
+            % --- 2. DIAGRAMA N(x) ---
+            \node[left=6pt, font=\small\bfseries] at (0,-0.4) {$N$};
+            \draw[line width=1.2pt] (0,-0.4) -- (7,-0.4);
+            \node[above, font=\small] at (3.5,-0.4) {$N = 0$};
+
+            % --- 3. DIAGRAMA Q(x) ---
             \draw[line width=0.8pt, gray!60] (0,-2.5) -- (7,-2.5);
             \node[left=6pt, font=\small\bfseries] at (0,-2.5) {$Q$};
 
-            \fill[blue!15] (0,-2.5) -- (0,-2.5+1.4) to[out=-20, in=150] (2.65,-2.5) -- cycle;
-            \fill[blue!15] (2.65,-2.5) to[out=-30, in=170] (3,-2.5-0.4) -- (5,-2.5-0.4) -- (5,-2.5-1.0) -- (7,-2.5-1.0) -- (7,-2.5) -- cycle;
-            \draw[line width=1.3pt, blue!70!black] (0,-2.5+1.4) to[out=-20, in=150] (3,-2.5-0.4) -- (5,-2.5-0.4) -- (5,-2.5-1.0) -- (7,-2.5-1.0) -- (7,-2.5);
+            % Áreas de Q(x):
+            % Positiva [0, 2.646 m]: parabólica decreciente de +70 a 0 (+1.4 en escala)
+            \fill[blue!15] (0,-2.5) -- (0,-2.5+1.4) to[out=-20, in=148] (2.646,-2.5) -- cycle;
+            % Negativa [2.646, 3 m]: parabólica hasta -20 (-0.4 en escala)
+            % Negativa [3, 5 m]: constante en -20 (-0.4 en escala)
+            % Negativa [5, 7 m]: constante en -50 (-1.0 en escala)
+            \fill[blue!15] (2.646,-2.5) to[out=-32, in=172] (3,-2.5-0.4) -- (5,-2.5-0.4) -- (5,-2.5-1.0) -- (7,-2.5-1.0) -- (7,-2.5) -- cycle;
+            \draw[line width=1.3pt, blue!70!black] (0,-2.5+1.4) to[out=-20, in=148] (2.646,-2.5) to[out=-32, in=172] (3,-2.5-0.4) -- (5,-2.5-0.4) -- (5,-2.5-1.0) -- (7,-2.5-1.0) -- (7,-2.5);
 
-            \node[above left, blue!90!black, font=\scriptsize] at (0,-2.5+1.4) {$70.00$};
+            \node[above left, blue!90!black, font=\scriptsize] at (0,-2.5+1.4) {$+70.00$};
             \node[below, blue!90!black, font=\scriptsize] at (3,-2.5-0.4) {$-20.00$};
             \node[below right, blue!90!black, font=\scriptsize] at (7,-2.5-1.0) {$-50.00\text{ kN}$};
 
-            \draw[dotted, line width=0.7pt, red!80!black] (2.65, -2.5) -- (2.65, -7.5);
-            \draw[|<->|, >=Latex] (0,-4.0) -- (2.65,-4.0) node[midway, fill=white, font=\tiny] {$2.65\text{ m}$};
+            % Criterios de signos para cortante con flechas
+            % Positivo en tramo [0, 2.646]
+            \draw[-{Latex[length=1.5mm, width=1.0mm]}, line width=0.65pt, blue!80!black] (0.8,-2.5+0.35) -- (0.8,-2.5+0.85);
+            \node[font=\tiny\bfseries, blue!80!black] at (1.05,-2.5+0.6) {$+$};
+            \draw[-{Latex[length=1.5mm, width=1.0mm]}, line width=0.65pt, blue!80!black] (1.3,-2.5+0.85) -- (1.3,-2.5+0.35);
 
-            % --- DIAGRAMA M_f(x) ---
+            % Negativo en tramo central [3, 5]
+            \draw[-{Latex[length=1.4mm, width=0.9mm]}, line width=0.6pt, blue!80!black] (3.7,-2.5-0.12) -- (3.7,-2.5-0.34);
+            \node[font=\tiny\bfseries, blue!80!black] at (3.9,-2.5-0.23) {$-$};
+            \draw[-{Latex[length=1.4mm, width=0.9mm]}, line width=0.6pt, blue!80!black] (4.1,-2.5-0.34) -- (4.1,-2.5-0.12);
+
+            % Negativo en tramo final [5, 7]
+            \draw[-{Latex[length=1.5mm, width=1.0mm]}, line width=0.65pt, blue!80!black] (5.8,-2.5-0.35) -- (5.8,-2.5-0.75);
+            \node[font=\tiny\bfseries, blue!80!black] at (6.05,-2.5-0.55) {$-$};
+            \draw[-{Latex[length=1.5mm, width=1.0mm]}, line width=0.65pt, blue!80!black] (6.3,-2.5-0.75) -- (6.3,-2.5-0.35);
+
+            % Cortante nulo en x = 2.646 m
+            \draw[dotted, line width=0.7pt, red!80!black] (2.646, -2.5) -- (2.646, -7.5);
+            \draw[|<->|, >=Latex] (0,-4.0) -- (2.646,-4.0) node[midway, fill=white, font=\tiny] {$2.646\text{ m}$};
+
+            % --- 4. DIAGRAMA M_f(x) EN TONO NARANJA ---
             \draw[line width=0.8pt, gray!60] (0,-5.5) -- (7,-5.5);
             \node[left=6pt, font=\small\bfseries] at (0,-5.5) {$M_f$};
 
-            \fill[blue!15] (0,-5.5) to[out=-35, in=180] (2.65,-5.5-1.5) to[out=0, in=165] (3,-5.5-1.4) -- (5,-5.5-1.0) -- (5,-5.5-0.6) -- (7,-5.5) -- cycle;
-            \draw[line width=1.3pt, blue!70!black] (0,-5.5) to[out=-35, in=180] (2.65,-5.5-1.5) to[out=0, in=165] (3,-5.5-1.4) -- (5,-5.5-1.0) -- (5,-5.5-0.6) -- (7,-5.5);
+            \fill[orange!20] (0,-5.5) to[out=-35, in=180] (2.646,-5.5-1.55) to[out=0, in=165] (3,-5.5-1.5) -- (5,-5.5-1.0) -- (5,-5.5-1.25) -- (7,-5.5) -- cycle;
+            \draw[line width=1.3pt, orange!85!black] (0,-5.5) to[out=-35, in=180] (2.646,-5.5-1.55) to[out=0, in=165] (3,-5.5-1.5) -- (5,-5.5-1.0);
+            \draw[line width=1.1pt, dashed, orange!85!black] (5,-5.5-1.0) -- (5,-5.5-1.25);
+            \draw[line width=1.3pt, orange!85!black] (5,-5.5-1.25) -- (7,-5.5);
 
-            \node[below, blue!90!black, font=\scriptsize\bfseries] at (2.65,-5.5-1.5) {$123.46\text{ kN}\cdot\text{m}$};
-            \node[below, blue!90!black, font=\scriptsize] at (3,-5.5-1.4) {$120.00$};
-            \node[below left, blue!90!black, font=\scriptsize] at (5,-5.5-1.0) {$100.00$};
-            \node[above left, blue!90!black, font=\scriptsize] at (5,-5.5-0.6) {$80.00$};
+            \node[below, orange!90!black, font=\scriptsize\bfseries] at (2.646,-5.5-1.62) {$+123.47\text{ kN}\cdot\text{m}$};
+            \node[above=2pt, orange!90!black, font=\scriptsize] at (3.0,-5.5-1.48) {$+120.00$};
+            \node[above left=1pt, orange!90!black, font=\scriptsize] at (5,-5.5-1.0) {$+80.00$};
+            \node[below right=1pt, orange!90!black, font=\scriptsize] at (5,-5.5-1.25) {$+100.00$};
+            \node[above right, orange!90!black, font=\scriptsize] at (7,-5.5) {$0$};
 
-            % Criterio signo momento flector positivo
-            \draw[-{Stealth[length=2mm, width=1.4mm]}, line width=0.8pt, blue!70!black] ($(1.3,-6.2)+(-90:0.25)$) arc (-90:-270:0.25);
-            \node[font=\small\bfseries, blue!90!black] at (1.65,-6.2) {$+$};
-            \draw[-{Stealth[length=2mm, width=1.4mm]}, line width=0.8pt, blue!70!black] ($(2.0,-6.2)+(-90:0.25)$) arc (-90:90:0.25);
+            % Criterio signo momento flector positivo centrado con el máximo en x = 2.646
+            \draw[-{Stealth[length=2mm, width=1.4mm]}, line width=0.8pt, orange!85!black] ($(2.3,-6.25)+(-90:0.25)$) arc (-90:-270:0.25);
+            \node[font=\small\bfseries, orange!90!black] at (2.646,-6.25) {$+$};
+            \draw[-{Stealth[length=2mm, width=1.4mm]}, line width=0.8pt, orange!85!black] ($(2.99,-6.25)+(-90:0.25)$) arc (-90:90:0.25);
         \end{tikzpicture}%
     }
-    \caption{Diagramas de esfuerzo axil ($N$), esfuerzo cortante ($Q$) y momento flector ($M_f$).}
+    \caption{Diagrama de cuerpo libre global y diagramas de esfuerzo axil ($N$), esfuerzo cortante ($Q$) y momento flector ($M_f$).}
+    \label{fig:ejemplo8_diagramas}
 \end{figure}
 
 \comp{
-    \textbf{Comprobaciones de las leyes y diagramas de esfuerzos:}
+    \textbf{Comprobación sistemática de los diagramas de esfuerzos:}
     \begin{enumerate}
-        \item \textbf{Relaciones diferenciales:}
+        \item \textbf{Relaciones diferenciales de equilibrio interno:}
               \begin{itemize}
-                  \item Tramo 1 ($0 < x < 3\text{ m}$): la carga es triangular $q(x) = 20x$. Se tiene $M_f(x) = 70x - \frac{10}{3}x^3 \implies \dfrac{dM_f}{dx} = 70 - 10x^2 = Q(x)$, y $\dfrac{dQ}{dx} = -20x = -q(x)$.
-                  \item Cortante nulo en $x_0 = \sqrt{7} \approx 2.65\text{ m}$: $Q(x_0) = 0 \implies \left.\dfrac{dM_f}{dx}\right|_{2.65} = 0$, obteniéndose el máximo de momento $M_{f,\text{máx}} = 123.46\text{ kN}\cdot\text{m}$.
-                  \item Tramos sin carga ($x > 3\text{ m}$): $Q(x) = \text{cte}$ y $M_f(x)$ lineal.
+                  \item Tramo 1 ($0 < x < 3\text{ m}$): la carga es triangular $q(x) = 20x$. Se verifica $\dfrac{dM_f}{dx} = 70 - 10x^2 = Q(x)$, y $\dfrac{dQ}{dx} = -20x = -q(x)$.
+                  \item Cortante nulo en $x_0 = \sqrt{7} \approx 2.646\text{ m}$: $Q(x_0) = 0 \implies \left.\dfrac{dM_f}{dx}\right|_{x_0} = 0$, alcanzándose el máximo relativo positivo $M_{f,\text{máx}} = +123.47\text{ kN}\cdot\text{m}$.
+                  \item Tramos 2 y 3 ($x > 3\text{ m}$): sin carga distribuida ($q = 0$) $\implies Q(x) = \text{cte}$ y $M_f(x)$ lineal continuo a trozos con pendientes coincidentes con los cortantes respectivos ($-20\text{ kN}$ y $-50\text{ kN}$).
               \end{itemize}
         \item \textbf{Condiciones de contorno y correspondencia con el DCL:}
               \begin{itemize}
-                  \item En $x = 0$ (apoyo $A$): $Q(0^+) = +70.00\text{ kN} = V_A\uparrow$ y $M_f(0) = 0$.
-                  \item En $x = 7\text{ m}$ (apoyo $C$): $Q(7^-) = -50.00\text{ kN}$, equilibrando la reacción vertical ascendente $V_C = 50.00\text{ kN}\uparrow$, y $M_f(7) = 0$.
+                  \item En el apoyo fijo $A$ ($x = 0$): $Q(0^+) = +70.00\text{ kN} = V_A\uparrow$ y $M_f(0) = 0$.
+                  \item En el apoyo móvil $C$ ($x = 7\text{ m}$): $Q(7^-) = -50.00\text{ kN}$, equilibrado por la reacción vertical ascendente $V_C = 50.00\text{ kN}\uparrow$, y $M_f(7) = 0$.
               \end{itemize}
         \item \textbf{Discontinuidades y saltos por acciones puntuales:}
               \begin{itemize}
-                  \item En $x = 5\text{ m}$ actúa la fuerza puntual $F = 30\text{ kN}\downarrow$: salto en cortante de $\Delta Q = -50 - (-20) = -30\text{ kN} = -F$.
-                  \item En $x = 5\text{ m}$ actúa el momento antihorario $M = 20\text{ kN}\cdot\text{m}$: salto en el momento flector de $\Delta M_f = 80 - 100 = -20\text{ kN}\cdot\text{m}$.
+                  \item En $x = 5\text{ m}$ actúa la fuerza puntual vertical $F = 30\text{ kN}\downarrow$: salto en cortante $\Delta Q = -50.00 - (-20.00) = -30.00\text{ kN} = -F$.
+                  \item En $x = 5\text{ m}$ actúa el momento concentrado horario $M_0 = 20\text{ kN}\cdot\text{m}$: produce un salto ascendente en el momento flector de $\Delta M_f = 100.00 - 80.00 = +20.00\text{ kN}\cdot\text{m} = +M_0$.
               \end{itemize}
-        \item \textbf{Grados polinómicos:} Tramo con carga triangular ($0 < x < 3$) $\implies$ $Q(x)$ parabólico de 2.º grado, $M_f(x)$ cúbico de 3.º grado; tramos sin carga $\implies$ $Q(x)$ constante, $M_f(x)$ lineal.
+        \item \textbf{Grados polinómicos:} Carga triangular lineal ($0 < x < 3$) $\implies$ $Q(x)$ parabólico de 2.º grado, $M_f(x)$ cúbico de 3.º grado; tramos sin carga $\implies$ $Q(x)$ constante de grado 0, $M_f(x)$ lineal de grado 1.
     \end{enumerate}
 }
 
@@ -3980,8 +4752,8 @@ Consideramos una viga de $L = 6\text{ m}$ con un vano principal de $4\text{ m}$ 
             \draw[line width=1pt] ($(B)+(-0.5,-0.6)$) -- ($(B)+(0.5,-0.6)$);
             \node[above right=2pt] at (B) {$B$};
 
-            % Extremo libre C en x=6
-            \node[above right=2pt] at (6,0) {$C$};
+            % Extremo libre C en x=6 (etiqueta a la derecha para no solapar el momento)
+            \node[right=2pt] at (6,0) {$C$};
 
             % Carga uniforme q = 20 kN/m en vano AB (x=0 a 4m)
             \draw[line width=0.9pt, red!80!black] (0,0.9) -- (4,0.9);
@@ -4010,62 +4782,324 @@ Consideramos una viga de $L = 6\text{ m}$ con un vano principal de $4\text{ m}$ 
     GH = r - 3 = 3 - 3 = 0 \implies \text{\textbf{Estructura isostática.}}
 \]
 
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.98\textwidth}{%
+        \begin{tikzpicture}[scale=1.1, >=Latex]
+            % Viga DCL (azul)
+            \draw[line width=2.5pt, blue!80!black] (0,0) -- (6,0);
+            \fill (0,0) circle (2pt) node[above left=2pt, font=\bfseries] {$A$};
+            \fill (4,0) circle (2pt) node[above right=2pt, font=\bfseries] {$B$};
+            \fill (6,0) circle (2pt) node[right=2pt, font=\bfseries] {$C$};
+
+            % Reacciones en A y B sustituyendo las ligaduras (verde)
+            \draw[->, >=Latex, line width=1.4pt, green!60!black] (-1.3,0) -- (-0.05,0) node[pos=0, left=1pt, font=\footnotesize\bfseries] {$H_A$};
+            \draw[->, >=Latex, line width=1.4pt, green!60!black] (0,-1.1) -- (0,-0.05) node[midway, left=2pt, font=\footnotesize\bfseries] {$V_A$};
+            \draw[->, >=Latex, line width=1.4pt, green!60!black] (4,-1.1) -- (4,-0.05) node[midway, right=2pt, font=\footnotesize\bfseries] {$V_B$};
+
+            % Carga uniforme q = 20 kN/m en vano AB (x=0 a 4m)
+            \draw[line width=0.9pt, red!80!black] (0,0.9) -- (4,0.9);
+            \foreach \x in {0, 0.8, 1.6, 2.4, 3.2, 4.0} {
+                    \draw[->, line width=0.8pt, red!80!black] (\x, 0.9) -- (\x, 0.05);
+                }
+            \node[above, red!80!black, font=\small\bfseries] at (2.0, 0.95) {$20\text{ kN/m}$};
+
+            % Resultante puntual equivalente R_q = 80 kN a 2 m de A
+            \draw[->, >=Latex, line width=1.3pt, magenta!80!black, dashed] (2,1.8) -- (2,0.05) node[pos=0, above=2pt, font=\footnotesize\bfseries] {$R_q = 80\text{ kN}$};
+
+            % Carga puntual F = 10 kN en B (x=4m)
+            \draw[<-, line width=1.6pt, red!80!black] (4,0.05) -- (4,1.8) node[above, font=\small\bfseries] {$F = 10\text{ kN}$};
+
+            % Momento M = 20 kN*m en extremo C (x=6m)
+            \draw[-{Latex[length=2.5mm, width=1.8mm]}, line width=1.2pt, magenta!80!black] ($(6,0)+(40:0.45)$) arc (40:320:0.45);
+            \node[above right, magenta!80!black, font=\small\bfseries] at (6.1,0.2) {$M = 20\text{ kN}\cdot\text{m}$};
+
+            % Cotas
+            \draw[|<->|, >=Latex] (0,-0.85) -- (4,-0.85) node[midway, fill=white, font=\footnotesize] {$4\text{ m}$};
+            \draw[|<->|, >=Latex] (4,-0.85) -- (6,-0.85) node[midway, fill=white, font=\footnotesize] {$2\text{ m}$};
+            \draw[|<->|, >=Latex] (0,-1.35) -- (2,-1.35) node[midway, fill=white, font=\tiny] {$2\text{ m}$};
+            \draw[|<->|, >=Latex] (2,-1.35) -- (4,-1.35) node[midway, fill=white, font=\tiny] {$2\text{ m}$};
+        \end{tikzpicture}%
+    }
+    \caption{Diagrama de Cuerpo Libre (DCL) global de la viga sustituyendo las ligaduras por reacciones.}
+    \label{fig:ejemplo10_dcl_global}
+\end{figure}
+
 \paso{2}{Reacciones en los apoyos}
-Tomando momentos en $A$ y equilibrio vertical:
+
+La carga repartida uniforme actúa a lo largo de los $4\text{ m}$ del vano principal, con resultante equivalente $R_q = 20\text{ kN/m} \cdot 4\text{ m} = 80\text{ kN}$ aplicada en el punto medio del vano ($x = 2\text{ m}$). Planteamos las tres ecuaciones de equilibrio estático del sólido rígido:
 \begin{align}
-    (\rightarrow +) \quad \sum F_x = 0      & \implies \boxed{H_A = 0}                                                                                                                     \\
-    (\circlearrowleft +) \quad \sum M_A = 0 & \implies V_B \cdot 4 - (20 \cdot 4) \cdot 2 - 10 \cdot 4 + 20 = 0 \implies 4\,V_B - 160 - 40 + 20 = 0 \implies \boxed{V_B = 45.00\text{ kN}} \\
-    (\uparrow +) \quad \sum F_y = 0         & \implies V_A + 45 - 80 - 10 = 0 \implies \boxed{V_A = 45.00\text{ kN}}
+    (\rightarrow +) \quad \sum F_x = 0      & \implies \boxed{H_A = 0\text{ kN}}                                                                                                 \\
+    (\circlearrowleft +) \quad \sum M_A = 0 & \implies V_B \cdot 4 - 80 \cdot 2 - 10 \cdot 4 + 20 = 0 \implies 4\,V_B - 160 - 40 + 20 = 0 \implies \boxed{V_B = 45.00\text{ kN}} \\
+    (\uparrow +) \quad \sum F_y = 0         & \implies V_A + V_B - 80 - 10 = 0 \implies V_A + 45.00 - 90 = 0 \implies \boxed{V_A = 45.00\text{ kN}}
 \end{align}
 
-\paso{3}{Diagramas de esfuerzos internos ($N, Q, M_f$)}
+\paso{3}{Cálculo de los esfuerzos internos (Método de los cortes)}
+
+Dividimos la viga en 2 tramos diferenciados por el apoyo intermedio $B$ y la discontinuidad de cargas:
+\begin{itemize}
+    \item \textbf{Tramo 1 ($0 \le x \le 4\text{ m}$):} Vano principal cargado uniformemente con $q = 20\text{ kN/m}$.
+    \item \textbf{Tramo 2 ($4\text{ m} \le x \le 6\text{ m}$):} Voladizo libre hasta el extremo $C$ sometido al momento concentrado final.
+\end{itemize}
+
+% ----------------- TRAMO 1 -----------------
+\tramobadge{Tramo 1}{$0 \le x \le 4\text{ m}$}
+
+Realizamos un corte a una distancia $x \in [0, 4\text{ m}]$ desde el origen $A$ y estudiamos el equilibrio de la porción izquierda aislada:
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.88\textwidth}{%
+        \begin{tikzpicture}[scale=1.1, >=Latex]
+            % Viga cortada
+            \draw[line width=2.5pt, blue!80!black] (0,0) -- (4.5,0);
+            \fill (0,0) circle (2pt) node[above left=2pt, font=\bfseries] {$A$};
+
+            % Corte seccional a la derecha
+            \draw[thick, fill=gray!20] (4.5,-0.35) to[out=60,in=-60] (4.5,0) to[out=120,in=-120] (4.5,0.35);
+
+            % Reacciones en A
+            \draw[->, >=Latex, line width=1.4pt, green!60!black] (0,-1.1) -- (0,-0.05) node[midway, left=2pt, font=\footnotesize\bfseries] {$V_A = 45.00\text{ kN}$};
+            \draw[->, >=Latex, line width=1.4pt, green!60!black] (-1.3,0) -- (-0.05,0) node[pos=0, left=1pt, font=\footnotesize\bfseries] {$H_A = 0$};
+
+            % Carga uniforme repartida
+            \draw[line width=0.9pt, red!80!black] (0,0.9) -- (4.5,0.9);
+            \foreach \x in {0.5, 1.3, 2.1, 2.9, 3.7, 4.5} {
+                    \draw[->, line width=0.7pt, red!80!black] (\x, 0.9) -- (\x, 0.05);
+                }
+            \node[above, red!80!black, font=\footnotesize\bfseries] at (2.25, 0.95) {$q = 20\text{ kN/m}$};
+
+            % Resultante puntual parcial R_q(x) = 20x en x/2
+            \draw[->, >=Latex, line width=1.2pt, magenta!80!black, dashed] (2.25,1.7) -- (2.25,0.05) node[pos=0, above=2pt, font=\footnotesize\bfseries] {$R_q(x) = 20x$};
+
+            % Cotas
+            \draw[|<->|, >=Latex] (0,-0.65) -- (2.25,-0.65) node[midway, fill=white, font=\tiny] {$x/2$};
+            \draw[|<->|, >=Latex] (2.25,-0.65) -- (4.5,-0.65) node[midway, fill=white, font=\tiny] {$x/2$};
+            \draw[|<->|, >=Latex] (0,-1.3) -- (4.5,-1.3) node[midway, fill=white, font=\footnotesize\bfseries] {$x$};
+
+            % Esfuerzos internos en el corte
+            \coordinate (corte) at (4.5,0);
+            \draw[->, line width=1.3pt, purple!80!black] (corte) -- ++(1.1,0) node[right, font=\footnotesize\bfseries] {$N(x)$};
+            \draw[->, line width=1.3pt, purple!80!black] (corte) -- ++(0,-1.0) node[below right=2pt, font=\footnotesize\bfseries] {$Q(x)$};
+            \draw[-{Latex[length=2.3mm, width=1.6mm]}, line width=1.3pt, purple!80!black] ($(corte)+(-40:0.55)$) arc (-40:120:0.55);
+            \node[right=2pt, purple!80!black, font=\footnotesize\bfseries] at ($(corte)+(40:0.75)$) {$M_f(x)$};
+            \filldraw[black] (corte) circle (2.2pt);
+        \end{tikzpicture}%
+    }
+    \caption{Diagrama de esfuerzos internos en la porción aislada del Tramo 1 ($0 \le x \le 4\text{ m}$).}
+    \label{fig:ejemplo10_corte1}
+\end{figure}
+
+Ecuaciones de equilibrio estático en el corte:
+\begin{itemize}
+    \item \textbf{Esfuerzo axil ($N$):}
+          \begin{equation}
+              \sum F_x = 0 \implies \boxed{N(x) = 0\text{ kN}}
+          \end{equation}
+
+    \item \textbf{Esfuerzo cortante ($Q$):}
+          \begin{equation}
+              \sum F_y = 0 \implies V_A - 20\,x - Q(x) = 0 \implies \boxed{Q(x) = 45.00 - 20\,x\text{ [kN]}}
+          \end{equation}
+          Valores en los extremos:
+          \begin{align*}
+              Q(0^+) & = 45.00 - 20(0) = \boxed{+45.00\text{ kN}}                 \\
+              Q(4^-) & = 45.00 - 20(4) = 45.00 - 80.00 = \boxed{-35.00\text{ kN}}
+          \end{align*}
+
+          \paragraph{Determinación del punto de cortante nulo ($Q = 0$):}
+          Al cambiar de signo en el vano, calculamos la sección interior $x_0 \in (0, 4\text{ m})$ donde $Q(x_0) = 0$:
+          \begin{equation}
+              45.00 - 20\,x_0 = 0 \implies \boxed{x_0 = \frac{45}{20} = 2.25\text{ m}}
+          \end{equation}
+
+    \item \textbf{Momento flector ($M_f$):}
+          Tomando momentos respecto a la sección de corte:
+          \begin{equation}
+              \sum M_{\text{corte}} = 0 \implies M_f(x) - V_A \cdot x + (20\,x)\cdot\frac{x}{2} = 0 \implies \boxed{M_f(x) = 45.00\,x - 10\,x^2\text{ [kN}\cdot\text{m]}}
+          \end{equation}
+          Nótese que la derivada respecto a $x$ verifica rigurosamente la relación diferencial $\dfrac{dM_f}{dx} = 45.00 - 20\,x = Q(x)$.
+
+          Valores en los extremos:
+          \begin{align*}
+              M_f(0)   & = 45.00(0) - 10(0)^2 = \boxed{0\text{ kN}\cdot\text{m}}                        \\
+              M_f(4^-) & = 45.00(4) - 10(4)^2 = 180.00 - 160.00 = \boxed{+20.00\text{ kN}\cdot\text{m}}
+          \end{align*}
+
+          \comp{
+              \textbf{Comprobación y evaluación del momento flector máximo:}
+              La condición necesaria de extremo relativo $\dfrac{dM_f}{dx} = 0$ se anula en $x_0 = 2.25\text{ m}$. Comprobamos su condición de máximo con la segunda derivada:
+              \begin{equation}
+                  \left.\frac{d^2 M_f}{dx^2}\right|_{x_0} = \left.\frac{dQ}{dx}\right|_{x_0} = -20\text{ kN/m} < 0 \implies \textbf{Máximo absoluto positivo.}
+              \end{equation}
+              Evaluamos el momento flector en $x_0 = 2.25\text{ m}$:
+              \begin{equation}
+                  \boxed{M_{f,\text{máx}} = M_f(2.25) = 45.00(2.25) - 10(2.25)^2 = 101.25 - 50.625 = +50.625\text{ kN}\cdot\text{m}}
+              \end{equation}
+          }
+\end{itemize}
+
+% ----------------- TRAMO 2 -----------------
+\tramobadge{Tramo 2}{$4\text{ m} \le x \le 6\text{ m}$}
+
+Para el voladizo, aislamos la \textbf{porción derecha} comprendida entre la sección de corte en $x$ y el extremo libre $C$ ($x = 6\text{ m}$), de longitud $(6 - x) \in [0, 2\text{ m}]$. En dicha porción únicamente actúa el momento concentrado antihorario $M = 20\text{ kN}\cdot\text{m}$ en $C$:
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.75\textwidth}{%
+        \begin{tikzpicture}[scale=1.2, >=Latex]
+            % Viga cortada por la izquierda
+            \draw[line width=2.5pt, blue!80!black] (0,0) -- (3.5,0);
+            \fill (3.5,0) circle (2pt) node[right=2pt, font=\bfseries] {$C$};
+
+            % Corte seccional a la izquierda
+            \draw[thick, fill=gray!20] (0,-0.35) to[out=120,in=-120] (0,0) to[out=60,in=-60] (0,0.35);
+
+            % Momento concentrado antihorario M = 20 en C
+            \draw[-{Latex[length=2.5mm, width=1.8mm]}, line width=1.2pt, magenta!80!black] ($(3.5,0)+(40:0.45)$) arc (40:320:0.45);
+            \node[above right, magenta!80!black, font=\footnotesize\bfseries] at (3.6,0.2) {$M = 20\text{ kN}\cdot\text{m}$};
+
+            % Cota (6 - x)
+            \draw[|<->|, >=Latex] (0,-0.65) -- (3.5,-0.65) node[midway, fill=white, font=\footnotesize\bfseries] {$6 - x$};
+
+            % Esfuerzos internos en la cara izquierda del corte
+            \coordinate (corte) at (0,0);
+            \draw[->, line width=1.3pt, purple!80!black] (corte) -- ++(-1.1,0) node[left, font=\footnotesize\bfseries] {$N(x)$};
+            \draw[->, line width=1.3pt, purple!80!black] (corte) -- ++(0,1.0) node[above, font=\footnotesize\bfseries] {$Q(x)$};
+            \draw[-{Latex[length=2.3mm, width=1.6mm]}, line width=1.3pt, purple!80!black] ($(corte)+(-140:0.55)$) arc (-140:40:0.55);
+            \node[left=2pt, purple!80!black, font=\footnotesize\bfseries] at ($(corte)+(140:0.75)$) {$M_f(x)$};
+            \filldraw[black] (corte) circle (2.2pt);
+        \end{tikzpicture}%
+    }
+    \caption{Diagrama de la porción derecha aislada en el Tramo 2 (voladizo, $4\text{ m} \le x \le 6\text{ m}$).}
+    \label{fig:ejemplo10_corte2}
+\end{figure}
+
+Ecuaciones de equilibrio estático considerando la porción derecha:
+\begin{itemize}
+    \item \textbf{Esfuerzo axil ($N$):}
+          \begin{equation}
+              \sum F_x = 0 \implies \boxed{N(x) = 0\text{ kN}}
+          \end{equation}
+
+    \item \textbf{Esfuerzo cortante ($Q$):}
+          Al no existir fuerzas verticales aplicadas en el voladizo:
+          \begin{equation}
+              \sum F_y = 0 \implies \boxed{Q(x) = 0\text{ kN}} \quad (\text{constante})
+          \end{equation}
+          En el apoyo $B$ ($x = 4\text{ m}$) concurren la reacción vertical ascendente $V_B = 45.00\text{ kN}$ y la fuerza descendente puntual $F = 10.00\text{ kN}$, provocando el salto que anula el cortante:
+          \begin{equation}
+              \Delta Q = Q(4^+) - Q(4^-) = 0 - (-35.00) = +35.00\text{ kN} = V_B - F = 45.00 - 10.00
+          \end{equation}
+
+    \item \textbf{Momento flector ($M_f$):}
+          Tomando momentos respecto a la sección de corte en la porción derecha:
+          \begin{equation}
+              \sum M_{\text{corte}} = 0 \implies -M_f(x) + M = 0 \implies \boxed{M_f(x) = +M = +20.00\text{ kN}\cdot\text{m}} \quad (\text{constante})
+          \end{equation}
+          Valores en los extremos del tramo:
+          \begin{equation*}
+              M_f(4^+) = +20.00\text{ kN}\cdot\text{m}, \qquad M_f(6) = +20.00\text{ kN}\cdot\text{m}
+          \end{equation*}
+          \nt{En $x = 4\text{ m}$ el momento flector es continuo ($M_f(4^-) = M_f(4^+) = +20.00\text{ kN}\cdot\text{m}$), y en el extremo libre $x = 6\text{ m}$ cierra en equilibrio con el momento antihorario aplicado que tracciona las fibras inferiores (signo positivo).}
+\end{itemize}
+
+\paso{4}{Diagrama de cuerpo libre y diagramas de esfuerzos ($N, Q, M_f$)}
+
+Representamos de forma conjunta el Diagrama de Cuerpo Libre (DCL) completo precediendo a los diagramas continuos y alineados de esfuerzos internos:
 
 \begin{figure}[H]
     \centering
     \adjustbox{max width=0.98\textwidth}{%
         \begin{tikzpicture}[scale=1.0, >=Latex]
-            \draw[dotted, line width=0.7pt, gray] (0, 0.5) -- (0, -7.5);
-            \draw[dotted, line width=0.7pt, gray] (4, 0.5) -- (4, -7.5);
-            \draw[dotted, line width=0.7pt, gray] (6, 0.5) -- (6, -7.5);
+            % Ejes de referencia vertical
+            \draw[dotted, line width=0.7pt, gray] (0, 2.2) -- (0, -7.5);
+            \draw[dotted, line width=0.7pt, gray] (4, 2.2) -- (4, -7.5);
+            \draw[dotted, line width=0.7pt, gray] (6, 2.2) -- (6, -7.5);
 
-            % --- DIAGRAMA N(x) ---
-            \node[left=6pt, font=\small\bfseries] at (0,0) {$N$};
-            \draw[line width=1.2pt] (0,0) -- (6,0);
-            \node[above, font=\small] at (3,0) {$N = 0$};
+            % --- 1. DIAGRAMA DE CUERPO LIBRE (DCL) SUPERIOR ---
+            \draw[line width=2.5pt, blue!80!black] (0,1.2) -- (6,1.2);
+            \fill (0,1.2) circle (2pt) node[above left=2pt, font=\scriptsize\bfseries] {$A$};
+            \fill (4,1.2) circle (2pt) node[above right=2pt, font=\scriptsize\bfseries] {$B$};
+            \fill (6,1.2) circle (2pt) node[right=2pt, font=\scriptsize\bfseries] {$C$};
 
-            % --- DIAGRAMA Q(x) ---
+            % Reacciones en DCL
+            \draw[->, >=Latex, line width=1.2pt, green!60!black] (0,0.3) -- (0,1.15) node[pos=0, below, font=\scriptsize\bfseries] {$V_A=45.00$};
+            \draw[->, >=Latex, line width=1.2pt, green!60!black] (-0.8,1.2) -- (-0.05,1.2) node[pos=0, left, font=\scriptsize\bfseries] {$H_A=0$};
+            \draw[->, >=Latex, line width=1.2pt, green!60!black] (4,0.3) -- (4,1.15) node[pos=0, below, font=\scriptsize\bfseries] {$V_B=45.00$};
+
+            % Carga uniforme en vano AB
+            \draw[line width=0.8pt, red!80!black] (0,1.8) -- (4,1.8);
+            \foreach \x in {0, 0.8, 1.6, 2.4, 3.2, 4.0} {
+                    \draw[->, line width=0.6pt, red!80!black] (\x, 1.8) -- (\x, 1.25);
+                }
+            \node[above, red!80!black, font=\scriptsize\bfseries] at (2.0, 1.85) {$20\text{ kN/m}$};
+
+            % Carga puntual F en B
+            \draw[<-, line width=1.3pt, red!80!black] (4,1.25) -- (4,2.2) node[above, font=\scriptsize\bfseries] {$10\text{ kN}$};
+
+            % Momento en C
+            \draw[-{Latex[length=2.2mm, width=1.5mm]}, line width=1.0pt, magenta!80!black] ($(6,1.2)+(40:0.35)$) arc (40:320:0.35);
+            \node[above right, magenta!80!black, font=\scriptsize\bfseries] at (6.05,1.35) {$20\text{ kN}\cdot\text{m}$};
+
+            % --- 2. DIAGRAMA N(x) ---
+            \node[left=6pt, font=\small\bfseries] at (0,-0.4) {$N$};
+            \draw[line width=1.2pt] (0,-0.4) -- (6,-0.4);
+            \node[above, font=\small] at (3,-0.4) {$N = 0$};
+
+            % --- 3. DIAGRAMA Q(x) ---
             \draw[line width=0.8pt, gray!60] (0,-2.5) -- (6,-2.5);
             \node[left=6pt, font=\small\bfseries] at (0,-2.5) {$Q$};
 
+            % Áreas de Q(x):
+            % Región positiva [0, 2.25 m]: lineal de +45 a 0 (+1.1 en escala)
             \fill[blue!15] (0,-2.5) -- (0,-2.5+1.1) -- (2.25,-2.5) -- cycle;
+            % Región negativa [2.25, 4 m]: lineal de 0 a -35 (-0.85 en escala)
             \fill[blue!15] (2.25,-2.5) -- (4,-2.5-0.85) -- (4,-2.5) -- cycle;
+
+            % Trazo continuo de Q(x)
             \draw[line width=1.3pt, blue!70!black] (0,-2.5+1.1) -- (4,-2.5-0.85) -- (4,-2.5) -- (6,-2.5);
 
-            \node[above left, blue!90!black, font=\scriptsize] at (0,-2.5+1.1) {$45.00$};
+            \node[above left, blue!90!black, font=\scriptsize] at (0,-2.5+1.1) {$+45.00$};
             \node[below left, blue!90!black, font=\scriptsize] at (4,-2.5-0.85) {$-35.00\text{ kN}$};
+            \node[above right, blue!90!black, font=\scriptsize] at (5,-2.5) {$Q = 0$};
 
+            % Criterios de signos para cortante con flechas (completamente dentro del área sombreada)
+            % Positivo en vano izquierdo (en x ~ 0.8 m, h_techo ~ 0.7)
+            \draw[-{Latex[length=1.4mm, width=0.9mm]}, line width=0.6pt, blue!80!black] (0.65,-2.5+0.12) -- (0.65,-2.5+0.42);
+            \node[font=\tiny\bfseries, blue!80!black] at (0.85,-2.5+0.27) {$+$};
+            \draw[-{Latex[length=1.4mm, width=0.9mm]}, line width=0.6pt, blue!80!black] (1.05,-2.5+0.42) -- (1.05,-2.5+0.12);
+
+            % Negativo en vano derecho (en x ~ 3.4 m, h_suelo ~ -0.56)
+            \draw[-{Latex[length=1.4mm, width=0.9mm]}, line width=0.6pt, blue!80!black] (3.25,-2.5-0.12) -- (3.25,-2.5-0.38);
+            \node[font=\tiny\bfseries, blue!80!black] at (3.45,-2.5-0.25) {$-$};
+            \draw[-{Latex[length=1.4mm, width=0.9mm]}, line width=0.6pt, blue!80!black] (3.65,-2.5-0.38) -- (3.65,-2.5-0.12);
+
+            % Cortante nulo en x = 2.25 m
             \draw[dotted, line width=0.7pt, red!80!black] (2.25, -2.5) -- (2.25, -7.5);
-            \draw[|<->|, >=Latex] (0,-4.0) -- (2.25,-4.0) node[midway, fill=white, font=\tiny] {$2.25\text{ m}$};
+            \draw[|<->|, >=Latex] (0,-3.9) -- (2.25,-3.9) node[midway, fill=white, font=\tiny] {$2.25\text{ m}$};
 
-            % --- DIAGRAMA M_f(x) ---
+            % --- 4. DIAGRAMA M_f(x) EN TONO NARANJA ---
             \draw[line width=0.8pt, gray!60] (0,-5.5) -- (6,-5.5);
             \node[left=6pt, font=\small\bfseries] at (0,-5.5) {$M_f$};
 
+            % Área M_f(x): parábola en vano hasta +50.625 y constante +20 en voladizo
             \fill[orange!20] (0,-5.5) to[out=-35, in=180] (2.25,-5.5-1.4) to[out=0, in=190] (4,-5.5-0.5) -- (6,-5.5-0.5) -- (6,-5.5) -- cycle;
             \draw[line width=1.3pt, orange!85!black] (0,-5.5) to[out=-35, in=180] (2.25,-5.5-1.4) to[out=0, in=190] (4,-5.5-0.5) -- (6,-5.5-0.5) -- (6,-5.5);
 
             \node[below, orange!90!black, font=\scriptsize\bfseries] at (2.25,-5.5-1.4) {$+50.625\text{ kN}\cdot\text{m}$};
-            \node[below left, orange!90!black, font=\scriptsize] at (4,-5.5-0.5) {$+20.00$};
-            \node[below right, orange!90!black, font=\scriptsize] at (6,-5.5-0.5) {$+20.00\text{ kN}\cdot\text{m}$};
+            \node[below left=4pt, orange!90!black, font=\scriptsize] at (4,-5.5-0.40) {$+20.00$};
+            \node[below right=1pt, orange!90!black, font=\scriptsize] at (6,-5.5-0.40) {$+20.00\text{ kN}\cdot\text{m}$};
             \node[above right, orange!90!black, font=\scriptsize] at (6,-5.5) {$0$};
 
-            % Criterio signo momento positivo con flechas Stealth dentro del área coloreada
-            \draw[-{Stealth[length=2mm, width=1.4mm]}, line width=0.8pt, orange!85!black] ($(1.5,-6.15)+(-90:0.25)$) arc (-90:-270:0.25);
-            \node[font=\small\bfseries, orange!90!black] at (1.85,-6.15) {$+$};
-            \draw[-{Stealth[length=2mm, width=1.4mm]}, line width=0.8pt, orange!85!black] ($(2.2,-6.15)+(-90:0.25)$) arc (-90:90:0.25);
+            % Criterio signo momento positivo con flechas Stealth centradas en vano (único criterio, no se repite)
+            \draw[-{Stealth[length=2mm, width=1.4mm]}, line width=0.8pt, orange!85!black] ($(1.3,-6.15)+(-90:0.25)$) arc (-90:-270:0.25);
+            \node[font=\small\bfseries, orange!90!black] at (1.65,-6.15) {$+$};
+            \draw[-{Stealth[length=2mm, width=1.4mm]}, line width=0.8pt, orange!85!black] ($(2.0,-6.15)+(-90:0.25)$) arc (-90:90:0.25);
         \end{tikzpicture}%
     }
-    \caption{Diagramas de esfuerzo axil ($N$), esfuerzo cortante ($Q$) y momento flector ($M_f$).}
+    \caption{Diagrama de cuerpo libre global y diagramas de esfuerzo axil ($N$), esfuerzo cortante ($Q$) y momento flector ($M_f$).}
+    \label{fig:ejemplo10_diagramas_completos}
 \end{figure}
 
 \comp{
@@ -4098,7 +5132,7 @@ Tomando momentos en $A$ y equilibrio vertical:
 \begin{tcolorbox}[colback=blue!3!white, colframe=blue!40!black, arc=3pt, boxrule=0.8pt, left=8pt, right=8pt, top=6pt, bottom=6pt]
     \centering
     {\Large\bfseries\color{blue!60!black} Método de cortes en viga con voladizo y carga variable (diagramas $N, Q, M_f$)}\\[2pt]
-    {\normalsize\bfseries Viga de $L = 7\text{ m}$ ($5\text{ m}$ vano + $2\text{ m}$ voladizo) con $M_0 = 10\text{ kN}\cdot\text{m}$, $q_{\max} = 30\text{ kN/m}$ y $F = 10\text{ kN}$}
+    {\normalsize\bfseries Viga de $L = 7\text{ m}$ ($5\text{ m}$ vano + $2\text{ m}$ voladizo) con $M_0 = 10\text{ kN}\cdot\text{m}$, $q_{\text{máx}} = 30\text{ kN/m}$ y $F = 10\text{ kN}$}
 
     \vspace{4pt}\hrule\vspace{4pt}
     {\small\textbf{Unidades de trabajo:} $L\,[\text{m}] \quad F\,[\text{kN}] \quad M\,[\text{kN}\cdot\text{m}] \quad q\,[\text{kN/m}]$}
@@ -4163,65 +5197,523 @@ Consideramos una viga de $L = 7\text{ m}$ con un vano principal de $5\text{ m}$ 
     GH = r - 3 = 3 - 3 = 0 \implies \text{\textbf{Estructura isostática.}}
 \]
 
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.98\textwidth}{%
+        \begin{tikzpicture}[scale=1.1, >=Latex]
+            % Viga DCL (azul)
+            \draw[line width=2.5pt, blue!80!black] (0,0) -- (7,0);
+            \fill (0,0) circle (2pt) node[above left=2pt, font=\bfseries] {$A$};
+            \fill (1,0) circle (1.8pt) node[below=2pt, font=\bfseries] {$D$};
+            \fill (2,0) circle (1.8pt) node[below=2pt, font=\bfseries] {$E$};
+            \fill (5,0) circle (2pt) node[above right=2pt, font=\bfseries] {$B$};
+            \fill (7,0) circle (2pt) node[above right=2pt, font=\bfseries] {$C$};
+
+            % Reacciones en A y B sustituyendo las ligaduras (verde)
+            \draw[->, >=Latex, line width=1.4pt, green!60!black] (-1.1,0) -- (-0.05,0) node[midway, above=1pt, font=\footnotesize\bfseries] {$H_A$};
+            \draw[->, >=Latex, line width=1.4pt, green!60!black] (0,-1.1) -- (0,-0.05) node[midway, left=2pt, font=\footnotesize\bfseries] {$V_A$};
+            \draw[->, >=Latex, line width=1.4pt, green!60!black] (5,-1.1) -- (5,-0.05) node[midway, right=2pt, font=\footnotesize\bfseries] {$V_B$};
+
+            % Momento horario en x = 1 m (arco más amplio centrado en (1,0) para no superponer la letra D)
+            \draw[-{Latex[length=2.5mm, width=1.8mm]}, line width=1.2pt, magenta!80!black] ($(1,0)+(140:0.65)$) arc (140:-140:0.65);
+            \node[above=9pt, magenta!80!black, font=\small\bfseries] at (1,0.6) {$M_0 = 10\text{ kN}\cdot\text{m}$};
+
+            % Carga triangular entre x=2 y x=5 m
+            \draw[line width=1.1pt, red!80!black] (2,0) -- (5,1.8);
+            \foreach \x in {2.6, 3.2, 3.8, 4.4, 5.0} {
+                    \pgfmathsetmacro{\h}{(\x-2)*(1.8/3.0)}
+                    \draw[->, line width=0.8pt, red!80!black] (\x, \h) -- (\x, 0.05);
+                }
+            \node[above, red!80!black, font=\small\bfseries] at (5, 1.85) {$30\text{ kN/m}$};
+
+            % Resultante equivalente de la carga triangular (magenta discontinua a x = 4 m)
+            \draw[->, >=Latex, line width=1.3pt, magenta!80!black, dashed] (4,2.2) -- (4,0.05) node[pos=0, above=2pt, font=\footnotesize\bfseries] {$R_q = 45\text{ kN}$};
+
+            % Carga puntual F = 10 kN en C (x=7 m)
+            \draw[<-, line width=1.6pt, red!80!black] (7,0.05) -- (7,1.8) node[above, font=\small\bfseries] {$F = 10\text{ kN}$};
+
+            % Cotas
+            \draw[|<->|, >=Latex] (0,-0.85) -- (1,-0.85) node[midway, fill=white, font=\footnotesize] {$1\text{ m}$};
+            \draw[|<->|, >=Latex] (1,-0.85) -- (2,-0.85) node[midway, fill=white, font=\footnotesize] {$1\text{ m}$};
+            \draw[|<->|, >=Latex] (2,-0.85) -- (5,-0.85) node[midway, fill=white, font=\footnotesize] {$3\text{ m}$};
+            \draw[|<->|, >=Latex] (5,-0.85) -- (7,-0.85) node[midway, fill=white, font=\footnotesize] {$2\text{ m}$};
+            \draw[|<->|, >=Latex] (2,-1.4) -- (4,-1.4) node[midway, fill=white, font=\tiny] {$2\text{ m}$};
+            \draw[|<->|, >=Latex] (4,-1.4) -- (5,-1.4) node[midway, fill=white, font=\tiny] {$1\text{ m}$};
+        \end{tikzpicture}%
+    }
+    \caption{Diagrama de Cuerpo Libre (DCL) global de la viga sustituyendo las ligaduras por las reacciones de apoyo.}
+    \label{fig:ejemplo11_dcl_global}
+\end{figure}
+
 \paso{2}{Reacciones en los apoyos}
-Resultante de la carga triangular: $R_q = \frac{1}{2} \cdot 3 \cdot 30 = 45\text{ kN}$ actuando a $x = 2 + \frac{2}{3}(3) = 4\text{ m}$ desde $A$.
+
+La carga triangular se extiende en una longitud de $3\text{ m}$ ($x \in [2, 5\text{ m}]$) con valor máximo $q_{\text{máx}} = 30\text{ kN/m}$. Su fuerza resultante equivalente y centro de gravedad son:
+\[
+    R_q = \frac{1}{2} \cdot 3\text{ m} \cdot 30\text{ kN/m} = 45\text{ kN}, \qquad x_{G} = 2 + \frac{2}{3}(3) = 4\text{ m} \quad (\text{a } 1\text{ m a la izquierda de } B).
+\]
+Aplicando las tres ecuaciones de equilibrio estático del sólido rígido:
 \begin{align}
-    (\rightarrow +) \quad \sum F_x = 0      & \implies \boxed{H_A = 0}                                                                                                 \\
+    (\rightarrow +) \quad \sum F_x = 0      & \implies \boxed{H_A = 0\text{ kN}}                                                                                       \\
     (\circlearrowleft +) \quad \sum M_A = 0 & \implies V_B \cdot 5 - 10 - 45 \cdot 4 - 10 \cdot 7 = 0 \implies 5\,V_B - 260 = 0 \implies \boxed{V_B = 52.00\text{ kN}} \\
-    (\uparrow +) \quad \sum F_y = 0         & \implies V_A + 52 - 45 - 10 = 0 \implies \boxed{V_A = 3.00\text{ kN}}
+    (\uparrow +) \quad \sum F_y = 0         & \implies V_A + V_B - 45 - 10 = 0 \implies V_A + 52.00 - 55 = 0 \implies \boxed{V_A = 3.00\text{ kN}}
 \end{align}
 
-\paso{3}{Diagramas de esfuerzos internos ($N, Q, M_f$)}
+\paso{3}{Cálculo de los esfuerzos internos (Método de los cortes)}
+
+Dividimos la viga en 4 tramos delimitados por los puntos singulares de carga y apoyo:
+\begin{itemize}
+    \item \textbf{Tramo 1 ($0 \le x \le 1\text{ m}$):} Entre el apoyo fijo $A$ y la sección del momento puntual $M_0$.
+    \item \textbf{Tramo 2 ($1\text{ m} \le x \le 2\text{ m}$):} Entre el momento concentrado y el inicio de la carga triangular.
+    \item \textbf{Tramo 3 ($2\text{ m} \le x \le 5\text{ m}$):} Tramo con carga triangular creciente hasta el apoyo móvil $B$.
+    \item \textbf{Tramo 4 ($5\text{ m} \le x \le 7\text{ m}$):} Voladizo libre hasta el extremo $C$.
+\end{itemize}
+
+% ----------------- TRAMO 1 -----------------
+\tramobadge{Tramo 1}{$0 \le x \le 1\text{ m}$}
+
+Realizamos una sección de corte a una distancia $x$ ($0 \le x \le 1\text{ m}$) y planteamos el equilibrio de la porción izquierda aislada:
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.82\textwidth}{%
+        \begin{tikzpicture}[scale=1.1, >=Latex]
+            % Viga cortada
+            \draw[line width=2.5pt, blue!80!black] (0,0) -- (3.5,0);
+            \fill (0,0) circle (2pt) node[above left=2pt, font=\bfseries] {$A$};
+
+            % Corte seccional a la derecha
+            \draw[thick, fill=gray!20] (3.5,-0.35) to[out=60,in=-60] (3.5,0) to[out=120,in=-120] (3.5,0.35);
+
+            % Reacciones en A (H_A desplazado más a la izquierda para no superponerse con A)
+            \draw[->, >=Latex, line width=1.4pt, green!60!black] (0,-1.1) -- (0,-0.05) node[midway, left=2pt, font=\footnotesize\bfseries] {$V_A = 3.00\text{ kN}$};
+            \draw[->, >=Latex, line width=1.4pt, green!60!black] (-1.3,0) -- (-0.05,0) node[pos=0, left=1pt, font=\footnotesize\bfseries] {$H_A = 0$};
+
+            % Cota x
+            \draw[|<->|, >=Latex] (0,-0.65) -- (3.5,-0.65) node[midway, fill=white, font=\footnotesize\bfseries] {$x$};
+
+            % Esfuerzos internos en la sección de corte (punto de corte al final)
+            \coordinate (corte) at (3.5,0);
+            \draw[->, line width=1.3pt, purple!80!black] (corte) -- ++(1.1,0) node[right, font=\footnotesize\bfseries] {$N(x)$};
+            \draw[->, line width=1.3pt, purple!80!black] (corte) -- ++(0,-1.0) node[below, font=\footnotesize\bfseries] {$Q(x)$};
+            \draw[-{Latex[length=2.3mm, width=1.6mm]}, line width=1.3pt, purple!80!black] ($(corte)+(-40:0.55)$) arc (-40:120:0.55);
+            \node[right=2pt, purple!80!black, font=\footnotesize\bfseries] at ($(corte)+(40:0.75)$) {$M_f(x)$};
+            \filldraw[black] (corte) circle (2.2pt);
+        \end{tikzpicture}%
+    }
+    \caption{Diagrama de esfuerzos internos en la porción aislada del Tramo 1 ($0 \le x \le 1\text{ m}$).}
+    \label{fig:ejemplo11_corte1}
+\end{figure}
+
+Ecuaciones de equilibrio estático en el corte:
+\begin{itemize}
+    \item \textbf{Esfuerzo axil ($N$):}
+          \begin{equation}
+              \sum F_x = 0 \implies \boxed{N(x) = 0\text{ kN}}
+          \end{equation}
+
+    \item \textbf{Esfuerzo cortante ($Q$):}
+          \begin{equation}
+              \sum F_y = 0 \implies V_A - Q(x) = 0 \implies \boxed{Q(x) = 3.00\text{ kN}} \quad (\text{constante})
+          \end{equation}
+          Valores en los extremos:
+          \begin{equation*}
+              Q(0^+) = +3.00\text{ kN}, \qquad Q(1^-) = +3.00\text{ kN}
+          \end{equation*}
+
+    \item \textbf{Momento flector ($M_f$):}
+          Tomando momentos respecto a la sección de corte:
+          \begin{equation}
+              \sum M_{\text{corte}} = 0 \implies M_f(x) - V_A \cdot x = 0 \implies \boxed{M_f(x) = 3.00\,x\text{ [kN}\cdot\text{m]}}
+          \end{equation}
+          Valores en los extremos:
+          \begin{align*}
+              M_f(0)   & = 3.00(0) = \boxed{0\text{ kN}\cdot\text{m}}    \\
+              M_f(1^-) & = 3.00(1) = \boxed{3.00\text{ kN}\cdot\text{m}}
+          \end{align*}
+\end{itemize}
+
+% ----------------- TRAMO 2 -----------------
+\tramobadge{Tramo 2}{$1\text{ m} \le x \le 2\text{ m}$}
+
+Efectuamos el corte a una distancia $x \in [1, 2\text{ m}]$ manteniendo aislada la porción izquierda. En esta sección ya está incorporado el momento concentrado horario $M_0 = 10\text{ kN}\cdot\text{m}$ aplicado en $x = 1\text{ m}$:
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.85\textwidth}{%
+        \begin{tikzpicture}[scale=1.1, >=Latex]
+            % Viga cortada
+            \draw[line width=2.5pt, blue!80!black] (0,0) -- (4.5,0);
+            \fill (0,0) circle (2pt) node[above left=2pt, font=\bfseries] {$A$};
+            \fill (2.0,0) circle (1.8pt) node[below=2pt, font=\bfseries] {$D$};
+
+            % Corte seccional a la derecha
+            \draw[thick, fill=gray!20] (4.5,-0.35) to[out=60,in=-60] (4.5,0) to[out=120,in=-120] (4.5,0.35);
+
+            % Reacciones en A (H_A desplazado más a la izquierda)
+            \draw[->, >=Latex, line width=1.4pt, green!60!black] (0,-1.1) -- (0,-0.05) node[midway, left=2pt, font=\footnotesize\bfseries] {$V_A = 3.00\text{ kN}$};
+            \draw[->, >=Latex, line width=1.4pt, green!60!black] (-1.3,0) -- (-0.05,0) node[pos=0, left=1pt, font=\footnotesize\bfseries] {$H_A = 0$};
+
+            % Momento horario en D (x = 1 m)
+            \draw[-{Latex[length=2.5mm, width=1.8mm]}, line width=1.2pt, magenta!80!black] ($(2.0,0)+(140:0.45)$) arc (140:-140:0.45);
+            \node[above, magenta!80!black, font=\footnotesize\bfseries] at (2.0,0.5) {$M_0 = 10\text{ kN}\cdot\text{m}$};
+
+            % Cotas
+            \draw[|<->|, >=Latex] (0,-0.65) -- (2.0,-0.65) node[midway, fill=white, font=\footnotesize] {$1\text{ m}$};
+            \draw[|<->|, >=Latex] (0,-1.3) -- (4.5,-1.3) node[midway, fill=white, font=\footnotesize\bfseries] {$x$};
+
+            % Esfuerzos internos en la sección de corte (Q(x) desplazado a la derecha)
+            \coordinate (corte) at (4.5,0);
+            \draw[->, line width=1.3pt, purple!80!black] (corte) -- ++(1.1,0) node[right, font=\footnotesize\bfseries] {$N(x)$};
+            \draw[->, line width=1.3pt, purple!80!black] (corte) -- ++(0,-1.0) node[below right=2pt, font=\footnotesize\bfseries] {$Q(x)$};
+            \draw[-{Latex[length=2.3mm, width=1.6mm]}, line width=1.3pt, purple!80!black] ($(corte)+(-40:0.55)$) arc (-40:120:0.55);
+            \node[right=2pt, purple!80!black, font=\footnotesize\bfseries] at ($(corte)+(40:0.75)$) {$M_f(x)$};
+            \filldraw[black] (corte) circle (2.2pt);
+        \end{tikzpicture}%
+    }
+    \caption{Diagrama de esfuerzos internos en la porción aislada del Tramo 2 ($1\text{ m} \le x \le 2\text{ m}$).}
+    \label{fig:ejemplo11_corte2}
+\end{figure}
+
+Ecuaciones de equilibrio estático en el corte:
+\begin{itemize}
+    \item \textbf{Esfuerzo axil ($N$):}
+          \begin{equation}
+              \sum F_x = 0 \implies \boxed{N(x) = 0\text{ kN}}
+          \end{equation}
+
+    \item \textbf{Esfuerzo cortante ($Q$):}
+          \begin{equation}
+              \sum F_y = 0 \implies V_A - Q(x) = 0 \implies \boxed{Q(x) = 3.00\text{ kN}} \quad (\text{constante})
+          \end{equation}
+          Valores en los extremos:
+          \begin{equation*}
+              Q(1^+) = +3.00\text{ kN}, \qquad Q(2^-) = +3.00\text{ kN}
+          \end{equation*}
+
+    \item \textbf{Momento flector ($M_f$):}
+          Tomando momentos respecto a la sección de corte:
+          \begin{equation}
+              \sum M_{\text{corte}} = 0 \implies M_f(x) - V_A \cdot x - M_0 = 0 \implies \boxed{M_f(x) = 3.00\,x + 10.00\text{ [kN}\cdot\text{m]}}
+          \end{equation}
+          Valores en los extremos:
+          \begin{align*}
+              M_f(1^+) & = 3.00(1) + 10.00 = \boxed{13.00\text{ kN}\cdot\text{m}} \\
+              M_f(2)   & = 3.00(2) + 10.00 = \boxed{16.00\text{ kN}\cdot\text{m}}
+          \end{align*}
+          En la sección singular $x = 1\text{ m}$ se genera la discontinuidad provocada por el momento concentrado horario $M_0 = 10\text{ kN}\cdot\text{m}$:
+          \begin{equation}
+              \Delta M_f = M_f(1^+) - M_f(1^-) = 13.00 - 3.00 = +10.00\text{ kN}\cdot\text{m} = +M_0
+          \end{equation}
+\end{itemize}
+
+% ----------------- TRAMO 3 -----------------
+\tramobadge{Tramo 3}{$2\text{ m} \le x \le 5\text{ m}$}
+
+Realizamos una sección de corte a una distancia $x \in [2, 5\text{ m}]$ desde el origen $A$. La altura de la carga triangular en la sección genérica $x$ se deduce por semejanza de triángulos:
+\[
+    q(x) = 30 \cdot \frac{x - 2}{3} = 10(x - 2)\text{ [kN/m]}.
+\]
+La resultante de la porción de carga triangular interceptada entre el inicio de la carga ($x = 2\text{ m}$) y la sección de corte $x$, así como su brazo respecto a dicha sección, vienen dados directamente por:
+\[
+    R_{q}(x) = \frac{1}{2} \cdot (x - 2) \cdot 10(x - 2) = 5(x - 2)^2\text{ [kN]}, \qquad d_{\text{corte}} = \frac{1}{3}(x - 2)\text{ [m]}.
+\]
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.92\textwidth}{%
+        \begin{tikzpicture}[scale=1.1, >=Latex]
+            % Viga cortada
+            \draw[line width=2.5pt, blue!80!black] (0,0) -- (6.0,0);
+            \fill (0,0) circle (2pt) node[above left=2pt, font=\bfseries] {$A$};
+            \fill (1.5,0) circle (1.8pt) node[below=2pt, font=\bfseries] {$D$};
+            \fill (3.0,0) circle (1.8pt) node[below=2pt, font=\bfseries] {$E$};
+
+            % Corte seccional a la derecha
+            \draw[thick, fill=gray!20] (6.0,-0.35) to[out=60,in=-60] (6.0,0) to[out=120,in=-120] (6.0,0.35);
+
+            % Reacciones en A (H_A desplazado más a la izquierda)
+            \draw[->, >=Latex, line width=1.4pt, green!60!black] (0,-1.1) -- (0,-0.05) node[midway, left=2pt, font=\footnotesize\bfseries] {$V_A = 3.00\text{ kN}$};
+            \draw[->, >=Latex, line width=1.4pt, green!60!black] (-1.3,0) -- (-0.05,0) node[pos=0, left=1pt, font=\footnotesize\bfseries] {$H_A = 0$};
+
+            % Momento en D
+            \draw[-{Latex[length=2.5mm, width=1.8mm]}, line width=1.2pt, magenta!80!black] ($(1.5,0)+(140:0.45)$) arc (140:-140:0.45);
+            \node[above, magenta!80!black, font=\footnotesize\bfseries] at (1.5,0.5) {$M_0 = 10\text{ kN}\cdot\text{m}$};
+
+            % Carga triangular parcial
+            \draw[line width=1.1pt, red!80!black] (3.0,0) -- (6.0,1.5);
+            \foreach \x in {3.6, 4.2, 4.8, 5.4, 6.0} {
+                    \pgfmathsetmacro{\h}{(\x-3.0)*(1.5/3.0)}
+                    \draw[->, line width=0.7pt, red!80!black] (\x, \h) -- (\x, 0.05);
+                }
+            \node[above, red!80!black, font=\footnotesize\bfseries] at (6.0, 1.55) {$q(x) = 10(x-2)$};
+
+            % Resultante triangular parcial R_q(x)
+            \draw[->, >=Latex, line width=1.3pt, magenta!80!black, dashed] (5.0,1.8) -- (5.0,0.05) node[pos=0, above=2pt, font=\footnotesize\bfseries] {$R_q(x) = 5(x-2)^2$};
+
+            % Cotas
+            \draw[|<->|, >=Latex] (0,-0.65) -- (3.0,-0.65) node[midway, fill=white, font=\footnotesize] {$2\text{ m}$};
+            \draw[|<->|, >=Latex] (3.0,-0.65) -- (6.0,-0.65) node[midway, fill=white, font=\footnotesize\bfseries] {$x - 2$};
+            \draw[|<->|, >=Latex] (0,-1.4) -- (6.0,-1.4) node[midway, fill=white, font=\footnotesize\bfseries] {$x$};
+            \draw[|<->|, >=Latex] (5.0,-0.65) -- (6.0,-0.65) node[midway, fill=white, font=\tiny] {$\frac{x-2}{3}$};
+
+            % Esfuerzos internos en el corte (Q(x) desplazado a la derecha y punto negro al final)
+            \coordinate (corte) at (6.0,0);
+            \draw[->, line width=1.3pt, purple!80!black] (corte) -- ++(1.1,0) node[right, font=\footnotesize\bfseries] {$N(x)$};
+            \draw[->, line width=1.3pt, purple!80!black] (corte) -- ++(0,-1.0) node[below right=2pt, font=\footnotesize\bfseries] {$Q(x)$};
+            \draw[-{Latex[length=2.3mm, width=1.6mm]}, line width=1.3pt, purple!80!black] ($(corte)+(-40:0.55)$) arc (-40:120:0.55);
+            \node[right=2pt, purple!80!black, font=\footnotesize\bfseries] at ($(corte)+(40:0.75)$) {$M_f(x)$};
+            \filldraw[black] (corte) circle (2.2pt);
+        \end{tikzpicture}%
+    }
+    \caption{Diagrama de esfuerzos internos en la porción aislada del Tramo 3 ($2\text{ m} \le x \le 5\text{ m}$).}
+    \label{fig:ejemplo11_corte3}
+\end{figure}
+
+Ecuaciones de equilibrio estático en el corte:
+\begin{itemize}
+    \item \textbf{Esfuerzo axil ($N$):}
+          \begin{equation}
+              \sum F_x = 0 \implies \boxed{N(x) = 0\text{ kN}}
+          \end{equation}
+
+    \item \textbf{Esfuerzo cortante ($Q$):}
+          \begin{equation}
+              \sum F_y = 0 \implies V_A - R_q(x) - Q(x) = 0 \implies \boxed{Q(x) = 3.00 - 5(x - 2)^2\text{ [kN]}}
+          \end{equation}
+          Valores en los extremos:
+          \begin{align*}
+              Q(2)   & = 3.00 - 5(0)^2 = \boxed{+3.00\text{ kN}}                                \\
+              Q(5^-) & = 3.00 - 5(5 - 2)^2 = 3.00 - 5(9) = 3.00 - 45 = \boxed{-42.00\text{ kN}}
+          \end{align*}
+
+          \paragraph{Determinación del punto de cortante nulo ($Q = 0$):}
+          Dado que el cortante cambia de signo en este tramo (pasa de $+3.00\text{ kN}$ a $-42.00\text{ kN}$), existe una sección interior $x_0 \in (2, 5\text{ m})$ con $Q(x_0) = 0$:
+          \begin{equation}
+              3.00 - 5(x_0 - 2)^2 = 0 \implies (x_0 - 2)^2 = \frac{3}{5} = 0.6 \implies x_0 - 2 = \sqrt{0.6} \approx 0.7746\text{ m}
+          \end{equation}
+          \begin{equation}
+              \boxed{x_0 = 2 + \sqrt{0.6} \approx 2.775\text{ m}}
+          \end{equation}
+
+    \item \textbf{Momento flector ($M_f$):}
+          Tomando momentos respecto a la sección de corte:
+          \begin{equation}
+              \sum M_{\text{corte}} = 0 \implies M_f(x) - V_A \cdot x - M_0 + R_q(x) \cdot \frac{x - 2}{3} = 0
+          \end{equation}
+          \begin{equation}
+              \boxed{M_f(x) = 3.00\,x + 10.00 - \frac{5}{3}(x - 2)^3\text{ [kN}\cdot\text{m]}}
+          \end{equation}
+          Nótese que la derivada respecto a $x$ reproduce exactamente el esfuerzo cortante $Q(x)$:
+          \begin{equation}
+              \frac{dM_f}{dx} = 3.00 - \frac{5}{3} \cdot 3(x - 2)^2 = 3.00 - 5(x - 2)^2 = Q(x)
+          \end{equation}
+          Valores en los extremos:
+          \begin{align*}
+              M_f(2)   & = 3.00(2) + 10.00 - \frac{5}{3}(2 - 2)^3 = 6.00 + 10.00 = \boxed{16.00\text{ kN}\cdot\text{m}}                                     \\
+              M_f(5^-) & = 3.00(5) + 10.00 - \frac{5}{3}(5 - 2)^3 = 15.00 + 10.00 - \frac{5}{3}(27) = 25.00 - 45.00 = \boxed{-20.00\text{ kN}\cdot\text{m}}
+          \end{align*}
+
+          \paragraph{Comprobación y evaluación del momento flector máximo:}
+          Dado que $\dfrac{dM_f}{dx} = Q(x)$, la condición de extremo relativo $\dfrac{dM_f}{dx} = 0$ se satisface exactamente en la sección de cortante nulo $x_0 = 2 + \sqrt{0.6} \approx 2.775\text{ m}$:
+          \begin{equation}
+              \left.\frac{d^2 M_f}{dx^2}\right|_{x_0} = \left.\frac{dQ}{dx}\right|_{x_0} = -10(x_0 - 2) = -10\sqrt{0.6} \approx -7.746 < 0 \implies \textbf{Máximo relativo.}
+          \end{equation}
+          Sustituyendo directamente $x_0$ en la expresión del momento flector:
+          \begin{align}
+              M_{f,\text{máx}} = M_f(x_0) & = 3.00\left(2 + \sqrt{0.6}\right) + 10.00 - \frac{5}{3}\left(\sqrt{0.6}\right)^3 \nonumber          \\
+                                          & = 6.00 + 3\sqrt{0.6} + 10.00 - \frac{5}{3}\cdot 0.6\sqrt{0.6} = 16.00 + \sqrt{0.6}(3 - 1) \nonumber \\
+                                          & = 16.00 + 2\sqrt{0.6} = 16.00 + \frac{2\sqrt{15}}{5} \approx \boxed{17.55\text{ kN}\cdot\text{m}}
+          \end{align}
+\end{itemize}
+
+% ----------------- TRAMO 4 -----------------
+\tramobadge{Tramo 4}{$5\text{ m} \le x \le 7\text{ m}$}
+
+Para el voladizo final, aislamos la \textbf{porción derecha} comprendida entre la sección de corte en $x$ y el extremo libre $C$ ($x = 7\text{ m}$), de longitud $(7 - x) \in [0, 2\text{ m}]$. En dicha porción únicamente interviene la carga puntual vertical $F = 10\text{ kN}\downarrow$ en $C$:
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.75\textwidth}{%
+        \begin{tikzpicture}[scale=1.2, >=Latex]
+            % Viga cortada por la izquierda
+            \draw[line width=2.5pt, blue!80!black] (0,0) -- (3.5,0);
+            \fill (3.5,0) circle (2pt) node[above right=2pt, font=\bfseries] {$C$};
+
+            % Corte seccional a la izquierda
+            \draw[thick, fill=gray!20] (0,-0.35) to[out=120,in=-120] (0,0) to[out=60,in=-60] (0,0.35);
+
+            % Carga puntual F en C
+            \draw[<-, line width=1.6pt, red!80!black] (3.5,0.05) -- (3.5,1.5) node[above, font=\footnotesize\bfseries] {$F = 10\text{ kN}$};
+
+            % Cota (7 - x)
+            \draw[|<->|, >=Latex] (0,-0.65) -- (3.5,-0.65) node[midway, fill=white, font=\footnotesize\bfseries] {$7 - x$};
+
+            % Esfuerzos internos en la cara izquierda del corte (punto de corte al final)
+            \coordinate (corte) at (0,0);
+            \draw[->, line width=1.3pt, purple!80!black] (corte) -- ++(-1.1,0) node[left, font=\footnotesize\bfseries] {$N(x)$};
+            \draw[->, line width=1.3pt, purple!80!black] (corte) -- ++(0,1.0) node[above, font=\footnotesize\bfseries] {$Q(x)$};
+            \draw[-{Latex[length=2.3mm, width=1.6mm]}, line width=1.3pt, purple!80!black] ($(corte)+(-140:0.55)$) arc (-140:40:0.55);
+            \node[left=2pt, purple!80!black, font=\footnotesize\bfseries] at ($(corte)+(140:0.75)$) {$M_f(x)$};
+            \filldraw[black] (corte) circle (2.2pt);
+        \end{tikzpicture}%
+    }
+    \caption{Diagrama de la porción derecha aislada en el Tramo 4 (voladizo, $5\text{ m} \le x \le 7\text{ m}$).}
+    \label{fig:ejemplo11_corte4}
+\end{figure}
+
+Ecuaciones de equilibrio estático considerando la porción derecha:
+\begin{itemize}
+    \item \textbf{Esfuerzo axil ($N$):}
+          \begin{equation}
+              \sum F_x = 0 \implies \boxed{N(x) = 0\text{ kN}}
+          \end{equation}
+
+    \item \textbf{Esfuerzo cortante ($Q$):}
+          \begin{equation}
+              \sum F_y = 0 \implies Q(x) - F = 0 \implies \boxed{Q(x) = +10.00\text{ kN}} \quad (\text{constante})
+          \end{equation}
+          Valores en los extremos:
+          \begin{equation*}
+              Q(5^+) = +10.00\text{ kN}, \qquad Q(7^-) = +10.00\text{ kN}
+          \end{equation*}
+          En el apoyo intermedio $B$ ($x = 5\text{ m}$) la reacción vertical ascendente $V_B = 52.00\text{ kN}$ genera el salto neto en el cortante:
+          \begin{equation}
+              \Delta Q = Q(5^+) - Q(5^-) = +10.00 - (-42.00) = +52.00\text{ kN} = +V_B
+          \end{equation}
+
+    \item \textbf{Momento flector ($M_f$):}
+          Tomando momentos respecto al corte en la porción derecha:
+          \begin{equation}
+              \sum M_{\text{corte}} = 0 \implies -M_f(x) - F\,(7 - x) = 0 \implies \boxed{M_f(x) = -10.00\,(7 - x)\text{ [kN}\cdot\text{m]}}
+          \end{equation}
+          Valores en los extremos:
+          \begin{align*}
+              M_f(5^+) & = -10.00\,(7 - 5) = -10.00(2) = \boxed{-20.00\text{ kN}\cdot\text{m}} \\
+              M_f(7)   & = -10.00\,(7 - 7) = \boxed{0\text{ kN}\cdot\text{m}}
+          \end{align*}
+          Nótese que en $x = 5\text{ m}$, al no haber momento puntual aplicado, el momento flector es continuo:
+          \[
+              M_f(5^-) = M_f(5^+) = -20.00\text{ kN}\cdot\text{m}.
+          \]
+\end{itemize}
+
+\paso{4}{Diagrama de cuerpo libre y diagramas de esfuerzos ($N, Q, M_f$)}
+
+Representamos de forma conjunta el Diagrama de Cuerpo Libre (DCL) completo precediendo a los diagramas continuos y alineados de esfuerzos internos:
 
 \begin{figure}[H]
     \centering
     \adjustbox{max width=0.98\textwidth}{%
         \begin{tikzpicture}[scale=1.0, >=Latex]
-            \draw[dotted, line width=0.7pt, gray] (0, 0.5) -- (0, -7.5);
-            \draw[dotted, line width=0.7pt, gray] (1, 0.5) -- (1, -7.5);
-            \draw[dotted, line width=0.7pt, gray] (2, 0.5) -- (2, -7.5);
-            \draw[dotted, line width=0.7pt, gray] (5, 0.5) -- (5, -7.5);
-            \draw[dotted, line width=0.7pt, gray] (7, 0.5) -- (7, -7.5);
+            % Ejes de referencia vertical
+            \draw[dotted, line width=0.7pt, gray] (0, 2.2) -- (0, -7.5);
+            \draw[dotted, line width=0.7pt, gray] (1, 2.2) -- (1, -7.5);
+            \draw[dotted, line width=0.7pt, gray] (2, 2.2) -- (2, -7.5);
+            \draw[dotted, line width=0.7pt, gray] (5, 2.2) -- (5, -7.5);
+            \draw[dotted, line width=0.7pt, gray] (7, 2.2) -- (7, -7.5);
 
-            % --- DIAGRAMA N(x) ---
-            \node[left=6pt, font=\small\bfseries] at (0,0) {$N$};
-            \draw[line width=1.2pt] (0,0) -- (7,0);
-            \node[above, font=\small] at (3.5,0) {$N = 0$};
+            % --- 1. DIAGRAMA DE CUERPO LIBRE (DCL) SUPERIOR ---
+            \draw[line width=2.5pt, blue!80!black] (0,1.2) -- (7,1.2);
+            \fill (0,1.2) circle (2pt) node[above left=2pt, font=\scriptsize\bfseries] {$A$};
+            \fill (1,1.2) circle (1.8pt) node[below=2pt, font=\scriptsize\bfseries] {$D$};
+            \fill (2,1.2) circle (1.8pt) node[below=2pt, font=\scriptsize\bfseries] {$E$};
+            \fill (5,1.2) circle (2pt) node[above right=2pt, font=\scriptsize\bfseries] {$B$};
+            \fill (7,1.2) circle (2pt) node[above right=2pt, font=\scriptsize\bfseries] {$C$};
 
-            % --- DIAGRAMA Q(x) ---
+            % Reacciones en DCL
+            \draw[->, >=Latex, line width=1.2pt, green!60!black] (0,0.3) -- (0,1.15) node[pos=0, below, font=\scriptsize\bfseries] {$V_A=3.00$};
+            \draw[->, >=Latex, line width=1.2pt, green!60!black] (-0.8,1.2) -- (-0.05,1.2) node[pos=0, left, font=\scriptsize\bfseries] {$H_A=0$};
+            \draw[->, >=Latex, line width=1.2pt, green!60!black] (5,0.3) -- (5,1.15) node[pos=0, below, font=\scriptsize\bfseries] {$V_B=52.00$};
+
+            % Momento puntual en D (x = 1 m) más amplio para no superponerse con D
+            \draw[-{Latex[length=2.2mm, width=1.5mm]}, line width=1.0pt, magenta!80!black] ($(1,1.2)+(140:0.58)$) arc (140:-140:0.58);
+            \node[above=8pt, magenta!80!black, font=\scriptsize\bfseries] at (1,1.65) {$10\text{ kN}\cdot\text{m}$};
+
+            % Carga triangular entre 2 y 5 m
+            \draw[line width=0.8pt, red!80!black] (2,1.2) -- (5,2.1);
+            \foreach \x in {2.6, 3.2, 3.8, 4.4, 5.0} {
+                    \pgfmathsetmacro{\h}{1.2 + (\x-2)*(0.9/3.0)}
+                    \draw[->, line width=0.6pt, red!80!black] (\x, \h) -- (\x, 1.25);
+                }
+            \node[above, red!80!black, font=\scriptsize\bfseries] at (5, 2.12) {$30\text{ kN/m}$};
+
+            % Carga puntual F en C
+            \draw[<-, line width=1.3pt, red!80!black] (7,1.25) -- (7,2.15) node[above, font=\scriptsize\bfseries] {$10\text{ kN}$};
+
+            % --- 2. DIAGRAMA N(x) ---
+            \node[left=6pt, font=\small\bfseries] at (0,-0.4) {$N$};
+            \draw[line width=1.2pt] (0,-0.4) -- (7,-0.4);
+            \node[above, font=\small] at (3.5,-0.4) {$N = 0$};
+
+            % --- 3. DIAGRAMA Q(x) ---
             \draw[line width=0.8pt, gray!60] (0,-2.5) -- (7,-2.5);
             \node[left=6pt, font=\small\bfseries] at (0,-2.5) {$Q$};
 
-            \fill[blue!15] (0,-2.5) -- (0,-2.5+0.3) -- (2.77,-2.5) -- cycle;
-            \fill[blue!15] (2.77,-2.5) to[out=-20, in=170] (5,-2.5-1.25) -- (5,-2.5+0.5) -- (7,-2.5+0.5) -- (7,-2.5) -- cycle;
-            \draw[line width=1.3pt, blue!70!black] (0,-2.5+0.3) -- (2,-2.5+0.3) to[out=0, in=170] (5,-2.5-1.25) -- (5,-2.5+0.5) -- (7,-2.5+0.5);
+            % Áreas de Q(x) completamente continuas:
+            % Región positiva [0, 2.775 m]: constante en +3.00 y luego parábola convexa decreciente de 2 a 2.775
+            \fill[blue!15] (0,-2.5) -- (0,-2.5+0.3) -- (2,-2.5+0.3) to[out=0, in=142] (2.775,-2.5) -- cycle;
+            % Región negativa [2.775, 5 m]: parábola decreciente hasta -42.00 (-1.25 en escala)
+            \fill[blue!15] (2.775,-2.5) to[out=-38, in=170] (5,-2.5-1.25) -- (5,-2.5) -- cycle;
+            % Región positiva voladizo [5, 7 m]: constante en +10.00 (+0.5 en escala)
+            \fill[blue!15] (5,-2.5) -- (5,-2.5+0.5) -- (7,-2.5+0.5) -- (7,-2.5) -- cycle;
 
-            \node[above left, blue!90!black, font=\scriptsize] at (0,-2.5+0.3) {$3.00$};
-            \node[below, blue!90!black, font=\scriptsize] at (5,-2.5-1.25) {$-42.00$};
-            \node[above right, blue!90!black, font=\scriptsize] at (7,-2.5+0.5) {$10.00\text{ kN}$};
+            % Trazo continuo de la función Q(x)
+            \draw[line width=1.3pt, blue!70!black] (0,-2.5+0.3) -- (2,-2.5+0.3) to[out=0, in=142] (2.775,-2.5) to[out=-38, in=170] (5,-2.5-1.25) -- (5,-2.5+0.5) -- (7,-2.5+0.5) -- (7,-2.5);
 
-            \draw[dotted, line width=0.7pt, red!80!black] (2.77, -2.5) -- (2.77, -7.5);
-            \draw[|<->|, >=Latex] (0,-4.0) -- (2.77,-4.0) node[midway, fill=white, font=\tiny] {$2.77\text{ m}$};
+            \node[above left, blue!90!black, font=\scriptsize] at (0,-2.5+0.3) {$+3.00$};
+            \node[above right, blue!90!black, font=\scriptsize] at (2,-2.5+0.3) {$+3.00$};
+            \node[below left, blue!90!black, font=\scriptsize] at (5,-2.5-1.25) {$-42.00$};
+            \node[above left, blue!90!black, font=\scriptsize] at (5,-2.5+0.5) {$+10.00$};
+            \node[above right, blue!90!black, font=\scriptsize] at (7,-2.5+0.5) {$+10.00\text{ kN}$};
 
-            % --- DIAGRAMA M_f(x) ---
+            % Criterios de signos para cortante con flechas
+            % Positivo en tramo [0, 2]
+            \draw[-{Latex[length=1.6mm, width=1.1mm]}, line width=0.7pt, blue!80!black] (0.8,-2.5+0.1) -- (0.8,-2.5+0.35);
+            \node[font=\tiny\bfseries, blue!80!black] at (1.0,-2.5+0.22) {$+$};
+            \draw[-{Latex[length=1.6mm, width=1.1mm]}, line width=0.7pt, blue!80!black] (1.2,-2.5+0.35) -- (1.2,-2.5+0.1);
+
+            % Negativo en tramo [3.2, 4.8]
+            \draw[-{Latex[length=1.6mm, width=1.1mm]}, line width=0.7pt, blue!80!black] (3.8,-2.5-0.35) -- (3.8,-2.5-0.7);
+            \node[font=\tiny\bfseries, blue!80!black] at (4.05,-2.5-0.52) {$-$};
+            \draw[-{Latex[length=1.6mm, width=1.1mm]}, line width=0.7pt, blue!80!black] (4.3,-2.5-0.7) -- (4.3,-2.5-0.35);
+
+            % Positivo en voladizo [5, 7]
+            \draw[-{Latex[length=1.6mm, width=1.1mm]}, line width=0.7pt, blue!80!black] (5.8,-2.5+0.15) -- (5.8,-2.5+0.45);
+            \node[font=\tiny\bfseries, blue!80!black] at (6.0,-2.5+0.3) {$+$};
+            \draw[-{Latex[length=1.6mm, width=1.1mm]}, line width=0.7pt, blue!80!black] (6.2,-2.5+0.45) -- (6.2,-2.5+0.15);
+
+            % Cortante nulo en x = 2.775 m
+            \draw[dotted, line width=0.7pt, red!80!black] (2.775, -2.5) -- (2.775, -7.5);
+            \draw[|<->|, >=Latex] (0,-4.0) -- (2.775,-4.0) node[midway, fill=white, font=\tiny] {$2.775\text{ m}$};
+
+            % --- 4. DIAGRAMA M_f(x) EN TONO NARANJA ---
             \draw[line width=0.8pt, gray!60] (0,-5.5) -- (7,-5.5);
             \node[left=6pt, font=\small\bfseries] at (0,-5.5) {$M_f$};
 
-            \fill[blue!15] (0,-5.5) -- (1,-5.5-0.3) -- (1,-5.5-1.3) -- (2,-5.5-1.6) to[out=-25, in=180] (2.77,-5.5-1.755) to[out=0, in=145] (5,-5.5+0.8) -- (7,-5.5) -- cycle;
-            \draw[line width=1.3pt, blue!70!black] (0,-5.5) -- (1,-5.5-0.3) -- (1,-5.5-1.3) -- (2,-5.5-1.6) to[out=-25, in=180] (2.77,-5.5-1.755) to[out=0, in=145] (5,-5.5+0.8) -- (7,-5.5);
+            \fill[orange!20] (0,-5.5) -- (1,-5.5-0.3) -- (1,-5.5-1.3) -- (2,-5.5-1.6) to[out=-25, in=180] (2.775,-5.5-1.755) to[out=0, in=145] (5,-5.5+0.8) -- (7,-5.5) -- cycle;
+            \draw[line width=1.3pt, orange!85!black] (0,-5.5) -- (1,-5.5-0.3) -- (1,-5.5-1.3) -- (2,-5.5-1.6) to[out=-25, in=180] (2.775,-5.5-1.755) to[out=0, in=145] (5,-5.5+0.8) -- (7,-5.5);
 
-            \node[above left, blue!90!black, font=\scriptsize] at (1,-5.5-0.3) {$3.00$};
-            \node[below left, blue!90!black, font=\scriptsize] at (1,-5.5-1.3) {$13.00$};
-            \node[below, blue!90!black, font=\scriptsize] at (2,-5.5-1.6) {$16.00$};
-            \node[below, blue!90!black, font=\scriptsize\bfseries] at (2.77,-5.5-1.755) {$17.55\text{ kN}\cdot\text{m}$};
-            \node[above left, blue!90!black, font=\scriptsize] at (5,-5.5+0.8) {$-20.00\text{ kN}\cdot\text{m}$};
+            % Etiquetas de momento flector
+            \node[above left=1pt, orange!90!black, font=\scriptsize] at (1,-5.5-0.18) {$+3.00$};
+            \node[below left, orange!90!black, font=\scriptsize] at (1,-5.5-1.3) {$+13.00$};
+            \node[below, orange!90!black, font=\scriptsize] at (2,-5.5-1.6) {$+16.00$};
+            \node[below right=2pt, orange!90!black, font=\scriptsize\bfseries] at (2.85,-5.5-1.755) {$+17.55\text{ kN}\cdot\text{m}$};
+            \node[above left, orange!90!black, font=\scriptsize] at (5,-5.5+0.8) {$-20.00\text{ kN}\cdot\text{m}$};
+            \node[above right, orange!90!black, font=\scriptsize] at (7,-5.5) {$0$};
 
-            \draw[-{Stealth[length=2mm, width=1.4mm]}, line width=0.8pt, blue!70!black] ($(3.15,-6.3)+(-90:0.25)$) arc (-90:-270:0.25);
-            \node[font=\small\bfseries, blue!90!black] at (3.5,-6.3) {$+$};
-            \draw[-{Stealth[length=2mm, width=1.4mm]}, line width=0.8pt, blue!70!black] ($(3.85,-6.3)+(-90:0.25)$) arc (-90:90:0.25);
+            % Criterio signo momento positivo en vano (desplazado más a la izquierda, x ~ 2.1)
+            \draw[-{Stealth[length=2mm, width=1.4mm]}, line width=0.8pt, orange!85!black] ($(1.75,-6.3)+(-90:0.25)$) arc (-90:-270:0.25);
+            \node[font=\small\bfseries, orange!90!black] at (2.1,-6.3) {$+$};
+            \draw[-{Stealth[length=2mm, width=1.4mm]}, line width=0.8pt, orange!85!black] ($(2.45,-6.3)+(-90:0.25)$) arc (-90:90:0.25);
+
+            % Criterio signo momento negativo dentro del área sombreada del voladizo (más compacto y a la izquierda en x ~ 5.25, y = -5.5 + 0.35)
+            \draw[-{Stealth[length=1.2mm, width=0.9mm]}, line width=0.6pt, orange!85!black] ($(5.08,-5.5+0.35)+(90:0.13)$) arc (90:270:0.13);
+            \node[font=\scriptsize\bfseries, orange!90!black] at (5.25,-5.5+0.35) {$-$};
+            \draw[-{Stealth[length=1.2mm, width=0.9mm]}, line width=0.6pt, orange!85!black] ($(5.42,-5.5+0.35)+(90:0.13)$) arc (90:-90:0.13);
         \end{tikzpicture}%
     }
-    \caption{Diagramas de esfuerzo axil ($N$), esfuerzo cortante ($Q$) y momento flector ($M_f$).}
+    \caption{Diagrama de cuerpo libre global y diagramas de esfuerzo axil ($N$), esfuerzo cortante ($Q$) y momento flector ($M_f$).}
+    \label{fig:ejemplo11_diagramas_completos}
 \end{figure}
 
 \comp{
@@ -4230,7 +5722,7 @@ Resultante de la carga triangular: $R_q = \frac{1}{2} \cdot 3 \cdot 30 = 45\text
         \item \textbf{Relaciones diferenciales de equilibrio interno:}
               \begin{itemize}
                   \item Tramo $x \in [0, 2\text{ m}]$ ($q = 0$): Cortante constante $Q(x) = +3.00\text{ kN}$. La derivada del momento lineal reproduce el cortante: $\frac{dM_f}{dx} = 3.00 = Q(x)$.
-                  \item Tramo $x \in [2, 5\text{ m}]$ ($q(x) = 10(x-2)\text{ kN/m}$): Carga triangular creciente. El cortante es parabólico decreciente $\frac{dQ}{dx} = -q(x) = -10(x-2)$, y el momento flector cúbico verifica $\frac{dM_f}{dx} = Q(x)$. En el punto de cortante nulo ($x = 2.77\text{ m}$), $\frac{dM_f}{dx} = 0$, alcanzándose el máximo relativo positivo $M_{f,\max} = +17.55\text{ kN}\cdot\text{m}$.
+                  \item Tramo $x \in [2, 5\text{ m}]$ ($q(x) = 10(x-2)\text{ kN/m}$): Carga triangular creciente. El cortante es parabólico decreciente $\frac{dQ}{dx} = -q(x) = -10(x-2)$, y el momento flector cúbico verifica $\frac{dM_f}{dx} = Q(x)$. En el punto de cortante nulo ($x = 2.77\text{ m}$), $\frac{dM_f}{dx} = 0$, alcanzándose el máximo relativo positivo $M_{f,\text{máx}} = +17.55\text{ kN}\cdot\text{m}$.
                   \item Tramo del voladizo $x \in [5, 7\text{ m}]$ ($q = 0$): Cortante constante $Q(x) = +10.00\text{ kN}$ (mirando por la derecha $Q(x) = 10\text{ kN}$) y momento flector lineal creciente de $-20.00\text{ kN}\cdot\text{m}$ a $0$, verificando $\frac{dM_f}{dx} = Q(x)$.
               \end{itemize}
 
@@ -5061,17 +6553,10 @@ Equilibrio analítico en la porción derecha:
             \node[above right=1pt, orange!90!black, font=\footnotesize\bfseries] at (2,-5.2+0.35) {$-5.00\text{ kN}\cdot\text{m}$};
             \node[right=2pt, orange!90!black, font=\footnotesize\bfseries] at (4,-5.2+0.35) {$-5.00\text{ kN}\cdot\text{m}$};
 
-            % Criterio momento negativo en tramo 1 (área amplia) con punta Stealth triangular centrada
-            \draw[-{Stealth[length=2mm, width=1.4mm]}, line width=0.8pt, orange!85!black] ($(1.2,-5.2+0.7)+(90:0.25)$) arc (90:270:0.25);
-            \node[font=\small\bfseries, orange!90!black] at (1.5,-5.2+0.7) {$-$};
-            \draw[-{Stealth[length=2mm, width=1.4mm]}, line width=0.8pt, orange!85!black] ($(1.8,-5.2+0.7)+(90:0.25)$) arc (90:-90:0.25);
-
-            % Criterio momento negativo en tramo 2 (área estrecha constante -5 kN*m):
-            % Flecha señalando el interior de la franja y debajo el bloque de criterio con signo (-)
-            \draw[-{Stealth[length=1.7mm, width=1.2mm]}, line width=0.75pt, orange!85!black] ($(2.7,-5.2-0.85)+(90:0.22)$) arc (90:270:0.22);
-            \node[font=\small\bfseries, orange!90!black] at (3.0,-5.2-0.85) {$-$};
-            \draw[-{Stealth[length=1.7mm, width=1.2mm]}, line width=0.75pt, orange!85!black] ($(3.3,-5.2-0.85)+(90:0.22)$) arc (90:-90:0.22);
-            \draw[-{Stealth[length=1.7mm, width=1.2mm]}, line width=0.75pt, orange!85!black] ($(3.3,-5.2-0.85)+(140:0.22)$) arc (140:0:0.22);
+            % Criterio momento negativo en tramo 1 contenido holgadamente dentro del área sombreada
+            \draw[-{Stealth[length=1.6mm, width=1.1mm]}, line width=0.7pt, orange!85!black] ($(0.9,-5.2+0.85)+(90:0.18)$) arc (90:270:0.18);
+            \node[font=\small\bfseries, orange!90!black] at (1.15,-5.2+0.85) {$-$};
+            \draw[-{Stealth[length=1.6mm, width=1.1mm]}, line width=0.7pt, orange!85!black] ($(1.4,-5.2+0.85)+(90:0.18)$) arc (90:-90:0.18);
         \end{tikzpicture}%
     }
     \caption{Diagramas de esfuerzo axil ($N$), esfuerzo cortante ($Q$) y momento flector ($M_f$).}
@@ -5294,7 +6779,7 @@ Aprovechando la condición de rótula en $x = 5\text{ m}$ ($M_{\text{rótula}} =
                         \[
                             \frac{dQ}{dx} = \frac{d}{dx}\left(18 - \frac{10}{3}x^2\right) = -\frac{20}{3}x = -q(x), \qquad \frac{dM_f}{dx} = Q(x)
                         \]
-                        En el punto de corte con el eje $x$ ($x = 2.32\text{ m}$, donde $Q=0$), se anula la pendiente $\frac{dM_f}{dx} = 0$, obteniéndose el máximo relativo $M_{f,\max} = +27.87\text{ kN}\cdot\text{m}$.
+                        En el punto de corte con el eje $x$ ($x = 2.32\text{ m}$, donde $Q=0$), se anula la pendiente $\frac{dM_f}{dx} = 0$, obteniéndose el máximo relativo $M_{f,\text{máx}} = +27.87\text{ kN}\cdot\text{m}$.
                   \item Tramo 2 ($x \in [3, 5\text{ m}]$, $q = 0$): Cortante constante $Q(x) = -12.00\text{ kN}$ y momento flector lineal decreciente, verificando $\frac{dM_f}{dx} = -12.00 = Q(x)$.
                   \item Tramo 3 ($x \in [5, 8\text{ m}]$, $q = 10\text{ kN/m}$ uniforme): Cortante lineal decreciente de $-12.00\text{ kN}$ a $-42.00\text{ kN}$ con pendiente $\frac{dQ}{dx} = -10 = -q(x)$ y momento flector parabólico con $\frac{dM_f}{dx} = Q(x)$.
               \end{itemize}
@@ -5841,7 +7326,7 @@ Equilibrio de la porción derecha:
               \begin{itemize}
                   \item Tramo 1 ($x \in [0, 3\text{ m}]$, triangular creciente): $\frac{dM_f}{dx} = -30 - \frac{10}{3}x^2 = Q(x)$ y $\frac{dQ}{dx} = -\frac{20}{3}x = -q(x)$.
                   \item Tramo 2 ($x \in [3, 5\text{ m}]$, uniforme $20\text{ kN/m}$): $\frac{dM_f}{dx} = 80 - 20(x - 3) = Q(x)$ y $\frac{dQ}{dx} = -20 = -q(x)$.
-                  \item Tramo 3 ($x \in [5, 11\text{ m}]$, triangular decreciente): $\frac{dM_f}{dx} = \frac{5}{3}u^2 - 20 = Q(x)$. En el punto de cortante nulo ($x = 7.54\text{ m}$), $\frac{dM_f}{dx} = 0$, alcanzándose el máximo positivo $M_{f,\max} = +46.19\text{ kN}\cdot\text{m}$.
+                  \item Tramo 3 ($x \in [5, 11\text{ m}]$, triangular decreciente): $\frac{dM_f}{dx} = \frac{5}{3}u^2 - 20 = Q(x)$. En el punto de cortante nulo ($x = 7.54\text{ m}$), $\frac{dM_f}{dx} = 0$, alcanzándose el máximo positivo $M_{f,\text{máx}} = +46.19\text{ kN}\cdot\text{m}$.
               \end{itemize}
 
         \item \textbf{Condiciones de contorno en los extremos (reacciones) y rótula:}
@@ -6445,3 +7930,4 @@ Momento de empotramiento en $B$ ($x = 5\text{ m}$):
         \item \textbf{Definición de tramos y cortes:} Toda fuerza puntual (inclinada, vertical u horizontal) introduce una discontinuidad o salto en las leyes de esfuerzos. Por tanto, el punto de aplicación de la carga define una frontera entre tramos, requiriendo un corte antes y otro después de dicha acción.
     \end{enumerate}
 }
+
