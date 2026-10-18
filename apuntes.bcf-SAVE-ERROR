@@ -3061,12 +3061,4 @@
       <bcf:entrytype>report</bcf:entrytype>
       <bcf:constraint type="mandatory">
         <bcf:field>author</bcf:field>
-        <bcf:field>title</bcf:field>
-      </bcf:constraint>
-    </bcf:constraints>
-  </bcf:datamodel>
-  <!-- CITATION DATA -->
-  <!-- SECTION 0 -->
-  <bcf:bibdata section="0">
-  </bcf:bibdata>
-  <bcf:section number="0">
+   
