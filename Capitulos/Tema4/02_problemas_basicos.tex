@@ -1,0 +1,640 @@
+%=============================================================================
+\section{Problema de Aplicación: Dimensionamiento y Comprobación de un Pilar}
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=\textbf{Problema 6 (Ejemplo de Clase): Pilar de Hormigón en Compresión}]
+    Se proyecta un pilar vertical de hormigón en masa empotrado en su base y libre en su cabeza, de sección transversal cuadrada de $30\text{ cm} \times 30\text{ cm}$ y longitud $l = 4\text{ m}$. El pilar soporta en su coronación una carga axial característica de servicio $F_k = 600\text{ kN}$ aplicada a compresión.
+
+    \textbf{Datos de los materiales y coeficientes de seguridad:}
+    \begin{itemize}
+        \item Resistencia característica a compresión del hormigón: $f_{ck} = 25\text{ N/mm}^2 = 25\text{ MPa}$.
+        \item Coeficiente de minoración del hormigón: $\gamma_c = 1.50$.
+        \item Coeficiente de mayoración de acciones exteriores: $\gamma_F = 1.35$.
+        \item Módulo de elasticidad longitudinal del hormigón: $E = 21.5\text{ GPa} = 21500\text{ MPa}$.
+    \end{itemize}
+
+    \textbf{Cuestiones a resolver:}
+    \begin{enumerate}[label=\textbf{\Alph*)}]
+        \item Determinar el valor de cálculo del esfuerzo axil $N_d$ a lo largo del pilar.
+        \item Calcular la distribución de tensiones normales en la cabeza del pilar tanto en servicio ($\sigma_k$) como de cálculo ($\sigma_d$).
+        \item Comprobar la resistencia del pilar (Estado Límite Último, ELU).
+        \item Determinar el acortamiento total $\Delta l$ del pilar bajo la carga de servicio (Estado Límite de Servicio, ELS).
+    \end{enumerate}
+\end{tcolorbox}
+
+\subsection*{Resolución Detallada}
+
+\subsubsection*{Paso 1: Modelización y Diagrama de Cuerpo Libre (DCL)}
+Tumbamos el pilar orientando el eje longitudinal $x$ de $A$ (base empotrada) a $B$ (cabeza libre cargada):
+\begin{itemize}
+    \item Extremo $A$ ($x = 0$): Empotramiento que restringe desplazamientos y giro. Reacciones: fuerza horizontal $H_A$, fuerza vertical $V_A$ y momento de empotramiento $M_A$.
+    \item Extremo $B$ ($x = 4\text{ m}$): Cabeza del pilar sometida a la fuerza axial compresiva $F_k = 600\text{ kN}$ hacia la izquierda ($-\vec{i}$).
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.88\textwidth}{%
+        \begin{tikzpicture}[>=Latex, scale=1.0]
+            % Pilar vertical 3D a la izquierda
+            \begin{scope}[shift={(0,0)}]
+                \draw[thick, fill=gray!25] (0,0) -- (1.5,0.7) -- (1.5,4.7) -- (0,4) -- cycle;
+                \draw[thick, fill=gray!15] (0,4) -- (1.5,4.7) -- (0.8,5.1) -- (-0.7,4.4) -- cycle;
+                \draw[thick, fill=gray!35] (0,0) -- (-0.7,0.4) -- (-0.7,4.4) -- (0,4) -- cycle;
+
+                % Base empotrada horizontal con rayado hacia abajo
+                \draw[line width=1.5pt] (-1.0, -0.05) -- (1.8, -0.05);
+                \foreach \x in {-0.8, -0.5, -0.2, 0.1, 0.4, 0.7, 1.0, 1.3, 1.6} {
+                        \draw[thick] (\x, -0.05) -- ++(-0.2, -0.25);
+                    }
+
+                \draw[<->, line width=1pt] (-1.1, 0.4) -- node[left] {$l = 4\text{ m}$} (-1.1, 4.4);
+                \draw[->, line width=2pt, red!85!black] (0.4, 6.0) -- (0.4, 4.7) node[midway, right=3pt, font=\bfseries] {$F_k = 600\text{ kN}$};
+                \node[below=0.35cm, font=\small\bfseries] at (0.4, -0.2) {Sección $30\text{ cm} \times 30\text{ cm}$};
+            \end{scope}
+
+            % DCL del pilar horizontal a la derecha
+            \begin{scope}[shift={(5.5, 2.5)}]
+                \draw[line width=1.5pt] (0, -1.0) -- (0, 1.0);
+                \foreach \y in {-0.8, -0.5, -0.2, 0.1, 0.4, 0.7} {
+                        \draw[thin] (0, \y) -- ++(-0.3, 0.2);
+                    }
+                \node[above left] at (0, 0.2) {$A$};
+
+                \draw[very thick, blue!80!black] (0, 0) -- (5, 0) node[above right] {$B$};
+                \draw[<->, line width=0.9pt] (0, -0.6) -- node[below] {$4\text{ m}$} (5, -0.6);
+
+                % Reacciones en A: separadas y con el arco de momento en el cuadrante libre superior-derecho
+                \draw[<-, line width=1.5pt, blue!90!black] (-1.1, 0) -- (0, 0) node[pos=0.2, below] {$H_A$};
+                \draw[->, line width=1.5pt, blue!90!black] (0, -1.1) -- (0, 0) node[midway, left] {$V_A$};
+                \draw[->, line width=1.4pt, green!60!black] ($(0,0)+(20:0.65)$) arc (20:120:0.65);
+                \node[above right=1pt, green!60!black, font=\bfseries] at ($(0,0)+(60:0.7)$) {$M_A$};
+
+                % Carga en B
+                \draw[<-, line width=2pt, red!85!black] (5, 0) -- (6.5, 0) node[right, font=\bfseries] {$F_k = 600\text{ kN}$};
+            \end{scope}
+        \end{tikzpicture}%
+    }
+    \caption{Modelización tridimensional y Diagrama de Cuerpo Libre (DCL) del pilar sometido a compresión axial.}
+    \label{fig:pilar_dcl}
+\end{figure}
+
+\subsubsection*{Paso 2: Ecuaciones de Equilibrio Global}
+Aplicando las condiciones de equilibrio estático:
+\begin{align}
+    \sum F_x = 0 & \implies H_A - F_k = 0 \implies \mathbf{H_A = 600\text{ kN}} \\
+    \sum F_y = 0 & \implies \mathbf{V_A = 0}                                    \\
+    \sum M_A = 0 & \implies \mathbf{M_A = 0}
+\end{align}
+
+\subsubsection*{Paso 3: Esfuerzos Internos por el Método de las Secciones}
+Realizando un corte transversal a distancia genérica $x$ ($0 \le x \le 4\text{ m}$) y considerando el equilibrio del tramo izquierdo:
+\begin{equation}
+    \sum F_x = 0 \implies H_A + N_x(x) = 0 \implies N_x(x) = -H_A = -600\text{ kN}
+\end{equation}
+El esfuerzo es estrictamente constante y negativo en todo el pilar:
+\begin{equation}
+    N_k(x) = -600\text{ kN} \quad (\text{Compresión}), \qquad Q_y(x) = 0, \qquad M_{fz}(x) = 0
+\end{equation}
+
+\subsubsection*{Apartado A: Esfuerzo Axil de Cálculo ($N_d$)}
+Mayorando el esfuerzo característico con el coeficiente de seguridad de acciones $\gamma_F = 1.35$:
+\begin{equation}
+    \mathbf{N_d} = \gamma_F \cdot N_k = 1.35 \cdot (-600\text{ kN}) = \mathbf{-810\text{ kN}}
+\end{equation}
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.88\textwidth}{%
+        \begin{tikzpicture}[>=Latex, scale=1.0]
+            % Diagrama de Axiles Característico
+            \begin{scope}[shift={(0,0)}]
+                \draw[thick] (0, 1.2) -- (4, 1.2);
+                \draw[thick, fill=blue!10] (0, 0) rectangle (4, 0.8);
+                \node at (2, 0.4) {$\boldsymbol{N_k = -600\text{ kN}}$};
+                \draw[->, line width=1pt] (0.8, 0.4) -- (1.2, 0.4);
+                \draw[<-, line width=1pt] (2.8, 0.4) -- (3.2, 0.4);
+                \node[below] at (2, -0.1) {Diagrama de Axiles $N_k$ (Servicio)};
+            \end{scope}
+
+            % Flecha de mayoración
+            \draw[->, very thick] (4.6, 0.4) -- node[above, font=\footnotesize] {$\times \gamma_F = 1.35$} (6.2, 0.4);
+
+            % Diagrama de Axiles de Cálculo
+            \begin{scope}[shift={(6.8,0)}]
+                \draw[thick] (0, 1.2) -- (4, 1.2);
+                \draw[thick, fill=red!15] (0, 0) rectangle (4, 0.8);
+                \node at (2, 0.4) {$\boldsymbol{N_d = -810\text{ kN}}$};
+                \draw[->, line width=1pt] (0.8, 0.4) -- (1.2, 0.4);
+                \draw[<-, line width=1pt] (2.8, 0.4) -- (3.2, 0.4);
+                \node[below] at (2, -0.1) {Diagrama de Axiles $N_d$ (Cálculo)};
+            \end{scope}
+        \end{tikzpicture}%
+    }
+    \caption{Leyes de esfuerzo axil característico y de cálculo a lo largo de la directriz del pilar.}
+    \label{fig:diagramas_axil_pilar}
+\end{figure}
+
+\subsubsection*{Apartado B: Distribución de Tensiones en la Sección}
+El área transversal del pilar es:
+\begin{equation}
+    \Omega = 30\text{ cm} \times 30\text{ cm} = 900\text{ cm}^2 = 900 \times 10^2\text{ mm}^2 = 90000\text{ mm}^2
+\end{equation}
+
+\begin{itemize}
+    \item \textbf{Tensión característica de servicio:}
+          \begin{equation}
+              \sigma_k = \frac{N_k}{\Omega} = \frac{-600000\text{ N}}{90000\text{ mm}^2} = -6.67\text{ N/mm}^2 = -6.67\text{ MPa}
+          \end{equation}
+    \item \textbf{Tensión de cálculo mayorada:}
+          \begin{equation}
+              \sigma_d = \frac{N_d}{\Omega} = \frac{-810000\text{ N}}{90000\text{ mm}^2} = \mathbf{-9.00\text{ N/mm}^2 = -9.00\text{ MPa}}
+          \end{equation}
+\end{itemize}
+La tensión es una compresión uniforme sobre toda la sección de $9\text{ N/mm}^2$.
+
+\subsubsection*{Apartado C: Comprobación de Resistencia (ELU)}
+La resistencia admisible de cálculo del hormigón se obtiene minorando la resistencia característica por su coeficiente parcial de seguridad $\gamma_c = 1.50$:
+\begin{equation}
+    f_{cd} = \sigma_{\text{adm}} = \frac{f_{ck}}{\gamma_c} = \frac{25\text{ N/mm}^2}{1.50} = \mathbf{16.67\text{ N/mm}^2}
+\end{equation}
+
+Evaluando la condición de seguridad en valor absoluto:
+\begin{equation}
+    |\sigma_d| \le \sigma_{\text{adm}} \iff 9.00\text{ N/mm}^2 \le 16.67\text{ N/mm}^2 \quad \boldsymbol{\checkmark \quad \text{\textbf{CUMPLE}}}
+\end{equation}
+El pilar trabaja al 54\% de su capacidad resistente máxima; por tanto, \textbf{resiste holgadamente la solicitación}.
+
+\subsubsection*{Apartado D: Acortamiento Total en Servicio (ELS)}
+\begin{ImportanteBox}[title={Cálculo de Deformaciones: ¡Sin Mayorar!}]
+    El acortamiento elástico se produce bajo las condiciones reales de carga. Por tanto, se opera con el axil característico $N_k = -600\text{ kN}$ y el módulo de elasticidad $E$:
+    \begin{itemize}
+        \item $N_k = -600\text{ kN} = -600000\text{ N}$.
+        \item $l = 4\text{ m} = 4000\text{ mm}$.
+        \item $E = 21.5\text{ GPa} = 21500\text{ MPa} = 21500\text{ N/mm}^2$.
+        \item $\Omega = 90000\text{ mm}^2$.
+    \end{itemize}
+\end{ImportanteBox}
+
+Aplicando la expresión del alargamiento elástico:
+\begin{align}
+    \Delta l_{AB} & = \frac{N_{AB} \cdot l_{AB}}{E \cdot \Omega} = \frac{(-600000\text{ N}) \cdot (4000\text{ mm})}{(21500\text{ N/mm}^2) \cdot (90000\text{ mm}^2)} \notag \\
+                  & = \frac{-2.4 \times 10^9}{1.935 \times 10^9} = \mathbf{-1.24\text{ mm}}
+\end{align}
+
+El signo negativo indica físicamente que el pilar experimenta un **acortamiento total de $1.24\text{ mm}$**, valor perfectamente admisible para la funcionalidad de la estructura.
+
+%=============================================================================
+\section{Problema de Aplicación: Efecto Poisson y Variación Dimensional 3D}
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=\textbf{Problema 7 (Ejemplo de Clase): Barra Prismática con Deformación Transversal de Poisson}]
+    Una barra prismática recta de sección rectangular de dimensiones iniciales $a = 5\text{ mm}$ y $b = 4\text{ mm}$ y longitud inicial $l_0 = 50\text{ cm} = 500\text{ mm} = 0.5\text{ m}$ se encuentra rígidamente empotrada en su base $A$ y orientada verticalmente según el eje $x$. En su extremo libre superior $B$ se aplica una carga axial de tracción $F_k = 20\text{ kN} = 20 \times 10^3\text{ N}$.
+
+    \textbf{Propiedades elásticas del material:}
+    \begin{itemize}
+        \item Módulo de elasticidad longitudinal: $E = 2.1 \times 10^5\text{ N/mm}^2 = 210000\text{ MPa}$ (acero estructural).
+        \item Coeficiente de Poisson: $\nu = 0.30$.
+    \end{itemize}
+
+    \textbf{Cuestiones a resolver:}
+    \begin{enumerate}[label=\textbf{\Alph*)}]
+        \item Plantear el Diagrama de Cuerpo Libre (DCL), calcular las reacciones en el empotramiento y trazar las leyes de esfuerzos internos seccionales.
+        \item Calcular el alargamiento longitudinal total $\Delta l_x$ y la deformación unitaria longitudinal $\varepsilon_x$ según el eje de la pieza.
+        \item Determinar las deformaciones transversales unitarias $\varepsilon_y$ y $\varepsilon_z$ debidas al efecto Poisson.
+        \item Calcular las dimensiones finales efectivas de la pieza deformada: longitud final $l'$, ancho final $a'$ y espesor final $b'$.
+    \end{enumerate}
+\end{tcolorbox}
+
+\subsection*{Resolución Detallada}
+
+\subsubsection*{Paso 1: Modelización 3D y Diagrama de Cuerpo Libre (DCL)}
+Disponemos el eje longitudinal $x$ a lo largo de la directriz de la barra, desde el empotramiento $A$ ($x = 0$) hasta el extremo libre superior $B$ ($x = 0.5\text{ m}$), con los ejes transversales $y$ y $z$ contenidos en el plano de la sección recta ($5\text{ mm} \times 4\text{ mm}$).
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.98\textwidth}{%
+        \begin{tikzpicture}[>=Latex, scale=1.05]
+            % -------------------------------------------------------------
+            % 1. BARRA VERTICAL 3D (Izquierda)
+            % -------------------------------------------------------------
+            \begin{scope}[shift={(0,0)}]
+                \draw[thick, fill=blue!10] (0,0) -- (0.8,0.4) -- (0.8,4.5) -- (0,4.1) -- cycle;
+                \draw[thick, fill=blue!20] (0,4.1) -- (0.8,4.5) -- (0.4,4.7) -- (-0.4,4.3) -- cycle;
+                \draw[thick, fill=blue!15] (0,0) -- (-0.4,0.2) -- (-0.4,4.3) -- (0,4.1) -- cycle;
+
+                % Base empotrada horizontal con rayado hacia abajo
+                \draw[line width=1.4pt] (-0.7, -0.05) -- (1.1, -0.05);
+                \foreach \x in {-0.5, -0.2, 0.1, 0.4, 0.7, 1.0} {
+                    \draw[thick] (\x, -0.05) -- ++(-0.2, -0.25);
+                }
+
+                \draw[<->, line width=0.9pt] (-0.7, 0.2) -- node[left] {$l_0 = 50\text{ cm}$} (-0.7, 4.3);
+                \draw[->, line width=2pt, red!85!black] (0.2, 4.4) -- (0.2, 5.7) node[above, font=\bfseries] {$F_k = 20\text{ kN}$};
+
+                % Ejes locales 3D en la cabeza
+                \draw[->, line width=1pt] (0.2, 4.4) -- ++(0, 1.0) node[right, font=\footnotesize] {$x$};
+                \draw[->, line width=1pt] (0.2, 4.4) -- ++(0.7, 0.35) node[right, font=\footnotesize] {$y$};
+                \draw[->, line width=1pt] (0.2, 4.4) -- ++(0.9, -0.2) node[below right, font=\footnotesize] {$z$};
+
+                \node[below=0.25cm, font=\footnotesize] at (0.2, -0.1) {$a = 5\text{ mm}$, $b = 4\text{ mm}$};
+            \end{scope}
+
+            % -------------------------------------------------------------
+            % 2. DCL Y DIAGRAMA DE ESFUERZOS AXIL N(x) (Derecha)
+            % -------------------------------------------------------------
+            \begin{scope}[shift={(5.2, 0)}]
+                % --- Sub-bloque superior: DCL ---
+                \begin{scope}[shift={(0, 3.5)}]
+                    \node[above, font=\bfseries] at (2.5, 1.1) {Diagrama de Cuerpo Libre (DCL)};
+
+                    \draw[line width=1.5pt] (0, -0.9) -- (0, 0.9);
+                    \foreach \y in {-0.7, -0.4, -0.1, 0.2, 0.5, 0.8} {
+                        \draw[thin] (0, \y) -- ++(-0.3, 0.2);
+                    }
+                    \node[above left] at (0, 0.2) {$A$};
+
+                    \draw[very thick, blue!80!black] (0, 0) -- (5, 0) node[above right] {$B$};
+                    \draw[<->, line width=0.9pt] (0, -0.6) -- node[below] {$l_0 = 0.5\text{ m}$} (5, -0.6);
+
+                    % Reacciones en A
+                    \draw[<-, line width=1.5pt, blue!90!black] (-1.1, 0) -- (0, 0) node[pos=0.2, below] {$H_A$};
+                    \draw[->, line width=1.5pt, blue!90!black] (0, -1.0) -- (0, 0) node[midway, left] {$V_A$};
+                    \draw[->, line width=1.4pt, green!60!black] ($(0,0)+(20:0.6)$) arc (20:120:0.6);
+                    \node[above right=1pt, green!60!black, font=\bfseries] at ($(0,0)+(60:0.65)$) {$M_A$};
+
+                    % Carga en B
+                    \draw[->, line width=2pt, red!85!black] (5, 0) -- (6.5, 0) node[right, font=\bfseries] {$F_k = 20\text{ kN}$};
+                \end{scope}
+
+                % Líneas de proyección vertical punteadas entre DCL y Diagrama N
+                \draw[dashed, gray!60] (0, 3.5) -- (0, 0.2);
+                \draw[dashed, gray!60] (5, 3.5) -- (5, 0.2);
+
+                % --- Sub-bloque inferior: Diagrama de Axiles N(x) ---
+                \begin{scope}[shift={(0, 0.6)}]
+                    \node[above, font=\bfseries] at (2.5, 1.2) {Diagrama de Esfuerzos Axiles $N(x)$};
+
+                    % Eje de referencia
+                    \draw[thick] (0, 0) -- (5, 0);
+
+                    % Bloque de axil positivo (+20 kN constante)
+                    \draw[thick, fill=green!15] (0, 0) rectangle (5, 0.9);
+                    \node[font=\bfseries] at (2.5, 0.45) {$N(x) = +20\text{ kN}\quad (\text{Tracción})$};
+
+                    % Flechas de tracción salientes
+                    \draw[<-, line width=1pt] (0.6, 0.45) -- (1.0, 0.45);
+                    \draw[->, line width=1pt] (4.0, 0.45) -- (4.4, 0.45);
+
+                    \node[below left] at (0, 0) {$A$};
+                    \node[below right] at (5, 0) {$B$};
+                \end{scope}
+            \end{scope}
+        \end{tikzpicture}%
+    }
+    \caption{Modelización tridimensional de la barra prismática junto con su Diagrama de Cuerpo Libre (DCL) y su correspondiente ley de esfuerzos axiles $N(x)$.}
+    \label{fig:pilar_poisson_dcl}
+\end{figure}
+
+\subsubsection*{Paso 2: Equilibrio Estático y Reacciones}
+Tumbando la barra horizontalmente con origen en el empotramiento $A$ ($x = 0$):
+\begin{align}
+    \sum F_x = 0 & \implies -H_A + F_k = 0 \implies \mathbf{H_A = 20 \times 10^3\text{ N} = 20\text{ kN}} \\
+    \sum F_y = 0 & \implies \mathbf{V_A = 0}                                                              \\
+    \sum M_A = 0 & \implies \mathbf{M_A = 0}
+\end{align}
+
+\subsubsection*{Paso 3: Esfuerzos Internos por el Método de las Secciones}
+Realizando un corte a distancia genérica $x$ ($0 \le x \le 0.5\text{ m}$):
+\begin{equation}
+    \sum F_x = 0 \implies -H_A + N_x(x) = 0 \implies \mathbf{N_x(x) = H_A = +20\text{ kN}} \quad (\text{Tracción})
+\end{equation}
+El esfuerzo es estrictamente constante y positivo en toda la longitud de la barra, con $Q_y(x) = 0$ y $M_{fz}(x) = 0$.
+
+\subsubsection*{Apartado B: Alargamiento Longitudinal ($\Delta l_x$) y Deformación $\varepsilon_x$}
+El área transversal de la sección recta es:
+\begin{equation}
+    \Omega = a \cdot b = 5\text{ mm} \times 4\text{ mm} = \mathbf{20\text{ mm}^2}
+\end{equation}
+
+El alargamiento elástico longitudinal en la dirección $x$ resulta:
+\begin{align}
+    \Delta l_x & = \frac{N \cdot l_0}{E \cdot \Omega} = \frac{(20 \times 10^3\text{ N}) \cdot (500\text{ mm})}{(2.1 \times 10^5\text{ N/mm}^2) \cdot (20\text{ mm}^2)} \notag \\
+               & = \frac{10 \times 10^6\text{ N}\cdot\text{mm}}{4.2 \times 10^6\text{ N}} = \mathbf{2.381\text{ mm} \approx 2.38\text{ mm}}
+\end{align}
+El desplazamiento del extremo libre es positivo (alargamiento): $\mathbf{\Delta l_x = +2.38\text{ mm} = +0.00238\text{ m}}$.
+
+La deformación unitaria longitudinal $\varepsilon_x$ se calcula como:
+\begin{equation}
+    \boldsymbol{\varepsilon_x} = \frac{\Delta l_x}{l_{0x}} = \frac{2.381\text{ mm}}{500\text{ mm}} = \mathbf{0.00476} \quad (4.76 \times 10^{-3} = 0.476\text{\%})
+\end{equation}
+
+\subsubsection*{Apartado C: Deformaciones Transversales Unitarias ($\varepsilon_y, \varepsilon_z$)}
+Aplicando la formulación del efecto Poisson con $\nu = 0.30$:
+\begin{equation}
+    \boldsymbol{\varepsilon_y = \varepsilon_z} = -\nu \cdot \varepsilon_x = -0.30 \cdot (0.00476) = \mathbf{-0.001428} \quad (-1.428 \times 10^{-3})
+\end{equation}
+El signo negativo indica que las fibras transversales experimentan un \textbf{acortamiento relativo (contracción lateral)}.
+
+\subsubsection*{Apartado D: Dimensiones Finales de la Pieza Deformada}
+A partir de la definición de deformación unitaria en cada eje coordenado ($\varepsilon_i = \frac{\Delta l_i}{l_{0i}}$):
+
+\begin{enumerate}
+    \item \textbf{Longitud final ($l'$ según el eje $x$):}
+          \begin{equation}
+              l' = l_0 + \Delta l_x = 500\text{ mm} + 2.381\text{ mm} = \mathbf{502.381\text{ mm} \approx 502.38\text{ mm}}
+          \end{equation}
+    \item \textbf{Ancho final ($a'$ según el eje $y$, con $a = 5\text{ mm}$):}
+          \begin{align}
+              \Delta a & = \varepsilon_y \cdot a = (-0.001428) \cdot (5\text{ mm}) = -0.00714\text{ mm}                        \\
+              a'       & = a + \Delta a = 5\text{ mm} - 0.00714\text{ mm} = \mathbf{4.99286\text{ mm} \approx 4.993\text{ mm}}
+          \end{align}
+    \item \textbf{Espesor final ($b'$ según el eje $z$, con $b = 4\text{ mm}$):}
+          \begin{align}
+              \Delta b & = \varepsilon_z \cdot b = (-0.001428) \cdot (4\text{ mm}) = -0.00571\text{ mm}                        \\
+              b'       & = b + \Delta b = 4\text{ mm} - 0.00571\text{ mm} = \mathbf{3.99429\text{ mm} \approx 3.994\text{ mm}}
+          \end{align}
+\end{enumerate}
+
+\begin{table}[H]
+    \centering
+    \caption{Balance comparativo de dimensiones iniciales frente a finales en la barra traccionada.}
+    \adjustbox{max width=0.85\textwidth}{%
+        \renewcommand{\arraystretch}{1.35}
+        \begin{tabular}{l c c c c}
+            \toprule
+            \textbf{Dimensión} & \textbf{Eje} & \textbf{Valor Inicial ($l_0$)} & \textbf{Variación ($\Delta l$)} & \textbf{Valor Final Deformado ($l'$)}            \\
+            \midrule
+            Longitud           & $x$          & $500.000\text{ mm}$            & $+2.381\text{ mm}$              & $\mathbf{502.381\text{ mm}}$ (Alargamiento)      \\
+            Ancho              & $y$          & $5.000\text{ mm}$              & $-0.007\text{ mm}$              & $\mathbf{4.993\text{ mm}}$ (Contracción lateral) \\
+            Espesor            & $z$          & $4.000\text{ mm}$              & $-0.006\text{ mm}$              & $\mathbf{3.994\text{ mm}}$ (Contracción lateral) \\
+            \bottomrule
+        \end{tabular}%
+    }
+    \label{tab:dimensiones_finales_poisson}
+\end{table}
+
+Este resultado numérico confirma de forma experimental lo expuesto en la teoría: mientras que la longitud experimenta una variación apreciable de $+2.38\text{ mm}$, las dimensiones transversales solo se reducen unas milésimas de milímetro ($\approx -0.007\text{ mm}$), por lo que el área transversal se puede considerar inalterada a efectos de tensiones en piezas esbeltas.
+
+%=============================================================================
+\section{Problema de Aplicación: Pieza Compuesta con Sección Escalonada y Variable}
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=\textbf{Problema 8: Barra Compuesta (Tubo de Acero y Tronco de Pirámide) bajo Compresión}]
+    Se considera un elemento estructural vertical compuesto por dos tramos diferenciados empotrado en su base $D$:
+    \begin{itemize}
+        \item \textbf{Tramo superior $ABC$ (Tubo circular hueco de acero S275):} Longitud total $l_{AC} = 1.0\text{ m}$ dividida en dos subtramos $AB$ y $BC$ de $0.5\text{ m}$ cada uno.
+              \begin{itemize}
+                  \item Diámetro exterior: $\phi_{\text{ext}} = 200\text{ mm}$ ($R_{\text{ext}} = 100\text{ mm}$).
+                  \item Espesor de pared: $e = 6\text{ mm}$ ($R_{\text{int}} = 94\text{ mm}$).
+                  \item Límite elástico característico del acero: $f_{yk} = 275\text{ N/mm}^2$.
+                  \item Coeficiente de seguridad del material: $\gamma_s = 1.05$.
+              \end{itemize}
+        \item \textbf{Tramo inferior $CD$ (Prisma en tronco de pirámide de fábrica / hormigón):} Longitud $l_{CD} = 1.0\text{ m}$.
+              \begin{itemize}
+                  \item Sección superior $C$: cuadrada de $250\text{ mm} \times 250\text{ mm}$.
+                  \item Sección inferior $D$ (base empotrada): rectangular de $250\text{ mm} \times 300\text{ mm}$.
+                  \item Resistencia característica a compresión: $f_{ck} = 20\text{ N/mm}^2$.
+                  \item Coeficiente de seguridad del material: $\gamma_c = 1.50$.
+              \end{itemize}
+    \end{itemize}
+
+    \textbf{Acciones exteriores aplicadas (valores de cálculo ponderados):}
+    \begin{itemize}
+        \item En el extremo superior $A$: carga puntual axil de compresión $F_{d1} = 120\text{ kN}$ hacia abajo.
+        \item En la sección intermedia $B$: carga puntual axil $F_{d2} = 30\text{ kN}$ orientada hacia arriba.
+    \end{itemize}
+
+    \textbf{Cuestiones a resolver:}
+    \begin{enumerate}[label=\textbf{\Alph*)}]
+        \item Determinar las reacciones en la base empotrada $D$ y trazar la ley de esfuerzos axiles de cálculo $N_d(x)$ a lo largo de toda la pieza.
+        \item Calcular el área de las secciones transversales clave y determinar la distribución de tensiones normales de cálculo $\sigma_d$ a lo largo de la pieza, representando su diagrama.
+        \item Realizar la comprobación de resistencia frente al Estado Límite Último (ELU) en las secciones más desfavorables de cada material.
+    \end{enumerate}
+\end{tcolorbox}
+
+\subsection*{Resolución Detallada}
+
+\subsection*{a) Ley de Esfuerzos Axiles $N_d$}
+
+\subsubsection*{1. Diagrama de Cuerpo Libre y Cálculo de Reacciones}
+Disponemos la pieza horizontalmente a lo largo del eje $x$ con origen en la base empotrada $D$ ($x = 0$) hasta la coronación libre $A$ ($x = 2.0\text{ m}$):
+\begin{itemize}
+    \item $x = 0$: Empotramiento $D$ con reacciones $H_D$, $V_D$, $M_D$.
+    \item $x = 1.0\text{ m}$: Sección $C$ (unión entre el tronco de pirámide y el tubo de acero).
+    \item $x = 1.5\text{ m}$: Sección $B$ con carga axial puntual de $30\text{ kN}$ hacia la derecha ($+x$).
+    \item $x = 2.0\text{ m}$: Sección $A$ con carga axial puntual de $120\text{ kN}$ hacia la izquierda (compresiva, $-x$).
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.88\textwidth}{%
+        \begin{tikzpicture}[>=Latex, scale=1.05]
+            % Base D en x = 0
+            \draw[line width=1.5pt] (0, -1.4) -- (0, 1.4);
+            \foreach \y in {-1.2, -0.8, -0.4, 0.0, 0.4, 0.8, 1.2} {
+                \draw[thin] (0, \y) -- ++(-0.3, 0.2);
+            }
+            \node[above left] at (0, 0.1) {$D$};
+
+            % Tronco de pirámide CD (de x=0 a x=3) con corte en zigzag al final
+            \draw[thick, fill=gray!15] (0, 1.1) -- (3, 0.6) -- (3, -0.6) -- (0, -1.1) -- cycle;
+            
+            % Ondas de corte de sección
+            \draw[thick, gray!70] (3, -0.7) to[bend left=20] (3, 0) to[bend right=20] (3, 0.7);
+            \draw[thick, gray!70] (6, -0.7) to[bend left=20] (6, 0) to[bend right=20] (6, 0.7);
+
+            % Tubo de acero ABC (de x=3 a x=9)
+            \draw[thick, fill=blue!10] (3, 0.6) -- (9, 0.6) -- (9, -0.6) -- (3, -0.6) -- cycle;
+
+            % Eje x
+            \draw[->, dashdotted, line width=0.8pt] (0,0) -- (10.2, 0) node[right] {$x$};
+
+            % Puntos notables
+            \filldraw[red] (3, 0) circle (2pt) node[below=0.6cm, black] {$C$};
+            \filldraw[red] (6, 0) circle (2pt) node[below=0.6cm, black] {$B$};
+            \filldraw[red] (9, 0) circle (2pt) node[below=0.6cm, black] {$A$};
+
+            % Cotas
+            \draw[<->, line width=0.8pt] (0, 1.6) -- node[above] {$1\text{ m}$} (3, 1.6);
+            \draw[<->, line width=0.8pt] (3, 1.6) -- node[above] {$0.5$} (6, 1.6);
+            \draw[<->, line width=0.8pt] (6, 1.6) -- node[above] {$0.5$} (9, 1.6);
+
+            % Cargas en B y A
+            \draw[->, line width=2pt, red!90!black] (6, 0) -- (7.5, 0) node[above, font=\bfseries] {$30$};
+            \draw[<-, line width=2.2pt, red!90!black] (9, 0) -- (10.8, 0) node[above, font=\bfseries] {$120$};
+
+            % Reacciones en D
+            \draw[->, line width=1.8pt, blue!90!black] (-1.3, 0) -- (0, 0) node[midway, above, font=\bfseries] {$H_D$};
+            \draw[->, line width=1.8pt, blue!90!black] (0, -1.3) -- (0, 0) node[midway, left, font=\bfseries] {$V_D$};
+            \draw[->, line width=1.5pt, green!60!black] ($(0,0)+(20:0.7)$) arc (20:120:0.7);
+            \node[above right=1pt, green!60!black, font=\bfseries] at ($(0,0)+(60:0.75)$) {$M_D$};
+        \end{tikzpicture}%
+    }
+    \caption{Diagrama de Cuerpo Libre (DCL) horizontal y planteamiento de equilibrio global.}
+    \label{fig:dcl_horizontal_p8}
+\end{figure}
+
+Aplicando las ecuaciones de la estática clásica:
+\begin{equation}
+    \begin{cases}
+        \sum F_H = 0 \implies H_D + 30 - 120 = 0 \implies \mathbf{H_D = 90\text{ kN}} \\
+        \sum F_V = 0 \implies \mathbf{V_D = 0} \\
+        \sum M_D = 0 \implies \mathbf{M_D = 0}
+    \end{cases}
+\end{equation}
+
+\subsubsection*{2. Método de las Secciones}
+\begin{itemize}
+    \item \textbf{Sección 1 ($S.1$): $x \in [0, 1.5\text{ m}]$} (comprende el tramo de fábrica $CD$ y el tramo de acero $BC$):
+    \begin{equation}
+        \sum F_H = 0 \implies 90 + N = 0 \implies \mathbf{N = -90\text{ kN}} \quad (\text{Compresión})
+    \end{equation}
+
+    \item \textbf{Sección 2 ($S.2$): $x \in [1.5, 2\text{ m}]$} (tramo de acero $AB$):
+    \begin{equation}
+        \sum F_H = 0 \implies 90 + 30 + N = 0 \implies \mathbf{N = -120\text{ kN}} \quad (\text{Compresión})
+    \end{equation}
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.85\textwidth}{%
+        \begin{tikzpicture}[>=Latex, scale=1.0]
+            % Eje de referencia horizontal
+            \draw[thick] (0, 1.2) -- (9, 1.2);
+            \node[above] at (0, 1.2) {$D$};
+            \node[above] at (4.5, 1.2) {$C$};
+            \node[above] at (6.75, 1.2) {$B$};
+            \node[above] at (9, 1.2) {$A$};
+
+            % Diagrama de axiles escalonado hacia abajo (negativo)
+            \draw[thick, fill=red!10] (0, 1.2) -- (0, 0.2) -- (6.75, 0.2) -- (6.75, -0.6) -- (9, -0.6) -- (9, 1.2) -- cycle;
+
+            % Valores numéricos
+            \node at (3.3, 0.7) {$\boldsymbol{-90}$};
+            \draw[->, line width=0.8pt] (4.5, 0.7) -- (5.0, 0.7);
+            \draw[<-, line width=0.8pt] (5.5, 0.7) -- (6.0, 0.7);
+
+            \node at (7.87, -0.2) {$\boldsymbol{-120}$};
+            \draw[->, line width=0.8pt] (7.2, 0.7) -- (7.7, 0.7);
+            \draw[<-, line width=0.8pt] (8.2, 0.7) -- (8.7, 0.7);
+
+            % Discontinuidad en B
+            \draw[dashed] (6.75, 1.2) -- (6.75, -0.6);
+
+            \node[left] at (-0.2, 0.2) {$N_d$};
+        \end{tikzpicture}%
+    }
+    \caption{Diagrama de esfuerzos axiles $N_d$ [$\text{kN}$] horizontal.}
+    \label{fig:diagrama_axil_horizontal_p8}
+\end{figure}
+
+\subsection*{b) Distribución de Tensiones}
+
+\subsubsection*{1. Características Geométricas de las Secciones Transversales}
+\begin{itemize}
+    \item \textbf{Sección tubo de acero ($ABC$):} Sección anular hueca constante:
+    \begin{equation}
+        \Omega_A = \Omega_B = \Omega_C = \pi \left( R_{\text{ext}}^2 - R_{\text{int}}^2 \right) = \pi \left( 100^2 - 94^2 \right) = \mathbf{3656.8\text{ mm}^2}
+    \end{equation}
+
+    \item \textbf{Sección tronco de pirámide ($CD$):}
+    \begin{align}
+        \text{En } C: \quad \Omega_C &= 250\text{ mm} \times 250\text{ mm} = \mathbf{62500\text{ mm}^2} \\
+        \text{En } D: \quad \Omega_D &= 250\text{ mm} \times 300\text{ mm} = \mathbf{75000\text{ mm}^2}
+    \end{align}
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.75\textwidth}{%
+        \begin{tikzpicture}[>=Latex, scale=1.0]
+            % Sección C (250 x 250)
+            \begin{scope}[shift={(0,0)}]
+                \draw[thick, fill=gray!15] (-1.25, -1.25) rectangle (1.25, 1.25);
+                \draw[->, line width=0.8pt] (0, 0) -- (0, 1.8) node[above] {$z$};
+                \draw[->, line width=0.8pt] (0, 0) -- (1.8, 0) node[right] {$y$};
+                \node at (0, 0) {$C$};
+                \draw[<->, line width=0.6pt] (-1.25, -1.5) -- node[below] {$250$} (1.25, -1.5);
+                \draw[<->, line width=0.6pt] (-1.5, -1.25) -- node[left] {$250$} (-1.5, 1.25);
+                \node[below=0.6cm, font=\small\bfseries] at (0, -1.5) {Sección $C$};
+            \end{scope}
+
+            % Sección D (250 x 300)
+            \begin{scope}[shift={(5.5,0)}]
+                \draw[thick, fill=gray!15] (-1.5, -1.25) rectangle (1.5, 1.25);
+                \draw[->, line width=0.8pt] (0, 0) -- (0, 1.8) node[above] {$z$};
+                \draw[->, line width=0.8pt] (0, 0) -- (2.1, 0) node[right] {$y$};
+                \node at (0, 0) {$D$};
+                \draw[<->, line width=0.6pt] (-1.5, -1.5) -- node[below] {$300$} (1.5, -1.5);
+                \draw[<->, line width=0.6pt] (-1.8, -1.25) -- node[left] {$250$} (-1.8, 1.25);
+                \node[below=0.6cm, font=\small\bfseries] at (0, -1.5) {Sección $D$};
+            \end{scope}
+        \end{tikzpicture}%
+    }
+    \caption{Definición de las secciones transversales en los extremos $C$ y $D$ de la obra de fábrica.}
+    \label{fig:secciones_transversales_p8}
+\end{figure}
+
+\subsubsection*{2. Cálculo de Tensiones Normales}
+\begin{align}
+    \left.
+    \begin{aligned}
+        \sigma_{A,d} &= \frac{-120 \cdot 10^3\text{ N}}{3656.8\text{ mm}^2} = \mathbf{-32.81\text{ N/mm}^2} \\[6pt]
+        \sigma_{B,d} &= \frac{-90 \cdot 10^3\text{ N}}{3656.8\text{ mm}^2} = \mathbf{-24.61\text{ N/mm}^2}
+    \end{aligned}
+    \right\} \quad \text{\textbf{acero}} \\[10pt]
+    \left.
+    \begin{aligned}
+        \sigma_{C,d} &= \frac{-90 \cdot 10^3\text{ N}}{62500\text{ mm}^2} = \mathbf{-1.44\text{ N/mm}^2} \\[6pt]
+        \sigma_{D,d} &= \frac{-90 \cdot 10^3\text{ N}}{75000\text{ mm}^2} = \mathbf{-1.20\text{ N/mm}^2}
+    \end{aligned}
+    \right\} \quad \text{\textbf{obra de fábrica}}
+\end{align}
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.88\textwidth}{%
+        \begin{tikzpicture}[>=Latex, scale=1.0]
+            % Eje de referencia horizontal
+            \draw[thick] (0, 1.5) -- (9, 1.5);
+            \node[above] at (0, 1.5) {$D$};
+            \node[above] at (4.5, 1.5) {$C$};
+            \node[above] at (6.75, 1.5) {$B$};
+            \node[above] at (9, 1.5) {$A$};
+
+            % Trapecio suave en fábrica: de -1.2 a -1.44
+            \draw[thick, fill=blue!10] (0, 1.5) -- (0, 1.1) -- (4.5, 0.95) -- (4.5, 1.5) -- cycle;
+            \node[left, font=\footnotesize] at (0, 1.1) {$-1.2$};
+            \node[above right, font=\footnotesize] at (4.5, 0.95) {$-1.44$};
+
+            % Escalonado en acero: -24.61 y salto en B a -32.81
+            \draw[thick, fill=blue!20] (4.5, 1.5) -- (4.5, 0.3) -- (6.75, 0.3) -- (6.75, -0.6) -- (9, -0.6) -- (9, 1.5) -- cycle;
+            
+            % Discontinuidades y valores
+            \draw[dashed] (4.5, 1.5) -- (4.5, 0.3);
+            \draw[dashed] (6.75, 1.5) -- (6.75, -0.6);
+
+            \node[below, font=\footnotesize] at (5.6, 0.3) {$-24.61$};
+            \draw[->, line width=0.8pt] (5.4, 0.8) -- (5.9, 0.8);
+            \draw[<-, line width=0.8pt] (6.2, 0.8) -- (6.7, 0.8);
+
+            \node[below, font=\footnotesize\bfseries] at (7.87, -0.6) {$-32.81$};
+            \node[left] at (-0.2, 1.1) {$\sigma_n$};
+        \end{tikzpicture}%
+    }
+    \caption{Diagrama de tensiones normales $\sigma_n$ [$\text{N/mm}^2$] horizontal.}
+    \label{fig:diagrama_tensiones_horizontal_p8}
+\end{figure}
+
+\subsection*{c) Comprobar la Resistencia de la Pieza}
+Verificamos las secciones más desfavorables de cada material frente a sus tensiones admisibles de cálculo:
+\begin{enumerate}
+    \item \textbf{Tubo de acero $ABC$:}
+    \begin{equation}
+        |\sigma_{\text{máx,acero}}| = |-32.81\text{ N/mm}^2| \stackrel{?}{\le} f_{yd} = \frac{275}{1.05} = 261.90\text{ N/mm}^2 \quad (\text{o } \le 275) \quad \boldsymbol{\checkmark \quad \text{\textbf{Sí resiste}}}
+    \end{equation}
+
+    \item \textbf{Tronco de pirámide de fábrica $CD$:}
+    \begin{equation}
+        |\sigma_{\text{máx,fáb}}| = |-1.44\text{ N/mm}^2| \stackrel{?}{\le} f_{cd} = \frac{20}{1.50} = 13.33\text{ N/mm}^2 \quad (\text{o } < 20) \quad \boldsymbol{\checkmark \quad \text{\textbf{Sí resiste}}}
+    \end{equation}
+\end{enumerate}
+

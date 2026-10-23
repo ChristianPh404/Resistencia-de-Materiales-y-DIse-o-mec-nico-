@@ -1,0 +1,128 @@
+
+En este capítulo se recopilan, resuelven y analizan en detalle problemas reales propuestos en exámenes oficiales de la asignatura, incorporando esquemas mecánicos, diagramas de cuerpo libre (DCL), diagramas de compatibilidad cinemática de deformaciones y dimensionamiento estricto de elementos según los coeficientes de seguridad de la normativa.
+
+%=============================================================================
+\section{Guía Metodológica: Tipologías de Examen, Estrategia y Errores Frecuentes}
+
+El análisis de las últimas convocatorias muestra que un examen típico de la asignatura evalúa de forma balanceada dos grandes bloques complementarios:
+\begin{enumerate}[label=\textbf{\Roman*.}]
+    \item \textbf{Bloque 1 (Flexión y Resistencia de Vigas):} Determinación de leyes de esfuerzos ($Q, M_f$), cálculo de flechas/giros mediante la elástica, obtención de la sección más desfavorable y comprobación resistente ($\sigma_{\text{Navier}} \le \sigma_{\text{adm}}$ o cálculo de la máxima carga $q_{\text{máx}}$).
+    \item \textbf{Bloque 2 (Hiperestaticidad por Esfuerzo Axil / Tirantes y Barras):} Sistemas articulados donde barras rígidas transmiten carga a cables o barras elásticas que trabajan a tracción/compresión, o barras coaxiales/escalonadas con coacción cinemática.
+\end{enumerate}
+
+\subsection{Mapa de Tipologías Habituales en Examen}
+
+\begin{table}[H]
+    \centering
+    \caption{Clasificación de los problemas de examen y herramientas clave de resolución.}
+    \adjustbox{max width=0.98\textwidth}{%
+        \renewcommand{\arraystretch}{1.35}
+        \begin{tabular}{p{4.2cm} p{5.5cm} p{6.2cm}}
+            \toprule
+            \textbf{Tipología de Problema} & \textbf{Esquema Mecánico Típico} & \textbf{Estrategia y Herramientas Obligatorias} \\
+            \midrule
+            \textbf{A. Viga con Flexión y Comprobación Resistente} &
+            Viga isostática (con voladizo) o hiperestática apoyada-empotrada con carga uniforme, triangular o momentos puntuales. &
+            \begin{itemize}[leftmargin=*, nosep]
+                \item E.D.E. ($y'' = M_f / EI$) con condiciones de contorno.
+                \item Steiner para $I_z$ y posición del centro de gravedad $y_G$.
+                \item Fórmula de Navier $\sigma = |M_f| y_{\text{máx}} / I_z \le \sigma_{\text{adm}}$.
+            \end{itemize} \\
+            \midrule
+            \textbf{B. Viga Rígida sustentada por Tirantes Elásticos} &
+            Viga rígida apoyada en rótula fija y colgada de 1, 2 o 3 tirantes elásticos paralelos o inclinados. &
+            \begin{itemize}[leftmargin=*, nosep]
+                \item Equilibrio estático global ($\sum M_{\text{rótula}} = 0$).
+                \item Semejanza de triángulos de la barra rígida ($\frac{\Delta L_i}{d_i} = \frac{\Delta L_j}{d_j} = \theta$).
+                \item Ley de Hooke axil ($\Delta L = \frac{N L}{E \Omega}$).
+            \end{itemize} \\
+            \midrule
+            \textbf{C. Barra Escalonada Coaxial Biempotrada} &
+            Barra cilíndrica de secciones escalonadas con cargas axiles intermedias o peso propio. &
+            \begin{itemize}[leftmargin=*, nosep]
+                \item Ecuación de compatibilidad global: $\Delta L_{\text{total}} = \sum \frac{N_i L_i}{E_i \Omega_i} = 0$.
+                \item Diagrama de esfuerzo axil $N(x)$.
+                \item Tensión normal $\sigma_i = N_i / \Omega_i \le \sigma_{\text{adm}}$.
+            \end{itemize} \\
+            \midrule
+            \textbf{D. Sistemas Compuestos (Varilla con Camisa / Coaxiales)} &
+            Núcleo macizo de un material rodeado de una camisa adherida de otro material distinto. &
+            \begin{itemize}[leftmargin=*, nosep]
+                \item Compatibilidad de deformación: $\varepsilon_1 = \varepsilon_2 \iff \Delta L_1 = \Delta L_2$.
+                \item Reparto de carga según rigidez axil ($E_1 \Omega_1$ vs $E_2 \Omega_2$).
+                \item Equilibrio de fuerzas axiles: $N_1 + N_2 = P_{\text{total}}$.
+            \end{itemize} \\
+            \bottomrule
+        \end{tabular}%
+    }
+    \label{tab:mapa_tipologias_examen}
+\end{table}
+
+\subsection{Protocolo Sistemático de Resolución Paso a Paso}
+
+\begin{enumerate}[label=\bfseries Paso \arabic*:]
+    \item \textbf{Decodificación del Enunciado y Coeficientes de Seguridad:}
+          \begin{itemize}
+              \item Verificar si las cargas son características ($q_k, P_k$) o de cálculo directo ($q_d, P_d$). Si se suministran coeficientes de seguridad ($\gamma_f = 1{,}5$ y $\gamma_s = 1{,}05$), mayorar las acciones $q_d = \gamma_f \cdot q_k$ y calcular $\sigma_{\text{adm}} = f_{yk}/\gamma_s$.
+              \item \textbf{Cuidado:} Las flechas en servicio (ELS) \textbf{no} se mayoran ($\gamma_f = 1{,}0$).
+          \end{itemize}
+
+    \item \textbf{Diagrama de Cuerpo Libre (DCL):}
+          \begin{itemize}
+              \item Aislar la estructura sustituyendo todas las ligaduras (apoyo fijo, móvil, empotramiento, tirantes) por sus vectores reactivos con criterio de signos explícito.
+              \item Hallar resultantes de cargas distribuidas ($R = q L$ en rectangulares, $R = \frac{1}{2} q L$ a $2/3$ del vértice en triangulares).
+          \end{itemize}
+
+    \item \textbf{Ecuaciones de Compatibilidad de Deformaciones (si es Hiperestático):}
+          \begin{itemize}
+              \item \textbf{En tirantes con viga rígida:} Trazar la cinemática de la viga tras girar un ángulo infinitesimal $\theta$. Aplicar semejanza directa entre las flechas de los puntos de anclaje: $\delta_i / x_i = \text{cte}$.
+              \item \textbf{En vigas continuas / apoyadas-empotradas:} Plantear la E.D.E. $EI y'' = M_f(x)$ e imponer las condiciones de contorno geométricas ($y(0)=0$, $y(L)=0$, $y'(L)=0$).
+          \end{itemize}
+
+    \item \textbf{Geometría de Masas de la Sección Transversal:}
+          \begin{itemize}
+              \item Centro de gravedad baricéntrico: $y_G = \frac{\sum A_i y_i}{\sum A_i}$.
+              \item Inercia a flexión con el Teorema de Steiner: $I_z = \sum \left( \frac{b_i h_i^3}{12} + A_i \, d_i^2 \right)$, donde $d_i = |y_i - y_G|$.
+          \end{itemize}
+
+    \item \textbf{Identificación de la Sección Crítica y Comprobación Resistente:}
+          \begin{itemize}
+              \item Determinar la sección con mayor momento en valor absoluto: $|M_{f,\text{máx}}| = \max(|M_{\text{vano}}|, |M_{\text{apoyo}}|)$.
+              \item Evaluar la fibra más alejada del eje neutro: $y_{\text{máx}} = \max(y_G, H - y_G)$.
+              \item Comprobación tensional elástica: $\sigma_{\text{máx}} = \frac{|M_{f,\text{máx}}| \cdot y_{\text{máx}}}{I_z} \le \sigma_{\text{adm}}$.
+          \end{itemize}
+\end{enumerate}
+
+\subsection{Advertencias Críticas: Errores Frecuentes que Restan Puntos en Examen}
+
+\begin{tcolorbox}[colback=red!5!white,colframe=red!80!black,title=\textbf{\Large Trampas y Errores Habituales en Exámenes Oficiales}]
+    \begin{enumerate}
+        \item \textbf{Confusión entre $y_G$ y la fibra más alejada ($y_{\text{máx}}$):}
+              En secciones asimétricas (en T, en C o en L), el centro de gravedad no divide la altura a partes iguales. Si $y_G = 110\text{ mm}$ y el canto total es $H = 300\text{ mm}$, la fibra superior dista $190\text{ mm}$. Usar $110\text{ mm}$ en la fórmula de Navier infravalora la tensión máxima en más de un 70\%, provocando el colapso de la viga.
+              
+        \item \textbf{Ignorar el signo y la tracción/compresión según el flector:}
+              Un momento flector positivo ($M_f > 0$) genera \textbf{tracción inferior} y \textbf{compresión superior}. Un momento flector negativo ($M_f < 0$, típico de empotramientos o voladizos sobre apoyos) genera \textbf{tracción superior} y \textbf{compresión inferior}. En materiales con distinta resistencia a tracción y compresión (como el hormigón o la fundición), comprobar la fibra equivocada invalida el ejercicio.
+
+        \item \textbf{Comparar sólo el vano e ignorar el voladizo / apoyo intermedio:}
+              En vigas con voladizo, el momento negativo en el apoyo intermedio ($|M_B| = \frac{1}{2} q L_{\text{vol}}^2$) suele ser numéricamente superior al momento positivo del vano central. Si se despeja la carga admisible igualando sólo en el vano, la estructura colapsará en el apoyo. \textbf{Siempre se deben evaluar ambas hipótesis y elegir la menor de las cargas.}
+
+        \item \textbf{Sentido de las fuerzas axiles en los cables tirantes:}
+              Los cables o tirantes esbeltos \textbf{sólo pueden trabajar a tracción} ($N > 0$). Si al resolver el sistema hiperestático un tirante resulta con axil negativo (compresión), dicho cable pandeará instantáneamente y entrará en destensado, quedando fuera de servicio.
+
+        \item \textbf{Mezcla de Unidades (kN, m, N, mm):}
+              Es el fallo numérico más recurrente. En la fórmula de Navier y en la elástica:
+              \begin{itemize}
+                  \item $M_f$ suele calcularse en $\text{kN}\cdot\text{m}$. Multiplicar por $10^6$ para pasar a $\text{N}\cdot\text{mm}$.
+                  \item $E$ se da habitualmente en $\text{GPa} = \text{kN/mm}^2$ o $\text{MPa} = \text{N/mm}^2$.
+                  \item Las inercias calculadas en $\text{cm}^4$ deben multiplicarse por $10^4$ para $\text{mm}^4$, o por $10^{-8}$ para $\text{m}^4$.
+              \end{itemize}
+
+        \item \textbf{Mayoración indebida de flechas en Estado Límite de Servicio (ELS):}
+              Si se ha resuelto el problema con carga mayorada $q_d = \gamma_f \cdot q_k$ para la comprobación resistente (ELU), al calcular la flecha elástica $y(x)$ se debe \textbf{desmayorar dividiendo entre $\gamma_f = 1{,}5$}, puesto que el confort, la vibración y la estética de la viga se comprueban bajo cargas de servicio reales sin mayorar.
+
+        \item \textbf{Tensión tangencial de Colignon en puntos genéricos:}
+              En la fórmula $\tau = \frac{V \cdot S_z^*}{I_z \cdot b}$, el momento estático $S_z^*$ es el del área que queda \textbf{por fuera} (por encima o por debajo) de la línea de corte que pasa por el punto evaluado, y la distancia $\bar{y}^*$ se mide \textbf{estrictamente respecto al centro de gravedad global $G$}, nunca respecto a la base del perfil.
+    \end{enumerate}
+\end{tcolorbox}
+
+%=============================================================================

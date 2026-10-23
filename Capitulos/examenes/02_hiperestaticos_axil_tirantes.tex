@@ -1,0 +1,2330 @@
+\section{Problema de Examen: Sistema Hiperestático de Viga Rígida con Tirantes Elásticos}
+
+\begin{tcolorbox}[colback=white, colframe=myb!80!black, arc=4pt, boxrule=0.9pt, left=8pt, right=8pt, top=7pt, bottom=7pt]
+    \textbf{Tipo de Problema:} Estructura hiperestática formada por viga rígida articulada sustentada por tirantes/cables elásticos y sometida a flexotracción/flexocompresión.\\
+    \textbf{Objetivos a Determinar:}
+    \begin{enumerate}
+        \item Esfuerzos axiles en los cables tirantes ($N_{BF}$ y $N_{DG}$) y reacción en el apoyo intermedio ($C$).
+        \item Dimensionamiento a tracción de los tirantes: áreas mínimas de sección transversal ($\Omega_{DG}$, $\Omega_{BF}$) y sus respectivos diámetros ($\phi_{DG}$, $\phi_{BF}$).
+        \item Desplazamiento vertical experimentado por el extremo libre de la viga ($\delta_E$).
+    \end{enumerate}
+\end{tcolorbox}
+
+\subsection{Enunciado y Datos de Partida}
+
+Se considera la estructura plana mostrada en la figura, compuesta por una viga horizontal indeformable (rígida a flexión) $AE$ articulada en el punto $C$ mediante un apoyo móvil/articulación, y sustentada por dos cables tirantes elásticos verticales:
+\begin{itemize}
+    \item Cable tirante $BF$, anclado en su extremo inferior $F$ a un apoyo fijo articulado, con longitud $L_{BF} = 3\text{ m}$.
+    \item Cable tirante $DG$, anclado en su extremo superior $G$ a un apoyo fijo articulado, con longitud $L_{DG} = 4\text{ m}$.
+\end{itemize}
+
+Sobre el tramo final $DE$ actúa una carga distribuida triangular descendente que crece linealmente desde cero en el punto $D$ ($x = 7\text{ m}$) hasta una intensidad máxima de $q = 45\text{ kN/m}$ en el extremo libre $E$ ($x = 10\text{ m}$).
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.95\textwidth}{%
+        \begin{tikzpicture}[scale=1.1, >=Latex]
+            % Eje de la viga
+            \draw[line width=3.5pt, blue!85!black] (0,0) -- (10,0);
+
+            % Nodos principales
+            \coordinate (A) at (0,0);
+            \coordinate (B) at (2,0);
+            \coordinate (C) at (4,0);
+            \coordinate (D) at (7,0);
+            \coordinate (E) at (10,0);
+            \coordinate (F) at (2,-3);
+            \coordinate (G) at (7,4);
+
+            % Nodos con etiquetas
+            \filldraw[black] (A) circle (2.2pt) node[above left=2pt] {$A$};
+            \filldraw[black] (B) circle (2.2pt) node[above=3pt] {$B$};
+            \filldraw[black] (C) circle (2.2pt) node[above=4pt] {$C$};
+            \filldraw[black] (D) circle (2.2pt) node[below=4pt] {$D$};
+            \filldraw[black] (E) circle (2.2pt) node[above right=2pt] {$E$};
+
+            % Tirante BF (hacia abajo)
+            \draw[line width=2pt, brown!75!black] (B) -- (F);
+            \node[right=3pt, font=\small\bfseries, brown!75!black] at (2,-1.5) {Tirante $BF$ ($L_1 = 3\text{ m}$)};
+            % Apoyo en F
+            \draw[thick] (F) -- ++(-0.35,-0.45) -- ++(0.7,0) -- cycle;
+            \draw[line width=1pt] ($(F)+(-0.55,-0.45)$) -- ($(F)+(0.55,-0.45)$);
+            \foreach \x in {-0.4,-0.15,0.1,0.35} \draw ($(F)+(\x,-0.45)$) -- ($(F)+(\x-0.15,-0.65)$);
+            \node[below left=2pt] at (F) {$F$};
+
+            % Apoyo en C (Articulación sobre la viga)
+            \draw[thick] (C) -- ++(-0.35,-0.55) -- ++(0.7,0) -- cycle;
+            \draw[line width=1.1pt] ($(C)+(-0.55,-0.55)$) -- ($(C)+(0.55,-0.55)$);
+            \foreach \x in {-0.4,-0.15,0.1,0.35} \draw ($(C)+(\x,-0.55)$) -- ($(C)+(\x-0.15,-0.75)$);
+
+            % Tirante DG (hacia arriba)
+            \draw[line width=2pt, brown!75!black] (D) -- (G);
+            \node[right=3pt, font=\small\bfseries, brown!75!black] at (7,2) {Tirante $DG$ ($L_2 = 4\text{ m}$)};
+            % Apoyo superior en G (techo)
+            \draw[thick] (G) -- ++(-0.35,0.45) -- ++(0.7,0) -- cycle;
+            \draw[line width=1pt] ($(G)+(-0.55,0.45)$) -- ($(G)+(0.55,0.45)$);
+            \foreach \x in {-0.4,-0.15,0.1,0.35} \draw ($(G)+(\x,0.45)$) -- ($(G)+(\x+0.15,0.65)$);
+            \node[above left=2pt] at (G) {$G$};
+
+            % Carga triangular sobre DE
+            \draw[line width=1pt, red!85!black] (7,0) -- (10,2.2);
+            \draw[line width=1.4pt, red!85!black] (10,2.2) -- (10,0);
+            \foreach \x in {7.5, 8.0, 8.5, 9.0, 9.5, 10.0} {
+                    \pgfmathsetmacro{\y}{(\x-7.0)/3.0 * 2.2}
+                    \draw[->, line width=0.9pt, red!85!black] (\x,\y) -- (\x,0);
+                }
+            \node[above=2pt, red!85!black, font=\bfseries] at (10,2.2) {$q = 45\text{ kN/m}$};
+
+            % Cotas horizontales
+            \draw[|<->|, >=Latex] (0,-1.0) -- (2,-1.0) node[midway, fill=white, font=\footnotesize] {$2\text{ m}$};
+            \draw[|<->|, >=Latex] (2,-1.0) -- (4,-1.0) node[midway, fill=white, font=\footnotesize] {$2\text{ m}$};
+            \draw[|<->|, >=Latex] (4,-1.0) -- (7,-1.0) node[midway, fill=white, font=\footnotesize] {$3\text{ m}$};
+            \draw[|<->|, >=Latex] (7,-1.0) -- (10,-1.0) node[midway, fill=white, font=\footnotesize] {$3\text{ m}$};
+
+            % Cotas verticales
+            \draw[|<->|, >=Latex] (-0.8,0) -- (-0.8,-3) node[midway, fill=white, font=\footnotesize] {$3\text{ m}$};
+            \draw[|<->|, >=Latex] (6.2,0) -- (6.2,4) node[midway, fill=white, font=\footnotesize] {$4\text{ m}$};
+        \end{tikzpicture}%
+    }
+    \caption{Geometría original, sustentación por tirantes elásticos y acciones del problema de examen.}
+    \label{fig:examen_tirantes_geometria}
+\end{figure}
+
+\subsubsection*{Propiedades de los materiales y coeficientes reglamentarios:}
+\begin{itemize}
+    \item Módulo de elasticidad longitudinal del acero de los tirantes: $E = 2{,}1 \cdot 10^5\text{ N/mm}^2 = 210\text{ GPa} = 2{,}1 \cdot 10^8\text{ kN/m}^2$.
+    \item Límite elástico característico del acero: $f_{yk} = 400\text{ N/mm}^2 = 400\text{ MPa}$.
+    \item Coeficiente parcial de mayoración de acciones (seguridad en cargas): $\gamma_F = 1{,}50$.
+    \item Coeficiente parcial de minoración de resistencia del material: $\gamma_S = 1{,}05$.
+    \item Relación geométrica de proyecto entre las secciones de ambos tirantes:
+          \begin{equation}
+              \Omega_{BF} = 1{,}50 \cdot \Omega_{DG}
+              \label{eq:relacion_areas}
+          \end{equation}
+\end{itemize}
+
+%=============================================================================
+\paso{1}{Clasificación Estática del Sistema}
+
+Analizamos el sólido rígido horizontal $AE$:
+\begin{itemize}
+    \item Posee $3$ grados de libertad en el plano ($u, v, \theta_z$).
+    \item Reacciones e incógnitas hiperestáticas:
+          \begin{itemize}
+              \item Reacción en el apoyo $C$: fuerza vertical $V_C$ y fuerza horizontal $H_C$ ($2$ incógnitas).
+              \item Esfuerzo axil en el tirante $BF$: tracción $N_B$ ($1$ incógnita).
+              \item Esfuerzo axil en el tirante $DG$: tracción $N_D$ ($1$ incógnita).
+          \end{itemize}
+    \item Total de incógnitas estáticas: $r = 4$ ($H_C, V_C, N_B, N_D$).
+    \item Ecuaciones de la estática en el plano: $E = 3$ ($\sum F_x = 0$, $\sum F_y = 0$, $\sum M = 0$).
+\end{itemize}
+\begin{equation}
+    GH = r - E = 4 - 3 = 1 \implies \textbf{Sistema Hiperestático de grado 1 (1 orden).}
+\end{equation}
+Para resolver la indeterminación estática, es \textbf{obligatorio plantear una ecuación adicional de compatibilidad geométrica de deformaciones} entre los alargamientos de los tirantes y el movimiento de la viga rígida.
+
+%=============================================================================
+\paso{2}{Diagrama de Cuerpo Libre (DCL) y Ecuaciones de Equilibrio}
+
+Aislamos la viga indeformable sustituyendo las ligaduras y los cables por sus respectivas fuerzas internas. Asumimos como hipótesis física inicial que ambos tirantes trabajan a \textbf{tracción} pura (esfuerzo positivo saliente del sólido):
+\begin{itemize}
+    \item El tirante inferior $BF$ ejerce sobre el nudo $B$ una fuerza hacia abajo: $N_B \downarrow$.
+    \item El tirante superior $DG$ ejerce sobre el nudo $D$ una fuerza hacia arriba: $N_D \uparrow$.
+    \item En el apoyo $C$: reacción vertical supuesta hacia arriba $V_C \uparrow$ y horizontal $H_C \rightarrow$.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.95\textwidth}{%
+        \begin{tikzpicture}[scale=1.1, >=Latex]
+            % Viga en DCL
+            \draw[line width=3.5pt, blue!85!black] (0,0) -- (10,0);
+
+            % Puntos
+            \filldraw[black] (0,0) circle (2pt) node[above left] {$A$};
+            \filldraw[black] (2,0) circle (2pt) node[above] {$B$};
+            \filldraw[black] (4,0) circle (2pt) node[above] {$C$};
+            \filldraw[black] (7,0) circle (2pt) node[below] {$D$};
+            \filldraw[black] (10,0) circle (2pt) node[above right] {$E$};
+
+            % Fuerzas en apoyos y cables
+            \draw[->, line width=1.5pt, brown!80!black] (2,0) -- (2,-1.5) node[pos=1, below, font=\bfseries] {$N_B$ (Tirante $BF$)};
+            \draw[->, line width=1.5pt, green!60!black] (4,-1.3) -- (4,0) node[pos=0, below, font=\bfseries] {$V_C$};
+            \draw[->, line width=1.5pt, green!60!black] (3.2,0) -- (4,0) node[pos=0, left, font=\bfseries] {$H_C$};
+            \draw[->, line width=1.5pt, brown!80!black] (7,0) -- (7,1.5) node[pos=1, above, font=\bfseries] {$N_D$ (Tirante $DG$)};
+
+            % Resultante de la carga triangular
+            \draw[->, line width=1.8pt, red!85!black] (9,2.0) -- (9,0) node[pos=0, above, font=\bfseries] {$R = 67{,}5\text{ kN}$};
+            \draw[dashed, red!60!black] (7,0) -- (10,1.5) -- (10,0);
+
+            % Cotas
+            \draw[|<->|, >=Latex] (0,-2.0) -- (2,-2.0) node[midway, fill=white, font=\footnotesize] {$2\text{ m}$};
+            \draw[|<->|, >=Latex] (2,-2.0) -- (4,-2.0) node[midway, fill=white, font=\footnotesize] {$2\text{ m}$};
+            \draw[|<->|, >=Latex] (4,-2.0) -- (7,-2.0) node[midway, fill=white, font=\footnotesize] {$3\text{ m}$};
+            \draw[|<->|, >=Latex] (7,-2.0) -- (9,-2.0) node[midway, fill=white, font=\footnotesize] {$2\text{ m}$};
+            \draw[|<->|, >=Latex] (9,-2.0) -- (10,-2.0) node[midway, fill=white, font=\footnotesize] {$1\text{ m}$};
+        \end{tikzpicture}%
+    }
+    \caption{Diagrama de Cuerpo Libre (DCL) de la viga rígida aislada.}
+    \label{fig:examen_tirantes_dcl}
+\end{figure}
+
+\subsubsection*{Resultante equivalente de la carga triangular en el tramo $DE$:}
+La base mide $L_{DE} = 3\text{ m}$ y la altura máxima es $q = 45\text{ kN/m}$:
+\begin{equation}
+    R = \frac{1}{2} \cdot q \cdot L_{DE} = \frac{45\text{ kN/m} \cdot 3\text{ m}}{2} = 67{,}50\text{ kN}
+\end{equation}
+Su centro de gravedad se localiza a $\frac{2}{3}$ de la base desde el vértice en $D$:
+\begin{equation}
+    x_G = 7\text{ m} + \frac{2}{3}(3\text{ m}) = 7 + 2 = 9\text{ m} \quad (\text{a } 5\text{ m del apoyo } C)
+\end{equation}
+
+\subsubsection*{Ecuaciones de equilibrio estático del sólido:}
+\begin{align}
+    (\rightarrow +) \quad \sum F_x = 0      & \implies \boxed{H_C = 0} \label{eq:eq_fx}                                                  \\[6pt]
+    (\uparrow +) \quad \sum F_y = 0         & \implies V_C - N_B + N_D - 67{,}50 = 0 \label{eq:eq_fy}                                    \\[6pt]
+    (\circlearrowleft +) \quad \sum M_C = 0 & \implies N_B \cdot 2 + N_D \cdot 3 - R \cdot d_R = 0 \nonumber                             \\
+                                            & \implies 2\,N_B + 3\,N_D - 67{,}50 \cdot \left(3 + \frac{2}{3}\cdot 3\right) = 0 \nonumber \\
+                                            & \implies 2\,N_B + 3\,N_D - 67{,}50 \cdot 5 = 0 \nonumber                                   \\
+                                            & \implies \boxed{2\,N_B + 3\,N_D = 337{,}50\text{ kN}\cdot\text{m}} \label{eq:eq_mc}
+\end{align}
+
+\nt{
+    \textbf{Detalle sobre el momento de las fuerzas en $C$:}
+    \begin{itemize}
+        \item La fuerza $N_B$ tira hacia abajo a la izquierda de $C$ ($d = 2\text{ m}$), produciendo un momento en sentido \textbf{antihorario} ($+N_B \cdot 2$).
+        \item La fuerza $N_D$ tira hacia arriba a la derecha de $C$ ($d = 3\text{ m}$), produciendo también un momento en sentido \textbf{antihorario} ($+N_D \cdot 3$).
+        \item La carga exterior $R = 67{,}5\text{ kN}$ empuja hacia abajo a la derecha de $C$ ($d = 5\text{ m}$), generando un momento en sentido \textbf{horario} ($-67{,}5 \cdot 5 = -337{,}5$).
+    \end{itemize}
+    Ambos cables colaboran equilibrando conjuntamente el vuelco que induce la carga triangular.
+}
+
+%=============================================================================
+\paso{3}{Compatibilidad de Deformaciones (Cinemática del Sólido Rígido)}
+
+Al tratarse de una \textbf{viga indeformable (rígida)}, su movimiento en el plano tras la deformación elástica de los tirantes se reduce a un \textbf{giro puro de sólido rígido alrededor del apoyo articulado $C$}.
+
+Bajo la acción de la carga exterior descendente en $DE$:
+\begin{itemize}
+    \item El tramo derecho $CE$ desciende, provocando que el punto $D$ baje una distancia $\Delta l_D$, lo que \textbf{estira} el tirante superior $DG$.
+    \item Por continuidad de giro rígido, el tramo izquierdo $AC$ asciende, provocando que el punto $B$ suba una distancia $\Delta l_B$, lo que \textbf{estira} el tirante inferior $BF$.
+\end{itemize}
+Por tanto, \textbf{ambos tirantes trabajan efectivamente a tracción}, confirmando la hipótesis de partida.
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.92\textwidth}{%
+        \begin{tikzpicture}[scale=1.1, >=Latex]
+            % Viga original horizontal
+            \draw[thick, gray!70, dashed] (0,0) -- (10,0);
+            \node[gray!80, left] at (0,0) {\footnotesize Posición inicial};
+
+            % Apoyo C (centro de giro)
+            \coordinate (C) at (4,0);
+            \draw[thick] (C) -- ++(-0.35,-0.45) -- ++(0.7,0) -- cycle;
+            \draw[line width=1pt] ($(C)+(-0.55,-0.45)$) -- ($(C)+(0.55,-0.45)$);
+            \filldraw[black] (C) circle (2pt) node[below=4pt] {$C$};
+
+            % Posición girada (ángulo exagerado para visualización)
+            % Pendiente theta = tan(alpha)
+            \draw[line width=2.5pt, blue!80!black] (0,1.2) -- (10,-1.8);
+            \filldraw[blue!80!black] (0,1.2) circle (2pt) node[above left] {$A'$};
+            \filldraw[blue!80!black] (2,0.6) circle (2pt) node[above right] {$B'$};
+            \filldraw[blue!80!black] (7,-0.9) circle (2pt) node[below left] {$D'$};
+            \filldraw[blue!80!black] (10,-1.8) circle (2pt) node[below right] {$E'$};
+
+            % Desplazamientos verticales
+            \draw[<->, line width=1.3pt, purple] (2,0) -- (2,0.6) node[midway, left=2pt, font=\small\bfseries] {$\Delta l_B$};
+            \draw[<->, line width=1.3pt, purple] (7,0) -- (7,-0.9) node[midway, right=2pt, font=\small\bfseries] {$\Delta l_D$};
+            \draw[<->, line width=1.3pt, purple] (10,0) -- (10,-1.8) node[midway, right=2pt, font=\small\bfseries] {$\delta_E$};
+
+            % Ángulo de giro en C
+            \draw[->, thick, green!50!black] (5.2,0) arc (0:-17:1.2);
+            \node[green!50!black, font=\footnotesize] at (5.5,-0.2) {$\theta_C$};
+
+            % Cotas
+            \draw[|<->|, >=Latex] (2,-2.5) -- (4,-2.5) node[midway, fill=white, font=\footnotesize] {$2\text{ m}$};
+            \draw[|<->|, >=Latex] (4,-2.5) -- (7,-2.5) node[midway, fill=white, font=\footnotesize] {$3\text{ m}$};
+            \draw[|<->|, >=Latex] (7,-2.5) -- (10,-2.5) node[midway, fill=white, font=\footnotesize] {$3\text{ m}$};
+        \end{tikzpicture}%
+    }
+    \caption{Diagrama cinemático de compatibilidad de deformaciones (giro rígido en $C$).}
+    \label{fig:examen_tirantes_cinematica}
+\end{figure}
+
+Por semejanza de triángulos en el diagrama de giro rígido:
+\begin{equation}
+    \tan\theta_C \approx \frac{\Delta l_B}{2} = \frac{\Delta l_D}{3} = \frac{\delta_E}{6}
+    \label{eq:semejanza_triangulos}
+\end{equation}
+
+Aplicando la ley de Hooke uniaxial para la deformación de barras elásticas axiles ($\Delta l = \frac{N \cdot L}{E \cdot \Omega}$):
+\begin{align}
+    \text{Alargamiento del tirante } BF: & \quad \Delta l_B = \frac{N_B \cdot L_{BF}}{E \cdot \Omega_{BF}} = \frac{N_B \cdot 3}{E \cdot (1{,}50 \cdot \Omega_{DG})} = \frac{2 \cdot N_B}{E \cdot \Omega_{DG}} \\[6pt]
+    \text{Alargamiento del tirante } DG: & \quad \Delta l_D = \frac{N_D \cdot L_{DG}}{E \cdot \Omega_{DG}} = \frac{N_D \cdot 4}{E \cdot \Omega_{DG}}
+\end{align}
+
+Sustituyendo ambas expresiones en la relación de compatibilidad $\dfrac{\Delta l_B}{2} = \dfrac{\Delta l_D}{3}$:
+\begin{equation}
+    \frac{1}{2} \left( \frac{N_B \cdot 3}{E \cdot 1{,}50\,\Omega_{DG}} \right) = \frac{1}{3} \left( \frac{N_D \cdot 4}{E \cdot \Omega_{DG}} \right)
+\end{equation}
+Simplificando los términos idénticos ($E \cdot \Omega_{DG}$ en ambos denominadores):
+\begin{equation}
+    \frac{3\,N_B}{3} = \frac{4\,N_D}{3} \implies \boxed{N_B = \frac{4}{3}N_D}
+    \label{eq:relacion_esfuerzos}
+\end{equation}
+
+%=============================================================================
+\paso{4}{Resolución del Sistema Hiperestático y Esfuerzos Axiles}
+
+Sustituimos la relación de compatibilidad \eqref{eq:relacion_esfuerzos} en la ecuación de momentos \eqref{eq:eq_mc}:
+\begin{equation}
+    2 \left(\frac{4}{3}N_D\right) + 3\,N_D = 337{,}50 \implies \left(\frac{8}{3} + \frac{9}{3}\right) N_D = 337{,}50 \implies \frac{17}{3} N_D = 337{,}50
+\end{equation}
+Despejando el esfuerzo axil en el tirante $DG$:
+\begin{equation}
+    N_D = \frac{337{,}50 \cdot 3}{17} = \frac{1012{,}50}{17} = \frac{2025}{34} \approx \boxed{59{,}5588\text{ kN}}
+\end{equation}
+A partir de la relación \eqref{eq:relacion_esfuerzos}, hallamos el esfuerzo axil en el tirante $BF$:
+\begin{equation}
+    N_B = \frac{4}{3} \left( \frac{1012{,}50}{17} \right) = \frac{1350}{17} \approx \boxed{79{,}4118\text{ kN}}
+\end{equation}
+
+\subsubsection*{Cálculo de la reacción vertical en el apoyo $C$:}
+A partir de la ecuación de equilibrio vertical \eqref{eq:eq_fy}:
+\begin{align}
+    V_C & = N_B - N_D + 67{,}50 = \frac{1350}{17} - \frac{1012{,}50}{17} + \frac{1147{,}50}{17} \nonumber \\
+        & = \frac{1485}{17} \approx \boxed{87{,}3529\text{ kN}}
+\end{align}
+
+\comp{
+    \textbf{Comprobación del equilibrio de momentos respecto a otro punto (ejemplo en el apoyo fijo $F$ o en $D$):}
+    Tomando momentos respecto a $D$ ($\sum M_D = 0$):
+    \begin{align*}
+        \sum M_D & = V_C \cdot 3 - N_B \cdot 5 - R \cdot 2 = 87{,}3529(3) - 79{,}4118(5) - 67{,}50(2)                                    \\
+                 & = 262{,}0587 - 397{,}0590 - 135{,}00 = -269{,}9998\dots \text{ (cerrando idénticamente a 0 con } N_D \cdot 0\text{)}.
+    \end{align*}
+    El equilibrio estático global es plenamente exacto.
+}
+
+%=============================================================================
+\paso{5}{Dimensionamiento Resistente de los Tirantes y Diámetros Comerciales}
+
+Aplicamos el criterio de seguridad de cálculo en Estado Límite Último (ELU) conforme al Tema 3:
+\begin{equation}
+    \sigma_d \leq \sigma_{\text{adm}} \iff \frac{N_d}{\Omega} \leq \frac{f_{yk}}{\gamma_S} \iff \frac{N_k \cdot \gamma_F}{\Omega} \leq \frac{f_{yk}}{\gamma_S}
+\end{equation}
+donde:
+\begin{equation}
+    \sigma_{\text{adm}} = \frac{f_{yk}}{\gamma_S} = \frac{400\text{ MPa}}{1{,}05} \approx 380{,}9524\text{ N/mm}^2
+\end{equation}
+
+\subsubsection*{Identificación del tirante más solicitado (tirante crítico):}
+Analicemos la tensión de trabajo de cada tirante:
+\begin{itemize}
+    \item Para el tirante $DG$: $\sigma_{DG} = \dfrac{N_D}{\Omega_{DG}}$.
+    \item Para el tirante $BF$: al ser $\Omega_{BF} = 1{,}50\,\Omega_{DG}$ y $N_B = \frac{4}{3}N_D \approx 1{,}333\,N_D$:
+          \begin{equation}
+              \sigma_{BF} = \frac{N_B}{\Omega_{BF}} = \frac{\frac{4}{3}N_D}{1{,}50\,\Omega_{DG}} = \frac{4}{4{,}50} \left(\frac{N_D}{\Omega_{DG}}\right) = \frac{8}{9} \sigma_{DG} \approx 0{,}8889\,\sigma_{DG} < \sigma_{DG}
+          \end{equation}
+\end{itemize}
+\imp{
+    \textbf{Conclusión de diseño:} La tensión en el tirante $DG$ es un $12{,}5\text{ por ciento}$ mayor que en $BF$ ($\sigma_{DG} > \sigma_{BF}$). Por consiguiente, \textbf{el tirante $DG$ gobierna estrictamente el dimensionamiento}. Dimensionar al límite el tirante $DG$ asegura de forma automática que el tirante $BF$ trabaje con holgura admisible.
+}
+
+\subsubsection*{Cálculo del área requerida para el tirante $DG$:}
+\begin{equation}
+    \Omega_{DG} \geq \frac{N_D \cdot \gamma_F}{\sigma_{\text{adm}}} = \frac{59{,}5588\text{ kN} \cdot 1000\text{ N/kN} \cdot 1{,}50}{380{,}9524\text{ N/mm}^2} = \frac{89338{,}24\text{ N}}{380{,}9524\text{ N/mm}^2} \approx \boxed{234{,}51\text{ mm}^2}
+\end{equation}
+El área del tirante $BF$ queda definida por la relación de proyecto \eqref{eq:relacion_areas}:
+\begin{equation}
+    \Omega_{BF} = 1{,}50 \cdot \Omega_{DG} = 1{,}50 \cdot 234{,}51\text{ mm}^2 \approx \boxed{351{,}77\text{ mm}^2}
+\end{equation}
+
+\subsubsection*{Comprobación de tensiones de cálculo:}
+\begin{align}
+    \sigma_{d,DG} & = \frac{1{,}50 \cdot 59558{,}8\text{ N}}{234{,}51\text{ mm}^2} = 380{,}95\text{ N/mm}^2 = \sigma_{\text{adm}} \quad \text{\textbf{(Aprovechamiento al 100 por ciento)}}          \\
+    \sigma_{d,BF} & = \frac{1{,}50 \cdot 79411{,}8\text{ N}}{351{,}77\text{ mm}^2} = 338{,}63\text{ N/mm}^2 \leq 380{,}95\text{ N/mm}^2 \quad \text{\textbf{(Aprovechamiento al 88{,}9 por ciento)}}
+\end{align}
+
+\subsubsection*{Cálculo de los diámetros de los tirantes ($\phi = \sqrt{\frac{4\,\Omega}{\pi}}$):}
+\begin{align}
+    \text{Diámetro tirante } DG: & \quad \phi_{DG} = \sqrt{\frac{4 \cdot 234{,}51}{\pi}} = \sqrt{298{,}59} \approx \boxed{17{,}28\text{ mm}} \implies \text{Diámetro comercial: } \mathbf{\phi = 18\text{ mm}} \\[6pt]
+    \text{Diámetro tirante } BF: & \quad \phi_{BF} = \sqrt{\frac{4 \cdot 351{,}77}{\pi}} = \sqrt{447{,}89} \approx \boxed{21{,}16\text{ mm}} \implies \text{Diámetro comercial: } \mathbf{\phi = 22\text{ mm}}
+\end{align}
+
+\nt{
+    \textbf{Nota sobre formulaciones sin mayorar cargas (Estado Límite de Servicio o tensiones admisibles puras):}
+    Si en el enunciado el criterio se evaluase únicamente como $\sigma = \frac{N}{\Omega} \leq \frac{f_{yk}}{\gamma_S}$ (sin mayorar $N$ por $\gamma_F$):
+    \begin{align*}
+        \Omega_{DG}^{(\text{sin }\gamma_F)} & = \frac{59558{,}8\text{ N}}{380{,}95\text{ N/mm}^2} = 156{,}34\text{ mm}^2 \implies \phi_{DG} \approx 14{,}11\text{ mm} \\
+        \Omega_{BF}^{(\text{sin }\gamma_F)} & = 1{,}50 \cdot 156{,}34 = 234{,}51\text{ mm}^2 \implies \phi_{BF} \approx 17{,}28\text{ mm}
+    \end{align*}
+    En el examen es idóneo presentar ambos desarrollos explícitamente para máxima claridad ante el corrector.
+}
+
+%=============================================================================
+\paso{6}{Cálculo del Desplazamiento Vertical en el Extremo Libre $E$ ($\delta_E$)}
+
+Con las secciones dimensionadas en Estado Límite Último ($\Omega_{DG} = 234{,}51\text{ mm}^2$), evaluamos el alargamiento elástico en servicio experimentado por el tirante $DG$:
+\begin{align}
+    \Delta l_D & = \frac{N_D \cdot L_{DG}}{E \cdot \Omega_{DG}} = \frac{59558{,}82\text{ N} \cdot 4000\text{ mm}}{2{,}1 \cdot 10^5\text{ N/mm}^2 \cdot 234{,}5126\text{ mm}^2} \nonumber \\
+               & = \frac{238{,}235 \cdot 10^6}{49{,}2476 \cdot 10^6} \approx \boxed{4{,}8375\text{ mm}} \quad (\text{hacia abajo})
+\end{align}
+
+Por la relación de compatibilidad geométrica \eqref{eq:semejanza_triangulos}, dado que el nudo $E$ se encuentra a una distancia total de $L_{CE} = 3\text{ m} + 3\text{ m} = 6\text{ m}$ del centro de giro $C$ (el doble de distancia que el punto $D$, situado a $3\text{ m}$):
+\begin{equation}
+    \frac{\delta_E}{6\text{ m}} = \frac{\Delta l_D}{3\text{ m}} \implies \delta_E = 2 \cdot \Delta l_D
+\end{equation}
+Por tanto, el descenso vertical del extremo libre de la viga es:
+\begin{equation}
+    \boxed{\delta_E = 2 \cdot 4{,}8375\text{ mm} = 9{,}675\text{ mm} \approx 9{,}68\text{ mm}}
+\end{equation}
+
+\nt{
+    Si se emplease la sección nominal sin el factor $\gamma_F$ ($\Omega_{DG} = 156{,}34\text{ mm}^2$), el alargamiento de $D$ resultaría $\Delta l_D = 7{,}256\text{ mm}$, arrojando un descenso del extremo $E$ de $\delta_E = 14{,}51\text{ mm}$.
+}
+
+%=============================================================================
+\paso{7}{Diagramas de Esfuerzos Seccionales en la Viga Rígida $AE$ ($N, Q, M_f$)}
+
+Aunque la viga se considere indeformable a efectos de deformaciones frente a los cables, internamente soporta solicitaciones seccionales inducidas por los tirantes y la carga exterior. Para completar el análisis del problema:
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.98\textwidth}{%
+        \begin{tikzpicture}[scale=1.05, >=Latex]
+            % Viga y DCL
+            \draw[line width=2.5pt, blue!80!black] (0,0) -- (10,0);
+            \node[left, font=\bfseries] at (0,0) {DCL};
+            \draw[->, line width=1.3pt, red!80!black] (2,0) -- (2,-1.1) node[pos=1, below, font=\footnotesize] {$N_B = 79{,}41$};
+            \draw[->, line width=1.3pt, green!60!black] (4,-1.1) -- (4,0) node[pos=0, below, font=\footnotesize] {$V_C = 87{,}35$};
+            \draw[->, line width=1.3pt, green!60!black] (7,0) -- (7,1.1) node[pos=1, above, font=\footnotesize] {$N_D = 59{,}56$};
+            \draw[line width=0.8pt, red!85!black] (7,0) -- (10,1.2) -- (10,0);
+            \node[above, red!85!black, font=\scriptsize] at (10,1.2) {$45$};
+
+            % Ejes verticales discontinuos
+            \foreach \x in {0, 2, 4, 7, 10} {
+                    \draw[dotted, line width=0.7pt, gray!60] (\x, 1.2) -- (\x, -6.5);
+                }
+
+            % DIAGRAMA Q(x)
+            \draw[thick, gray!70] (0,-2.5) -- (10,-2.5);
+            \node[left, font=\bfseries\small] at (0,-2.5) {$Q(x)\text{ [kN]}$};
+
+            % Tramo AB (0 a 2): Q = 0
+            \draw[line width=1.6pt, blue!70!black] (0,-2.5) -- (2,-2.5);
+
+            % Tramo BC (2 a 4): Q = -79.41
+            \fill[blue!15] (2,-2.5) -- (2,-3.6) -- (4,-3.6) -- (4,-2.5) -- cycle;
+            \draw[line width=1.6pt, blue!70!black] (2,-2.5) -- (2,-3.6) -- (4,-3.6) -- (4,-2.5);
+            \node[below, font=\scriptsize, blue!80!black] at (3,-3.6) {$-79{,}41$};
+
+            % Tramo CD (4 a 7): Q = -79.41 + 87.35 = +7.94
+            \fill[blue!15] (4,-2.5) -- (4,-2.2) -- (7,-2.2) -- (7,-2.5) -- cycle;
+            \draw[line width=1.6pt, blue!70!black] (4,-2.5) -- (4,-2.2) -- (7,-2.2) -- (7,-2.5);
+            \node[above, font=\scriptsize, blue!80!black] at (5.5,-2.2) {$+7{,}94$};
+
+            % Tramo DE (7 a 10): Salto con N_D => Q(7+) = 7.94 + 59.56 = +67.50, luego parabólica hasta 0
+            \fill[blue!15] (7,-2.5) -- (7,-1.2) to[out=-25,in=180] (10,-2.5) -- cycle;
+            \draw[line width=1.6pt, blue!70!black] (7,-2.5) -- (7,-1.2) to[out=-25,in=180] (10,-2.5);
+            \node[above left, font=\scriptsize, blue!80!black] at (7,-1.2) {$+67{,}50$};
+            \node[below, font=\scriptsize] at (10,-2.5) {$0$};
+
+            % DIAGRAMA M_f(x)
+            \draw[thick, gray!70] (0,-5.2) -- (10,-5.2);
+            \node[left, font=\bfseries\small] at (0,-5.2) {$M_f(x)\text{ [kN}\cdot\text{m]}$};
+
+            % Tramo AB (0 a 2): M = 0
+            \draw[line width=1.6pt, green!60!black] (0,-5.2) -- (2,-5.2);
+
+            % Tramo BC (2 a 4): Recta de 0 a -158.82 en C (negativo dibujado hacia arriba)
+            \fill[green!15] (2,-5.2) -- (4,-4.0) -- (4,-5.2) -- cycle;
+            \draw[line width=1.6pt, green!60!black] (2,-5.2) -- (4,-4.0);
+            \node[above, font=\scriptsize, green!60!black] at (4,-4.0) {$-158{,}82$};
+
+            % Tramo CD (4 a 7): Recta de -158.82 a (-158.82 + 7.94*3) = -135.00 en D
+            \fill[green!15] (4,-5.2) -- (4,-4.0) -- (7,-4.25) -- (7,-5.2) -- cycle;
+            \draw[line width=1.6pt, green!60!black] (4,-4.0) -- (7,-4.25);
+            \node[above, font=\scriptsize, green!60!black] at (7,-4.25) {$-135{,}00$};
+
+            % Tramo DE (7 a 10): Cúbica de -135.00 cerrando en 0 en el extremo libre E
+            \fill[green!15] (7,-5.2) -- (7,-4.25) to[out=-10,in=150] (10,-5.2) -- cycle;
+            \draw[line width=1.6pt, green!60!black] (7,-4.25) to[out=-10,in=150] (10,-5.2);
+            \node[below, font=\scriptsize] at (10,-5.2) {$0$};
+
+            % Cotas inferiores
+            \draw[|<->|, >=Latex] (0,-6.3) -- (2,-6.3) node[midway, fill=white, font=\tiny] {$2\text{ m}$};
+            \draw[|<->|, >=Latex] (2,-6.3) -- (4,-6.3) node[midway, fill=white, font=\tiny] {$2\text{ m}$};
+            \draw[|<->|, >=Latex] (4,-6.3) -- (7,-6.3) node[midway, fill=white, font=\tiny] {$3\text{ m}$};
+            \draw[|<->|, >=Latex] (7,-6.3) -- (10,-6.3) node[midway, fill=white, font=\tiny] {$3\text{ m}$};
+        \end{tikzpicture}%
+    }
+    \caption{Leyes analíticas de esfuerzo cortante $Q(x)$ y momento flector $M_f(x)$ a lo largo de la viga.}
+    \label{fig:examen_tirantes_diagramas}
+\end{figure}
+
+%=============================================================================
+\subsection*{Resumen Final de Resultados}
+
+\begin{table}[H]
+    \centering
+    \caption{Resultados globales del problema de examen.}
+    \adjustbox{max width=0.95\textwidth}{%
+        \begin{tabular}{lccc}
+            \toprule
+            \textbf{Magnitud}                   & \textbf{Símbolo} & \textbf{Valor Analítico Exacto}                    & \textbf{Valor Numérico Decimal}                                    \\
+            \midrule
+            Esfuerzo en tirante $DG$            & $N_{DG}$         & $\dfrac{2025}{34}\text{ kN}$                       & $\mathbf{59{,}56\text{ kN}}$                                       \\
+            Esfuerzo en tirante $BF$            & $N_{BF}$         & $\dfrac{1350}{17}\text{ kN}$                       & $\mathbf{79{,}41\text{ kN}}$                                       \\
+            Reacción vertical en apoyo $C$      & $V_C$            & $\dfrac{1485}{17}\text{ kN}$                       & $\mathbf{87{,}35\text{ kN}}$                                       \\
+            Reacción horizontal en apoyo $C$    & $H_C$            & $0$                                                & $\mathbf{0{,}00\text{ kN}}$                                        \\
+            \midrule
+            Sección necesaria tirante $DG$      & $\Omega_{DG}$    & $\dfrac{1{,}50 \cdot N_{DG}}{\sigma_{\text{adm}}}$ & $\mathbf{234{,}51\text{ mm}^2}$                                    \\
+            Sección necesaria tirante $BF$      & $\Omega_{BF}$    & $1{,}50 \cdot \Omega_{DG}$                         & $\mathbf{351{,}77\text{ mm}^2}$                                    \\
+            Diámetro mínimo tirante $DG$        & $\phi_{DG}$      & $\sqrt{\dfrac{4\Omega_{DG}}{\pi}}$                 & $\mathbf{17{,}28\text{ mm}} \implies \mathbf{\phi = 18\text{ mm}}$ \\
+            Diámetro mínimo tirante $BF$        & $\phi_{BF}$      & $\sqrt{\dfrac{4\Omega_{BF}}{\pi}}$                 & $\mathbf{21{,}16\text{ mm}} \implies \mathbf{\phi = 22\text{ mm}}$ \\
+            \midrule
+            Descenso elástico en punto $D$      & $\Delta l_D$     & $\dfrac{N_{DG} \cdot L_{DG}}{E \cdot \Omega_{DG}}$ & $\mathbf{4{,}84\text{ mm}}$                                        \\
+            Descenso vertical extremo libre $E$ & $\delta_E$       & $2 \cdot \Delta l_D$                               & $\mathbf{9{,}68\text{ mm}}$                                        \\
+            \bottomrule
+        \end{tabular}%
+    }
+    \label{tab:resumen_examen_tirantes}
+\end{table}
+
+%=============================================================================
+\section{Problema de Examen: Barra Escalonada Biempotrada con Carga Axil y Dimensionamiento}
+
+\begin{tcolorbox}[colback=white, colframe=myb!80!black, arc=4pt, boxrule=0.9pt, left=8pt, right=8pt, top=7pt, bottom=7pt]
+    \textbf{Tipo de Problema:} Pieza recta con sección escalonada biempotrada en ambos extremos (indeterminación estática interna/externa en tracción/compresión axial), solicitada por una carga puntual axial.\\
+    \textbf{Objetivos a Determinar:}
+    \begin{enumerate}
+        \item Reacciones hiperestáticas en los apoyos de empotramiento ($A$ y $D$).
+        \item Ley analítica y trazado del diagrama de esfuerzos axiles $N(x)$ a lo largo de toda la pieza.
+        \item Dimensionamiento del parámetro característico de la sección transversal (diámetro $d$) cumpliendo simultáneamente las tensiones admisibles a tracción ($\sigma_{\text{adm}}^+$) y compresión ($\sigma_{\text{adm}}^-$).
+    \end{enumerate}
+\end{tcolorbox}
+
+\subsection{Enunciado y Datos de Partida}
+
+Se considera la barra horizontal de directriz recta mostrada en la figura, empotrada en sus dos extremos $A$ y $D$ a muros rígidos indeformables. La pieza presenta sección circular constante a tramos, distinguiéndose dos zonas geométricas:
+\begin{itemize}
+    \item \textbf{Tramo $AC$ ($x \in [0, 6]\text{ m}$):} Longitud total de $6\text{ m}$ ($4\text{ m} + 2\text{ m}$) con sección circular de diámetro $d$:
+          \begin{equation}
+              \Omega_{AC} = \frac{\pi}{4} d^2
+          \end{equation}
+    \item \textbf{Tramo $CD$ ($x \in [6, 8]\text{ m}$):} Longitud de $2\text{ m}$ con sección circular de diámetro ensanchado $2d$:
+          \begin{equation}
+              \Omega_{CD} = \frac{\pi}{4} (2d)^2 = \pi\,d^2 = 4\,\Omega_{AC}
+          \end{equation}
+\end{itemize}
+
+En la sección intermedia $B$, situada a $4\text{ m}$ del empotramiento $A$, se aplica una fuerza axial concentrada de $P = 520\text{ kN}$ orientada hacia la derecha (hacia el extremo $D$).
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.92\textwidth}{%
+        \begin{tikzpicture}[scale=1.1, >=Latex]
+            % Muro izquierdo A (x = 0)
+            \fill[pattern=north east lines, pattern color=gray!70] (-0.5,-1.6) rectangle (0,1.6);
+            \draw[line width=1.5pt] (0,-1.6) -- (0,1.6);
+
+            % Muro derecho D (x = 8)
+            \fill[pattern=north west lines, pattern color=gray!70] (8,-1.6) rectangle (8.5,1.6);
+            \draw[line width=1.5pt] (8,-1.6) -- (8,1.6);
+
+            % Barra tramo AC (d) de x=0 a x=6, semi-alto 0.55
+            \draw[line width=1.4pt, fill=blue!10] (0,-0.55) rectangle (6,0.55);
+
+            % Barra tramo CD (2d) de x=6 a x=8, semi-alto 1.10
+            \draw[line width=1.4pt, fill=blue!20] (6,-1.10) rectangle (8,1.10);
+
+            % Resalte / escalón en x=6
+            \draw[line width=1.4pt] (6,-1.10) -- (6,-0.55);
+            \draw[line width=1.4pt] (6,0.55) -- (6,1.10);
+
+            % Eje neutro discontinuo
+            \draw[dashed, gray!80, line width=0.8pt] (0,0) -- (8,0);
+
+            % Carga puntual en B (x=4)
+            \draw[->, line width=2.4pt, red!85!black] (4,0) -- (5.3,0) node[pos=1, above=2pt, font=\bfseries] {$P = 520\text{ kN}$};
+            \filldraw[red!85!black] (4,0) circle (2.5pt);
+
+            % Puntos nodales
+            \node[above left=3pt, font=\bfseries] at (0,0.6) {$A$};
+            \node[above=8pt, font=\bfseries] at (4,0) {$B$};
+            \node[above=4pt, font=\bfseries] at (6,1.15) {$C$};
+            \node[above right=3pt, font=\bfseries] at (8,1.15) {$D$};
+
+            % Secciones indicativas
+            \node[blue!85!black, font=\small\bfseries] at (2,0) {$\Omega_1 = \dfrac{\pi}{4}d^2$};
+            \node[blue!85!black, font=\small\bfseries] at (7,0) {$\Omega_2 = \pi d^2$};
+
+            % Cotas horizontales inferiores
+            \draw[|<->|, >=Latex] (0,-1.5) -- (4,-1.5) node[midway, fill=white, font=\footnotesize] {$4\text{ m}$};
+            \draw[|<->|, >=Latex] (4,-1.5) -- (6,-1.5) node[midway, fill=white, font=\footnotesize] {$2\text{ m}$};
+            \draw[|<->|, >=Latex] (6,-1.5) -- (8,-1.5) node[midway, fill=white, font=\footnotesize] {$2\text{ m}$};
+        \end{tikzpicture}%
+    }
+    \caption{Geometría de la pieza escalonada biempotrada, secciones transversales y carga aplicada.}
+    \label{fig:examen_escalonada_geometria}
+\end{figure}
+
+\subsubsection*{Tensiones admisibles del material:}
+\begin{itemize}
+    \item Tensión admisible a tracción: $\sigma_{\text{adm}}^+ = 20\text{ kp/cm}^2 \approx 2\text{ N/mm}^2 = 2\text{ MPa} = 2000\text{ kN/m}^2$.
+    \item Tensión admisible a compresión: $\sigma_{\text{adm}}^- = 40\text{ kp/cm}^2 \approx 4\text{ N/mm}^2 = 4\text{ MPa} = 4000\text{ kN/m}^2$.
+    \item Módulo de elasticidad longitudinal: $E = \text{cte.}$ a lo largo de toda la barra.
+\end{itemize}
+
+\nt{
+    \textbf{Nota sobre la conversión de unidades:}
+    El enunciado original expresa las tensiones en unidades técnicas:
+    \[
+        1\text{ kp/cm}^2 = \frac{9{,}8\text{ N}}{100\text{ mm}^2} \approx 0{,}098\text{ N/mm}^2 \approx 0{,}10\text{ N/mm}^2
+    \]
+    Por consiguiente, $20\text{ kp/cm}^2 = 2\text{ N/mm}^2 = 2\text{ MPa}$ y $40\text{ kp/cm}^2 = 4\text{ N/mm}^2 = 4\text{ MPa}$.
+}
+
+%=============================================================================
+\paso{1}{Clasificación Estática y Grado de Indeterminación}
+
+Dado que no existen cargas transversales ni momentos flectores actuantes, las reacciones verticales y los momentos de flexión son nulos ($V_A = V_D = 0$, $M_{fA} = M_{fD} = 0$).
+
+Para las acciones axiales a lo largo de la directriz $x$:
+\begin{itemize}
+    \item Incógnitas de reacción axial en los apoyos: $H_A$ en $x=0$ y $H_D$ en $x=8$ ($2$ incógnitas).
+    \item Ecuación de equilibrio estático disponible en el eje $x$: $\sum F_x = 0$ ($1$ ecuación).
+\end{itemize}
+\begin{equation}
+    GH = r - E = 2 - 1 = 1 \implies \textbf{Sistema Hiperestático de grado 1 (1 orden).}
+\end{equation}
+Para determinar el reparto de fuerzas entre ambos empotramientos es indispensable formular la \textbf{ecuación de compatibilidad cinemática de deformaciones}, que establece que el alargamiento axial total de la pieza entre ambos muros rígidos debe ser nulo.
+
+%=============================================================================
+\paso{2}{Diagrama de Cuerpo Libre y Ecuación de Equilibrio}
+
+Adoptamos como sentido positivo para las reacciones de los apoyos el sentido del eje $+x$ (hacia la derecha). Aislamos la barra:
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.88\textwidth}{%
+        \begin{tikzpicture}[scale=1.1, >=Latex]
+            % Barra esquemática
+            \draw[line width=3.5pt, blue!80!black] (0,0) -- (8,0);
+
+            % Puntos
+            \filldraw[black] (0,0) circle (2pt) node[below=4pt] {$A$};
+            \filldraw[black] (4,0) circle (2pt) node[below=4pt] {$B$};
+            \filldraw[black] (6,0) circle (2pt) node[below=4pt] {$C$};
+            \filldraw[black] (8,0) circle (2pt) node[below=4pt] {$D$};
+
+            % Reacciones en apoyos (supuestas hacia la derecha)
+            \draw[->, line width=1.8pt, green!60!black] (-1.2,0) -- (0,0) node[pos=0, left, font=\bfseries] {$H_A$};
+            \draw[->, line width=1.8pt, green!60!black] (8,0) -- (9.2,0) node[pos=1, right, font=\bfseries] {$H_D$};
+
+            % Carga aplicada
+            \draw[->, line width=2.2pt, red!85!black] (4,0) -- (5.4,0) node[pos=1, above=2pt, font=\bfseries] {$P = 520\text{ kN}$};
+
+            % Cotas
+            \draw[|<->|, >=Latex] (0,-0.9) -- (4,-0.9) node[midway, fill=white, font=\footnotesize] {$4\text{ m}$};
+            \draw[|<->|, >=Latex] (4,-0.9) -- (6,-0.9) node[midway, fill=white, font=\footnotesize] {$2\text{ m}$};
+            \draw[|<->|, >=Latex] (6,-0.9) -- (8,-0.9) node[midway, fill=white, font=\footnotesize] {$2\text{ m}$};
+        \end{tikzpicture}%
+    }
+    \caption{Diagrama de cuerpo libre global con las reacciones axiles supuestas.}
+    \label{fig:examen_escalonada_dcl}
+\end{figure}
+
+Planteando el equilibrio en dirección horizontal:
+\begin{equation}
+    \sum F_x = 0 \implies H_A + H_D + 520 = 0 \implies \boxed{H_A + H_D = -520\text{ kN}}
+    \label{eq:eq_equilibrio_axil}
+\end{equation}
+
+%=============================================================================
+\paso{3}{Leyes de Esfuerzo Axil $N(x)$ por Tramos}
+
+Para relacionar las deformaciones elásticas con las fuerzas, seccionamos la barra progresivamente de izquierda a derecha ($x \in [0, 8]\text{ m}$), aplicando el convenio de signos de Resistencia de Materiales (esfuerzo axil $N$ positivo a tracción, saliente de la sección):
+
+\tramobadge{Tramo 1: $AB$}{$x \in [0, 4]\text{ m}$}
+Cortando a una distancia $x \in (0, 4)$ y aislando la parte izquierda:
+\begin{equation}
+    \sum F_{x,\text{izq}} = 0 \implies H_A + N_{AB}(x) = 0 \implies \boxed{N_{AB} = -H_A}
+    \label{eq:axil_AB}
+\end{equation}
+
+\tramobadge{Tramo 2: $BC$}{$x \in [4, 6]\text{ m}$}
+Cortando entre el punto de aplicación de la carga $B$ y el cambio de sección $C$:
+\begin{equation}
+    \sum F_{x,\text{izq}} = 0 \implies H_A + 520 + N_{BC}(x) = 0 \implies \boxed{N_{BC} = -H_A - 520}
+    \label{eq:axil_BC}
+\end{equation}
+
+\tramobadge{Tramo 3: $CD$}{$x \in [6, 8]\text{ m}$}
+Cortando en la zona de mayor sección hasta el empotramiento derecho:
+\begin{equation}
+    \sum F_{x,\text{izq}} = 0 \implies H_A + 520 + N_{CD}(x) = 0 \implies \boxed{N_{CD} = -H_A - 520}
+    \label{eq:axil_CD}
+\end{equation}
+
+\nt{
+    Nótese que en los tramos $BC$ y $CD$ el esfuerzo axil interno es idéntico ($N_{BC} = N_{CD} = -H_A - 520$), pues entre $B$ y $D$ no actúa ninguna fuerza puntual ni distribuida intermedia. La distinción entre $BC$ y $CD$ radica exclusivamente en el \textbf{cambio brusco del área de la sección transversal} ($\Omega_{CD} = 4\,\Omega_{BC}$).
+}
+
+%=============================================================================
+\paso{4}{Ecuación de Compatibilidad de Deformaciones y Resolución Hiperestática}
+
+Dado que los apoyos $A$ y $D$ son rígidos e indeformables, la variación de longitud total de la barra debe ser exactamente cero:
+\begin{equation}
+    \Delta l_{AD} = 0 \iff \Delta l_{AB} + \Delta l_{BC} + \Delta l_{CD} = 0
+\end{equation}
+Expresando el alargamiento elástico de cada tramo mediante la ley de Hooke ($\Delta l_i = \int \frac{N_i}{E \cdot \Omega_i}\,dx$):
+\begin{equation}
+    \int_{0}^{4} \frac{N_{AB}}{E \cdot \Omega_{AC}}\,dx + \int_{4}^{6} \frac{N_{BC}}{E \cdot \Omega_{AC}}\,dx + \int_{6}^{8} \frac{N_{CD}}{E \cdot \Omega_{CD}}\,dx = 0
+\end{equation}
+Como los esfuerzos axiles son constantes en cada tramo y el módulo elástico $E$ es constante:
+\begin{equation}
+    \frac{N_{AB} \cdot L_{AB}}{E \cdot \Omega_{AC}} + \frac{N_{BC} \cdot L_{BC}}{E \cdot \Omega_{AC}} + \frac{N_{CD} \cdot L_{CD}}{E \cdot \Omega_{CD}} = 0
+\end{equation}
+Multiplicando toda la ecuación por el producto $E \cdot \Omega_{AC} = E \cdot \left(\frac{\pi}{4}d^2\right)$:
+\begin{equation}
+    N_{AB} \cdot L_{AB} + N_{BC} \cdot L_{BC} + N_{CD} \cdot L_{CD} \cdot \left(\frac{\Omega_{AC}}{\Omega_{CD}}\right) = 0
+\end{equation}
+Sustituyendo la relación geométrica entre áreas ($\frac{\Omega_{AC}}{\Omega_{CD}} = \frac{\frac{\pi}{4}d^2}{\pi d^2} = \frac{1}{4}$):
+\begin{equation}
+    N_{AB} \cdot 4 + N_{BC} \cdot 2 + N_{CD} \cdot 2 \cdot \left(\frac{1}{4}\right) = 0
+\end{equation}
+\begin{equation}
+    4\,N_{AB} + 2\,N_{BC} + 0{,}5\,N_{CD} = 0
+    \label{eq:compatibilidad_reducida}
+\end{equation}
+Sustituyendo los esfuerzos axiles en función de la reacción $H_A$ \eqref{eq:axil_AB}, \eqref{eq:axil_BC} y \eqref{eq:axil_CD}:
+\begin{align}
+    4(-H_A) + 2(-H_A - 520) + 0{,}5(-H_A - 520) & = 0 \nonumber \\
+    -4\,H_A - 2\,H_A - 1040 - 0{,}5\,H_A - 260    & = 0 \nonumber \\
+    -6{,}5\,H_A - 1300                           & = 0 \nonumber \\
+    6{,}5\,H_A                                   & = -1300
+\end{align}
+Despejando la reacción horizontal en el empotramiento $A$:
+\begin{equation}
+    \boxed{H_A = \frac{-1300}{6{,}5} = -200\text{ kN}}
+\end{equation}
+El signo negativo indica que la reacción real en $A$ empuja hacia la \textbf{izquierda} ($\leftarrow 200\text{ kN}$).
+
+A partir de la ecuación de equilibrio global \eqref{eq:eq_equilibrio_axil}:
+\begin{equation}
+    H_D = -520 - H_A = -520 - (-200) \implies \boxed{H_D = -320\text{ kN}}
+\end{equation}
+El empotramiento $D$ ejerce una fuerza de reacción real orientada también hacia la \textbf{izquierda} ($\leftarrow 320\text{ kN}$).
+
+\comp{
+    \textbf{Comprobación de equilibrio global con reacciones reales:}
+    \[
+        \sum F_x = -200\text{ kN} (\text{apoyo } A) + 520\text{ kN} (\text{fuerza } P) - 320\text{ kN} (\text{apoyo } D) = 0 \quad \checkmark
+    \]
+}
+
+%=============================================================================
+\paso{5}{Valores de Esfuerzo Axil y Diagrama $N(x)$}
+
+Sustituyendo el valor numérico obtenido para $H_A = -200\text{ kN}$ en las expresiones seccionales:
+\begin{align}
+    \text{Tramo } AB \ (x \in [0, 4]\text{ m}): & \quad N_{AB} = -(-200) = \mathbf{+200\text{ kN}} \quad \text{\textbf{(Tracción pura)}} \\[6pt]
+    \text{Tramo } BC \ (x \in [4, 6]\text{ m}): & \quad N_{BC} = -(-200) - 520 = \mathbf{-320\text{ kN}} \quad \text{\textbf{(Compresión pura)}} \\[6pt]
+    \text{Tramo } CD \ (x \in [6, 8]\text{ m}): & \quad N_{CD} = -(-200) - 520 = \mathbf{-320\text{ kN}} \quad \text{\textbf{(Compresión pura)}}
+\end{align}
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.92\textwidth}{%
+        \begin{tikzpicture}[scale=1.1, >=Latex]
+            % Barra base
+            \draw[line width=2.5pt, gray!70] (0,0) -- (8,0);
+
+            % Líneas de referencia discontinuas
+            \foreach \x in {0, 4, 6, 8} {
+                \draw[dotted, gray!60, line width=0.8pt] (\x, 1.8) -- (\x, -3.2);
+            }
+
+            % Línea de tierra del diagrama N(x)
+            \draw[thick, gray!80] (0, -0.8) -- (8, -0.8);
+            \node[left, font=\bfseries\small] at (0, -0.8) {$N(x)\text{ [kN]}$};
+
+            % Tramo AB: +200 kN (hacia arriba)
+            \fill[blue!15] (0, -0.8) rectangle (4, 0.7);
+            \draw[line width=1.6pt, blue!80!black] (0, -0.8) -- (0, 0.7) -- (4, 0.7) -- (4, -0.8);
+            \node[above, font=\small\bfseries, blue!85!black] at (2, 0.7) {$+200\text{ kN}$};
+            \node[font=\footnotesize\bfseries, blue!80!black] at (2, -0.05) {$(+) \text{ Tracción}$};
+
+            % Tramo BD: -320 kN (hacia abajo)
+            \fill[red!15] (4, -0.8) rectangle (8, -2.4);
+            \draw[line width=1.6pt, red!80!black] (4, -0.8) -- (4, -2.4) -- (8, -2.4) -- (8, -0.8);
+            \node[below, font=\small\bfseries, red!85!black] at (6, -2.4) {$-320\text{ kN}$};
+            \node[font=\footnotesize\bfseries, red!80!black] at (6, -1.6) {$(-) \text{ Compresión}$};
+
+            % Salto de carga en B
+            \draw[->, line width=1.4pt, red!85!black] (4, 0.6) -- (4, -2.3) node[midway, right=2pt, font=\scriptsize\bfseries] {Salto $\Delta N = -520\text{ kN}$};
+
+            % Cotas
+            \draw[|<->|, >=Latex] (0,-3.0) -- (4,-3.0) node[midway, fill=white, font=\footnotesize] {$4\text{ m}$};
+            \draw[|<->|, >=Latex] (4,-3.0) -- (6,-3.0) node[midway, fill=white, font=\footnotesize] {$2\text{ m}$};
+            \draw[|<->|, >=Latex] (6,-3.0) -- (8,-3.0) node[midway, fill=white, font=\footnotesize] {$2\text{ m}$};
+
+            % Nombres de nodos
+            \node[above=2pt, font=\bfseries] at (0, 0) {$A$};
+            \node[above=2pt, font=\bfseries] at (4, 0) {$B$};
+            \node[above=2pt, font=\bfseries] at (6, 0) {$C$};
+            \node[above=2pt, font=\bfseries] at (8, 0) {$D$};
+        \end{tikzpicture}%
+    }
+    \caption{Diagrama de esfuerzos axiles $N(x)$ a lo largo de la directriz de la pieza.}
+    \label{fig:examen_escalonada_diagrama_axil}
+\end{figure}
+
+%=============================================================================
+\paso{6}{Dimensionamiento de la Sección: Cálculo del Diámetro Crítico $d$}
+
+La condición de resistencia exige que la tensión normal $\sigma = \frac{|N|}{\Omega}$ no supere la tensión admisible correspondiente en ningún punto:
+\begin{equation}
+    \text{En zonas traccionadas: } \sigma \leq \sigma_{\text{adm}}^+ = 2\text{ N/mm}^2
+\end{equation}
+\begin{equation}
+    \text{En zonas comprimidas: } \sigma \leq \sigma_{\text{adm}}^- = 4\text{ N/mm}^2
+\end{equation}
+
+Analizamos separadamente cada tramo de la barra en función de su esfuerzo y su sección:
+
+\subsubsection*{1. Tramo $AB$ (Tracción pura, sección $\Omega_{AC}$):}
+En este tramo actúa un esfuerzo axil de tracción $N_{AB} = +200\text{ kN} = 200 \cdot 10^3\text{ N}$ sobre el área de diámetro $d$:
+\begin{equation}
+    \sigma_{AB} = \frac{N_{AB}}{\Omega_{AB}} = \frac{200 \cdot 10^3\text{ N}}{\dfrac{\pi}{4}d^2} \leq \sigma_{\text{adm}}^+ = 2\text{ N/mm}^2
+\end{equation}
+Despejando el diámetro necesario $d$:
+\begin{equation}
+    d^2 \geq \frac{4 \cdot (200 \cdot 10^3\text{ N})}{2\text{ N/mm}^2 \cdot \pi} = \frac{400 \cdot 10^3}{\pi} \approx 127323{,}95\text{ mm}^2
+\end{equation}
+\begin{equation}
+    d \geq \sqrt{127323{,}95} \approx \mathbf{356{,}82\text{ mm}} \approx \mathbf{35{,}68\text{ cm}}
+    \label{eq:d_traccion}
+\end{equation}
+
+\subsubsection*{2. Tramo $BC$ (Compresión, sección $\Omega_{AC}$):}
+En este tramo actúa un esfuerzo axil de compresión $N_{BC} = -320\text{ kN}$ sobre la sección más estrecha de diámetro $d$:
+\begin{equation}
+    \sigma_{BC} = \frac{|N_{BC}|}{\Omega_{BC}} = \frac{320 \cdot 10^3\text{ N}}{\dfrac{\pi}{4}d^2} \leq \sigma_{\text{adm}}^- = 4\text{ N/mm}^2
+\end{equation}
+Despejando el diámetro requerido:
+\begin{equation}
+    d^2 \geq \frac{4 \cdot (320 \cdot 10^3\text{ N})}{4\text{ N/mm}^2 \cdot \pi} = \frac{320 \cdot 10^3}{\pi} \approx 101859{,}16\text{ mm}^2
+\end{equation}
+\begin{equation}
+    d \geq \sqrt{101859{,}16} \approx \mathbf{319{,}15\text{ mm}} \approx \mathbf{31{,}92\text{ cm}}
+    \label{eq:d_compresion_BC}
+\end{equation}
+
+\subsubsection*{3. Tramo $CD$ (Compresión, sección ensanchada $\Omega_{CD} = \pi d^2$):}
+En este tramo actúa el mismo axil de compresión $|N_{CD}| = 320\text{ kN}$, pero sobre la sección ampliada de diámetro $2d$:
+\begin{equation}
+    \sigma_{CD} = \frac{|N_{CD}|}{\Omega_{CD}} = \frac{320 \cdot 10^3\text{ N}}{\pi\,d^2} \leq \sigma_{\text{adm}}^- = 4\text{ N/mm}^2
+\end{equation}
+Despejando el diámetro $d$:
+\begin{equation}
+    d^2 \geq \frac{320 \cdot 10^3\text{ N}}{4\text{ N/mm}^2 \cdot \pi} = \frac{80 \cdot 10^3}{\pi} \approx 25464{,}79\text{ mm}^2
+\end{equation}
+\begin{equation}
+    d \geq \sqrt{25464{,}79} \approx \mathbf{159{,}58\text{ mm}} \approx \mathbf{159{,}6\text{ mm}} \approx \mathbf{16{,}0\text{ cm}}
+    \label{eq:d_compresion_CD}
+\end{equation}
+
+\imp{
+    \textbf{Criterio de Selección del Diámetro Gobernador:}
+    Para garantizar que la barra no sobrepase la tensión admisible en ninguna sección bajo las solicitaciones actuantes, el diámetro $d$ debe cumplir simultáneamente las tres desigualdades:
+    \begin{equation}
+        d \geq \text{máx}\left( 356{,}82\text{ mm}, \; 319{,}15\text{ mm}, \; 159{,}58\text{ mm} \right)
+    \end{equation}
+    Por consiguiente, \textbf{la condición crítica que gobierna el diseño es la tracción en el tramo $AB$}:
+    \begin{equation}
+        \boxed{d_{\text{mín}} = 356{,}82\text{ mm} \approx 35{,}7\text{ cm}}
+    \end{equation}
+    El diámetro del tramo ensanchado $CD$ será consecuentemente:
+    \begin{equation}
+        \boxed{2d_{\text{mín}} = 2 \cdot 356{,}82\text{ mm} = 713{,}64\text{ mm} \approx 71{,}4\text{ cm}}
+    \end{equation}
+}
+
+%=============================================================================
+\subsection*{Resumen Final de Resultados}
+
+\begin{table}[H]
+    \centering
+    \caption{Resumen analítico y numérico del problema de barra escalonada biempotrada.}
+    \adjustbox{max width=0.95\textwidth}{%
+        \begin{tabular}{lccc}
+            \toprule
+            \textbf{Magnitud}                 & \textbf{Símbolo / Expresión}                                     & \textbf{Valor Exacto}          & \textbf{Estado / Sentido}                   \\
+            \midrule
+            Reacción en empotramiento $A$     & $H_A$                                                            & $\mathbf{-200\text{ kN}}$      & Hacia la izquierda ($\leftarrow$)           \\
+            Reacción en empotramiento $D$     & $H_D$                                                            & $\mathbf{-320\text{ kN}}$      & Hacia la izquierda ($\leftarrow$)           \\
+            \midrule
+            Esfuerzo axil en tramo $AB$       & $N_{AB} = -H_A$                                                  & $\mathbf{+200\text{ kN}}$      & Tracción pura                               \\
+            Esfuerzo axil en tramo $BC$       & $N_{BC} = -H_A - 520$                                            & $\mathbf{-320\text{ kN}}$      & Compresión pura                             \\
+            Esfuerzo axil en tramo $CD$       & $N_{CD} = -H_A - 520$                                            & $\mathbf{-320\text{ kN}}$      & Compresión pura                             \\
+            \midrule
+            Diámetro mínimo por tracción $AB$ & $d_{(1)} = \sqrt{\dfrac{4 \cdot 200\cdot 10^3}{2 \cdot \pi}}$    & $\mathbf{356{,}82\text{ mm}}$  & \textbf{Crítico / Gobernador ($35{,}7\text{ cm}$)} \\
+            Diámetro mínimo por compresión $BC$& $d_{(2)} = \sqrt{\dfrac{4 \cdot 320\cdot 10^3}{4 \cdot \pi}}$    & $\mathbf{319{,}15\text{ mm}}$  & Cumple con holgura ($31{,}9\text{ cm}$)     \\
+            Diámetro mínimo por compresión $CD$& $d_{(3)} = \sqrt{\dfrac{320\cdot 10^3}{4 \cdot \pi}}$            & $\mathbf{159{,}58\text{ mm}}$  & Cumple con holgura ($16{,}0\text{ cm}$)     \\
+            \midrule
+            \textbf{Diámetro adoptado $d$}    & $\text{máx}(d_{(1)}, d_{(2)}, d_{(3)})$                         & $\mathbf{356{,}82\text{ mm}}$  & \textbf{Dimensión de diseño: $35{,}7\text{ cm}$} \\
+            \textbf{Diámetro tramo $CD$ ($2d$)}& $2 \cdot d$                                                     & $\mathbf{713{,}64\text{ mm}}$  & \textbf{Dimensión de diseño: $71{,}4\text{ cm}$} \\
+            \bottomrule
+        \end{tabular}%
+    }
+    \label{tab:resumen_examen_escalonada}
+\end{table}
+
+%=============================================================================
+\section{Problema de Examen: Viga Rígida con Apoyo Articulado, Tirantes de Acero y Carga Distribuida}
+
+\begin{tcolorbox}[colback=white, colframe=myb!80!black, arc=4pt, boxrule=0.9pt, left=8pt, right=8pt, top=7pt, bottom=7pt]
+    \textbf{Tipo de Problema:} Estructura hiperestática compuesta por una viga continua rígida (indeformable) articulada en un apoyo intermedio y sustentada por dos tirantes elásticos de acero en sentidos opuestos, solicitada por una carga uniforme.\\
+    \textbf{Objetivos a Determinar:}
+    \begin{enumerate}
+        \item Carga uniforme máxima admisible $q_{\text{máx}}\text{ [kN/m]}$ que puede soportar la estructura para no superar el desplazamiento vertical máximo de $3\text{ mm}$ en los puntos de anclaje de los tirantes ($B$ y $D$), comprobando además la resistencia del acero ($f_{yk}$).
+        \item Desplazamiento vertical experimentado por el extremo libre $E$ ($\delta_E = \Delta l_{EE'}$) bajo dicha carga límite.
+    \end{enumerate}
+\end{tcolorbox}
+
+\subsection{Enunciado y Datos de Partida}
+
+La figura representa una estructura formada por una barra horizontal $ABCDE$ indeformable (rígida a flexión) apoyada en el punto intermedio $C$ mediante una articulación fija, y sustentada por dos tirantes elásticos de acero $BF$ y $DG$:
+\begin{itemize}
+    \item \textbf{Tirante inferior $BF$:} Anclado en su base $F$ a un apoyo fijo. Posee una longitud $L_{BF} = 3\text{ m}$ y diámetro $\phi = 16\text{ mm}$.
+    \item \textbf{Tirante superior $DG$:} Anclado en su parte superior $G$ al techo. Posee una longitud $L_{DG} = 3\text{ m}$ y diámetro idéntico $\phi = 16\text{ mm}$.
+\end{itemize}
+
+Sobre el tramo derecho $CE$ (de longitud $L_{CE} = 3\text{ m} + 3\text{ m} = 6\text{ m}$) actúa una carga uniforme descendente de intensidad constante $q\text{ [kN/m]}$.
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.95\textwidth}{%
+        \begin{tikzpicture}[scale=1.1, >=Latex]
+            % Viga horizontal rígida
+            \draw[line width=3.5pt, blue!85!black] (0,0) -- (9.5,0);
+
+            % Nodos sobre la viga
+            \coordinate (A) at (0,0);
+            \coordinate (B) at (1.5,0);
+            \coordinate (C) at (3.5,0);
+            \coordinate (D) at (6.5,0);
+            \coordinate (E) at (9.5,0);
+            \coordinate (F) at (1.5,-3);
+            \coordinate (G) at (6.5,3);
+
+            % Nodos dibujados
+            \filldraw[black] (A) circle (2.2pt) node[above left=2pt] {$A$};
+            \filldraw[black] (B) circle (2.2pt) node[above=3pt] {$B$};
+            \filldraw[black] (C) circle (2.2pt) node[above=4pt] {$C$};
+            \filldraw[black] (D) circle (2.2pt) node[below=4pt] {$D$};
+            \filldraw[black] (E) circle (2.2pt) node[above right=2pt] {$E$};
+
+            % Tirante BF hacia abajo
+            \draw[line width=2pt, brown!75!black] (B) -- (F);
+            \node[right=3pt, font=\small\bfseries, brown!75!black] at (1.5,-1.5) {Tirante $BF$ ($L=3\text{ m},\ \phi=16\text{ mm}$)};
+            % Apoyo fijo en F
+            \draw[thick] (F) -- ++(-0.35,-0.45) -- ++(0.7,0) -- cycle;
+            \draw[line width=1.1pt] ($(F)+(-0.55,-0.45)$) -- ($(F)+(0.55,-0.45)$);
+            \foreach \x in {-0.4,-0.15,0.1,0.35} \draw ($(F)+(\x,-0.45)$) -- ($(F)+(\x-0.15,-0.65)$);
+            \node[below left=2pt] at (F) {$F$};
+
+            % Apoyo articulado en C
+            \draw[thick] (C) -- ++(-0.35,-0.55) -- ++(0.7,0) -- cycle;
+            \draw[line width=1.1pt] ($(C)+(-0.55,-0.55)$) -- ($(C)+(0.55,-0.55)$);
+            \foreach \x in {-0.4,-0.15,0.1,0.35} \draw ($(C)+(\x,-0.55)$) -- ($(C)+(\x-0.15,-0.75)$);
+
+            % Tirante DG hacia arriba
+            \draw[line width=2pt, brown!75!black] (D) -- (G);
+            \node[right=3pt, font=\small\bfseries, brown!75!black] at (6.5,1.5) {Tirante $DG$ ($L=3\text{ m},\ \phi=16\text{ mm}$)};
+            % Apoyo fijo en G (techo)
+            \draw[thick] (G) -- ++(-0.35,0.45) -- ++(0.7,0) -- cycle;
+            \draw[line width=1.1pt] ($(G)+(-0.55,0.45)$) -- ($(G)+(0.55,0.45)$);
+            \foreach \x in {-0.4,-0.15,0.1,0.35} \draw ($(G)+(\x,0.45)$) -- ($(G)+(\x+0.15,0.65)$);
+            \node[above left=2pt] at (G) {$G$};
+
+            % Carga uniforme repartida sobre CE (de x=3.5 a x=9.5)
+            \draw[line width=1.2pt, red!85!black] (3.5,1.2) -- (9.5,1.2);
+            \draw[line width=1pt, red!85!black] (3.5,0) -- (3.5,1.2);
+            \draw[line width=1pt, red!85!black] (9.5,0) -- (9.5,1.2);
+            \foreach \x in {3.5, 4.1, 4.7, 5.3, 5.9, 6.5, 7.1, 7.7, 8.3, 8.9, 9.5} {
+                \draw[->, line width=0.8pt, red!85!black] (\x,1.2) -- (\x,0);
+            }
+            \node[above=2pt, red!85!black, font=\bfseries] at (6.5,1.2) {$q\text{ [kN/m]}$};
+
+            % Cotas horizontales
+            \draw[|<->|, >=Latex] (0,-1.0) -- (1.5,-1.0) node[midway, fill=white, font=\footnotesize] {$1{,}5\text{ m}$};
+            \draw[|<->|, >=Latex] (1.5,-1.0) -- (3.5,-1.0) node[midway, fill=white, font=\footnotesize] {$2\text{ m}$};
+            \draw[|<->|, >=Latex] (3.5,-1.0) -- (6.5,-1.0) node[midway, fill=white, font=\footnotesize] {$3\text{ m}$};
+            \draw[|<->|, >=Latex] (6.5,-1.0) -- (9.5,-1.0) node[midway, fill=white, font=\footnotesize] {$3\text{ m}$};
+
+            % Cotas verticales
+            \draw[|<->|, >=Latex] (-0.8,0) -- (-0.8,-3) node[midway, fill=white, font=\footnotesize] {$3\text{ m}$};
+            \draw[|<->|, >=Latex] (5.7,0) -- (5.7,3) node[midway, fill=white, font=\footnotesize] {$3\text{ m}$};
+        \end{tikzpicture}%
+    }
+    \caption{Geometría estructural, apoyos y carga uniforme sobre el voladizo $CE$.}
+    \label{fig:examen_tirantes_q_geometria}
+\end{figure}
+
+\subsubsection*{Propiedades geométricas y mecánicas del sistema:}
+\begin{itemize}
+    \item Módulo de elasticidad longitudinal del acero: $E = 2{,}1 \cdot 10^5\text{ N/mm}^2 = 210\text{ GPa} = 2{,}1 \cdot 10^8\text{ kN/m}^2$.
+    \item Límite elástico característico del acero: $f_{yk} = 400\text{ N/mm}^2 = 400\text{ MPa}$.
+    \item Sección transversal de ambos tirantes ($\phi = 16\text{ mm}$):
+          \begin{equation}
+              \Omega = \frac{\pi}{4}\phi^2 = \frac{\pi}{4}(16\text{ mm})^2 = 64\pi\text{ mm}^2 \approx 201{,}06\text{ mm}^2 = 2{,}0106 \cdot 10^{-4}\text{ m}^2
+          \end{equation}
+    \item Rigidez axil de cada tirante:
+          \begin{equation}
+              \frac{E \cdot \Omega}{L} = \frac{2{,}1 \cdot 10^5\text{ N/mm}^2 \cdot 201{,}06\text{ mm}^2}{3000\text{ mm}} = 14074{,}33\text{ N/mm} = 14074{,}33\text{ kN/m}
+          \end{equation}
+    \item Condición de servicio (desplazamiento vertical máximo en $B$ y $D$):
+          \begin{equation}
+              \text{máx}(\delta_B, \delta_D) \leq \delta_{\text{máx}} = 3\text{ mm}
+          \end{equation}
+\end{itemize}
+
+%=============================================================================
+\paso{1}{Clasificación Estática del Sistema}
+
+Analizamos el sólido rígido horizontal $AE$:
+\begin{itemize}
+    \item Reacciones e incógnitas estáticas:
+          \begin{itemize}
+              \item Apoyo articulado $C$: componente horizontal $H_C$ y vertical $V_C$ ($2$ incógnitas).
+              \item Esfuerzo axil en el tirante $BF$: tracción $N_{BF}$ ($1$ incógnita).
+              \item Esfuerzo axil en el tirante $DG$: tracción $N_{DG}$ ($1$ incógnita).
+          \end{itemize}
+    \item Total de incógnitas: $r = 4$.
+    \item Ecuaciones de equilibrio en el plano: $E = 3$ ($\sum F_x = 0$, $\sum F_y = 0$, $\sum M_C = 0$).
+\end{itemize}
+\begin{equation}
+    GH = r - E = 4 - 3 = 1 \implies \textbf{Sistema Hiperestático de grado 1.}
+\end{equation}
+
+%=============================================================================
+\paso{2}{Diagrama de Cuerpo Libre (DCL) y Ecuaciones de Equilibrio}
+
+Aislamos la viga indeformable. Debido a la carga uniforme repartida $q$ sobre el tramo $CE$, la viga tiende a girar en sentido horario alrededor de $C$:
+\begin{itemize}
+    \item El punto $D$ desciende, por lo que el tirante superior $DG$ tira hacia arriba: $N_{DG} \uparrow$ (tracción).
+    \item El punto $B$ asciende, por lo que el tirante inferior $BF$ tira hacia abajo: $N_{BF} \downarrow$ (tracción).
+    \item En la articulación $C$: reacción vertical $V_C \uparrow$ y horizontal $H_C \rightarrow$.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.92\textwidth}{%
+        \begin{tikzpicture}[scale=1.1, >=Latex]
+            % Viga en DCL
+            \draw[line width=3.5pt, blue!85!black] (0,0) -- (9.5,0);
+
+            % Nodos
+            \filldraw[black] (0,0) circle (2pt) node[above left] {$A$};
+            \filldraw[black] (1.5,0) circle (2pt) node[above] {$B$};
+            \filldraw[black] (3.5,0) circle (2pt) node[above] {$C$};
+            \filldraw[black] (6.5,0) circle (2pt) node[below=4pt] {$D$};
+            \filldraw[black] (9.5,0) circle (2pt) node[above right] {$E$};
+
+            % Fuerzas de los tirantes y reacciones
+            \draw[->, line width=1.6pt, brown!80!black] (1.5,0) -- (1.5,-1.6) node[pos=1, below, font=\bfseries] {$N_{BF}$};
+            \draw[->, line width=1.6pt, green!60!black] (3.5,-1.3) -- (3.5,0) node[pos=0, below, font=\bfseries] {$V_C$};
+            \draw[->, line width=1.6pt, green!60!black] (2.7,0) -- (3.5,0) node[pos=0, left, font=\bfseries] {$H_C$};
+            \draw[->, line width=1.6pt, brown!80!black] (6.5,0) -- (6.5,1.6) node[pos=1, above, font=\bfseries] {$N_{DG}$};
+
+            % Resultante de la carga uniforme
+            \draw[->, line width=2pt, red!85!black] (6.5,-0.1) -- (6.5,-1.8) node[pos=1, below, font=\bfseries] {$R = q \cdot 6$};
+            \draw[dashed, red!60!black] (3.5,0.8) -- (9.5,0.8);
+            \node[above, red!85!black, font=\scriptsize] at (8,0.8) {$q$};
+
+            % Cotas
+            \draw[|<->|, >=Latex] (0,-2.3) -- (1.5,-2.3) node[midway, fill=white, font=\footnotesize] {$1{,}5\text{ m}$};
+            \draw[|<->|, >=Latex] (1.5,-2.3) -- (3.5,-2.3) node[midway, fill=white, font=\footnotesize] {$2\text{ m}$};
+            \draw[|<->|, >=Latex] (3.5,-2.3) -- (6.5,-2.3) node[midway, fill=white, font=\footnotesize] {$3\text{ m}$};
+            \draw[|<->|, >=Latex] (6.5,-2.3) -- (9.5,-2.3) node[midway, fill=white, font=\footnotesize] {$3\text{ m}$};
+        \end{tikzpicture}%
+    }
+    \caption{Diagrama de Cuerpo Libre (DCL) de la barra rígida.}
+    \label{fig:examen_tirantes_q_dcl}
+\end{figure}
+
+\subsubsection*{Ecuaciones de equilibrio estático del sólido:}
+\begin{align}
+    (\rightarrow +) \quad \sum F_x = 0      & \implies \boxed{H_C = 0} \label{eq:tir_q_fx} \\[6pt]
+    (\uparrow +) \quad \sum F_y = 0         & \implies -N_{BF} + V_C + N_{DG} - q \cdot 6 = 0 \label{eq:tir_q_fy} \\[6pt]
+    (\circlearrowleft +) \quad \sum M_C = 0 & \implies N_{BF} \cdot 2 + N_{DG} \cdot 3 - (q \cdot 6) \cdot 3 = 0 \nonumber \\
+                                            & \implies \boxed{2\,N_{BF} + 3\,N_{DG} - 18\,q = 0} \label{eq:tir_q_mc}
+\end{align}
+
+\nt{
+    \textbf{Observación sobre la elección del centro de momentos:}
+    Tomar momentos en la articulación $C$ ($\sum M_C = 0$) es la estrategia óptima porque anula simultáneamente las dos componentes de reacción $H_C$ y $V_C$, dejando una ecuación directa entre las fuerzas de los tirantes ($N_{BF}, N_{DG}$) y la carga exterior $q$.
+}
+
+%=============================================================================
+\paso{3}{Compatibilidad Cinemática de Deformaciones (Giro Rígido)}
+
+Al ser la viga $ABCDE$ perfectamente rígida, su deformación se reduce a una rotación pura de sólido rígido de ángulo $\theta_C$ alrededor del apoyo articulado $C$:
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.92\textwidth}{%
+        \begin{tikzpicture}[scale=1.1, >=Latex]
+            % Viga inicial
+            \draw[thick, gray!70, dashed] (0,0) -- (9.5,0);
+            \node[gray!80, left] at (0,0) {\footnotesize Posición indeformada};
+
+            % Apoyo C
+            \coordinate (C) at (3.5,0);
+            \draw[thick] (C) -- ++(-0.35,-0.45) -- ++(0.7,0) -- cycle;
+            \draw[line width=1pt] ($(C)+(-0.55,-0.45)$) -- ($(C)+(0.55,-0.45)$);
+            \filldraw[black] (C) circle (2pt) node[below=4pt] {$C$};
+
+            % Viga girada
+            \draw[line width=2.5pt, blue!80!black] (0,1.4) -- (9.5,-2.4);
+            \filldraw[blue!80!black] (0,1.4) circle (2pt) node[above left] {$A'$};
+            \filldraw[blue!80!black] (1.5,0.8) circle (2pt) node[above right] {$B'$};
+            \filldraw[blue!80!black] (6.5,-1.2) circle (2pt) node[below left] {$D'$};
+            \filldraw[blue!80!black] (9.5,-2.4) circle (2pt) node[below right] {$E'$};
+
+            % Desplazamientos verticales
+            \draw[<->, line width=1.3pt, purple] (1.5,0) -- (1.5,0.8) node[midway, left=2pt, font=\small\bfseries] {$\Delta l_{BF}$};
+            \draw[<->, line width=1.3pt, purple] (6.5,0) -- (6.5,-1.2) node[midway, right=2pt, font=\small\bfseries] {$\Delta l_{DG}$};
+            \draw[<->, line width=1.3pt, purple] (9.5,0) -- (9.5,-2.4) node[midway, right=2pt, font=\small\bfseries] {$\delta_E = \Delta l_{EE'}$};
+
+            % Ángulo
+            \draw[->, thick, green!50!black] (4.7,0) arc (0:-21.8:1.2);
+            \node[green!50!black, font=\footnotesize] at (5.0,-0.25) {$\theta_C$};
+
+            % Cotas
+            \draw[|<->|, >=Latex] (1.5,-2.8) -- (3.5,-2.8) node[midway, fill=white, font=\footnotesize] {$2\text{ m}$};
+            \draw[|<->|, >=Latex] (3.5,-2.8) -- (6.5,-2.8) node[midway, fill=white, font=\footnotesize] {$3\text{ m}$};
+            \draw[|<->|, >=Latex] (6.5,-2.8) -- (9.5,-2.8) node[midway, fill=white, font=\footnotesize] {$3\text{ m}$};
+        \end{tikzpicture}%
+    }
+    \caption{Cinemática de compatibilidad de deformaciones: rotación rígida en torno al apoyo $C$.}
+    \label{fig:examen_tirantes_q_cinematica}
+\end{figure}
+
+Por semejanza geométrica directa de triángulos (para pequeños desplazamientos):
+\begin{equation}
+    \theta_C \approx \frac{\Delta l_{BF}}{2\text{ m}} = \frac{\Delta l_{DG}}{3\text{ m}} = \frac{\Delta l_{EE'}}{6\text{ m}}
+    \label{eq:semejanza_tir_q}
+\end{equation}
+De la relación entre los dos tirantes se desprende:
+\begin{equation}
+    \Delta l_{BF} = \frac{2}{3} \Delta l_{DG}
+    \label{eq:relacion_alargamientos}
+\end{equation}
+
+Expresando los alargamientos elásticos mediante la ley de Hooke uniaxial ($\Delta l = \frac{N \cdot L}{E \cdot \Omega}$):
+\begin{equation}
+    \frac{N_{BF} \cdot L_{BF}}{E \cdot \Omega_{BF}} = \frac{2}{3} \left( \frac{N_{DG} \cdot L_{DG}}{E \cdot \Omega_{DG}} \right)
+\end{equation}
+Dado que ambos tirantes tienen idéntica longitud ($L_{BF} = L_{DG} = 3\text{ m}$), mismo material ($E$) y misma sección transversal ($\Omega_{BF} = \Omega_{DG} = \Omega$):
+\begin{equation}
+    \boxed{N_{BF} = \frac{2}{3} N_{DG}}
+    \label{eq:relacion_fuerzas_tir_q}
+\end{equation}
+
+%=============================================================================
+\paso{4}{Determinación de la Condición Crítica de Desplazamiento ($\delta \leq 3\text{ mm}$)}
+
+El enunciado establece que el desplazamiento vertical máximo de los puntos $B$ y $D$ es de $3\text{ mm}$.
+\imp{
+    \textbf{Advertencia Física Importante:}
+    Los puntos $B$ y $D$ \textbf{no pueden desplazarse simultáneamente $3\text{ mm}$}, ya que sus movimientos están vinculados rígidamente por la rotación del apoyo $C$ según la ecuación \eqref{eq:relacion_alargamientos} ($\Delta l_{BF} = \frac{2}{3}\Delta l_{DG}$). Por tanto:
+    \begin{itemize}
+        \item Si hipotéticamente fijásemos $\Delta l_{BF} = 3\text{ mm}$, entonces $\Delta l_{DG} = \frac{3}{2}(3\text{ mm}) = 4{,}5\text{ mm} > 3\text{ mm}$ \textbf{(incumpliría el límite en $D$)}.
+        \item En consecuencia, el punto más alejado del centro de giro ($D$, a $3\text{ m}$ de $C$) experimenta siempre mayor desplazamiento que el punto $B$ (a $2\text{ m}$ de $C$).
+    \end{itemize}
+    Por tanto, \textbf{el punto $D$ es el que alcanza en primer lugar el límite admisible}:
+    \begin{equation}
+        \boxed{\Delta l_{DG} = 3\text{ mm} = 3 \cdot 10^{-3}\text{ m}}
+    \end{equation}
+    y el alargamiento en $B$ resulta estrictamente:
+    \begin{equation}
+        \Delta l_{BF} = \frac{2}{3}(3\text{ mm}) = \mathbf{2\text{ mm}} \leq 3\text{ mm} \quad \checkmark
+    \end{equation}
+}
+
+%=============================================================================
+\paso{5}{Cálculo de los Esfuerzos Axiles en los Tirantes}
+
+A partir del alargamiento límite admisible alcanzado en el tirante $DG$ ($\Delta l_{DG} = 3\text{ mm}$):
+\begin{align}
+    N_{DG} & = \frac{\Delta l_{DG} \cdot E \cdot \Omega}{L_{DG}} = \frac{3\text{ mm} \cdot 2{,}1 \cdot 10^5\text{ N/mm}^2 \cdot \left(\dfrac{\pi}{4} \cdot 16^2\text{ mm}^2\right)}{3000\text{ mm}} \nonumber \\
+           & = \frac{3 \cdot 2{,}1 \cdot 10^5 \cdot (64\pi)}{3000} = 210 \cdot 64\pi \approx \mathbf{42222{,}65\text{ N}} \approx \boxed{42{,}22\text{ kN}}
+\end{align}
+
+Empleando la relación de compatibilidad \eqref{eq:relacion_fuerzas_tir_q}, obtenemos el esfuerzo axil en el tirante $BF$:
+\begin{equation}
+    N_{BF} = \frac{2}{3} N_{DG} = \frac{2}{3}(42{,}2226\text{ kN}) \approx \mathbf{28{,}1484\text{ kN}} \approx \boxed{28{,}15\text{ kN}}
+\end{equation}
+
+%=============================================================================
+\paso{6}{Comprobación de la Resistencia del Acero ($f_{yk}$)}
+
+El enunciado proporciona la resistencia característica del acero $f_{yk} = 400\text{ N/mm}^2$. Como ambos tirantes tienen la misma sección $\Omega = 201{,}06\text{ mm}^2$ y el tirante $DG$ soporta la mayor fuerza ($N_{DG} > N_{BF}$), la tensión normal máxima se produce en $DG$:
+\begin{equation}
+    \sigma_{\text{máx}} = \frac{N_{DG}}{\Omega} = \frac{42222{,}65\text{ N}}{201{,}06\text{ mm}^2} \approx \mathbf{210\text{ N/mm}^2}
+\end{equation}
+Comprobamos frente al límite elástico del material:
+\begin{equation}
+    \sigma_{\text{máx}} = 210\text{ N/mm}^2 \leq f_{yk} = 400\text{ N/mm}^2 \quad \checkmark
+\end{equation}
+\imp{
+    \textbf{Conclusión Resistente:} El acero trabaja con un margen de seguridad elástico muy holgado ($\sigma / f_{yk} = 210/400 = 52{,}5\text{ por ciento}$). Por tanto, el sistema se encuentra plenamente en régimen elástico lineal y la capacidad de carga viene \textbf{rigurosamente gobernada por el límite de deformación en servicio} ($\delta_D = 3\text{ mm}$).
+}
+
+%=============================================================================
+\paso{7}{Cálculo de la Carga Máxima Admisible $q_{\text{máx}}$ (Apartado a)}
+
+Sustituimos los esfuerzos de los tirantes en la ecuación de equilibrio de momentos en $C$ \eqref{eq:tir_q_mc}:
+\begin{equation}
+    2\,N_{BF} + 3\,N_{DG} - 18\,q = 0 \implies 18\,q = 2\,N_{BF} + 3\,N_{DG}
+\end{equation}
+Como $N_{BF} = \frac{2}{3}N_{DG}$:
+\begin{equation}
+    18\,q = 2\left(\frac{2}{3}N_{DG}\right) + 3\,N_{DG} = \left(\frac{4}{3} + \frac{9}{3}\right) N_{DG} = \frac{13}{3} N_{DG}
+\end{equation}
+Despejando la intensidad de la carga repartida $q$:
+\begin{equation}
+    q = \frac{13}{54} N_{DG} = \frac{13}{54} (42{,}2226\text{ kN}) \approx \boxed{10{,}1684\text{ kN/m} \approx 10{,}17\text{ kN/m}}
+\end{equation}
+
+%=============================================================================
+\paso{8}{Cálculo del Desplazamiento Vertical en el Extremo Libre $E$ (Apartado b)}
+
+El extremo libre $E$ se sitúa a una distancia $L_{CE} = 6\text{ m}$ del centro de giro $C$, exactamente el doble de distancia que el punto de anclaje $D$ ($L_{CD} = 3\text{ m}$).
+
+Aplicando la relación de semejanza de la cinemática rígida \eqref{eq:semejanza_tir_q}:
+\begin{equation}
+    \frac{\delta_E}{6\text{ m}} = \frac{\Delta l_{DG}}{3\text{ m}} \implies \delta_E = \left(\frac{6}{3}\right) \cdot \Delta l_{DG} = 2 \cdot \Delta l_{DG}
+\end{equation}
+Sustituyendo el descenso de $D$ ($\Delta l_{DG} = 3\text{ mm}$):
+\begin{equation}
+    \boxed{\delta_E = \Delta l_{EE'} = 2 \cdot 3\text{ mm} = \mathbf{6\text{ mm}} \quad (\text{hacia abajo})}
+\end{equation}
+
+\subsubsection*{Cálculo de la reacción vertical en la articulación $C$:}
+A partir de la ecuación de equilibrio vertical \eqref{eq:tir_q_fy}:
+\begin{align}
+    V_C & = N_{BF} - N_{DG} + 6\,q = 28{,}1484\text{ kN} - 42{,}2226\text{ kN} + 6(10{,}1684\text{ kN/m}) \nonumber \\
+        & = -14{,}0742 + 61{,}0104 = \mathbf{46{,}9362\text{ kN}} \approx \boxed{46{,}94\text{ kN} \uparrow}
+\end{align}
+
+%=============================================================================
+\subsection*{Resumen Final de Resultados}
+
+\begin{table}[H]
+    \centering
+    \caption{Resumen del problema de examen de viga rígida con tirantes y carga uniforme.}
+    \adjustbox{max width=0.95\textwidth}{%
+        \begin{tabular}{lccc}
+            \toprule
+            \textbf{Magnitud}                       & \textbf{Símbolo / Expresión}                                     & \textbf{Valor Numérico}                     & \textbf{Unidades / Estado}                 \\
+            \midrule
+            Alargamiento tirante $DG$ (crítico)     & $\Delta l_{DG} = \delta_{\text{máx}}$                            & $\mathbf{3{,}00}$                           & $\text{mm}$ (descenso en $D$)              \\
+            Alargamiento tirante $BF$               & $\Delta l_{BF} = \frac{2}{3}\Delta l_{DG}$                       & $\mathbf{2{,}00}$                           & $\text{mm}$ (ascenso en $B$)               \\
+            \midrule
+            Esfuerzo axil en tirante $DG$           & $N_{DG} = \dfrac{\Delta l_{DG} \cdot E \Omega}{L}$               & $\mathbf{42{,}22}$                          & $\text{kN}$ (tracción)                     \\
+            Esfuerzo axil en tirante $BF$           & $N_{BF} = \frac{2}{3}N_{DG}$                                     & $\mathbf{28{,}15}$                          & $\text{kN}$ (tracción)                     \\
+            Tensión máxima en el acero              & $\sigma_{\text{máx}} = \dfrac{N_{DG}}{\Omega}$                   & $\mathbf{210{,}00}$                         & $\text{N/mm}^2 \leq 400\text{ (cumple)}$   \\
+            \midrule
+            \textbf{Carga uniforme máxima admisible}& $\mathbf{q_{\text{máx}} = \dfrac{13}{54} N_{DG}}$                & $\mathbf{10{,}17}$                          & $\mathbf{kN/m}$                            \\
+            \textbf{Desplazamiento vertical en $E$} & $\mathbf{\delta_E = 2 \cdot \Delta l_{DG}}$                     & $\mathbf{6{,}00}$                           & $\mathbf{mm}$ (hacia abajo)                \\
+            Reacción vertical en apoyo $C$          & $V_C$                                                            & $\mathbf{46{,}94}$                          & $\text{kN}$ ($\uparrow$)                   \\
+            \bottomrule
+        \end{tabular}%
+    }
+    \label{tab:resumen_examen_tirantes_q}
+\end{table}
+
+%=============================================================================
+\section{Problema de Examen: Viga Continua Hiperestática Apoyada-Empotrada con Sección en T}
+
+\begin{tcolorbox}[colback=white, colframe=myb!80!black, arc=4pt, boxrule=0.9pt, left=8pt, right=8pt, top=7pt, bottom=7pt]
+    \textbf{Tipo de Problema:} Viga hiperestática de grado 1 (empotramiento en un extremo y apoyo simple en el otro) con sección transversal asimétrica en perfil T, sometida a carga uniforme $q_d$.\\
+    \textbf{Objetivos a Determinar:}
+    \begin{enumerate}
+        \item Reacciones hiperestáticas mediante integración de la Ecuación Diferencial de la Elástica ($y''(x) = \dfrac{M_f(x)}{EI}$).
+        \item Máxima carga de cálculo uniforme $q_d\text{ [kN/m]}$ que puede resistir la viga sabiendo que la tensión admisible del material es $\sigma_{\text{adm}} = 262\text{ N/mm}^2 = 262\text{ MPa}$.
+        \item Leyes analíticas y diagramas acotados de esfuerzo cortante $Q(x)$ y momento flector $M_f(x)$.
+        \item Distribución tensional normal $\sigma(y)$ en la sección en T en los puntos de momento flector máximo negativo (empotramiento) y máximo positivo (vano).
+    \end{enumerate}
+\end{tcolorbox}
+
+\subsection{Enunciado y Geometría de Partida}
+
+Se considera la viga horizontal recta de longitud $L = 7\text{ m}$ mostrada en la figura, empotrada rígidamente en su extremo izquierdo $A$ ($x = 0$) y sustentada mediante un apoyo simple móvil en su extremo derecho $B$ ($x = 7\text{ m}$). 
+
+Sobre toda la longitud de la viga actúa una carga distribuida verticalmente uniforme y descendente de intensidad de cálculo $q_d\text{ [kN/m]}$.
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.96\textwidth}{%
+        \begin{tikzpicture}[scale=1.1, >=Latex]
+            % Viga (x de 0 a 7)
+            \draw[line width=3pt, blue!80!black] (0,0) -- (7,0);
+
+            % Empotramiento en A (x = 0)
+            \fill[pattern=north east lines, pattern color=gray!70] (-0.5,-1.3) rectangle (0,1.3);
+            \draw[line width=1.5pt] (0,-1.3) -- (0,1.3);
+
+            % Apoyo móvil en B (x = 7)
+            \coordinate (B) at (7,0);
+            \draw[thick] (B) -- ++(-0.35,-0.5) -- ++(0.7,0) -- cycle;
+            \draw[thick] ($(B)+(-0.2,-0.62)$) circle (0.12);
+            \draw[thick] ($(B)+(0.2,-0.62)$) circle (0.12);
+            \draw[line width=1pt] ($(B)+(-0.55,-0.75)$) -- ($(B)+(0.55,-0.75)$);
+            \foreach \x in {-0.4,-0.15,0.1,0.35} \draw ($(B)+(\x,-0.75)$) -- ($(B)+(\x-0.15,-0.95)$);
+
+            % Carga repartida q_d
+            \draw[line width=1.2pt, red!85!black] (0,1.2) -- (7,1.2);
+            \draw[line width=1pt, red!85!black] (0,0) -- (0,1.2);
+            \draw[line width=1pt, red!85!black] (7,0) -- (7,1.2);
+            \foreach \x in {0.5, 1.2, 1.9, 2.6, 3.3, 4.0, 4.7, 5.4, 6.1, 6.8} {
+                \draw[->, line width=0.85pt, red!85!black] (\x,1.2) -- (\x,0);
+            }
+            \node[above=2pt, red!85!black, font=\bfseries] at (3.5,1.2) {$q_d\text{ [kN/m]}$};
+
+            % Nodos y cotas de la viga
+            \node[below left=2pt, font=\bfseries] at (0,0) {$A$};
+            \node[above right=2pt, font=\bfseries] at (7,0) {$B$};
+            \draw[|<->|, >=Latex] (0,-1.2) -- (7,-1.2) node[midway, fill=white, font=\footnotesize] {$L = 7\text{ m}$};
+
+            % Sección transversal en T (a la derecha)
+            \begin{scope}[shift={(10.5, -0.2)}]
+                % Ala superior: 20 cm x 4 cm
+                \fill[blue!15] (-2.5, 1.0) rectangle (2.5, 1.8);
+                \draw[line width=1.2pt, blue!85!black] (-2.5, 1.0) rectangle (2.5, 1.8);
+
+                % Alma vertical: 4 cm x 20 cm
+                \fill[blue!20] (-0.5, -3.0) rectangle (0.5, 1.0);
+                \draw[line width=1.2pt, blue!85!black] (-0.5, -3.0) -- (0.5, -3.0) -- (0.5, 1.0) -- (-0.5, 1.0) -- cycle;
+                % Quitar la línea intermedia para ver perfil continuo
+                \draw[line width=1.2pt, fill=blue!17, draw=none] (-0.48, 0.98) rectangle (0.48, 1.02);
+
+                % Cotas de la sección transversal
+                % Ancho del ala
+                \draw[|<->|, >=Latex] (-2.5, 2.1) -- (2.5, 2.1) node[midway, fill=white, font=\scriptsize] {$b_1 = 20\text{ cm}$};
+                % Espesor del ala
+                \draw[|<->|, >=Latex] (2.8, 1.0) -- (2.8, 1.8) node[midway, right=1pt, font=\scriptsize] {$e_1 = 4\text{ cm}$};
+                % Altura del alma
+                \draw[|<->|, >=Latex] (0.8, -3.0) -- (0.8, 1.0) node[midway, right=1pt, font=\scriptsize] {$h_2 = 20\text{ cm}$};
+                % Espesor del alma
+                \draw[|<->|, >=Latex] (-0.5, -3.3) -- (0.5, -3.3) node[midway, fill=white, font=\scriptsize] {$b_2 = 4\text{ cm}$};
+
+                % Eje baricéntrico G
+                \coordinate (G) at (0, 0.1333);
+                \draw[dashed, red!80!black, line width=0.9pt] (-3.0, 0.1333) -- (3.0, 0.1333) node[right, font=\scriptsize] {Eje Neutro ($z$)};
+                \filldraw[red!85!black] (G) circle (1.8pt) node[below left=1pt, font=\scriptsize\bfseries] {$G$};
+
+                \node[above, font=\bfseries\small] at (0, 2.4) {Sección en T};
+            \end{scope}
+        \end{tikzpicture}%
+    }
+    \caption{Geometría estructural, sustentación hiperestática y sección transversal en T.}
+    \label{fig:examen_viga_T_geometria}
+\end{figure}
+
+\subsubsection*{Datos del material y tensiones admisibles:}
+\begin{itemize}
+    \item Tensión admisible del acero a tracción y compresión: $\sigma_{\text{adm}} = 262\text{ N/mm}^2 = 262\text{ MPa} = 262000\text{ kN/m}^2$.
+    \item Módulo de elasticidad longitudinal: $E = \text{cte.}$
+\end{itemize}
+
+%=============================================================================
+\paso{1}{Propiedades Geométricas de la Sección Transversal en T}
+
+Descomponemos el perfil en dos rectángulos elementales, tomando como referencia el origen de coordenadas cartesianas en la \textbf{base inferior del alma}:
+\begin{enumerate}
+    \item \textbf{Alma (rectángulo 2):} Base $b_2 = 4\text{ cm} = 0{,}04\text{ m}$, altura $h_2 = 20\text{ cm} = 0{,}20\text{ m}$.
+          \begin{align}
+              \Omega_2 & = 4 \cdot 20 = 80\text{ cm}^2 = 80 \cdot 10^{-4}\text{ m}^2 \\[4pt]
+              y_{G2}   & = \frac{20}{2} = 10\text{ cm} = 0{,}10\text{ m}
+          \end{align}
+    \item \textbf{Ala (rectángulo 1):} Base $b_1 = 20\text{ cm} = 0{,}20\text{ m}$, espesor $e_1 = 4\text{ cm} = 0{,}04\text{ m}$.
+          \begin{align}
+              \Omega_1 & = 20 \cdot 4 = 80\text{ cm}^2 = 80 \cdot 10^{-4}\text{ m}^2 \\[4pt]
+              y_{G1}   & = 20 + \frac{4}{2} = 22\text{ cm} = 0{,}22\text{ m}
+          \end{align}
+\end{enumerate}
+
+\subsubsection*{1. Área total ($\Omega$):}
+\begin{equation}
+    \Omega = \Omega_1 + \Omega_2 = 80 + 80 = 160\text{ cm}^2 = 160 \cdot 10^{-4}\text{ m}^2 = 0{,}016\text{ m}^2
+\end{equation}
+
+\subsubsection*{2. Posición del Centro de Gravedad / Eje Neutro ($y_G$):}
+Tomando momentos estáticos respecto a la base inferior del perfil:
+\begin{equation}
+    y_G = \frac{\Omega_1 \cdot y_{G1} + \Omega_2 \cdot y_{G2}}{\Omega} = \frac{80 \cdot 22 + 80 \cdot 10}{160} = \frac{80(22 + 10)}{160} = \frac{32}{2} = \mathbf{16\text{ cm}} = \mathbf{0{,}16\text{ m}}
+\end{equation}
+Por tanto, las distancias desde el eje neutro baricéntrico a las fibras extremas son:
+\begin{align}
+    \text{Fibra extrema superior (cabeza del ala):} & \quad y_{\text{sup}} = +(24 - 16) = \mathbf{+8\text{ cm}} = \mathbf{+0{,}08\text{ m}} \\[4pt]
+    \text{Fibra extrema inferior (pie del alma):}   & \quad y_{\text{inf}} = -(16 - 0) = \mathbf{-16\text{ cm}} = \mathbf{-0{,}16\text{ m}}
+\end{align}
+\nt{
+    Dado que $y_{\text{inf}} = -16\text{ cm}$ duplica en magnitud a $y_{\text{sup}} = +8\text{ cm}$, la sección es geométricamente asimétrica respecto a la flexión. En flexión simple, el pie del alma alcanzará siempre el doble de tensión normal que la cabeza del ala para un mismo signo de momento flector.
+}
+
+\subsubsection*{3. Momento de Inercia Baricéntrico ($I_z$) por Steiner:}
+Aplicamos el teorema de Steiner a ambas subsecciones:
+\begin{equation}
+    I_z = \sum \left( I_{z,i} + \Omega_i \cdot d_i^2 \right)
+\end{equation}
+\begin{itemize}
+    \item Para el alma (2):
+          \begin{equation}
+              I_{z2} = \frac{b_2 \cdot h_2^3}{12} + \Omega_2 (y_{G2} - y_G)^2 = \frac{4 \cdot 20^3}{12} + 80(10 - 16)^2 = \frac{32000}{12} + 80(36) = 2666{,}67 + 2880 = 5546{,}67\text{ cm}^4
+          \end{equation}
+    \item Para el ala (1):
+          \begin{equation}
+              I_{z1} = \frac{b_1 \cdot e_1^3}{12} + \Omega_1 (y_{G1} - y_G)^2 = \frac{20 \cdot 4^3}{12} + 80(22 - 16)^2 = \frac{1280}{12} + 80(36) = 106{,}67 + 2880 = 2986{,}67\text{ cm}^4
+          \end{equation}
+\end{itemize}
+Sumando ambas contribuciones:
+\begin{equation}
+    \boxed{I_z = 5546{,}67 + 2986{,}67 = \frac{25600}{3}\text{ cm}^4 \approx \mathbf{8533{,}33\text{ cm}^4} = 8{,}5333 \cdot 10^{-5}\text{ m}^4}
+\end{equation}
+
+%=============================================================================
+\paso{2}{Clasificación Estática y Ecuaciones de Equilibrio Global}
+
+El apoyo en $A$ es un empotramiento rígido ($H_A, V_A, M_A$) y en $B$ existe un apoyo simple vertical ($V_B$).
+\begin{itemize}
+    \item Número de incógnitas de reacción: $r = 4$ ($H_A, V_A, M_A, V_B$).
+    \item Ecuaciones de la estática en el plano: $E = 3$.
+    \item Grado de hiperestatismo: $GH = r - E = 4 - 3 = 1$ (\textbf{Hiperestático de grado 1}).
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.88\textwidth}{%
+        \begin{tikzpicture}[scale=1.1, >=Latex]
+            % Barra
+            \draw[line width=3.2pt, blue!80!black] (0,0) -- (7,0);
+
+            % Reacciones en A
+            \draw[->, line width=1.6pt, green!60!black] (-1.2,0) -- (0,0) node[pos=0, left, font=\bfseries] {$H_A$};
+            \draw[->, line width=1.6pt, green!60!black] (0,-1.3) -- (0,0) node[pos=0, below, font=\bfseries] {$V_A$};
+            \draw[->, line width=1.6pt, green!60!black] ($(0,0)+(-140:0.8)$) arc (-140:140:0.8) node[pos=0.5, left=2pt, font=\bfseries] {$M_A$};
+
+            % Reacción en B
+            \draw[->, line width=1.6pt, green!60!black] (7,-1.3) -- (7,0) node[pos=0, below, font=\bfseries] {$V_B$};
+
+            % Carga uniforme
+            \draw[line width=1.2pt, red!85!black] (0,1.1) -- (7,1.1);
+            \foreach \x in {0.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5} {
+                \draw[->, line width=0.8pt, red!85!black] (\x,1.1) -- (\x,0);
+            }
+            \node[above=2pt, red!85!black, font=\bfseries] at (3.5,1.1) {$q_d$};
+
+            % Cotas
+            \draw[|<->|, >=Latex] (0,-1.7) -- (7,-1.7) node[midway, fill=white, font=\footnotesize] {$L = 7\text{ m}$};
+            \node[above=2pt, font=\bfseries] at (0,0) {$A$};
+            \node[above=2pt, font=\bfseries] at (7,0) {$B$};
+        \end{tikzpicture}%
+    }
+    \caption{Diagrama de cuerpo libre global con las reacciones hiperestáticas.}
+    \label{fig:examen_viga_T_dcl}
+\end{figure}
+
+Formulando el equilibrio estático global:
+\begin{align}
+    (\rightarrow +) \quad \sum F_x = 0      & \implies \boxed{H_A = 0} \label{eq:eq_T_fx} \\[6pt]
+    (\uparrow +) \quad \sum F_y = 0         & \implies V_A + V_B - 7\,q_d = 0 \implies \boxed{V_A = 7\,q_d - V_B} \label{eq:eq_T_fy} \\[6pt]
+    (\circlearrowleft +) \quad \sum M_A = 0 & \implies M_A + V_B \cdot 7 - (q_d \cdot 7)\left(\frac{7}{2}\right) = 0 \nonumber \\
+                                            & \implies M_A + 7\,V_B - 24{,}5\,q_d = 0 \implies \boxed{M_A = 24{,}5\,q_d - 7\,V_B} \label{eq:eq_T_ma}
+\end{align}
+
+%=============================================================================
+\paso{3}{Resolución Hiperestática por la Ecuación Diferencial de la Elástica}
+
+Planteamos la ley analítica del momento flector $M_f(x)$ a una distancia genérica $x \in [0, 7]\text{ m}$ seccionando de izquierda a derecha:
+\begin{equation}
+    M_f(x) = V_A \cdot x - M_A - \frac{q_d \cdot x^2}{2}
+\end{equation}
+La ecuación diferencial de flexión de la viga en régimen elástico lineal es:
+\begin{equation}
+    y''(x) = \frac{M_f(x)}{E\,I} = \frac{1}{E\,I}\left(V_A \cdot x - M_A - \frac{q_d}{2}x^2\right)
+\end{equation}
+Integrando sucesivamente respecto a $x$:
+\begin{align}
+    y'(x) & = \frac{1}{E\,I}\left(V_A \frac{x^2}{2} - M_A \cdot x - \frac{q_d}{6}x^3 + C_1\right) \\[6pt]
+    y(x)  & = \frac{1}{E\,I}\left(V_A \frac{x^3}{6} - M_A \frac{x^2}{2} - \frac{q_d}{24}x^4 + C_1 \cdot x + C_2\right)
+\end{align}
+
+\subsubsection*{Condiciones de contorno cinemáticas:}
+\begin{enumerate}
+    \item \textbf{En el empotramiento $A$ ($x = 0$):} No hay descenso vertical ni giro:
+          \begin{align}
+              y(0) = 0   & \implies C_2 = 0 \\[4pt]
+              y'(0) = 0  & \implies C_1 = 0
+          \end{align}
+    \item \textbf{En el apoyo simple $B$ ($x = 7\text{ m}$):} El desplazamiento vertical está coartado por el apoyo:
+          \begin{equation}
+              y(7) = 0 \implies \frac{1}{E\,I}\left(V_A \frac{7^3}{6} - M_A \frac{7^2}{2} - \frac{q_d \cdot 7^4}{24}\right) = 0
+          \end{equation}
+\end{enumerate}
+
+Multiplicando toda la ecuación por $24$:
+\begin{equation}
+    4 \cdot 343\,V_A - 12 \cdot 49\,M_A - 2401\,q_d = 0 \implies 1372\,V_A - 588\,M_A - 2401\,q_d = 0
+\end{equation}
+Dividiendo entre $343$:
+\begin{equation}
+    4\,V_A - \frac{12}{7}M_A - 7\,q_d = 0
+    \label{eq:elastica_reducida}
+\end{equation}
+Sustituyendo $V_A = 7\,q_d - V_B$ y $M_A = 24{,}5\,q_d - 7\,V_B$ en la ecuación \eqref{eq:elastica_reducida}:
+\begin{align}
+    4(7\,q_d - V_B) - \frac{12}{7}(24{,}5\,q_d - 7\,V_B) - 7\,q_d & = 0 \nonumber \\
+    28\,q_d - 4\,V_B - 42\,q_d + 12\,V_B - 7\,q_d                 & = 0 \nonumber \\
+    8\,V_B - 21\,q_d                                              & = 0
+\end{align}
+Despejando la reacción vertical en el apoyo $B$:
+\begin{equation}
+    \boxed{V_B = \frac{21}{8}q_d = 2{,}625\,q_d \approx \mathbf{2{,}63\,q_d}}
+\end{equation}
+
+A partir de las ecuaciones de equilibrio \eqref{eq:eq_T_fy} y \eqref{eq:eq_T_ma}:
+\begin{align}
+    V_A & = 7\,q_d - \frac{21}{8}q_d = \frac{35}{8}q_d = \mathbf{4{,}375\,q_d} \approx \boxed{4{,}38\,q_d} \\[6pt]
+    M_A & = \frac{49}{2}q_d - 7\left(\frac{21}{8}q_d\right) = \frac{196 - 147}{8}q_d = \frac{49}{8}q_d = \mathbf{6{,}125\,q_d} \approx \boxed{6{,}13\,q_d}
+\end{align}
+
+\comp{
+    \textbf{Comprobación con las fórmulas teóricas de vigas continuas empotradas-apoyadas:}
+    Para una viga de vano $L$ empotrada-apoyada con carga uniforme:
+    \[
+        V_B = \frac{3}{8}q_d L = \frac{3}{8} \cdot 7\,q_d = \frac{21}{8}q_d \quad \checkmark, \qquad
+        V_A = \frac{5}{8}q_d L = \frac{35}{8}q_d \quad \checkmark, \qquad
+        M_A = \frac{1}{8}q_d L^2 = \frac{49}{8}q_d \quad \checkmark
+    \]
+    El desarrollo analítico reproduce rigurosamente la solución elástica exacta.
+}
+
+%=============================================================================
+\paso{4}{Leyes y Diagramas de Esfuerzos Seccionales ($Q$ y $M_f$)}
+
+Con las reacciones en función de $q_d$:
+\subsubsection*{1. Esfuerzo Cortante $Q(x)$:}
+\begin{equation}
+    Q(x) = V_A - q_d \cdot x = \frac{35}{8}q_d - q_d \cdot x
+\end{equation}
+\begin{itemize}
+    \item En el empotramiento $A$ ($x = 0$): $Q(0) = +\frac{35}{8}q_d = \mathbf{+4{,}375\,q_d}$.
+    \item En el apoyo $B$ ($x = 7\text{ m}$): $Q(7) = \frac{35}{8}q_d - 7\,q_d = -\frac{21}{8}q_d = \mathbf{-2{,}625\,q_d}$.
+    \item Punto de cortante nulo ($Q(x_0) = 0$):
+          \begin{equation}
+              \frac{35}{8}q_d - q_d \cdot x_0 = 0 \implies \boxed{x_0 = \frac{35}{8}\text{ m} = 4{,}375\text{ m}}
+          \end{equation}
+\end{itemize}
+
+\subsubsection*{2. Momento Flector $M_f(x)$ y Valores Máximos:}
+\begin{equation}
+    M_f(x) = -M_A + V_A \cdot x - \frac{q_d}{2}x^2 = -\frac{49}{8}q_d + \frac{35}{8}q_d \cdot x - \frac{q_d}{2}x^2
+\end{equation}
+Identificamos los dos puntos críticos de momento flector:
+\begin{enumerate}
+    \item \textbf{Momento máximo negativo (en el empotramiento $x = 0$):}
+          \begin{equation}
+              M_{f,\text{mín}} = M_f(0) = -\frac{49}{8}q_d = \mathbf{-6{,}125\,q_d}
+          \end{equation}
+    \item \textbf{Momento máximo positivo (en el vano, en $x_0 = 4{,}375\text{ m}$):}
+          \begin{align}
+              M_{f,\text{máx}} & = -\frac{49}{8}q_d + \frac{35}{8}q_d\left(\frac{35}{8}\right) - \frac{q_d}{2}\left(\frac{35}{8}\right)^2 \nonumber \\
+                               & = q_d \left( -\frac{49}{8} + \frac{1225}{128} \right) = q_d \left( \frac{-784 + 1225}{128} \right) \nonumber \\
+                               & = \frac{441}{128}q_d \approx \mathbf{+3{,}4453\,q_d}
+          \end{align}
+\end{enumerate}
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.96\textwidth}{%
+        \begin{tikzpicture}[scale=1.1, >=Latex]
+            % Viga base
+            \draw[line width=2.5pt, gray!70] (0,0) -- (7,0);
+            \node[above=2pt, font=\bfseries] at (0,0) {$A$};
+            \node[above=2pt, font=\bfseries] at (7,0) {$B$};
+
+            % Ejes verticales discontinuos
+            \foreach \x in {0, 4.375, 7} {
+                \draw[dotted, line width=0.8pt, gray!60] (\x, 1.0) -- (\x, -6.5);
+            }
+
+            % DIAGRAMA Q(x)
+            \draw[thick, gray!80] (0,-1.8) -- (7,-1.8);
+            \node[left, font=\bfseries\small] at (0,-1.8) {$Q(x)$};
+
+            \fill[blue!15] (0,-1.8) -- (0,-0.6) -- (4.375,-1.8) -- cycle;
+            \fill[red!15] (4.375,-1.8) -- (7,-2.5) -- (7,-1.8) -- cycle;
+            \draw[line width=1.6pt, blue!80!black] (0,-0.6) -- (7,-2.5);
+            \node[above left, font=\scriptsize\bfseries, blue!85!black] at (0,-0.6) {$+4{,}38\,q_d$};
+            \node[below, font=\scriptsize\bfseries, red!85!black] at (7,-2.5) {$-2{,}63\,q_d$};
+            \node[above=1pt, font=\tiny] at (4.375,-1.8) {$x_0 = 4{,}375\text{ m}$};
+
+            % DIAGRAMA M_f(x) (Negativo dibujado hacia arriba)
+            \draw[thick, gray!80] (0,-5.0) -- (7,-5.0);
+            \node[left, font=\bfseries\small] at (0,-5.0) {$M_f(x)$};
+
+            % Parábola de M_f
+            \fill[green!15] (0,-5.0) -- (0,-3.3) parabola bend (4.375,-5.95) (7,-5.0) -- cycle;
+            \draw[line width=1.6pt, green!60!black] (0,-3.3) parabola bend (4.375,-5.95) (7,-5.0);
+
+            \node[above, font=\scriptsize\bfseries, green!60!black] at (0,-3.3) {$M_A = -6{,}125\,q_d$};
+            \node[below, font=\scriptsize\bfseries, green!60!black] at (4.375,-5.95) {$M_{\text{vano}} = +3{,}445\,q_d$};
+
+            % Cotas
+            \draw[|<->|, >=Latex] (0,-6.5) -- (4.375,-6.5) node[midway, fill=white, font=\tiny] {$4{,}375\text{ m}$};
+            \draw[|<->|, >=Latex] (4.375,-6.5) -- (7,-6.5) node[midway, fill=white, font=\tiny] {$2{,}625\text{ m}$};
+        \end{tikzpicture}%
+    }
+    \caption{Leyes analíticas de esfuerzo cortante $Q(x)$ y momento flector $M_f(x)$.}
+    \label{fig:examen_viga_T_diagramas}
+\end{figure}
+
+%=============================================================================
+\paso{5}{Determinación de la Carga Máxima Admisible $q_d$ (Apartado a)}
+
+La distribución de tensiones normales debidas a flexión simple en una sección viene dada por la \textbf{fórmula de Navier}:
+\begin{equation}
+    \sigma(y) = -\frac{M_f \cdot y}{I_z}
+\end{equation}
+donde $y$ es la distancia dirigida desde el centro de gravedad ($y > 0$ hacia arriba, $y < 0$ hacia abajo).
+La condición de resistencia exige que en ningún punto de la viga se supere la tensión admisible del acero:
+\begin{equation}
+    |\sigma| \leq \sigma_{\text{adm}} = 262\text{ MPa} = 262\text{ N/mm}^2 = 262000\text{ kN/m}^2
+\end{equation}
+
+Debido a la asimetría geométrica del perfil en T, evaluamos simultáneamente las dos secciones más solicitadas:
+
+\subsubsection*{1. Sección de Empotramiento en $A$ ($M_f = -6{,}125\,q_d\text{ kN}\cdot\text{m}$):}
+Al ser el momento flector negativo, las fibras superiores están comprimidas y las inferiores traccionadas:
+\begin{itemize}
+    \item \textbf{Fibra extrema superior (cabeza del ala, $y = +0{,}08\text{ m}$):}
+          \begin{equation}
+              \sigma_{\text{sup}} = -\frac{(-6{,}125\,q_d)(+0{,}08)}{8{,}5333 \cdot 10^{-5}} = +5742{,}19\,q_d \quad (\text{Tracción})
+          \end{equation}
+    \item \textbf{Fibra extrema inferior (pie del alma, $y = -0{,}16\text{ m}$):}
+          \begin{equation}
+              \sigma_{\text{inf}} = -\frac{(-6{,}125\,q_d)(-0{,}16)}{8{,}5333 \cdot 10^{-5}} = -11484{,}38\,q_d \quad (\text{Compresión})
+          \end{equation}
+\end{itemize}
+La tensión normal máxima en valor absoluto en el empotramiento se produce en el pie del alma:
+\begin{equation}
+    |\sigma_A|_{\text{máx}} = 11484{,}38\,q_d \leq 262000\text{ kN/m}^2 \implies \mathbf{q_{d,(A)} \leq 22{,}81\text{ kN/m}}
+\end{equation}
+
+\subsubsection*{2. Sección de Máximo Positivo en el Vano ($M_f = +3{,}4453\,q_d\text{ kN}\cdot\text{m}$):}
+Al ser el momento flector positivo, tracciona las fibras inferiores y comprime las superiores:
+\begin{itemize}
+    \item \textbf{Fibra extrema superior ($y = +0{,}08\text{ m}$):}
+          \begin{equation}
+              \sigma_{\text{sup}} = -\frac{(+3{,}4453\,q_d)(+0{,}08)}{8{,}5333 \cdot 10^{-5}} = -3230{,}03\,q_d \quad (\text{Compresión})
+          \end{equation}
+    \item \textbf{Fibra extrema inferior ($y = -0{,}16\text{ m}$):}
+          \begin{equation}
+              \sigma_{\text{inf}} = -\frac{(+3{,}4453\,q_d)(-0{,}16)}{8{,}5333 \cdot 10^{-5}} = +6460{,}05\,q_d \quad (\text{Tracción})
+          \end{equation}
+\end{itemize}
+La tensión normal máxima en el vano es:
+\begin{equation}
+    |\sigma_{\text{vano}}|_{\text{máx}} = 6460{,}05\,q_d \leq 262000\text{ kN/m}^2 \implies \mathbf{q_{d,(\text{vano})} \leq 40{,}56\text{ kN/m}}
+\end{equation}
+
+\imp{
+    \textbf{Determinación de la Carga Máxima Admisible:}
+    Comparando ambos límites:
+    \begin{equation}
+        q_d \leq \text{mín}(22{,}81\text{ kN/m}, \; 40{,}56\text{ kN/m}) \implies \boxed{q_{d,\text{máx}} = 22{,}81\text{ kN/m}}
+    \end{equation}
+    La sección que gobierna de forma estricta el dimensionamiento es el \textbf{empotramiento en $A$}, alcanzando la tensión admisible en la \textbf{base inferior del alma a compresión} ($\sigma = -262\text{ MPa}$).
+}
+
+%=============================================================================
+\paso{6}{Distribución de Tensiones Normales a lo Largo de la Sección en T (Apartado c)}
+
+Bajo la carga admisible de cálculo $q_d = 22{,}81\text{ kN/m}$, evaluamos numéricamente los momentos flectores críticos y trazamos los diagramas tensionales $\sigma(y)$:
+
+\subsubsection*{1. En el empotramiento $A$ ($M_{fA} = -6{,}125(22{,}81) = -141{,}71\text{ kN}\cdot\text{m} = -141{,}71 \cdot 10^6\text{ N}\cdot\text{mm}$):}
+\begin{align}
+    \text{Cabeza superior del ala } (y = +80\text{ mm}): & \quad \sigma = -\frac{(-141{,}71 \cdot 10^6)(+80)}{85{,}333 \cdot 10^6} = \mathbf{+132{,}85\text{ N/mm}^2} \quad (\text{Tracción}) \\[6pt]
+    \text{Unión ala-alma } (y = +40\text{ mm}):          & \quad \sigma = -\frac{(-141{,}71 \cdot 10^6)(+40)}{85{,}333 \cdot 10^6} = \mathbf{+66{,}43\text{ N/mm}^2} \quad (\text{Tracción}) \\[6pt]
+    \text{Eje neutro baricéntrico } (y = 0):             & \quad \sigma = \mathbf{0\text{ N/mm}^2} \\[6pt]
+    \text{Pie inferior del alma } (y = -160\text{ mm}):  & \quad \sigma = -\frac{(-141{,}71 \cdot 10^6)(-160)}{85{,}333 \cdot 10^6} = \mathbf{-262{,}00\text{ N/mm}^2} \quad \text{\textbf{(Compresión admisible)}}
+\end{align}
+
+\subsubsection*{2. En el punto de máximo momento positivo en el vano ($M_{f,\text{vano}} = +3{,}4453(22{,}81) = +78{,}59\text{ kN}\cdot\text{m}$):}
+\begin{align}
+    \text{Cabeza superior del ala } (y = +80\text{ mm}): & \quad \sigma = -\frac{(+78{,}59 \cdot 10^6)(+80)}{85{,}333 \cdot 10^6} = \mathbf{-73{,}68\text{ N/mm}^2} \quad (\text{Compresión}) \\[6pt]
+    \text{Eje neutro baricéntrico } (y = 0):             & \quad \sigma = \mathbf{0\text{ N/mm}^2} \\[6pt]
+    \text{Pie inferior del alma } (y = -160\text{ mm}):  & \quad \sigma = -\frac{(+78{,}59 \cdot 10^6)(-160)}{85{,}333 \cdot 10^6} = \mathbf{+147{,}36\text{ N/mm}^2} \quad (\text{Tracción})
+\end{align}
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.96\textwidth}{%
+        \begin{tikzpicture}[scale=1.1, >=Latex]
+            % Sección transversal centrada
+            \draw[line width=1.4pt, fill=gray!15] (-2.0, 0.8) rectangle (2.0, 1.6);
+            \draw[line width=1.4pt, fill=gray!20] (-0.4, -3.2) rectangle (0.4, 0.8);
+            \draw[line width=1.4pt, fill=gray!18, draw=none] (-0.38, 0.78) rectangle (0.38, 0.82);
+
+            % Eje neutro
+            \draw[dashed, red!80!black, line width=0.9pt] (-3.0, 0) -- (10.5, 0) node[right, font=\scriptsize] {Eje Neutro ($y = 0$)};
+            \filldraw[red!85!black] (0,0) circle (1.8pt) node[below left=1pt, font=\scriptsize] {$G$};
+
+            % Diagrama en Empotramiento (Momento negativo: tracción arriba, compresión abajo)
+            \begin{scope}[shift={(4.3, 0)}]
+                \draw[thick, gray!80] (0, -3.4) -- (0, 2.2);
+                \node[above=6pt, font=\bfseries\small] at (0, 2.0) {Sección $A$ ($M_f < 0$)};
+
+                % Triángulos tensionales
+                \fill[blue!15] (0,0) -- (1.33, 1.6) -- (0, 1.6) -- cycle;
+                \draw[line width=1.4pt, blue!85!black] (0,0) -- (1.33, 1.6) -- (0, 1.6);
+                \fill[red!15] (0,0) -- (-2.62, -3.2) -- (0, -3.2) -- cycle;
+                \draw[line width=1.4pt, red!85!black] (0,0) -- (-2.62, -3.2) -- (0, -3.2);
+
+                % Valores de tensión (desfasados verticalmente para evitar solapes)
+                \node[above right, font=\scriptsize\bfseries, blue!85!black] at (1.1, 1.65) {$+132{,}85\text{ MPa}$};
+                \node[below left, font=\scriptsize\bfseries, red!85!black] at (-2.0, -3.25) {$-262{,}00\text{ MPa}$};
+                \node[right, font=\tiny] at (0.2, 0.8) {$(+)$ Tracción};
+                \node[left, font=\tiny] at (-0.2, -1.6) {$(-)$ Compresión};
+            \end{scope}
+
+            % Diagrama en Vano (Momento positivo: compresión arriba, tracción abajo)
+            \begin{scope}[shift={(9.2, 0)}]
+                \draw[thick, gray!80] (0, -3.4) -- (0, 2.2);
+                \node[above=6pt, font=\bfseries\small] at (0, 2.0) {Vano ($M_f > 0$)};
+
+                % Triángulos tensionales
+                \fill[red!15] (0,0) -- (-0.74, 1.6) -- (0, 1.6) -- cycle;
+                \draw[line width=1.4pt, red!85!black] (0,0) -- (-0.74, 1.6) -- (0, 1.6);
+                \fill[blue!15] (0,0) -- (1.47, -3.2) -- (0, -3.2) -- cycle;
+                \draw[line width=1.4pt, blue!85!black] (0,0) -- (1.47, -3.2) -- (0, -3.2);
+
+                % Valores de tensión (desfasados a diferente altura)
+                \node[above left, font=\scriptsize\bfseries, red!85!black] at (-0.74, 1.65) {$-73{,}68\text{ MPa}$};
+                \node[below right, font=\scriptsize\bfseries, blue!85!black] at (1.0, -3.25) {$+147{,}36\text{ MPa}$};
+                \node[left, font=\tiny] at (-0.1, 0.8) {$(-)$ Comp.};
+                \node[right, font=\tiny] at (0.1, -1.6) {$(+)$ Trac.};
+            \end{scope}
+        \end{tikzpicture}%
+    }
+    \caption{Distribución de tensiones normales $\sigma(y)$ en la sección en T para el momento máximo negativo y positivo.}
+    \label{fig:examen_viga_T_tensiones}
+\end{figure}
+
+%=============================================================================
+\subsection*{Resumen Final de Resultados}
+
+\begin{table}[H]
+    \centering
+    \caption{Resultados globales del problema de examen de viga empotrada-apoyada con sección en T.}
+    \adjustbox{max width=0.95\textwidth}{%
+        \renewcommand{\arraystretch}{1.35}
+        \begin{tabular}{lccc}
+            \toprule
+            \textbf{Magnitud}                 & \textbf{Símbolo / Expresión}                                       & \textbf{Valor Analítico}                & \textbf{Valor Numérico Decimal}                     \\
+            \midrule
+            Área de la sección en T           & $\Omega = \Omega_1 + \Omega_2$                                     & $160\text{ cm}^2$                       & $\mathbf{1{,}60 \cdot 10^{-2}\text{ m}^2}$          \\
+            Posición del centro de gravedad   & $y_G$ (desde la base)                                              & $16\text{ cm}$                          & $\mathbf{0{,}16\text{ m}}$                          \\
+            Momento de inercia baricéntrico   & $I_z$                                                              & $\frac{25600}{3}\text{ cm}^4$           & $\mathbf{8{,}5333 \cdot 10^{-5}\text{ m}^4}$        \\
+            \midrule
+            Reacción vertical en apoyo $B$    & $V_B$                                                              & $\dfrac{21}{8}q_d$                      & $\mathbf{2{,}625\,q_d}$                             \\[5pt]
+            Reacción vertical en empotramiento $A$& $V_A$                                                          & $\dfrac{35}{8}q_d$                      & $\mathbf{4{,}375\,q_d}$                             \\[5pt]
+            Momento flector en empotramiento  & $M_A$                                                              & $\dfrac{49}{8}q_d$                      & $\mathbf{6{,}125\,q_d}$                             \\[5pt]
+            Punto de cortante nulo en vano    & $x_0$                                                              & $\dfrac{35}{8}\text{ m}$                & $\mathbf{4{,}375\text{ m}}$                         \\[5pt]
+            Momento máximo positivo en vano   & $M_{f,\text{vano}}$                                                & $\dfrac{441}{128}q_d$                   & $\mathbf{+3{,}4453\,q_d}$                           \\
+            \midrule
+            \textbf{Carga uniforme máxima $q_d$}& $\mathbf{q_{d,\text{máx}}}$                                      & $\dfrac{\sigma_{\text{adm}} I_z}{M_A y_{\text{inf}}}$ & $\mathbf{22{,}81\text{ kN/m}}$      \\[6pt]
+            Tensión máxima en pie del alma ($A$)& $\sigma_{\text{inf}, A}$                                         & $-\sigma_{\text{adm}}$                  & $\mathbf{-262{,}00\text{ MPa}}$ (Compresión)        \\[4pt]
+            Tensión máxima en cabeza de ala ($A$)& $\sigma_{\text{sup}, A}$                                        & $+\dfrac{1}{2}\sigma_{\text{adm}}$      & $\mathbf{+132{,}85\text{ MPa}}$ (Tracción)          \\[4pt]
+            Tensión máxima en vano ($x_0$)    & $\sigma_{\text{inf}, \text{vano}}$                                 & $+147{,}36\text{ MPa}$                  & $\mathbf{+147{,}36\text{ MPa}}$ (Tracción)          \\
+            \bottomrule
+        \end{tabular}%
+    }
+    \label{tab:resumen_examen_viga_T}
+\end{table}
+
+%=============================================================================
+\section{Problema de Examen: Viga Rígida Suspendida de Tres Tirantes con Descenso Horizontal Puro}
+
+\begin{tcolorbox}[colback=white, colframe=myb!80!black, arc=4pt, boxrule=0.9pt, left=8pt, right=8pt, top=7pt, bottom=7pt]
+    \textbf{Tipo de Problema:} Estructura hiperestática formada por una barra rígida horizontal suspendida de tres tirantes elásticos paralelos con longitudes desiguales, solicitada por una carga puntual vertical.\\
+    \textbf{Objetivos a Determinar:}
+    \begin{enumerate}
+        \item Posición $x$ (distancia desde el extremo izquierdo $A$) en la que debe anclarse el tirante intermedio $B$ para que la viga rígida se desplace permaneciendo estrictamente horizontal (descenso o traslación vertical pura, giro nulo $\theta = 0$).
+        \item Distribución de esfuerzos axiles en los tres tirantes ($N_A, N_B, N_C$).
+    \end{enumerate}
+\end{tcolorbox}
+
+\subsection{Enunciado y Geometría de Partida}
+
+Una viga horizontal rígida e indeformable de longitud total $L = 4\text{ m}$ se encuentra suspendida de un soporte superior indeformable mediante tres tirantes elásticos verticales del mismo material ($E = \text{cte.}$) e idéntica sección transversal ($\Omega = \text{cte.}$):
+\begin{itemize}
+    \item \textbf{Tirante $A$ (extremo izquierdo):} Longitud doble $L_A = 2l$.
+    \item \textbf{Tirante $B$ (intermedio):} Situado a una distancia incógnita $x$ del extremo izquierdo $A$, con longitud $L_B = l$.
+    \item \textbf{Tirante $C$ (extremo derecho):} Situado a $4\text{ m}$ de $A$, con longitud $L_C = l$.
+\end{itemize}
+
+En el punto medio de la viga (a $2\text{ m}$ de ambos extremos) actúa una fuerza puntual vertical descendente de valor $P = 20\text{ kN}$.
+
+Se desea determinar la cota $x$ de emplazamiento del tirante intermedio $B$ para que la viga \textbf{se desplace manteniéndose perfectamente horizontal} tras la aplicación de la carga.
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.92\textwidth}{%
+        \begin{tikzpicture}[scale=1.1, >=Latex]
+            % Soporte superior (techo rígido)
+            \fill[pattern=north east lines, pattern color=gray!70] (-0.5, 3.0) rectangle (4.5, 3.4);
+            \draw[line width=1.4pt] (-0.5, 3.0) -- (4.5, 3.0);
+
+            % Tirante A (longitud 2l, dibujamos de y=3 a y=0)
+            \draw[line width=2pt, brown!80!black] (0, 3.0) -- (0, 0);
+            \node[left=3pt, font=\small\bfseries, brown!85!black] at (0, 1.5) {$L_A = 2l$};
+            \filldraw[black] (0, 3.0) circle (2pt) node[above=4pt] {$A$};
+
+            % Tirante B (longitud l, dibujamos de y=1.5 a y=0)
+            % Notar que el anclaje de B está a una cota intermedia para reflejar L_B = l
+            \fill[pattern=north east lines, pattern color=gray!70] (0.8, 1.5) rectangle (1.8, 1.8);
+            \draw[line width=1.2pt] (0.8, 1.5) -- (1.8, 1.5);
+            \draw[line width=2pt, brown!80!black] (1.3, 1.5) -- (1.3, 0);
+            \node[right=3pt, font=\small\bfseries, brown!85!black] at (1.3, 0.75) {$L_B = l$};
+            \filldraw[black] (1.3, 1.5) circle (2pt) node[above=3pt] {$B$};
+
+            % Tirante C (longitud l, de y=1.5 a y=0)
+            \fill[pattern=north east lines, pattern color=gray!70] (3.5, 1.5) rectangle (4.5, 1.8);
+            \draw[line width=1.2pt] (3.5, 1.5) -- (4.5, 1.5);
+            \draw[line width=2pt, brown!80!black] (4.0, 1.5) -- (4.0, 0);
+            \node[right=3pt, font=\small\bfseries, brown!85!black] at (4.0, 0.75) {$L_C = l$};
+            \filldraw[black] (4.0, 1.5) circle (2pt) node[above=3pt] {$C$};
+
+            % Viga horizontal rígida
+            \draw[line width=3.5pt, blue!85!black] (0, 0) -- (4, 0);
+            \node[below left=2pt, font=\bfseries] at (0, 0) {$0$};
+            \node[below right=2pt, font=\bfseries] at (4, 0) {$4\text{ m}$};
+
+            % Carga puntual P = 20 kN en el centro (x = 2 m)
+            \draw[->, line width=2.4pt, red!85!black] (2.0, 0) -- (2.0, -1.5) node[pos=1, below, font=\bfseries] {$P = 20\text{ kN}$};
+            \filldraw[red!85!black] (2.0, 0) circle (2.5pt);
+
+            % Cotas
+            \draw[|<->|, >=Latex] (0, -0.6) -- (1.3, -0.6) node[midway, fill=white, font=\footnotesize] {$x$};
+            \draw[|<->|, >=Latex] (0, -2.1) -- (2.0, -2.1) node[midway, fill=white, font=\footnotesize] {$2\text{ m}$};
+            \draw[|<->|, >=Latex] (2.0, -2.1) -- (4.0, -2.1) node[midway, fill=white, font=\footnotesize] {$2\text{ m}$};
+        \end{tikzpicture}%
+    }
+    \caption{Esquema del sistema de viga rígida colgada de tres tirantes elásticos paralelos.}
+    \label{fig:examen_tres_tirantes_geometria}
+\end{figure}
+
+%=============================================================================
+\paso{1}{Interpretación Física de la Condición Cinemática}
+
+\dfn{Condición de Deformación Horizontal Pura}{
+    Decir que la viga rígida \textit{se deforma horizontalmente} significa que, tras la deformación elástica de los tirantes, \textbf{la barra rígida desciende manteniéndose paralela a su posición inicial}. Es decir, experimenta una \textbf{traslación vertical pura} sin ningún tipo de rotación:
+    \begin{equation}
+        \theta = 0 \iff \delta(x) = \text{cte.}
+    \end{equation}
+}
+
+Por tanto, los descensos verticales experimentados por todos los puntos de la barra son idénticos. En particular, los alargamientos de los tres tirantes de anclaje deben coincidir:
+\begin{equation}
+    \boxed{\Delta l_A = \Delta l_B = \Delta l_C = \delta_0}
+    \label{eq:condicion_alargamientos_iguales}
+\end{equation}
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.88\textwidth}{%
+        \begin{tikzpicture}[scale=1.1, >=Latex]
+            % Viga inicial
+            \draw[line width=2pt, dashed, gray!70] (0, 0) -- (4, 0);
+            \node[gray!80, left] at (0, 0) {\footnotesize Posición inicial};
+
+            % Viga desplazada horizontalmente
+            \draw[line width=3.2pt, blue!85!black] (0, -1.2) -- (4, -1.2);
+            \node[blue!85!black, left] at (0, -1.2) {\footnotesize Posición deformada};
+
+            % Flechas de desplazamiento vertical idéntico
+            \draw[<->, line width=1.3pt, purple] (0, 0) -- (0, -1.2) node[midway, left=2pt, font=\small\bfseries] {$\Delta l_A$};
+            \draw[<->, line width=1.3pt, purple] (1.3, 0) -- (1.3, -1.2) node[midway, left=2pt, font=\small\bfseries] {$\Delta l_B$};
+            \draw[<->, line width=1.3pt, purple] (4, 0) -- (4, -1.2) node[midway, right=2pt, font=\small\bfseries] {$\Delta l_C$};
+
+            \node[font=\small\bfseries, purple] at (2, -0.6) {$\Delta l_A = \Delta l_B = \Delta l_C = \delta_0 \quad (\theta = 0)$};
+        \end{tikzpicture}%
+    }
+    \caption{Cinemática de traslación vertical pura: alargamientos iguales en todos los tirantes.}
+    \label{fig:examen_tres_tirantes_cinematica}
+\end{figure}
+
+%=============================================================================
+\paso{2}{Relación entre Esfuerzos Axiles mediante la Ley de Hooke}
+
+Expresando el alargamiento elástico de cada tirante uniaxial ($\Delta l = \frac{N \cdot L}{E \cdot \Omega}$):
+\begin{align}
+    \Delta l_A & = \frac{N_A \cdot L_A}{E \cdot \Omega} = \frac{N_A \cdot 2l}{E \cdot \Omega} \\[6pt]
+    \Delta l_B & = \frac{N_B \cdot L_B}{E \cdot \Omega} = \frac{N_B \cdot l}{E \cdot \Omega}  \\[6pt]
+    \Delta l_C & = \frac{N_C \cdot L_C}{E \cdot \Omega} = \frac{N_C \cdot l}{E \cdot \Omega}
+\end{align}
+
+Igualando los alargamientos conforme a la condición cinemática \eqref{eq:condicion_alargamientos_iguales}:
+\begin{enumerate}
+    \item Igualdad entre el tirante $B$ y el tirante $C$:
+          \begin{equation}
+              \frac{N_B \cdot l}{E \cdot \Omega} = \frac{N_C \cdot l}{E \cdot \Omega} \implies \boxed{N_B = N_C}
+              \label{eq:rel_nb_nc}
+          \end{equation}
+    \item Igualdad entre el tirante $A$ y el tirante $B$:
+          \begin{equation}
+              \frac{N_A \cdot 2l}{E \cdot \Omega} = \frac{N_B \cdot l}{E \cdot \Omega} \implies 2\,N_A = N_B \implies \boxed{N_A = \frac{N_B}{2}}
+              \label{eq:rel_na_nb}
+          \end{equation}
+\end{enumerate}
+
+\imp{
+    \textbf{Conclusión de Rigidez:}
+    Como el tirante $A$ es el doble de largo que los tirantes $B$ y $C$ ($L_A = 2l$), su rigidez axial es la mitad ($k_A = \frac{E\Omega}{2l} = \frac{1}{2}k$). Por consiguiente, para experimentar exactamente el mismo alargamiento $\delta_0$, el tirante $A$ sólo necesita desarrollar la mitad de esfuerzo axil que los tirantes $B$ y $C$ ($N_A = \frac{1}{2}N_B$).
+}
+
+%=============================================================================
+\paso{3}{Ecuaciones de Equilibrio Estático y Obtención de los Esfuerzos}
+
+Aislamos la viga indeformable. Los tres tirantes trabajan a tracción, ejerciendo fuerzas verticales hacia arriba sobre los puntos de la barra:
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.88\textwidth}{%
+        \begin{tikzpicture}[scale=1.1, >=Latex]
+            % Viga
+            \draw[line width=3.2pt, blue!80!black] (0, 0) -- (4, 0);
+
+            % Fuerzas en tirantes
+            \draw[->, line width=1.6pt, brown!80!black] (0, 0) -- (0, 1.4) node[pos=1, above, font=\bfseries] {$N_A$};
+            \draw[->, line width=1.6pt, brown!80!black] (1.3, 0) -- (1.3, 1.4) node[pos=1, above, font=\bfseries] {$N_B$};
+            \draw[->, line width=1.6pt, brown!80!black] (4, 0) -- (4, 1.4) node[pos=1, above, font=\bfseries] {$N_C$};
+
+            % Carga exterior
+            \draw[->, line width=2pt, red!85!black] (2, 0) -- (2, -1.4) node[pos=1, below, font=\bfseries] {$P = 20\text{ kN}$};
+
+            % Nodos y cotas
+            \filldraw[black] (0, 0) circle (2pt) node[below left] {$A$};
+            \filldraw[black] (1.3, 0) circle (2pt) node[below] {$B$};
+            \filldraw[black] (4, 0) circle (2pt) node[below right] {$C$};
+
+            \draw[|<->|, >=Latex] (0, -0.6) -- (1.3, -0.6) node[midway, fill=white, font=\footnotesize] {$x$};
+            \draw[|<->|, >=Latex] (0, -1.8) -- (2.0, -1.8) node[midway, fill=white, font=\footnotesize] {$2\text{ m}$};
+            \draw[|<->|, >=Latex] (2.0, -1.8) -- (4.0, -1.8) node[midway, fill=white, font=\footnotesize] {$2\text{ m}$};
+        \end{tikzpicture}%
+    }
+    \caption{Diagrama de Cuerpo Libre (DCL) de la viga rígida aislada.}
+    \label{fig:examen_tres_tirantes_dcl}
+\end{figure}
+
+\subsubsection*{1. Equilibrio de Fuerzas Verticales ($\sum F_y = 0$):}
+\begin{equation}
+    \sum F_y = 0 \implies N_A + N_B + N_C - 20 = 0
+    \label{eq:eq_vert_tres_tirantes}
+\end{equation}
+Sustituyendo las relaciones de compatibilidad \eqref{eq:rel_nb_nc} y \eqref{eq:rel_na_nb}:
+\begin{equation}
+    \frac{N_B}{2} + N_B + N_B = 20 \implies \frac{5}{2} N_B = 20
+\end{equation}
+Despejando los esfuerzos axiles:
+\begin{align}
+    \boxed{N_B = \frac{20 \cdot 2}{5} = \mathbf{8\text{ kN}}} \\[6pt]
+    \boxed{N_C = N_B = \mathbf{8\text{ kN}}}                  \\[6pt]
+    \boxed{N_A = \frac{N_B}{2} = \mathbf{4\text{ kN}}}
+\end{align}
+
+\comp{
+    \textbf{Comprobación de la resultante vertical:}
+    \[
+        \sum F_y = 4\text{ kN} + 8\text{ kN} + 8\text{ kN} - 20\text{ kN} = 0 \quad \checkmark
+    \]
+}
+
+%=============================================================================
+\paso{4}{Determinación de la Posición $x$ del Tirante Intermedio}
+
+Para que la barra no rote, debe cumplirse el equilibrio de momentos respecto a cualquier punto. Tomando momentos respecto al origen $A$ ($\sum M_A = 0$):
+\begin{equation}
+    (\circlearrowleft +) \quad \sum M_A = 0 \implies N_B \cdot x - P \cdot 2\text{ m} + N_C \cdot 4\text{ m} = 0
+    \label{eq:eq_momentos_A}
+\end{equation}
+Sustituyendo los valores calculados ($N_B = 8\text{ kN}$, $N_C = 8\text{ kN}$, $P = 20\text{ kN}$):
+\begin{align}
+    8 \cdot x - 20 \cdot 2 + 8 \cdot 4 & = 0 \nonumber \\
+    8\,x - 40 + 32                     & = 0 \nonumber \\
+    8\,x - 8                           & = 0 \nonumber \\
+    8\,x                               & = 8
+\end{align}
+Por tanto, la posición exacta en la que debe anclarse el tirante intermedio $B$ es:
+\begin{equation}
+    \boxed{x = 1\text{ m}}
+\end{equation}
+
+\comp{
+    \textbf{Comprobación alternativa de momentos respecto a otro punto (ej. en el centro de la viga, $x = 2\text{ m}$):}
+    \begin{align*}
+        \sum M_{\text{centro}} & = -N_A \cdot 2 + N_B \cdot (2 - x) + N_C \cdot 2 = -4(2) + 8(2 - 1) + 8(2) - 8(2) \\
+                               & = -8 + 8 = 0 \quad \checkmark
+    \end{align*}
+    El equilibrio rotacional es pleno y se garantiza rigurosamente que la viga desciende paralela a sí misma sin rotación alguna.
+}
+
+%=============================================================================
+\subsection*{Resumen Final de Resultados}
+
+\begin{table}[H]
+    \centering
+    \caption{Resumen del problema de examen de viga con tres tirantes paralelos.}
+    \adjustbox{max width=0.95\textwidth}{%
+        \begin{tabular}{lccc}
+            \toprule
+            \textbf{Magnitud}                 & \textbf{Símbolo / Relación}                                      & \textbf{Valor Exacto}   & \textbf{Unidades / Significado}            \\
+            \midrule
+            Condición cinemática              & $\theta = 0$                                                     & $\Delta l_A = \Delta l_B = \Delta l_C$ & Descenso horizontal puro (traslación) \\
+            \midrule
+            Esfuerzo axil en tirante $A$      & $N_A = \frac{1}{2}N_B$                                           & $\mathbf{4{,}00}$       & $\text{kN}$ (Tracción)                     \\
+            Esfuerzo axil en tirante $B$      & $N_B = \frac{2}{5}P$                                             & $\mathbf{8{,}00}$       & $\text{kN}$ (Tracción)                     \\
+            Esfuerzo axil en tirante $C$      & $N_C = N_B$                                                      & $\mathbf{8{,}00}$       & $\text{kN}$ (Tracción)                     \\
+            \midrule
+            \textbf{Posición de anclaje de $B$}& $\mathbf{x = \dfrac{P \cdot 2 - N_C \cdot 4}{N_B}}$             & $\mathbf{1{,}00}$       & $\mathbf{m}$ (a $1\text{ m}$ del punto $A$) \\
+            \bottomrule
+        \end{tabular}%
+    }
+    \label{tab:resumen_examen_tres_tirantes}
+\end{table}
+
+%=============================================================================
+\section{Problema de Examen: Viga Rígida con Pilar Comprimido y Refuerzo por Tirante Traccionado}
+
+\begin{tcolorbox}[colback=white, colframe=myb!80!black, arc=4pt, boxrule=0.9pt, left=8pt, right=8pt, top=7pt, bottom=7pt]
+    \textbf{Tipo de Problema:} Estructura plana formada por una barra rígida articulada en un extremo, sustentada inicialmente por un pilar inferior comprimido (isostática), y reforzada posteriormente mediante un tirante elástico superior traccionado (hiperestática) para reducir la flecha máxima en el extremo libre.\\
+    \textbf{Objetivos a Determinar:}
+    \begin{enumerate}
+        \item \textbf{Fase 1 (Estructura Isostática):} Sección transversal necesaria del pilar inferior $BE$ ($\Omega_{BE}$) para que el descenso vertical del extremo libre $C$ no supere $\Delta l_C = 8\text{ mm}$ bajo una carga puntual de $300\text{ kN}$.
+        \item \textbf{Fase 2 (Estructura Hiperestática):} Dimensionamiento del área ($\Omega_{CD}$) y diámetro ($\phi_{CD}$) del tirante de refuerzo superior $CD$ ($L = 3\text{ m}$) para restringir el descenso vertical de $C$ a un máximo de $\Delta l_C = 4\text{ mm}$.
+        \item \textbf{Comprobación Resistente:} Verificación del tirante $CD$ frente a la tensión admisible del acero ($\sigma_{\text{adm}} = 300\text{ N/mm}^2 = 300\text{ MPa}$).
+    \end{enumerate}
+\end{tcolorbox}
+
+\subsection{Enunciado y Geometría de Partida}
+
+Se considera la estructura mostrada en la figura, compuesta por una viga horizontal indeformable (rígida a flexión) $AC$ de longitud total $L_{AC} = 3\text{ m} + 2\text{ m} + 1\text{ m} = 6\text{ m}$, articulada en su extremo izquierdo $A$ mediante un apoyo fijo.
+
+La sustentación elástica de la barra se organiza de la siguiente manera:
+\begin{itemize}
+    \item \textbf{Pilar inferior $BE$:} Barra elástica vertical anclada en su base inferior fija $E$, de longitud $L_B = 3\text{ m}$, situada a $3\text{ m}$ del apoyo $A$. Trabaja a \textbf{compresión pura}.
+    \item \textbf{Tirante superior $CD$:} Cable o tirante elástico vertical anclado a un soporte superior rígido $D$, de longitud $L_C = 3\text{ m}$, situado en el extremo libre $C$ ($x = 6\text{ m}$). Trabaja a \textbf{tracción pura}.
+\end{itemize}
+
+A una distancia de $5\text{ m}$ del apoyo articulado $A$ (a $2\text{ m}$ a la derecha de $B$) se aplica una fuerza concentrada vertical descendente de valor $P = 300\text{ kN}$.
+
+El material de ambos elementos elásticos es acero con módulo de elasticidad longitudinal:
+\begin{equation}
+    E = 2{,}1 \cdot 10^5\text{ N/mm}^2 = 210\text{ GPa} = 2{,}1 \cdot 10^8\text{ kN/m}^2
+\end{equation}
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.96\textwidth}{%
+        \begin{tikzpicture}[scale=1.1, >=Latex]
+            % Viga horizontal rígida AC
+            \draw[line width=3.5pt, blue!85!black] (0, 0) -- (6, 0);
+
+            % Nodos sobre la viga
+            \coordinate (A) at (0, 0);
+            \coordinate (B) at (3, 0);
+            \coordinate (Ppos) at (5, 0);
+            \coordinate (C) at (6, 0);
+            \coordinate (E) at (3, -3);
+            \coordinate (D) at (6, 3);
+
+            % Puntos nodales
+            \filldraw[black] (A) circle (2.2pt) node[above left=2pt] {$A$};
+            \filldraw[black] (B) circle (2.2pt) node[above=3pt] {$B$};
+            \filldraw[black] (Ppos) circle (2.2pt);
+            \filldraw[black] (C) circle (2.2pt) node[below right=2pt] {$C$};
+
+            % Apoyo articulado fijo en A
+            \draw[thick] (A) -- ++(-0.35,-0.55) -- ++(0.7,0) -- cycle;
+            \draw[line width=1.1pt] ($(A)+(-0.55,-0.55)$) -- ($(A)+(0.55,-0.55)$);
+            \foreach \x in {-0.4,-0.15,0.1,0.35} \draw ($(A)+(\x,-0.55)$) -- ($(A)+(\x-0.15,-0.75)$);
+
+            % Pilar BE hacia abajo (compresión)
+            \draw[line width=2.4pt, orange!85!black] (B) -- (E);
+            \node[left=3pt, font=\small\bfseries, orange!85!black] at (3, -1.5) {Pilar $BE$ ($L = 3\text{ m}$)};
+            % Apoyo inferior fijo en E
+            \fill[pattern=north east lines, pattern color=gray!70] (2.4, -3.0) rectangle (3.6, -3.3);
+            \draw[line width=1.2pt] (2.4, -3.0) -- (3.6, -3.0);
+            \draw[thick] (E) -- ++(-0.25, 0) -- ++(0.25, 0.3) -- ++(0.25, -0.3) -- cycle;
+            \node[below right=2pt] at (E) {$E$};
+
+            % Tirante superior CD hacia arriba (tracción)
+            \draw[line width=2pt, brown!80!black, dashed] (C) -- (D);
+            \node[right=3pt, font=\small\bfseries, brown!85!black] at (6, 1.5) {Tirante $CD$ ($L = 3\text{ m}$) [Refuerzo]};
+            % Apoyo superior en D
+            \fill[pattern=north east lines, pattern color=gray!70] (5.4, 3.0) rectangle (6.6, 3.3);
+            \draw[line width=1.2pt] (5.4, 3.0) -- (6.6, 3.0);
+            \draw[thick] (D) -- ++(-0.25, 0) -- ++(0.25, -0.3) -- ++(0.25, 0.3) -- cycle;
+            \node[above right=2pt] at (D) {$D$};
+
+            % Carga puntual P = 300 kN en x = 5 m
+            \draw[->, line width=2.2pt, red!85!black] (5, 0) -- (5, -1.5) node[pos=1, below, font=\bfseries] {$P = 300\text{ kN}$};
+
+            % Cotas horizontales
+            \draw[|<->|, >=Latex] (0, 0.7) -- (3, 0.7) node[midway, fill=white, font=\footnotesize] {$3\text{ m}$};
+            \draw[|<->|, >=Latex] (3, 0.7) -- (5, 0.7) node[midway, fill=white, font=\footnotesize] {$2\text{ m}$};
+            \draw[|<->|, >=Latex] (5, 0.7) -- (6, 0.7) node[midway, fill=white, font=\footnotesize] {$1\text{ m}$};
+
+            % Cotas verticales
+            \draw[|<->|, >=Latex] (2.2, 0) -- (2.2, -3) node[midway, fill=white, font=\footnotesize] {$3\text{ m}$};
+            \draw[|<->|, >=Latex] (6.8, 0) -- (6.8, 3) node[midway, fill=white, font=\footnotesize] {$3\text{ m}$};
+        \end{tikzpicture}%
+    }
+    \caption{Geometría de la estructura, apoyos y elementos elásticos de sustentación.}
+    \label{fig:examen_nov_tirantes_geometria}
+\end{figure}
+
+%=============================================================================
+\paso{1}{Fase 1: Dimensionamiento del Pilar $BE$ sin Tirante $CD$ ($\Delta l_C \leq 8\text{ mm}$)}
+
+En esta primera fase la estructura es \textbf{estáticamente determinada (isostática)}, pues únicamente cuenta con el apoyo articulado en $A$ ($H_A, V_A$) y la sustentación elástica del pilar en $B$ ($N_B$).
+
+\subsubsection*{1. Equilibrio Estático de la Viga Rígida:}
+Aislamos la barra rígida. El pilar $BE$ soporta la carga empujando hacia arriba sobre el nudo $B$ ($N_B \uparrow$, compresión interna en el pilar):
+\begin{align}
+    (\rightarrow +) \quad \sum F_x = 0      & \implies \boxed{H_A = 0} \\[6pt]
+    (\circlearrowleft +) \quad \sum M_A = 0 & \implies N_B \cdot 3\text{ m} - 300\text{ kN} \cdot 5\text{ m} = 0 \nonumber \\
+                                            & \implies 3\,N_B = 1500 \implies \boxed{N_B = 500\text{ kN} \quad (\text{Compresión})} \\[6pt]
+    (\uparrow +) \quad \sum F_y = 0         & \implies V_A + N_B - 300 = 0 \implies V_A + 500 - 300 = 0 \nonumber \\
+                                            & \implies \boxed{V_A = -200\text{ kN}} \quad (\text{Reacción hacia abajo en } A)
+\end{align}
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.88\textwidth}{%
+        \begin{tikzpicture}[scale=1.1, >=Latex]
+            % Viga deformada por giro rígido
+            \draw[line width=2pt, dashed, gray!70] (0, 0) -- (6, 0);
+            \node[gray!80, left] at (0, 0) {\footnotesize Posición inicial};
+
+            % Viga girada (alrededor de A)
+            \draw[line width=2.8pt, blue!85!black] (0, 0) -- (6, -1.6);
+            \filldraw[black] (0, 0) circle (2pt) node[above left] {$A$};
+            \filldraw[blue!85!black] (3, -0.8) circle (2pt) node[below left] {$B'$};
+            \filldraw[blue!85!black] (6, -1.6) circle (2pt) node[below right] {$C'$};
+
+            % Desplazamientos verticales
+            \draw[<->, line width=1.3pt, purple] (3, 0) -- (3, -0.8) node[midway, right=2pt, font=\small\bfseries] {$\Delta l_B$};
+            \draw[<->, line width=1.3pt, purple] (6, 0) -- (6, -1.6) node[midway, right=2pt, font=\small\bfseries] {$\Delta l_C = 8\text{ mm}$};
+
+            % Cotas
+            \draw[|<->|, >=Latex] (0, -2.1) -- (3, -2.1) node[midway, fill=white, font=\footnotesize] {$3\text{ m}$};
+            \draw[|<->|, >=Latex] (3, -2.1) -- (6, -2.1) node[midway, fill=white, font=\footnotesize] {$3\text{ m}$};
+        \end{tikzpicture}%
+    }
+    \caption{Cinemática de giro rígido de la viga en torno a la articulación $A$ (Fase 1).}
+    \label{fig:examen_nov_cinematica_fase1}
+\end{figure}
+
+\subsubsection*{2. Cinemática de Deformaciones y Acortamiento en $B$:}
+Al rotar la viga como sólido rígido alrededor de la articulación $A$, por semejanza directa de triángulos:
+\begin{equation}
+    \frac{\Delta l_C}{6\text{ m}} = \frac{\Delta l_B}{3\text{ m}} \implies \Delta l_B = \frac{3}{6}\Delta l_C = \frac{1}{2}\Delta l_C
+\end{equation}
+Sustituyendo el descenso límite exigido en el extremo libre ($\Delta l_C = 8\text{ mm} = 0{,}008\text{ m}$):
+\begin{equation}
+    \boxed{\Delta l_B = \frac{8\text{ mm}}{2} = 4\text{ mm} = 0{,}004\text{ m} = 4 \cdot 10^{-3}\text{ m}}
+\end{equation}
+
+\subsubsection*{3. Cálculo de la Sección Transversal del Pilar $\Omega_{BE}$:}
+Aplicando la ley de Hooke uniaxial para la deformación del pilar elástico ($\Delta l_B = \frac{N_B \cdot L_B}{E \cdot \Omega_{BE}}$):
+\begin{equation}
+    \Omega_{BE} = \frac{N_B \cdot L_B}{E \cdot \Delta l_B}
+\end{equation}
+Sustituyendo los valores en unidades homogéneas ($N_B = 500\text{ kN}$, $L_B = 3\text{ m}$, $E = 2{,}1 \cdot 10^8\text{ kN/m}^2$, $\Delta l_B = 0{,}004\text{ m}$):
+\begin{equation}
+    \Omega_{BE} = \frac{500\text{ kN} \cdot 3\text{ m}}{2{,}1 \cdot 10^8\text{ kN/m}^2 \cdot 0{,}004\text{ m}} = \frac{1500}{840000} = \frac{1}{560}\text{ m}^2 \approx \boxed{1{,}7857 \cdot 10^{-3}\text{ m}^2 = 1785{,}71\text{ mm}^2}
+\end{equation}
+\begin{equation}
+    \boxed{\Omega_{BE} \approx 1{,}79 \cdot 10^{-3}\text{ m}^2 = 17{,}86\text{ cm}^2}
+\end{equation}
+
+%=============================================================================
+\paso{2}{Fase 2: Incorporación del Tirante $CD$ y Estructura Hiperestática ($\Delta l_C \leq 4\text{ mm}$)}
+
+Para reducir la flecha del extremo $C$ a la mitad ($\Delta l_C = 4\text{ mm}$), se incorpora el tirante superior $CD$. El sistema se convierte en una \textbf{estructura hiperestática de grado 1}.
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.88\textwidth}{%
+        \begin{tikzpicture}[scale=1.1, >=Latex]
+            % Viga
+            \draw[line width=3.2pt, blue!80!black] (0, 0) -- (6, 0);
+
+            % Reacciones en A
+            \draw[->, line width=1.6pt, green!60!black] (-1.2, 0) -- (0, 0) node[pos=0, left, font=\bfseries] {$H_A$};
+            \draw[->, line width=1.6pt, green!60!black] (0, 0) -- (0, 1.2) node[pos=1, above, font=\bfseries] {$V_A$};
+
+            % Fuerza del pilar B (hacia arriba)
+            \draw[->, line width=1.8pt, orange!85!black] (3, 0) -- (3, 1.4) node[pos=1, above, font=\bfseries] {$N_B$};
+
+            % Fuerza del tirante C (hacia arriba, tracción)
+            \draw[->, line width=1.8pt, brown!80!black] (6, 0) -- (6, 1.4) node[pos=1, above, font=\bfseries] {$N_C$};
+
+            % Carga exterior
+            \draw[->, line width=2.2pt, red!85!black] (5, 0) -- (5, -1.4) node[pos=1, below, font=\bfseries] {$P = 300\text{ kN}$};
+
+            % Nodos y cotas
+            \node[below left=2pt, font=\bfseries] at (0, 0) {$A$};
+            \node[below=2pt, font=\bfseries] at (3, 0) {$B$};
+            \node[below right=2pt, font=\bfseries] at (6, 0) {$C$};
+
+            \draw[|<->|, >=Latex] (0, -0.6) -- (3, -0.6) node[midway, fill=white, font=\footnotesize] {$3\text{ m}$};
+            \draw[|<->|, >=Latex] (3, -0.6) -- (5, -0.6) node[midway, fill=white, font=\footnotesize] {$2\text{ m}$};
+            \draw[|<->|, >=Latex] (5, -0.6) -- (6, -0.6) node[midway, fill=white, font=\footnotesize] {$1\text{ m}$};
+        \end{tikzpicture}%
+    }
+    \caption{Diagrama de Cuerpo Libre (DCL) de la estructura hiperestática completa.}
+    \label{fig:examen_nov_dcl_hiperestatica}
+\end{figure}
+
+\subsubsection*{1. Cinemática de Deformaciones y Acortamiento en $B$:}
+Al descender el punto $C$ un máximo admisible de $\Delta l_C = 4\text{ mm} = 0{,}004\text{ m}$, la relación geométrica de giro rígido alrededor de $A$ impone:
+\begin{equation}
+    \frac{\Delta l_C}{6\text{ m}} = \frac{\Delta l_B}{3\text{ m}} \implies \Delta l_B = \frac{1}{2}\Delta l_C = \frac{4\text{ mm}}{2} = \mathbf{2\text{ mm}} = 0{,}002\text{ m} = 2 \cdot 10^{-3}\text{ m}
+\end{equation}
+
+\subsubsection*{2. Fuerza Axial Real en el Pilar $BE$:}
+Con la sección $\Omega_{BE} = 1{,}7857 \cdot 10^{-3}\text{ m}^2$ calculada en la Fase 1, evaluamos el esfuerzo axil $N_B$ necesario para producir un acortamiento de exactamente $\Delta l_B = 2\text{ mm}$:
+\begin{align}
+    N_B & = \frac{\Delta l_B \cdot E \cdot \Omega_{BE}}{L_B} = \frac{2 \cdot 10^{-3}\text{ m} \cdot 2{,}1 \cdot 10^8\text{ kN/m}^2 \cdot 1{,}7857 \cdot 10^{-3}\text{ m}^2}{3\text{ m}} \nonumber \\
+        & = \frac{750}{3} = \mathbf{250\text{ kN}} \quad (\text{Compresión})
+\end{align}
+\nt{
+    Nótese que, al reducirse el acortamiento de $B$ a la mitad (de $4\text{ mm}$ a $2\text{ mm}$), por linealidad elástica el esfuerzo que soporta el pilar se reduce exactamente a la mitad: $N_B = \frac{500\text{ kN}}{2} = 250\text{ kN}$ (en las notas manuscritas se redondea a $249{,}2\text{ kN}$ debido al truncamiento $\Omega_{BE} \approx 1{,}78 \cdot 10^{-3}\text{ m}^2$; el valor exacto es $250\text{ kN}$).
+}
+
+\subsubsection*{3. Equilibrio de Momentos y Esfuerzo en el Tirante $CD$ ($N_C$):}
+Tomamos momentos en el apoyo articulado $A$ ($\sum M_A = 0$):
+\begin{equation}
+    (\circlearrowleft +) \quad \sum M_A = 0 \implies N_B \cdot 3 - 300 \cdot 5 + N_C \cdot 6 = 0
+\end{equation}
+Sustituyendo el esfuerzo del pilar $N_B = 250\text{ kN}$ (o $249{,}2\text{ kN}$):
+\begin{align}
+    250 \cdot 3 - 1500 + 6\,N_C = 0 & \implies 750 - 1500 + 6\,N_C = 0 \nonumber \\
+                                    & \implies 6\,N_C = 750 \implies \boxed{N_C = \frac{750}{6} = \mathbf{125\text{ kN}}}
+\end{align}
+\nt{
+    Con el valor aproximado manuscrito $N_B = 249{,}2\text{ kN}$:
+    \[
+        6\,N_C = 1500 - 3(249{,}2) = 1500 - 747{,}6 = 752{,}4 \implies N_C = \frac{752{,}4}{6} = 125{,}4\text{ kN}
+    \]
+    Ambos valores coinciden plenamente dentro del margen del $0{,}3\text{ por ciento}$. Presentamos el valor exacto ($125\text{ kN}$) y el valor con redondeo ($125{,}4\text{ kN}$).
+}
+
+%=============================================================================
+\paso{3}{Dimensionamiento del Tirante $CD$ por Condición de Rigidez}
+
+El alargamiento elástico experimentado por el tirante $CD$ debe coincidir con el descenso impuesto del extremo $C$ ($\Delta l_C = 4\text{ mm} = 4 \cdot 10^{-3}\text{ m}$):
+\begin{equation}
+    \Delta l_C = \frac{N_C \cdot L_C}{E \cdot \Omega_{CD}} \implies \Omega_{CD} = \frac{N_C \cdot L_C}{E \cdot \Delta l_C}
+\end{equation}
+Sustituyendo los valores numéricos:
+\begin{itemize}
+    \item Con el esfuerzo exacto $N_C = 125\text{ kN}$:
+          \begin{equation}
+              \Omega_{CD} = \frac{125\text{ kN} \cdot 3\text{ m}}{2{,}1 \cdot 10^8\text{ kN/m}^2 \cdot 0{,}004\text{ m}} = \frac{375}{840000} \approx \boxed{4{,}4643 \cdot 10^{-4}\text{ m}^2 = 446{,}43\text{ mm}^2 = 4{,}46\text{ cm}^2}
+          \end{equation}
+    \item Con el valor manuscrito $N_C = 125{,}4\text{ kN}$:
+          \begin{equation}
+              \Omega_{CD} = \frac{125{,}4 \cdot 3}{2{,}1 \cdot 10^8 \cdot 0{,}004} \approx \mathbf{4{,}4786 \cdot 10^{-4}\text{ m}^2 = 447{,}86\text{ mm}^2 \approx 4{,}47\text{ cm}^2}
+          \end{equation}
+\end{itemize}
+
+\subsubsection*{Cálculo del diámetro del tirante $CD$ ($\phi_{CD}$):}
+A partir del área circular $\Omega = \frac{\pi}{4}\phi^2$:
+\begin{equation}
+    \phi_{CD} = \sqrt{\frac{4\,\Omega_{CD}}{\pi}} = \sqrt{\frac{4 \cdot 446{,}43\text{ mm}^2}{\pi}} = \sqrt{568{,}41} \approx \mathbf{23{,}84\text{ mm}} \approx \mathbf{2{,}38\text{ cm}}
+\end{equation}
+\nt{
+    \textbf{Aclaración sobre la nota manuscrita tachada:}
+    En la hoja manuscrita aparece una duda tachada donde se calcula erróneamente un diámetro de $74\text{ mm}$. La confusión radica en un error de potencias al despejar en metros cuadrados ($4{,}47 \cdot 10^{-4}\text{ m}^2$ equivale a $447\text{ mm}^2$, arrojando un diámetro correcto de $\approx \mathbf{23{,}9\text{ mm}}$ y no de $74\text{ mm}$).
+}
+
+%=============================================================================
+\paso{4}{Comprobación Resistente del Tirante Frente a $\sigma_{\text{adm}} = 300\text{ MPa}$}
+
+El enunciado complementario consulta: \textit{«Sabiendo que la tensión admisible del acero es $300\text{ N/mm}^2$, ¿resistirá el tirante $CD$? En caso negativo, redimensionarlo».}
+
+Evaluamos la tensión de trabajo a tracción en el tirante dimensionado por rigidez:
+\begin{equation}
+    \sigma = \frac{N_C}{\Omega_{CD}} = \frac{125 \cdot 10^3\text{ N}}{446{,}43\text{ mm}^2} \approx \mathbf{280\text{ N/mm}^2} = \mathbf{280\text{ MPa}}
+\end{equation}
+(o bien $\frac{125{,}4 \cdot 10^3}{447\text{ mm}^2} \approx \mathbf{280{,}5\text{ N/mm}^2}$).
+
+Comprobamos la condición fundamental de seguridad tensional:
+\begin{equation}
+    \sigma = 280\text{ MPa} \leq \sigma_{\text{adm}} = 300\text{ MPa} \quad \checkmark \quad \textbf{(El tirante resiste con total seguridad)}
+\end{equation}
+
+\imp{
+    \textbf{Conclusión de Diseño:}
+    \begin{itemize}
+        \item El tirante $CD$ dimensionado por la condición estricta de deformación ($\Delta l_C = 4\text{ mm}$) trabaja a una tensión de $280\text{ MPa}$, la cual es inferior a la admisible de $300\text{ MPa}$ (aprovechamiento resistente del $93{,}3\text{ por ciento}$).
+        \item Por tanto, \textbf{no es necesario redimensionar el tirante a tracción}, pues la sección $\Omega_{CD} \approx 446{,}43\text{ mm}^2$ ($\phi \approx 24\text{ mm}$) satisface simultáneamente las exigencias de Estado Límite de Servicio (deformación) y Estado Límite Último (resistencia).
+    \end{itemize}
+}
+
+%=============================================================================
+\subsection*{Resumen Final de Resultados}
+
+\begin{table}[H]
+    \centering
+    \caption{Resumen global del problema de examen de viga rígida con pilar y tirante.}
+    \adjustbox{max width=0.95\textwidth}{%
+        \begin{tabular}{lccc}
+            \toprule
+            \textbf{Magnitud}                       & \textbf{Símbolo / Expresión}                                     & \textbf{Valor Exacto}                  & \textbf{Unidades / Estado}                 \\
+            \midrule
+            \multicolumn{4}{l}{\textbf{Fase 1: Estructura Isostática (Sin tirante $CD$, $\Delta l_C \leq 8\text{ mm}$)}} \\
+            Esfuerzo en pilar $BE$                  & $N_B = \frac{300 \cdot 5}{3}$                                    & $\mathbf{500{,}00}$                    & $\text{kN}$ (Compresión)                   \\
+            Reacción vertical en $A$                & $V_A = 300 - N_B$                                                & $\mathbf{-200{,}00}$                   & $\text{kN}$ ($\downarrow$)                  \\
+            Acortamiento del pilar $BE$             & $\Delta l_B = \frac{1}{2}\Delta l_C$                             & $\mathbf{4{,}00}$                      & $\text{mm}$ (descenso en $B$)              \\
+            \textbf{Sección mínima del pilar $BE$}  & $\mathbf{\Omega_{BE} = \dfrac{N_B L_B}{E \Delta l_B}}$           & $\mathbf{1785{,}71}$                   & $\mathbf{mm^2} \ (17{,}86\text{ cm}^2)$    \\
+            \midrule
+            \multicolumn{4}{l}{\textbf{Fase 2: Estructura Hiperestática (Con tirante $CD$, $\Delta l_C \leq 4\text{ mm}$)}} \\
+            Acortamiento admisible en $B$           & $\Delta l_B = \frac{1}{2}\Delta l_C$                             & $\mathbf{2{,}00}$                      & $\text{mm}$                                \\
+            Esfuerzo en pilar $BE$                  & $N_B = \dfrac{\Delta l_B E \Omega_{BE}}{L_B}$                    & $\mathbf{250{,}00}$                    & $\text{kN}$ (Compresión)                   \\
+            Esfuerzo en tirante $CD$                & $N_C = \dfrac{300(5) - N_B(3)}{6}$                               & $\mathbf{125{,}00}$                    & $\text{kN}$ (Tracción)                     \\
+            \textbf{Sección mínima tirante $CD$}    & $\mathbf{\Omega_{CD} = \dfrac{N_C L_C}{E \Delta l_C}}$           & $\mathbf{446{,}43}$                    & $\mathbf{mm^2} \ (4{,}46\text{ cm}^2)$     \\
+            \textbf{Diámetro mínimo tirante $CD$}   & $\mathbf{\phi_{CD} = \sqrt{\dfrac{4\Omega_{CD}}{\pi}}}$         & $\mathbf{23{,}84}$                     & $\mathbf{mm} \ (\approx 24\text{ mm})$     \\
+            \midrule
+            Tensión de trabajo en el acero          & $\sigma = \dfrac{N_C}{\Omega_{CD}}$                              & $\mathbf{280{,}00}$                    & $\text{N/mm}^2 \leq 300\text{ (Resiste)}$  \\
+            \bottomrule
+        \end{tabular}%
+    }
+    \label{tab:resumen_examen_nov_tirantes}
+\end{table}
+
+
+
+%=============================================================================

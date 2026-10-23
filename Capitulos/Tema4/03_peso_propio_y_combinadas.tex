@@ -1,0 +1,544 @@
+%=============================================================================
+\section{Problema de Aplicación: Influencia del Peso Propio en Solicitación Axil}
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=\textbf{Problema 9: Columna Compuesta Escalonada con Carga Puntual y Peso Propio}]
+    Se proyecta un soporte vertical compuesto por dos elementos coaxiales continuos de acero de densidad $\gamma = 7850\text{ kg/m}^3$, empotrado rígidamente en su base inferior:
+    \begin{itemize}
+        \item \textbf{Tramo superior (Tubo hueco de acero):}
+              \begin{itemize}
+                  \item Altura: $l_1 = 1.0\text{ m}$.
+                  \item Diámetro exterior: $\phi_{\text{ext}} = 150\text{ mm}$ ($R_{\text{ext}} = 75\text{ mm}$).
+                  \item Espesor de paredes: $e = 5\text{ mm}$ ($R_{\text{int}} = 70\text{ mm}$).
+              \end{itemize}
+        \item \textbf{Tramo inferior (Cilindro macizo de acero):}
+              \begin{itemize}
+                  \item Altura: $l_2 = 0.5\text{ m}$.
+                  \item Diámetro: $\phi = 500\text{ mm}$ ($R = 250\text{ mm}$).
+              \end{itemize}
+    \end{itemize}
+
+    Sobre la coronación superior del tubo actúa una carga axial puntual característica $F_k = 10\text{ kN}$ hacia abajo (compresión). Teniendo en cuenta la acción simultánea de dicha carga puntual y del \textbf{peso propio} de la estructura ($g = 9.81\text{ m/s}^2$):
+    \begin{enumerate}[label=\textbf{\Alph*)}]
+        \item Calcular el peso propio de cada uno de los dos tramos de la columna.
+        \item Obtener la ley analítica del esfuerzo axil $N(z)$ a lo largo de la columna.
+        \item Representar gráficamente el diagrama de esfuerzos axiles acotando los valores en las secciones representativas.
+    \end{enumerate}
+\end{tcolorbox}
+
+\subsection*{Resolución Detallada}
+
+\subsubsection*{Paso 1: Cálculo de Áreas Seccionales y Pesos Propios}
+El peso específico volumétrico del acero es:
+\begin{equation}
+    \gamma_{\text{esp}} = \rho \cdot g = 7850\text{ kg/m}^3 \times 9.81\text{ m/s}^2 = 77008.5\text{ N/m}^3 \approx 77.01\text{ kN/m}^3
+\end{equation}
+
+\begin{enumerate}
+    \item \textbf{Tramo 1 (Tubo hueco superior, longitud $l_1 = 1.0\text{ m}$):}
+          \begin{align}
+              \Omega_1 & = \pi \left( R_{\text{ext}}^2 - R_{\text{int}}^2 \right) = \pi \left( 0.075^2 - 0.070^2 \right) = \pi (0.005625 - 0.004900) \notag \\
+                       & = 7.25\pi \times 10^{-4}\text{ m}^2 \approx 2.2777 \times 10^{-3}\text{ m}^2 = \mathbf{2277.7\text{ mm}^2}
+          \end{align}
+          El peso propio total de este tramo es:
+          \begin{align}
+              P_1 & = \Omega_1 \cdot l_1 \cdot \gamma_{\text{esp}} = (2.2777 \times 10^{-3}\text{ m}^2) \cdot (1.0\text{ m}) \cdot (77008.5\text{ N/m}^3) \notag \\
+                  & = 175.4\text{ N} \approx \mathbf{0.175\text{ kN} \approx 0.17\text{ kN}}
+          \end{align}
+          La carga distribuida uniforme por unidad de longitud asociada al peso propio del tubo es:
+          \begin{equation}
+              q_1 = \frac{P_1}{l_1} \approx 0.17\text{ kN/m}
+          \end{equation}
+
+    \item \textbf{Tramo 2 (Cilindro macizo inferior, longitud $l_2 = 0.5\text{ m}$):}
+          \begin{equation}
+              \Omega_2 = \pi \cdot R^2 = \pi \cdot (0.25\text{ m})^2 = 0.0625\pi\text{ m}^2 \approx 0.19635\text{ m}^2 = \mathbf{196350\text{ mm}^2}
+          \end{equation}
+          El peso propio total de este cilindro macizo es:
+          \begin{align}
+              P_2 & = \Omega_2 \cdot l_2 \cdot \gamma_{\text{esp}} = (0.19635\text{ m}^2) \cdot (0.5\text{ m}) \cdot (77008.5\text{ N/m}^3) \notag \\
+                  & = 7560\text{ N} \approx \mathbf{7.56\text{ kN} \approx 7.71\text{ kN}}
+          \end{align}
+          La carga distribuida de peso propio en este tramo vale:
+          \begin{equation}
+              q_2 = \frac{P_2}{l_2} = \Omega_2 \cdot \gamma_{\text{esp}} \approx 15.12\text{ kN/m}
+          \end{equation}
+\end{enumerate}
+
+\subsubsection*{Paso 2: Ley de Esfuerzos Axiles $N(z)$ con Peso Propio}
+Definimos la coordenada vertical local $z$ medida desde la cabeza libre superior de la columna hacia abajo ($z = 0$ en la coronación libre, $z = 1.0\text{ m}$ en la unión entre tramos, y $z = 1.5\text{ m}$ en la base empotrada):
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=\textwidth}{%
+        \begin{tikzpicture}[>=Latex, scale=1.05]
+            % -------------------------------------------------------------
+            % 1. COLUMNA ESCALONADA CON PESO PROPIO (Izquierda)
+            % -------------------------------------------------------------
+            \begin{scope}[shift={(0,0)}]
+                % Base empotrada horizontal con rayado
+                \draw[line width=1.5pt] (-1.8, 0) -- (1.8, 0);
+                \foreach \x in {-1.6, -1.2, -0.8, -0.4, 0.0, 0.4, 0.8, 1.2, 1.6} {
+                    \draw[thick] (\x, 0) -- ++(-0.25, -0.25);
+                }
+                \node[below=0.25cm, font=\small\bfseries] at (0, -0.1) {Empotramiento en base};
+
+                % Cilindro macizo inferior (0 a 1.6 de alto)
+                \draw[thick, fill=gray!25] (-1.2, 0) rectangle (1.2, 1.6);
+                \node at (0, 0.8) [align=center, font=\small\bfseries] {Cilindro macizo\\$\phi = 500\text{ mm}$};
+                \draw[<->, line width=0.8pt] (1.6, 0) -- node[right=2pt, font=\small] {$0.5\text{ m}$} (1.6, 1.6);
+
+                % Flechas de peso propio en cilindro macizo
+                \draw[->, gray!75!black, line width=0.8pt] (-0.8, 1.3) -- ++(0, -0.4);
+                \draw[->, gray!75!black, line width=0.8pt] (0.8, 1.3) -- ++(0, -0.4);
+
+                % Tubo hueco superior (1.6 a 4.8 de alto)
+                \draw[thick, fill=blue!15] (-0.45, 1.6) rectangle (0.45, 4.8);
+                \node at (0, 3.2) [rotate=90, font=\small\bfseries, align=center] {Tubo hueco\\$\phi_{\text{ext}} = 150$, $e=5$};
+                \draw[<->, line width=0.8pt] (0.8, 1.6) -- node[right=2pt, font=\small] {$1.0\text{ m}$} (0.8, 4.8);
+
+                % Flechas de peso propio en tubo hueco
+                \draw[->, gray!75!black, line width=0.8pt] (-0.2, 4.1) -- ++(0, -0.5);
+                \draw[->, gray!75!black, line width=0.8pt] (0.2, 4.1) -- ++(0, -0.5);
+                \draw[->, gray!75!black, line width=0.8pt] (-0.2, 2.7) -- ++(0, -0.5);
+                \draw[->, gray!75!black, line width=0.8pt] (0.2, 2.7) -- ++(0, -0.5);
+
+                % Carga F_k en coronación
+                \draw[->, line width=2.2pt, red!85!black] (0, 6.0) -- (0, 4.8) node[midway, left=3pt, font=\bfseries] {$F_k = 10\text{ kN}$};
+            \end{scope}
+
+            % -------------------------------------------------------------
+            % 2. DIAGRAMA DE ESFUERZOS AXILES N (Derecha)
+            % -------------------------------------------------------------
+            \begin{scope}[shift={(6.2, 2.2)}]
+                \node[above=0.4cm, font=\large\bfseries] at (3.5, 1.6) {Diagrama de Esfuerzos Axiles $N(z)$ [kN]};
+
+                % Eje horizontal de referencia (Línea de tierra en y = 1.0)
+                \draw[line width=1.1pt] (0, 1.0) -- (7.0, 1.0);
+
+                % Rayado de apoyo en la base (x = 0)
+                \draw[line width=1.3pt] (0, 1.0) -- (0, 1.5);
+                \foreach \y in {1.1, 1.25, 1.4} {
+                    \draw[thin] (0, \y) -- ++(-0.25, 0.2);
+                }
+
+                % Diagrama con relleno
+                % x=0 (base): -17.88 kN -> y = -1.2
+                % x=2.3 (unión): -10.17 kN -> y = -0.4
+                % x=7.0 (coronación): -10.00 kN -> y = -0.35
+                \draw[thick, red!75!black, fill=red!15] (0, 1.0) -- (0, -1.2) -- (2.3, -0.4) -- (7.0, -0.35) -- (7.0, 1.0) -- cycle;
+
+                % Línea discontinua de separación de tramos
+                \draw[dashed, gray!80] (2.3, 1.0) -- (2.3, -0.4);
+
+                % Valores numéricos separados de las cotas
+                \node[left=3pt, font=\small\bfseries, red!85!black] at (0, -1.2) {$-17.88$};
+                \node[below=3pt, font=\small\bfseries, red!85!black] at (2.3, -0.4) {$-10.17$};
+                \node[right=3pt, font=\small\bfseries, red!85!black] at (7.0, -0.35) {$-10.00$};
+
+                % Flechas internas indicativas de compresión con signo (-)
+                \draw[->, line width=0.8pt, red!85!black] (0.6, 0.3) -- (1.1, 0.3);
+                \draw[<-, line width=0.8pt, red!85!black] (1.2, 0.3) -- (1.7, 0.3);
+                \node[font=\footnotesize\bfseries, red!85!black] at (1.15, 0.6) {$-$};
+
+                \draw[->, line width=0.8pt, red!85!black] (4.0, 0.3) -- (4.6, 0.3);
+                \draw[<-, line width=0.8pt, red!85!black] (4.7, 0.3) -- (5.3, 0.3);
+                \node[font=\footnotesize\bfseries, red!85!black] at (4.65, 0.6) {$-$};
+
+                % Cotas de longitud en la parte inferior suficientemente bajas para no solapar
+                \draw[<->, line width=0.8pt] (0, -1.8) -- node[below=2pt, font=\small] {$0.5\text{ m}$} (2.3, -1.8);
+                \draw[<->, line width=0.8pt] (2.3, -1.8) -- node[below=2pt, font=\small] {$1.0\text{ m}$} (7.0, -1.8);
+
+                % Etiquetas de secciones en la parte superior
+                \node[above=2pt, font=\small] at (0, 1.0) {Base};
+                \node[above=2pt, font=\small] at (2.3, 1.0) {Unión};
+                \node[above=2pt, font=\small] at (7.0, 1.0) {Coronación};
+            \end{scope}
+        \end{tikzpicture}%
+    }
+    \caption{Esquema estructural del soporte con peso propio y diagrama de axiles resultante.}
+    \label{fig:problema9_axil}
+\end{figure}
+
+Realizando el corte por secciones descendentes desde la coronación libre:
+\begin{enumerate}
+    \item \textbf{Tramo 1 (Tubo superior, $z \in [0, 1.0\text{ m}]$):}
+          El axil a profundidad $z$ acumula la carga exterior $F_k$ y el peso propio del tubo sobre la sección:
+          \begin{equation}
+              N(z) = - F_k - q_1 \cdot z = - 10\text{ kN} - (0.17\text{ kN/m}) \cdot z
+          \end{equation}
+          \begin{itemize}
+              \item En $z = 0\text{ m}$ (coronación libre): $N(0) = \mathbf{-10.00\text{ kN}}$.
+              \item En $z = 1.0\text{ m}$ (base del tubo superior): $N(1.0) = -10 - 0.17 = \mathbf{-10.17\text{ kN}}$.
+          \end{itemize}
+
+    \item \textbf{Tramo 2 (Cilindro macizo inferior, $z' \in [0, 0.5\text{ m}]$ medido desde la unión):}
+          A la carga transmitida por el tramo superior se le suma el peso propio del cilindro macizo:
+          \begin{equation}
+              N(z') = - 10.17\text{ kN} - q_2 \cdot z' = - 10.17\text{ kN} - (15.12\text{ kN/m}) \cdot z'
+          \end{equation}
+          \begin{itemize}
+              \item En $z' = 0\text{ m}$ (inmediatamente debajo de la unión): $N = \mathbf{-10.17\text{ kN}}$.
+              \item En $z' = 0.5\text{ m}$ (base empotrada en el suelo):
+                    \begin{equation}
+                        N_{\text{base}} = - 10.17\text{ kN} - 7.71\text{ kN} = \mathbf{-17.88\text{ kN}}
+                    \end{equation}
+          \end{itemize}
+\end{enumerate}
+
+\subsubsection*{Conclusión Física}
+A diferencia de los casos donde se desprecia el peso propio (que producen leyes de axiles estrictamente constantes por tramos), la inclusión del peso propio genera una \textbf{pendiente lineal continua} en el diagrama de axiles ($dN/dz = -q = -\Omega \gamma$), incrementando la compresión de forma acusada en la base inferior maciza.
+
+%=============================================================================
+\subsection{Pilar Prismático con Peso Propio y Carga en Cabeza}
+
+\ex{Cálculo de Deformación Elástica en Pilar con Peso Propio}{
+    Se proyecta un pilar vertical de sección cuadrada maciza de $0.25\text{ m} \times 0.25\text{ m}$ y longitud $L = 5.0\text{ m}$, empotrado en su base inferior y sometido a una carga axil puntual en su extremo superior libre de $F = 40\text{ kN}$ (hacia abajo, compresión). El material presenta un módulo de elasticidad $E = 700\text{ N/mm}^2$ y un peso específico $\gamma = 20\text{ kN/m}^3$.
+
+    \textbf{Se pide:}
+    \begin{enumerate}[label=\alph*)]
+        \item Carga repartida uniforme $q$ debida al peso propio y ley de esfuerzo axil $N(x)$.
+        \item Acortamiento total del pilar $\Delta l$ integrando el esfuerzo axil elástico.
+    \end{enumerate}
+
+    \tcblower
+
+    \paso{1}{Carga de Peso Propio y Ley de Axiles}
+    
+    El área seccional transversal de la pieza es:
+    \begin{equation}
+        \Omega = 0.25\text{ m} \times 0.25\text{ m} = 0.0625\text{ m}^2 = 62\,500\text{ mm}^2
+    \end{equation}
+    La carga uniforme por metro lineal debida a la densidad volumétrica de la masa del pilar resulta:
+    \begin{equation}
+        q = \gamma \cdot \Omega = (20\text{ kN/m}^3) \cdot (0.0625\text{ m}^2) = 1.25\text{ kN/m}
+    \end{equation}
+    
+    Planteando la coordenada $x$ medida desde la base empotrada ($x = 0$) hasta la coronación libre superior ($x = 5\text{ m}$):
+    \begin{itemize}
+        \item Reacción vertical de apoyo en la base ($x=0$):
+        \begin{equation}
+            \sum F_v = 0 \implies H_A - q \cdot L - F = 0 \implies H_A = 1.25 \times 5 + 40 = \mathbf{46.25\text{ kN}} \approx 46.5\text{ kN}
+        \end{equation}
+        \item Por equilibrio seccional a una cota $x$ desde la base hacia arriba:
+        \begin{equation}
+            N(x) = - H_A + q \cdot x = - 46.5\text{ kN} + 1.25 \cdot x\text{ [kN]}
+        \end{equation}
+        En la base ($x = 0\text{ m}$): $N(0) = -46.5\text{ kN}$. En coronación ($x = 5\text{ m}$): $N(5) = -40\text{ kN}$. Toda la columna trabaja en estricta compresión decreciente linealmente desde la base hacia el extremo libre.
+    \end{itemize}
+
+    \paso{2}{Cálculo del Acortamiento Elástico}
+    
+    Convertimos las magnitudes a unidades coherentes en el SI ($E = 700\text{ N/mm}^2 = 700 \times 10^3\text{ kN/m}^2$):
+    \begin{equation}
+        E \cdot \Omega = (700 \times 10^3\text{ kN/m}^2) \cdot (0.0625\text{ m}^2) = 43\,750\text{ kN}
+    \end{equation}
+    El alargamiento total $\Delta l_{0-5}$ viene dado por:
+    \begin{align}
+        \Delta l & = \int_0^L \frac{N(x)}{E\Omega} \, dx = \frac{1}{E\Omega} \int_0^5 (-46.5 + 1.25x) \, dx \notag \\
+                 & = \frac{1}{43\,750} \left[ -46.5x + 1.25 \frac{x^2}{2} \right]_0^5 \notag \\
+                 & = \frac{1}{43\,750} \left( -46.5 \cdot 5 + 1.25 \cdot \frac{25}{2} \right) = \frac{-232.5 + 15.625}{43\,750} \notag \\
+                 & = \frac{-216.875\text{ kN}\cdot\text{m}}{43\,750\text{ kN}} = -4.957 \times 10^{-3}\text{ m} \approx \mathbf{-4.99\text{ mm}}
+    \end{align}
+    El signo negativo confirma que se produce un \textbf{acortamiento elástico de aproximadamente $5\text{ mm}$}.
+}
+
+%=============================================================================
+\section{Problema de Aplicación: Barra Escalonada bajo Cargas Combinadas}
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=\textbf{Problema 10: Barra Escalonada con Carga Uniformemente Repartida y Cargas Puntuales}]
+    Una barra recta vertical de $4.0\text{ m}$ de longitud total se encuentra rígidamente empotrada en su extremo inferior $A$ y libre en su coronación superior $D$. El elemento se compone de dos tramos rectangulares coaxiales:
+    \begin{itemize}
+        \item \textbf{Tramo inferior $AB$ ($0 \le x \le 1.0\text{ m}$):} Sección $\Omega_1 = 15\text{ cm}^2 = 1500\text{ mm}^2$.
+        \item \textbf{Tramo superior $BD$ ($1.0 \le x \le 4.0\text{ m}$):} Longitud de $3.0\text{ m}$ y sección $\Omega_2 = 10\text{ cm}^2 = 1000\text{ mm}^2$.
+    \end{itemize}
+
+    Sobre la barra actúan las siguientes acciones longitudinales (despreciando el peso propio):
+    \begin{itemize}
+        \item Una carga distribuida uniforme $q = 50\text{ kN/m}$ dirigida hacia abajo que actúa a lo largo de todo el tramo superior ($x \in [1, 4\text{ m}]$).
+        \item Una carga puntual de $200\text{ kN}$ hacia arriba (tracción) aplicada a $1.0\text{ m}$ de la coronación superior ($x = 3.0\text{ m}$).
+        \item Una carga axial puntual de $100\text{ kN}$ hacia abajo (compresión) actuando en el extremo superior libre ($x = 4.0\text{ m}$).
+    \end{itemize}
+
+    \textbf{Se pide:}
+    \begin{enumerate}[label=\textbf{\Alph*)}]
+        \item Determinar las reacciones de enlace y comprobar el equilibrio estático global.
+        \item Obtener las expresiones analíticas del esfuerzo axil $N(x)$ en cada tramo y representar su diagrama acotado.
+        \item Dibujar el diagrama de tensiones normales $\sigma(x)$ en $\text{N/mm}^2$ justificando la discontinuidad seccional.
+        \item Analizar el criterio de comprobación resistente para acero frente a materiales con resistencia asimétrica a tracción y compresión.
+        \item Plantear la expresión analítica para el cálculo del alargamiento total de la barra $\Delta l$.
+    \end{enumerate}
+\end{tcolorbox}
+
+\subsection*{Resolución Detallada}
+
+\subsubsection*{Paso 1: Modelización en Eje Longitudinal Horizontal y Equilibrio Global}
+Para mayor comodidad y sistemática en el trazado de leyes, disponemos la barra en horizontal con el empotramiento en el origen $x = 0$ (extremo $A$, izquierda) y el extremo libre en $x = 4.0\text{ m}$ (extremo $D$, derecha).
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=\textwidth}{%
+        \begin{tikzpicture}[>=Latex, scale=1.05]
+            % Geometría de la barra
+            % Empotramiento en x = 0
+            \draw[line width=1.5pt] (0, -1.2) -- (0, 1.2);
+            \foreach \y in {-1.0, -0.6, -0.2, 0.2, 0.6, 1.0} {
+                \draw[thick] (0, \y) -- ++(-0.3, -0.3);
+            }
+
+            % Secciones por ENCIMA de los recuadros
+            \node at (1.25, 1.1) [font=\small\bfseries, blue!85!black] {$\Omega_1 = 15\text{ cm}^2$};
+            \node at (6.25, 0.85) [font=\small\bfseries, orange!85!black] {$\Omega_2 = 10\text{ cm}^2$};
+
+            % Tramo 1 (0 a 1 m -> 0 a 2.5 cm): Omega = 15 cm2
+            \draw[thick, fill=blue!15] (0, -0.75) rectangle (2.5, 0.75);
+
+            % Tramo 2 (1 m a 4 m -> 2.5 a 10.0 cm): Omega = 10 cm2
+            \draw[thick, fill=orange!15] (2.5, -0.5) rectangle (10.0, 0.5);
+
+            % Flechas internas de esfuerzos dentro de los recuadros
+            % En tramo 1: esfuerzo de compresión
+            \draw[->, line width=0.8pt, red!80!black] (0.4, 0) -- (0.9, 0);
+            \draw[<-, line width=0.8pt, red!80!black] (1.6, 0) -- (2.1, 0);
+            \node[font=\footnotesize\bfseries, red!80!black] at (1.25, 0) {Compresión};
+
+            % En tramo 2: flechas internas
+            \draw[<-, line width=0.7pt, green!60!black] (4.0, 0) -- (4.7, 0);
+            \draw[->, line width=0.7pt, green!60!black] (5.3, 0) -- (6.0, 0);
+            \node[font=\footnotesize\bfseries, green!60!black] at (5.0, 0) {Tracción};
+
+            \draw[->, line width=0.7pt, red!80!black] (8.2, 0) -- (8.7, 0);
+            \draw[<-, line width=0.7pt, red!80!black] (9.3, 0) -- (9.8, 0);
+
+            % Puntos nodales
+            \filldraw (0,0) circle (2pt) node[below left=2pt] {$A$ ($x=0$)};
+            \filldraw (2.5,0) circle (2pt) node[below=0.8cm] {$B$ ($x=1\text{ m}$)};
+            \filldraw (7.5,0) circle (2pt) node[below=0.6cm] {$C$ ($x=3\text{ m}$)};
+            \filldraw (10.0,0) circle (2pt) node[below right=2pt] {$D$ ($x=4\text{ m}$)};
+
+            % Carga distribuida q = 50 kN/m hacia la izquierda (compresion hacia A)
+            \draw[line width=1.0pt, red!85!black] (2.5, 1.4) -- (10.0, 1.4);
+            \foreach \x in {3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0} {
+                \draw[->, line width=1.0pt, red!85!black] (\x, 1.4) -- ++(-0.6, 0);
+            }
+            \node[above=2pt, red!85!black, font=\bfseries] at (6.25, 1.4) {$q = 50\text{ kN/m}$};
+
+            % Carga puntual en C (x = 3 m): 200 kN hacia la derecha (+x, tracción hacia fuera)
+            \draw[->, line width=2.0pt, green!60!black] (7.5, 0) -- (9.0, 0) node[above=2pt, font=\bfseries] {$F_C = 200\text{ kN}$};
+
+            % Carga puntual en D (x = 4 m): 100 kN hacia la izquierda (compresión)
+            \draw[<-, line width=2.0pt, red!80!black] (10.0, 0) -- (11.5, 0) node[right=2pt, font=\bfseries] {$F_D = 100\text{ kN}$};
+
+            % Reacción en A
+            \draw[->, line width=2.0pt, blue!80!black] (-1.5, 0) -- (0, 0) node[pos=0.2, above=2pt, font=\bfseries] {$H_A$};
+
+            % Cotas de longitud
+            \draw[<->, line width=0.8pt] (0, -1.2) -- node[below=2pt, font=\small] {$1.0\text{ m}$} (2.5, -1.2);
+            \draw[<->, line width=0.8pt] (2.5, -1.2) -- node[below=2pt, font=\small] {$2.0\text{ m}$} (7.5, -1.2);
+            \draw[<->, line width=0.8pt] (7.5, -1.2) -- node[below=2pt, font=\small] {$1.0\text{ m}$} (10.0, -1.2);
+        \end{tikzpicture}%
+    }
+    \caption{Esquema estático de la barra horizontalizada con las secciones rotuladas sobre los recuadros y cargas axiles actuantes.}
+    \label{fig:problema10_barra}
+\end{figure}
+
+El sistema es estrictamente isostático exterior e interiormente ($N_I = 3$, $N_E = 3 \implies GH = 0$). Planteando el equilibrio estático global según el eje longitudinal $x$:
+\begin{align}
+    \sum F_x = 0 & \implies H_A - q \cdot (L_D - L_B) + F_C - F_D = 0 \notag \\
+                 & \implies H_A - 50\text{ kN/m} \cdot (3.0\text{ m}) + 200\text{ kN} - 100\text{ kN} = 0 \notag \\
+                 & \implies H_A - 150 + 200 - 100 = 0 \implies H_A - 50 = 0 \implies \mathbf{H_A = 50\text{ kN \quad (\text{hacia la derecha})}}
+\end{align}
+\textit{Nota de comprobación:} Si la carga resultante exterior total a la derecha del empotramiento es $-50 \cdot 3 + 200 - 100 = -50\text{ kN}$ (neta hacia la izquierda), el empotramiento reacciona con $H_A = +50\text{ kN}$ hacia la derecha, induciendo compresión según el equilibrio local de la rebanada inicial.
+
+\subsubsection*{Paso 2: Leyes de Esfuerzo Axil $N(x)$ por el Método de las Secciones}
+Dividimos la barra en los 3 tramos delimitados por el cambio de sección y la aplicación de cargas puntuales:
+\begin{enumerate}
+    \item \textbf{Tramo 1 ($0 \le x < 1.0\text{ m}$):}
+          Aislando la rebanada izquierda con la reacción $H_A = 50\text{ kN}$ hacia la derecha:
+          \begin{equation}
+              \sum F_x = 0 \implies H_A + N_1(x) = 0 \implies N_1(x) = -H_A = \mathbf{-50\text{ kN} \quad (\text{Compresión constante})}
+          \end{equation}
+          \textit{Comentario práctico de examen:} Si en lugar de calcular las reacciones nos hubiésemos quedado con el extremo derecho libre $[x, 4]$, habríamos integrado las cargas desde la derecha sin necesidad previa de calcular $H_A$, obteniendo el mismo resultado idéntico.
+
+    \item \textbf{Tramo 2 ($1.0 \le x < 3.0\text{ m}$):}
+          Aislando el bloque izquierdo $[0, x]$ donde entra la carga repartida en una longitud $(x - 1)$:
+          \begin{equation}
+              \sum F_x = 0 \implies H_A - q \cdot (x - 1) + N_2(x) = 0 \implies N_2(x) = -50 + 50(x - 1) = \mathbf{50x - 100\text{ [kN]}}
+          \end{equation}
+          Evaluando los extremos del tramo:
+          \begin{itemize}
+              \item En $x = 1.0\text{ m}^+$: $N_2(1) = 50(1) - 100 = \mathbf{-50\text{ kN} \quad (\text{Compresión})}$.
+              \item En $x = 3.0\text{ m}^-$: $N_2(3) = 50(3) - 100 = \mathbf{+50\text{ kN} \quad (\text{Tracción})}$.
+              \item Anulación de axil ($N=0$): $50x - 100 = 0 \implies \mathbf{x = 2.0\text{ m}}$.
+          \end{itemize}
+
+    \item \textbf{Tramo 3 ($3.0 \le x \le 4.0\text{ m}$):}
+          Por comodidad analítica, consideramos el equilibrio de la parte derecha de la barra comprendida entre la sección genérica $x$ y el extremo libre $x = 4.0\text{ m}$ (longitud $4 - x$):
+          \begin{align}
+              \sum F_{x,\text{derecha}} = 0 & \implies - N_3(x) - F_D - q \cdot (4 - x) = 0 \notag \\
+                                            & \implies N_3(x) = - 100 - 50(4 - x) = \mathbf{50x - 300\text{ [kN]}}
+          \end{align}
+          Evaluando los extremos:
+          \begin{itemize}
+              \item En $x = 3.0\text{ m}^+$: $N_3(3) = 50(3) - 300 = \mathbf{-150\text{ kN} \quad (\text{Compresión})}$.\\
+              \textit{Comprobación del salto en $x=3$:} $\Delta N = N(3^+) - N(3^-) = -150 - (+50) = -200\text{ kN}$, que coincide exactamente con el valor de la carga concentrada aplicada $F_C = 200\text{ kN}$ hacia la derecha.
+              \item En $x = 4.0\text{ m}$: $N_3(4) = 50(4) - 300 = \mathbf{-100\text{ kN} \quad (\text{Compresión})}$, equilibrando exactamente a $F_D$.
+          \end{itemize}
+\end{enumerate}
+
+\subsubsection*{Paso 3: Diagramas de Esfuerzos Axiles y Tensiones Normales}
+Las tensiones normales se obtienen mediante la relación elástica uniaxial $\sigma(x) = \frac{N(x)}{\Omega(x)}$:
+\begin{itemize}
+    \item \textbf{Tramo 1 ($x \in [0, 1.0\text{ m}]$):} $\Omega_1 = 1500\text{ mm}^2 = 15\text{ cm}^2$.
+    \begin{equation}
+        \sigma(x) = \frac{-50 \times 10^3\text{ N}}{1500\text{ mm}^2} = \mathbf{-33.33\text{ N/mm}^2 \quad (\text{Constante hasta } x=1.0\text{ m})}
+    \end{equation}
+    \item \textbf{Tramo 2 ($x \in [1.0, 3.0\text{ m}]$):} $\Omega_2 = 1000\text{ mm}^2 = 10\text{ cm}^2$.
+    \begin{align}
+        \sigma(1.0^+) & = \frac{-50 \times 10^3\text{ N}}{1000\text{ mm}^2} = \mathbf{-50.0\text{ N/mm}^2} \\
+        \sigma(3.0^-) & = \frac{+50 \times 10^3\text{ N}}{1000\text{ mm}^2} = \mathbf{+50.0\text{ N/mm}^2}
+    \end{align}
+    \textit{Salto en la sección transversal ($x = 1.0\text{ m}$):} Mientras el axil $N(x) = -50\text{ kN}$ es continuo en la unión $x=1.0\text{ m}$, la tensión pasa bruscamente de $-33.33\text{ N/mm}^2$ (sección de $15\text{ cm}^2$) a $-50.0\text{ N/mm}^2$ (sección más estrecha de $10\text{ cm}^2$).
+    \item \textbf{Tramo 3 ($x \in [3.0, 4.0\text{ m}]$):} $\Omega_2 = 1000\text{ mm}^2 = 10\text{ cm}^2$.
+    \begin{align}
+        \sigma(3.0^+) & = \frac{-150 \times 10^3\text{ N}}{1000\text{ mm}^2} = \mathbf{-150.0\text{ N/mm}^2} \\
+        \sigma(4.0)   & = \frac{-100 \times 10^3\text{ N}}{1000\text{ mm}^2} = \mathbf{-100.0\text{ N/mm}^2}
+    \end{align}
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=\textwidth}{%
+        \begin{tikzpicture}[>=Latex, scale=1.1]
+            % DIAGRAMA DE ESFUERZOS AXILES N
+            \begin{scope}[shift={(0, 4.8)}]
+                \node[above=4pt, font=\large\bfseries] at (5, 1.2) {Diagrama de Esfuerzos Axiles $N(x)$ [kN]};
+                \draw[line width=1.1pt] (0, 0) -- (10, 0) node[right] {$x$};
+                
+                % Líneas de referencia verticales
+                \draw[dotted, gray] (0, -2.0) -- (0, 1.2);
+                \draw[dotted, gray] (2.5, -2.0) -- (2.5, 1.2);
+                \draw[dotted, gray] (7.5, -2.0) -- (7.5, 1.2);
+                \draw[dotted, gray] (10, -2.0) -- (10, 1.2);
+
+                % Curva N(x): Escala: 100 kN = 1 cm
+                \draw[thick, red!70!black, fill=red!15] (0, 0) -- (0, -0.5) -- (2.5, -0.5) -- (5.0, 0) -- cycle;
+                \draw[thick, green!60!black, fill=green!15] (5.0, 0) -- (7.5, 0.5) -- (7.5, 0) -- cycle;
+                \draw[thick, red!70!black, fill=red!15] (7.5, 0) -- (7.5, -1.5) -- (10.0, -1.0) -- (10.0, 0) -- cycle;
+
+                % Flechas internas de signo
+                % Compresión en tramo 1
+                \draw[->, line width=0.8pt, red!85!black] (0.8, -0.25) -- (1.2, -0.25);
+                \draw[<-, line width=0.8pt, red!85!black] (1.3, -0.25) -- (1.7, -0.25);
+                \node[font=\footnotesize\bfseries, red!85!black] at (1.25, -0.25) [above=1pt] {$-$};
+
+                % Tracción en tramo 2
+                \draw[<-, line width=0.8pt, green!60!black] (5.8, 0.25) -- (6.2, 0.25);
+                \draw[->, line width=0.8pt, green!60!black] (6.3, 0.25) -- (6.7, 0.25);
+                \node[font=\footnotesize\bfseries, green!60!black] at (6.25, 0.25) [above=1pt] {$+$};
+
+                % Compresión en tramo 3
+                \draw[->, line width=0.8pt, red!85!black] (8.2, -0.6) -- (8.7, -0.6);
+                \draw[<-, line width=0.8pt, red!85!black] (8.8, -0.6) -- (9.3, -0.6);
+                \node[font=\footnotesize\bfseries, red!85!black] at (8.75, -0.6) [above=1pt] {$-$};
+
+                % Etiquetas de valores
+                \node[left=2pt, font=\footnotesize\bfseries] at (0, -0.5) {$-50$};
+                \node[below=2pt, font=\footnotesize\bfseries] at (2.5, -0.5) {$-50$};
+                \node[above=2pt, font=\footnotesize\bfseries] at (7.5, 0.5) {$+50$};
+                \node[below left=2pt, font=\footnotesize\bfseries] at (7.5, -1.5) {$-150$};
+                \node[right=2pt, font=\footnotesize\bfseries] at (10.0, -1.0) {$-100$};
+                \node[above=2pt, font=\scriptsize] at (5.0, 0) {$N=0$};
+            \end{scope}
+
+            % DIAGRAMA DE TENSIONES NORMALES SIGMA
+            \begin{scope}[shift={(0, 0)}]
+                \node[above=4pt, font=\large\bfseries] at (5, 1.2) {Diagrama de Tensiones Normales $\sigma(x)$ [$\text{N/mm}^2$]};
+                \draw[line width=1.1pt] (0, 0) -- (10, 0) node[right] {$x$};
+                
+                \draw[dotted, gray] (0, -2.0) -- (0, 1.2);
+                \draw[dotted, gray] (2.5, -2.0) -- (2.5, 1.2);
+                \draw[dotted, gray] (7.5, -2.0) -- (7.5, 1.2);
+                \draw[dotted, gray] (10, -2.0) -- (10, 1.2);
+
+                % Escala: 100 N/mm2 = 1.0 cm
+                % Tramo 1: cte a -33.33 (-0.33)
+                % Tramo 2: salto a -50 (-0.50) lineal a +50 (+0.50)
+                % Tramo 3: salto a -150 (-1.50) lineal a -100 (-1.00)
+                \draw[thick, red!70!black, fill=red!15] (0,0) -- (0, -0.33) -- (2.5, -0.33) -- (2.5, 0) -- cycle;
+                \draw[thick, red!70!black, fill=red!15] (2.5, 0) -- (2.5, -0.5) -- (5.0, 0) -- cycle;
+                \draw[thick, green!60!black, fill=green!15] (5.0, 0) -- (7.5, 0.5) -- (7.5, 0) -- cycle;
+                \draw[thick, red!70!black, fill=red!15] (7.5, 0) -- (7.5, -1.5) -- (10.0, -1.0) -- (10.0, 0) -- cycle;
+
+                % Flechas internas de signo
+                \draw[->, line width=0.8pt, red!85!black] (0.8, -0.16) -- (1.2, -0.16);
+                \draw[<-, line width=0.8pt, red!85!black] (1.3, -0.16) -- (1.7, -0.16);
+                \node[font=\footnotesize\bfseries, red!85!black] at (1.25, -0.16) [above=1pt] {$-$};
+
+                \draw[<-, line width=0.8pt, green!60!black] (5.8, 0.25) -- (6.2, 0.25);
+                \draw[->, line width=0.8pt, green!60!black] (6.3, 0.25) -- (6.7, 0.25);
+                \node[font=\footnotesize\bfseries, green!60!black] at (6.25, 0.25) [above=1pt] {$+$};
+
+                \draw[->, line width=0.8pt, red!85!black] (8.2, -0.6) -- (8.7, -0.6);
+                \draw[<-, line width=0.8pt, red!85!black] (8.8, -0.6) -- (9.3, -0.6);
+                \node[font=\footnotesize\bfseries, red!85!black] at (8.75, -0.6) [above=1pt] {$-$};
+
+                % Etiquetas ordenadas y sin solapamiento
+                \node[left=2pt, font=\footnotesize\bfseries] at (0, -0.33) {$-33.3$};
+                \node[above=2pt, font=\footnotesize\bfseries, red!80!black] at (2.2, -0.33) {$-33.3$};
+                \node[below=2pt, font=\footnotesize\bfseries, red!80!black] at (2.7, -0.5) {$-50.0$};
+                \node[above=2pt, font=\footnotesize\bfseries] at (7.5, 0.5) {$+50.0$};
+                \node[below left=2pt, font=\footnotesize\bfseries] at (7.5, -1.5) {$-150.0$};
+                \node[right=2pt, font=\footnotesize\bfseries] at (10.0, -1.0) {$-100.0$};
+                
+                % Cotas de longitud en la base
+                \draw[<->, line width=0.8pt] (0, -2.1) -- node[below=2pt, font=\small] {$1.0\text{ m}$} (2.5, -2.1);
+                \draw[<->, line width=0.8pt] (2.5, -2.1) -- node[below=2pt, font=\small] {$2.0\text{ m}$} (7.5, -2.1);
+                \draw[<->, line width=0.8pt] (7.5, -2.1) -- node[below=2pt, font=\small] {$1.0\text{ m}$} (10.0, -2.1);
+            \end{scope}
+        \end{tikzpicture}%
+    }
+    \caption{Diagramas comparativos de esfuerzo axil $N(x)$ y de tensión normal $\sigma(x)$. Obsérvese el salto de $-33.33\text{ N/mm}^2$ a $-50.0\text{ N/mm}^2$ en la unión $x = 1.0\text{ m}$ por estrechamiento de la sección.}
+    \label{fig:diagramas_axil_tension_p10}
+\end{figure}
+
+\subsubsection*{Paso 4: Análisis del Criterio de Resistencia (Comprobación Material)}
+En los problemas de examen y dimensionamiento práctico surgen dos situaciones según la naturaleza del material:
+\begin{enumerate}
+    \item \textbf{Material con comportamiento simétrico (Acero Estructural):}
+          El acero posee la misma resistencia límite a tracción que a compresión ($f_{yt} = f_{yc} = f_y$). Por tanto, la sección crítica viene determinada por la \textbf{tensión máxima en valor absoluto}:
+          \begin{equation}
+              \sigma_{\text{máx}} = \text{máx} |\sigma(x)| = |-150\text{ N/mm}^2| = 150\text{ N/mm}^2 \quad (\text{en } x = 3.0^+\text{ m})
+          \end{equation}
+          La condición de resistencia exige que:
+          \begin{equation}
+              \sigma_{\text{máx}} = 150\text{ N/mm}^2 \le \sigma_{\text{adm}}
+          \end{equation}
+
+    \item \textbf{Materiales con comportamiento asimétrico (Hormigón, Madera, Fundición, Piedra):}
+          Dichos materiales presentan resistencias admisibles radicalmente distintas a tracción y compresión ($\sigma_{\text{adm},c} \gg \sigma_{\text{adm},t}$). Se debe verificar de forma independiente:
+          \begin{itemize}
+              \item \textbf{Compresión máxima:} $|\sigma_{c,\text{máx}}| = 150\text{ N/mm}^2 \stackrel{?}{\le} \sigma_{\text{adm},c}$.
+              \item \textbf{Tracción máxima:} $\sigma_{t,\text{máx}} = +50\text{ N/mm}^2 \stackrel{?}{\le} \sigma_{\text{adm},t}$.
+          \end{itemize}
+\end{enumerate}
+
+\subsubsection*{Paso 5: Formulación Analítica del Alargamiento Total $\Delta l$}
+\begin{ImportanteBox}[title={Regla Fundamental: Segmentación de la Integral de Deformación}]
+    El diagrama de esfuerzos axiles $N(x)$ es \textbf{estrictamente estático} y no depende de la sección ni del módulo elástico de la barra. Sin embargo, el alargamiento:
+    \begin{equation}
+        \Delta l = \int_0^L \frac{N(x)}{E(x) \cdot \Omega(x)} \, dx
+    \end{equation}
+    requiere dividir la integración en tantos intervalos continuos como \textbf{discontinuidades o cambios} existan en:
+    \begin{enumerate}
+        \item La ley del esfuerzo axil $N(x)$ (puntos de aplicación de cargas puntuales o inicio/fin de cargas repartidas).
+        \item La geometría de la sección transversal $\Omega(x)$ (escalones seccionales).
+        \item Las propiedades del material $E(x)$ (enlaces o unión de distintos materiales).
+    \end{enumerate}
+\end{ImportanteBox}
+
+Para la presente estructura, la integral se descompone en los 3 tramos definidos:
+\begin{equation}
+    \Delta l = \int_0^1 \frac{-50}{E \cdot \Omega_1} \, dx + \int_1^3 \frac{50x - 100}{E \cdot \Omega_2} \, dx + \int_3^4 \frac{50x - 300}{E \cdot \Omega_2} \, dx
+\end{equation}
+\textit{Observación didáctica:} Si la sección hubiese cambiado a mitad del segundo tramo (por ejemplo en $x = 1.5\text{ m}$), habría sido obligatorio desdoblar la segunda integral en dos: $\int_1^{1.5} \frac{50x - 100}{E \Omega_1} dx + \int_{1.5}^3 \frac{50x - 100}{E \Omega_2} dx$.
+

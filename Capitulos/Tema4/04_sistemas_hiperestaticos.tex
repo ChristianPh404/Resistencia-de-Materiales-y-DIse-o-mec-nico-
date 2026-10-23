@@ -1,0 +1,367 @@
+%=============================================================================
+\section{Sistemas Hiperestáticos en Tracción y Compresión Uniaxial}
+
+\subsection{Concepto y Grado de Hiperestaticidad ($GH$)}
+Un sistema estructural sometido a solicitación axil se denomina \textbf{hiperestático} cuando el número de incógnitas estáticas independientes $N_I$ (reacciones de coacción exterior o esfuerzos internos en barras/componentes) es estrictamente superior al número de ecuaciones de la estática clásica $N_E$ proporcionadas por el equilibrio:
+\begin{equation}
+    N_I > N_E \implies GH = N_I - N_E \ge 1
+\end{equation}
+El equilibrio estático por sí solo resulta insuficiente para determinar los esfuerzos y tensiones. Para alcanzar la resolución, es necesario introducir $GH$ \textbf{ecuaciones adicionales de compatibilidad de deformaciones y cinemática}, las cuales vinculan las deformaciones mecánicas ($\Delta l$) con las ligaduras cinemáticas y los desplazamientos impuestos en los nudos o apoyos.
+
+\subsection{Clasificación de Casos Típicos en Tracción/Compresión}
+En el cálculo estructural con solicitación axial, se presentan fundamentalmente tres tipologías de hiperestaticidad:
+\begin{enumerate}
+    \item \textbf{Hiperestaticidad por coacción exterior de apoyos (Barras biempotradas o coaccionadas entre muros rígidos):}
+          El elemento estructural posee impedido el desplazamiento axial en más de un punto (típicamente ambos extremos fijos), de manera que $\Delta l_{\text{total}} = 0$.
+    \item \textbf{Hiperestaticidad por deformación solidaria de materiales (Elementos compuestos en paralelo):}
+          Dos o más materiales se encuentran unidos rígidamente sufriendo el mismo acortamiento o alargamiento ($\Delta l_1 = \Delta l_2$), repartiéndose la fuerza total en función de su rigidez axial relativa ($E\Omega$).
+    \item \textbf{Hiperestaticidad por tirantes o elementos articulados de enlace:}
+          Estructuras articuladas o vigas rígidas suspendidas de un número de tirantes superior al estrictamente necesario para garantizar la estabilidad estática.
+\end{enumerate}
+
+%-----------------------------------------------------------------------------
+\subsection{Hiperestaticidad por Coacción Exterior de Apoyos}
+
+Consideremos una barra prismática de longitud $L$ apoyada rígidamente en ambos extremos ($A$ y $B$) y sometida a cargas axiales intermedias $F_1, F_2, \dots$. Las incógnitas de reacción horizontal son $H_A$ y $H_B$ ($N_I = 4$, $N_E = 3 \implies GH = 1$). La estática suministra:
+\begin{equation}
+    \sum F_x = 0 \implies H_A + H_B + \sum F_{\text{ext}} = 0
+\end{equation}
+La ecuación complementaria que resuelve el sistema es la \textbf{condición cinemática de coacción indeformable}:
+\begin{equation}
+    \Delta l_{AB} = 0 \implies \int_A^B \frac{N(x, H_A)}{E \cdot \Omega(x)} \, dx = 0
+\end{equation}
+
+\ex{Barra Biempotrada con Carga Triangular y Sección Escalonada}{
+    Una barra recta horizontal de longitud total $L = 6.0\text{ m}$ se encuentra rígidamente coaccionada entre dos apoyos fijos indeformables en sus extremos $A$ ($x = 0$) y $B$ ($x = 6.0\text{ m}$). La barra está constituida por un mismo material homogéneo de módulo de elasticidad $E$ y se divide en dos tramos de diferente sección:
+    \begin{itemize}
+        \item \textbf{Tramo 1 ($x \in [0, 3.0\text{ m}]$):} Sección $\Omega_1 = 200\text{ mm}^2$. Soporta una carga axil distribuida triangular con vértice en $x = 0$ ($q(0) = 0$) y valor máximo $q = 45\text{ kN/m}$ en $x = 3.0\text{ m}$, dirigida hacia la izquierda (hacia $A$).
+        \item \textbf{Tramo 2 ($x \in [3.0, 6.0\text{ m}]$):} Sección $\Omega_2 = 100\text{ mm}^2$. Sobre él actúan dos cargas puntuales dirigidas hacia la derecha (+x): $F_1 = 10\text{ kN}$ en $x = 3.0\text{ m}$ y $F_2 = 15\text{ kN}$ en $x = 4.0\text{ m}$.
+    \end{itemize}
+
+    \begin{center}
+        \adjustbox{max width=0.95\textwidth}{%
+            \begin{tikzpicture}[>=Latex, scale=1.05]
+                % Apoyo izquierdo en x=0
+                \draw[line width=1.5pt] (0, -1.0) -- (0, 1.0);
+                \foreach \y in {-0.8, -0.4, 0.0, 0.4, 0.8} {
+                    \draw[thick] (0, \y) -- ++(-0.25, -0.25);
+                }
+
+                % Apoyo derecho en x=6
+                \draw[line width=1.5pt] (9.0, -1.0) -- (9.0, 1.0);
+                \foreach \y in {-0.8, -0.4, 0.0, 0.4, 0.8} {
+                    \draw[thick] (9.0, \y) -- ++(0.25, 0.25);
+                }
+
+                % Secciones por encima de los recuadros
+                \node[above=0.35cm, font=\small\bfseries, blue!80!black] at (2.25, 0.45) {$\Omega_1 = 200\text{ mm}^2$};
+                \node[above=0.35cm, font=\small\bfseries, orange!80!black] at (6.75, 0.3) {$\Omega_2 = 100\text{ mm}^2$};
+
+                % Tramo 1 (0 a 3 m -> 0 a 4.5 cm): Omega = 200 mm2
+                \draw[thick, fill=blue!12] (0, -0.45) rectangle (4.5, 0.45);
+
+                % Tramo 2 (3 a 6 m -> 4.5 a 9.0 cm): Omega = 100 mm2
+                \draw[thick, fill=orange!12] (4.5, -0.3) rectangle (9.0, 0.3);
+
+                % Carga triangular sobre Tramo 1 (flechas horizontales dirigidas a la izquierda <- cuya longitud aumenta de x=0 a x=3m, sin envolvente continua triangular)
+                \draw[<-, line width=0.8pt, red!85!black] (0.5, 0.7) -- (0.8, 0.7);
+                \draw[<-, line width=0.9pt, red!85!black] (1.1, 0.7) -- (1.6, 0.7);
+                \draw[<-, line width=1.0pt, red!85!black] (1.8, 0.7) -- (2.5, 0.7);
+                \draw[<-, line width=1.1pt, red!85!black] (2.7, 0.7) -- (3.6, 0.7);
+                \draw[<-, line width=1.2pt, red!85!black] (3.6, 0.7) -- (4.7, 0.7);
+                \node[above=3pt, red!85!black, font=\footnotesize\bfseries] at (4.3, 0.75) {$q = 45\text{ kN/m}$};
+
+                % Cargas puntuales con etiquetas elevadas para no chocar con el recuadro
+                \draw[->, line width=1.8pt, green!60!black] (4.5, 0) -- (5.6, 0);
+                \node[above=8pt, green!60!black, font=\bfseries\footnotesize] at (5.05, 0.3) {$F_1 = 10\text{ kN}$};
+
+                \draw[->, line width=1.8pt, green!60!black] (6.0, 0) -- (7.1, 0);
+                \node[above=8pt, green!60!black, font=\bfseries\footnotesize] at (6.55, 0.3) {$F_2 = 15\text{ kN}$};
+
+                % Reacciones en extremos
+                \draw[->, line width=1.8pt, blue!85!black] (-1.0, 0) -- (0, 0) node[pos=0.1, above=2pt, font=\bfseries\footnotesize] {$H_A$};
+                \draw[<-, line width=1.8pt, blue!85!black] (9.0, 0) -- (10.0, 0) node[pos=0.9, above=2pt, font=\bfseries\footnotesize] {$H_B$};
+
+                % Nodos (solo letras A y B sin coordenadas redundantes)
+                \filldraw (0,0) circle (2pt) node[below=0.45cm] {$A$};
+                \filldraw (4.5,0) circle (2pt);
+                \filldraw (6.0,0) circle (2pt);
+                \filldraw (9.0,0) circle (2pt) node[below=0.45cm] {$B$};
+
+                % Cotas de longitud en la parte inferior
+                \draw[<->, line width=0.8pt] (0, -0.9) -- node[below=1pt, font=\footnotesize] {$3.0\text{ m}$} (4.5, -0.9);
+                \draw[<->, line width=0.8pt] (4.5, -0.9) -- node[below=1pt, font=\footnotesize] {$1.0\text{ m}$} (6.0, -0.9);
+                \draw[<->, line width=0.8pt] (6.0, -0.9) -- node[below=1pt, font=\footnotesize] {$2.0\text{ m}$} (9.0, -0.9);
+            \end{tikzpicture}%
+        }
+    \end{center}
+
+    \textbf{Determinar:}
+    \begin{enumerate}[label=\alph*)]
+        \item Las reacciones de enlace en los apoyos $H_A$ y $H_B$.
+        \item Las leyes del esfuerzo axil $N(x)$ y los valores en las secciones representativas.
+        \item Los valores extremos de la tensión normal $\sigma(x)$ y su diagrama acotado.
+    \end{enumerate}
+
+    \tcblower
+
+    \paso{1}{Equilibrio Estático Global}
+    
+    La resultante de la carga triangular dirigida hacia la izquierda es:
+    \begin{equation}
+        R_q = \frac{q_{\text{máx}} \cdot L_1}{2} = \frac{(45\text{ kN/m}) \cdot (3.0\text{ m})}{2} = 67.5\text{ kN} \quad (\leftarrow)
+    \end{equation}
+    Suponiendo reacciones $H_A$ y $H_B$ dirigidas hacia la derecha (+x):
+    \begin{equation}
+        \sum F_x = 0 \implies H_A + H_B - R_q + F_1 + F_2 = 0 \implies H_A + H_B - 67.5 + 10 + 15 = 0
+    \end{equation}
+    \begin{equation}
+        H_A + H_B = 42.5\text{ kN} \implies H_B = 42.5 - H_A
+    \end{equation}
+    Esta es una única ecuación con dos incógnitas estáticas ($GH = 1$).
+
+    \paso{2}{Leyes de Esfuerzo Axil en función de $H_A$}
+    
+    \tramobadge{Tramo 1}{$0 \le x \le 3.0\text{ m}$}
+    Por semejanza de triángulos, la intensidad de carga a cota $x$ es:
+    \begin{equation}
+        \frac{q(x)}{x} = \frac{45}{3} \implies q(x) = 15x\text{ [kN/m]}
+    \end{equation}
+    La resultante de la carga triangular acumulada entre $0$ y $x$ vale $\frac{1}{2} x \cdot (15x) = 7.5x^2\text{ kN}$. Planteando el equilibrio de la rebanada izquierda:
+    \begin{equation}
+        H_A + N_1(x) - 7.5x^2 = 0 \implies N_1(x) = 7.5x^2 - H_A\text{ [kN]}
+    \end{equation}
+
+    \tramobadge{Tramo 2A}{$3.0 \le x \le 4.0\text{ m}$}
+    A la derecha de $x = 3.0\text{ m}$ ya ha actuado la carga triangular completa ($67.5\text{ kN}$) y la puntual de $10\text{ kN}$:
+    \begin{equation}
+        H_A + N_{2A}(x) - 67.5 + 10 = 0 \implies N_{2A}(x) = 57.5 - H_A\text{ [kN]}
+    \end{equation}
+
+    \tramobadge{Tramo 2B}{$4.0 \le x \le 6.0\text{ m}$}
+    Incorporando la carga puntual de $15\text{ kN}$:
+    \begin{equation}
+        H_A + N_{2B}(x) - 67.5 + 10 + 15 = 0 \implies N_{2B}(x) = 42.5 - H_A\text{ [kN]}
+    \end{equation}
+
+    \paso{3}{Ecuación de Compatibilidad Cinemática ($\Delta l_{AB} = 0$)}
+    
+    Al estar rígidamente fijados ambos extremos:
+    \begin{equation}
+        \Delta l_{AB} = \int_0^3 \frac{N_1(x)}{E \Omega_1} \, dx + \int_3^4 \frac{N_{2A}(x)}{E \Omega_2} \, dx + \int_4^6 \frac{N_{2B}(x)}{E \Omega_2} \, dx = 0
+    \end{equation}
+    Sabiendo que $\Omega_1 = 200\text{ mm}^2 = 2 \Omega_2$ (con $\Omega_2 = 100\text{ mm}^2$):
+    \begin{equation}
+        \frac{1}{E \Omega_2} \left[ \frac{1}{2} \int_0^3 (7.5x^2 - H_A) \, dx + \int_3^4 (57.5 - H_A) \, dx + \int_4^6 (42.5 - H_A) \, dx \right] = 0
+    \end{equation}
+    Calculando cada término por separado:
+    \begin{align}
+        I_1 & = \frac{1}{2} \left[ 7.5 \frac{x^3}{3} - H_A x \right]_0^3 = \frac{1}{2} \left( 2.5 \cdot 27 - 3H_A \right) = \frac{67.5 - 3H_A}{2} = 33.75 - 1.5H_A \\
+        I_2 & = \left[ (57.5 - H_A)x \right]_3^4 = (57.5 - H_A) \cdot (4 - 3) = 57.5 - H_A \\
+        I_3 & = \left[ (42.5 - H_A)x \right]_4^6 = (42.5 - H_A) \cdot (6 - 4) = 85.0 - 2H_A
+    \end{align}
+    Sumando todas las integrales:
+    \begin{equation}
+        (33.75 + 57.5 + 85.0) - (1.5 + 1.0 + 2.0) H_A = 0 \implies 176.25 - 4.5 H_A = 0
+    \end{equation}
+    \begin{equation}
+        \mathbf{H_A = \frac{176.25}{4.5} \approx 39.17\text{ kN}}
+    \end{equation}
+    Sustituyendo en la ecuación de equilibrio global:
+    \begin{equation}
+        \mathbf{H_B = 42.5 - 39.17 = 3.33\text{ kN}}
+    \end{equation}
+
+    \paso{4}{Valores del Esfuerzo Axil y Tensiones Normales}
+    
+    \tramobadge{Tramo 1}{$0 \le x \le 3.0\text{ m}$}
+    $N(0) = \mathbf{-39.17\text{ kN}}$, $N(3^-) = 7.5(9) - 39.17 = \mathbf{+28.33\text{ kN}}$.
+    \begin{equation}
+        \sigma(0) = \frac{-39.17 \times 10^3}{200} = \mathbf{-195.85\text{ N/mm}^2}, \quad \sigma(3^-) = \frac{+28.33 \times 10^3}{200} = \mathbf{+141.65\text{ N/mm}^2}
+    \end{equation}
+
+    \tramobadge{Tramo 2A}{$3.0 \le x \le 4.0\text{ m}$}
+    $N = 57.5 - 39.17 = \mathbf{+18.33\text{ kN}}$.
+    \begin{equation}
+        \sigma = \frac{+18.33 \times 10^3}{100} = \mathbf{+183.3\text{ N/mm}^2}
+    \end{equation}
+
+    \tramobadge{Tramo 2B}{$4.0 \le x \le 6.0\text{ m}$}
+    $N = 42.5 - 39.17 = \mathbf{+3.33\text{ kN}}$.
+    \begin{equation}
+        \sigma = \frac{+3.33 \times 10^3}{100} = \mathbf{+33.3\text{ N/mm}^2}
+    \end{equation}
+
+    \begin{center}
+        \adjustbox{max width=0.92\textwidth}{%
+            \begin{tikzpicture}[>=Latex, scale=1.0]
+                % Diagrama de axiles N(x)
+                \node[above=2pt, font=\bfseries\small] at (4.5, 1.3) {Diagrama de Esfuerzos Axiles $N(x)$ [kN]};
+                \draw[line width=1.1pt] (0, 0) -- (9.0, 0) node[right] {$x$};
+                \draw[dotted, gray] (0, -1.5) -- (0, 1.2);
+                \draw[dotted, gray] (4.5, -1.5) -- (4.5, 1.2);
+                \draw[dotted, gray] (6.0, -1.5) -- (6.0, 1.2);
+                \draw[dotted, gray] (9.0, -1.5) -- (9.0, 1.2);
+
+                % Curva parabolica en tramo 1 de -39.17 (-0.8 cm) a +28.33 (+0.6 cm)
+                \draw[thick, red!75!black, fill=red!15] (0, 0) -- (0, -0.8) parabola[bend at end] (2.28, 0) -- cycle;
+                \draw[thick, green!60!black, fill=green!15] (2.28, 0) parabola (4.5, 0.6) -- (4.5, 0) -- cycle;
+
+                % Tramo 2A constante en +18.33 (+0.38)
+                \draw[thick, green!60!black, fill=green!15] (4.5, 0) -- (4.5, 0.38) -- (6.0, 0.38) -- (6.0, 0) -- cycle;
+
+                % Tramo 2B constante en +3.33 (+0.1)
+                \draw[thick, green!60!black, fill=green!15] (6.0, 0) -- (6.0, 0.1) -- (9.0, 0.1) -- (9.0, 0) -- cycle;
+
+                % Flechas internas indicativas de signo
+                \draw[->, line width=0.7pt, red!85!black] (0.4, -0.4) -- (0.9, -0.4);
+                \draw[<-, line width=0.7pt, red!85!black] (1.1, -0.4) -- (1.6, -0.4);
+                \node[font=\tiny\bfseries, red!85!black] at (1.0, -0.6) {$-$};
+
+                \draw[<-, line width=0.7pt, green!60!black] (3.4, 0.3) -- (3.9, 0.3);
+                \draw[->, line width=0.7pt, green!60!black] (4.0, 0.3) -- (4.4, 0.3);
+                \node[font=\tiny\bfseries, green!60!black] at (3.9, 0.5) {$+$};
+
+                \node[left=1pt, font=\scriptsize\bfseries] at (0, -0.8) {$-39.17$};
+                \node[above=1pt, font=\scriptsize\bfseries] at (4.5, 0.6) {$+28.33$};
+                \node[above=1pt, font=\scriptsize\bfseries] at (5.25, 0.38) {$+18.33$};
+                \node[above=1pt, font=\scriptsize\bfseries] at (7.5, 0.1) {$+3.33$};
+            \end{tikzpicture}%
+        }
+    \end{center}
+
+    \textit{Criterio de resistencia:} La tensión máxima de compresión se localiza en el apoyo $A$ ($|\sigma_c| = 195.85\text{ N/mm}^2$), mientras que la tracción máxima ocurre en el tramo central ($|\sigma_t| = 183.3\text{ N/mm}^2$).
+}
+
+%-----------------------------------------------------------------------------
+\subsection{Hiperestaticidad por Deformación Solidaria (Piezas Bimatéricas en Paralelo)}
+
+Cuando dos materiales distintos ($A$ y $B$) de módulos $E_A, E_B$ y secciones $\Omega_A, \Omega_B$ se encuentran rígidamente unidos y confinados entre placas extremas indeformables que transmiten una fuerza longitudinal total $F$, ambos componentes se ven obligados a experimentar de manera idéntica el mismo alargamiento o acortamiento:
+\begin{equation}
+    \Delta l_A = \Delta l_B \quad \text{(Condición de compatibilidad cinemática solidaria)}
+\end{equation}
+El equilibrio estático directo solo permite asegurar el balance de la carga total:
+\begin{equation}
+    F = F_A + F_B \quad \Longleftrightarrow \quad F = N_A + N_B
+\end{equation}
+Al tratarse de una única ecuación de equilibrio para dos incógnitas ($N_A, N_B$), el sistema es hiperestático de grado 1.
+
+\ex{Cilindro Concéntrico Bimatérico bajo Deformación Solidaria}{
+    Un soporte cilíndrico coaxial vertical de longitud $L$ está formado por dos materiales que trabajan solidariamente bajo la acción de una carga axial de compresión $F$:
+    \begin{itemize}
+        \item Un núcleo central cilíndrico macizo (Material $B$) de sección transversal $\Omega_B$, módulo de Young $E_B$ y tensión admisible $\sigma_{\text{adm},B}$.
+        \item Un tubo concéntrico exterior (Material $A$) de sección transversal $\Omega_A$, módulo de Young $E_A$ y tensión admisible $\sigma_{\text{adm},A}$.
+    \end{itemize}
+    El soporte se encuentra empotrado en su base inferior sobre una placa rígida indeformable y finaliza en su cabeza superior en otra placa rígida que reparte de manera uniforme la carga total $F$ (despreciando el peso propio).
+
+    \begin{center}
+        \adjustbox{max width=0.88\textwidth}{%
+            \begin{tikzpicture}[>=Latex, scale=1.05]
+                % Suelo empotrado
+                \draw[line width=1.4pt] (-2.6, -0.6) -- (2.6, -0.6);
+                \foreach \x in {-2.4, -2.0, -1.6, -1.2, -0.8, -0.4, 0.0, 0.4, 0.8, 1.2, 1.6, 2.0, 2.4} {
+                    \draw[thick] (\x, -0.6) -- ++(-0.25, -0.25);
+                }
+                \node[below=0.35cm, font=\small\bfseries] at (0, -0.6) {Empotramiento en base};
+
+                % Placa rígida en la base (sobre el suelo empotrado)
+                \draw[thick, fill=gray!30] (-2.2, -0.6) rectangle (2.2, -0.3);
+                \node[left=3pt, font=\scriptsize\bfseries, gray!60!black] at (-2.2, -0.45) {Placa rígida base};
+
+                % Elipses base inferior z=0
+                % Cilindro exterior (Material A)
+                \draw[thick, fill=blue!12] (-1.8, 0) -- (-1.8, 3.5) arc (180:360:1.8 and 0.4) -- (1.8, 0) arc (0:-180:1.8 and 0.4);
+                % Parte oculta elipse inferior
+                \draw[dashed, blue!60!black] (-1.8, 0) arc (180:0:1.8 and 0.4);
+
+                % Cilindro interior (Material B)
+                \draw[thick, fill=orange!22] (-0.85, 0) -- (-0.85, 3.5) arc (180:360:0.85 and 0.22) -- (0.85, 0) arc (0:-180:0.85 and 0.22);
+                \draw[dashed, orange!70!black] (-0.85, 0) arc (180:0:0.85 and 0.22);
+
+                % Elipses en la cara superior z=3.5 m (bajo la placa)
+                \draw[thick, fill=blue!20] (0, 3.5) ellipse (1.8 and 0.4);
+                \draw[thick, fill=orange!35] (0, 3.5) ellipse (0.85 and 0.22);
+
+                % Placa rígida superior indeformable con espesor cilíndrico/elíptico
+                \draw[thick, fill=gray!35] (-2.1, 3.7) -- (-2.1, 4.0) arc (180:360:2.1 and 0.45) -- (2.1, 3.7) arc (0:-180:2.1 and 0.45);
+                \draw[thick, fill=gray!50] (0, 4.0) ellipse (2.1 and 0.45);
+                \node[right=5pt, font=\scriptsize\bfseries, gray!60!black] at (2.1, 3.85) {Placa rígida superior};
+
+                % Rotulación de materiales despejada
+                \node[font=\footnotesize\bfseries, blue!85!black] at (-1.35, 1.75) {Mat. $A$};
+                \node[font=\footnotesize\bfseries, blue!85!black] at (1.35, 1.75) {Mat. $A$};
+                \node[font=\footnotesize\bfseries, orange!90!black] at (0, 1.75) {Mat. $B$ (Núcleo)};
+
+                % Flechas internas de esfuerzo de compresión en cada componente
+                \draw[->, line width=0.7pt, red!85!black] (-1.35, 1.1) -- (-1.35, 0.6);
+                \draw[<-, line width=0.7pt, red!85!black] (-1.35, 2.9) -- (-1.35, 2.4);
+
+                \draw[->, line width=0.7pt, red!85!black] (0, 1.1) -- (0, 0.6);
+                \draw[<-, line width=0.7pt, red!85!black] (0, 2.9) -- (0, 2.4);
+
+                \draw[->, line width=0.7pt, red!85!black] (1.35, 1.1) -- (1.35, 0.6);
+                \draw[<-, line width=0.7pt, red!85!black] (1.35, 2.9) -- (1.35, 2.4);
+
+                % Llamadas a propiedades de sección fuera del cuerpo
+                \draw[->, thick, blue!85!black] (-1.35, 3.2) -- (-2.5, 3.2) node[left, font=\scriptsize\bfseries] {$\Omega_A, E_A$};
+                \draw[->, thick, orange!85!black] (0.4, 2.2) -- (2.5, 2.2) node[right, font=\scriptsize\bfseries] {$\Omega_B, E_B$};
+
+                % Carga F centrada sobre la placa superior
+                \draw[->, line width=2.2pt, red!85!black] (0, 5.4) -- (0, 4.05) node[midway, left=3pt, font=\bfseries] {$F$};
+
+                % Cota de longitud L
+                \draw[<->, line width=0.8pt] (2.5, 0) -- node[right=3pt, font=\small] {$L$} (2.5, 3.5);
+            \end{tikzpicture}%
+        }
+    \end{center}
+    
+    \textbf{Determinar} la distribución analítica de fuerzas axiles $N_A, N_B$, las tensiones de trabajo $\sigma_A, \sigma_B$ y la condición de verificación resistente.
+
+    \tcblower
+
+    \paso{1}{Compatibilidad Cinemática de Deformaciones}
+    
+    Dado que las placas de los extremos permanecen planas y paralelas (hipótesis de deformación solidaria de Navier):
+    \begin{equation}
+        \Delta l_A = \Delta l_B \implies \frac{N_A \cdot L}{E_A \Omega_A} = \frac{N_B \cdot L}{E_B \Omega_B}
+    \end{equation}
+    Simplificando la longitud común $L$, se deduce que el reparto de esfuerzos es directamente proporcional a la \textbf{rigidez axil} de cada componente:
+    \begin{equation}
+        N_A = N_B \cdot \left( \frac{E_A \Omega_A}{E_B \Omega_B} \right)
+    \end{equation}
+
+    \paso{2}{Resolución del Esfuerzo Axil por Componente}
+    
+    Sustituyendo en la ecuación de equilibrio global $F = N_A + N_B$:
+    \begin{equation}
+        F = N_B \left( 1 + \frac{E_A \Omega_A}{E_B \Omega_B} \right) = N_B \left( \frac{E_A \Omega_A + E_B \Omega_B}{E_B \Omega_B} \right)
+    \end{equation}
+    Despejando las fuerzas axiles:
+    \begin{align}
+        N_A & = F \cdot \frac{E_A \Omega_A}{E_A \Omega_A + E_B \Omega_B} \\
+        N_B & = F \cdot \frac{E_B \Omega_B}{E_A \Omega_A + E_B \Omega_B}
+    \end{align}
+
+    \paso{3}{Tensiones Normales y Criterio de Resistencia}
+    
+    Las tensiones elásticas en cada material valen:
+    \begin{align}
+        \sigma_A & = \frac{N_A}{\Omega_A} = \frac{F}{E_A \Omega_A + E_B \Omega_B} \cdot E_A = E_A \cdot \varepsilon \\
+        \sigma_B & = \frac{N_B}{\Omega_B} = \frac{F}{E_A \Omega_A + E_B \Omega_B} \cdot E_B = E_B \cdot \varepsilon
+    \end{align}
+    donde $\varepsilon = \frac{\Delta l}{L} = \frac{F}{E_A \Omega_A + E_B \Omega_B}$ es la deformación unitaria longitudinal común. 
+
+    \textbf{Condición de comprobación resistente:} Para garantizar la integridad del conjunto, \textbf{ambos} materiales deben satisfacer de forma simultánea su límite admisible:
+    \begin{equation}
+        |\sigma_A| \le \sigma_{\text{adm},A} \quad \text{y} \quad |\sigma_B| \le \sigma_{\text{adm},B}
+    \end{equation}
+    La carga máxima admisible $F_{\text{adm}}$ que tolera el elemento compuesto viene fijada por el primer material que alcance su tensión admisible:
+    \begin{equation}
+        F_{\text{adm}} = \text{mín} \left\{ \sigma_{\text{adm},A} \left( \Omega_A + \Omega_B \frac{E_B}{E_A} \right), \; \sigma_{\text{adm},B} \left( \Omega_B + \Omega_A \frac{E_A}{E_B} \right) \right\}
+    \end{equation}
+}
+
+
+
+
+

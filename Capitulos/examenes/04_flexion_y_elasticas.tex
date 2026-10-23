@@ -1,0 +1,2750 @@
+\section{Problema de Examen: Viga con Carga Trapezoidal, Elástica y Sección en I Asimétrica}
+
+\subsection{Enunciado y Geometría de Partida}
+
+En la viga de acero S275 simplemente apoyada de luz $L = 3\text{ m}$ representada en la figura, sometida a una carga repartida trapezoidal que varía linealmente desde $q_A = 10\text{ kN/m}$ en el apoyo $A$ hasta $q_B = 40\text{ kN/m}$ en el apoyo $B$, y cuya sección transversal es un perfil en I asimétrico (ala superior de $50 \times 8\text{ mm}$, alma de $8 \times 200\text{ mm}$ y ala inferior de $25 \times 8\text{ mm}$), se pide:
+
+\begin{enumerate}[label=\alph*)]
+    \item \textbf{Reacciones y leyes analíticas de esfuerzos:} Calcular las reacciones en los apoyos $A$ y $B$, obtener las expresiones analíticas del esfuerzo cortante $Q(x)$ y del momento flector $M_f(x)$, y representar sus correspondientes diagramas acotados.
+    \item \textbf{Flecha en el centro del vano:} Determinar la ecuación analítica de la deformada (elástica) $y(x)$ y calcular el desplazamiento vertical (flecha) en el centro del vano ($x = 1{,}5\text{ m}$).
+    \item \textbf{Comprobación resistente a flexión:} Para la sección más desfavorable de la viga, determinar las tensiones normales extremas en las fibras más alejadas y comprobar si resiste según el criterio tensional admisible del acero ($\sigma_{\text{adm}} = 275\text{ N/mm}^2 = 275\text{ MPa}$).
+\end{enumerate}
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=\textbf{Datos del Problema}]
+    \begin{itemize}
+        \item Luz de la viga: $L = 3\text{ m}$.
+        \item Carga repartida trapezoidal: $q_A = 10\text{ kN/m}$ en $x = 0$; $q_B = 40\text{ kN/m}$ en $x = 3\text{ m}$.
+        \item Módulo de elasticidad longitudinal del acero: $E = 2{,}1 \cdot 10^5\text{ N/mm}^2 = 2{,}1 \cdot 10^8\text{ kN/m}^2$.
+        \item Tensión admisible del material: $\sigma_{\text{adm}} = 275\text{ N/mm}^2 = 275\text{ MPa}$.
+        \item Dimensiones de la sección transversal (perfil en I asimétrico):
+              \begin{itemize}
+                  \item Ala superior (1): $b_1 = 50\text{ mm}$, $e_1 = 8\text{ mm}$.
+                  \item Alma (2): $e_w = 8\text{ mm}$, $h_w = 200\text{ mm}$.
+                  \item Ala inferior (3): $b_3 = 25\text{ mm}$, $e_3 = 8\text{ mm}$.
+                  \item Canto total del perfil: $H = 8 + 200 + 8 = 216\text{ mm}$.
+              \end{itemize}
+    \end{itemize}
+\end{tcolorbox}
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.95\textwidth}{%
+        \begin{tikzpicture}[scale=1.1, >=Latex]
+            % --- VIGA CON CARGA TRAPEZOIDAL ---
+            \begin{scope}[shift={(0,0)}]
+                % Eje viga
+                \draw[line width=2pt, black!80] (0,0) -- (6,0);
+                
+                % Apoyo fijo en A (x=0)
+                \fill[gray!40] (-0.4,-0.45) rectangle (0.4,-0.55);
+                \draw[thick] (-0.4,-0.45) -- (0.4,-0.45);
+                \draw[thick] (0,0) -- (-0.3,-0.45) -- (0.3,-0.45) -- cycle;
+                \filldraw[black] (0,0) circle (2pt) node[above left=3pt, font=\bfseries] {$A$};
+
+                % Apoyo móvil en B (x=3m -> escala x2 -> 6cm)
+                \draw[thick] (6,0) -- (5.7,-0.4) -- (6.3,-0.4) -- cycle;
+                \draw[thick] (5.7,-0.48) circle (0.08);
+                \draw[thick] (6.0,-0.48) circle (0.08);
+                \draw[thick] (6.3,-0.48) circle (0.08);
+                \fill[gray!40] (5.6,-0.58) rectangle (6.4,-0.68);
+                \draw[thick] (5.6,-0.58) -- (6.4,-0.58);
+                \filldraw[black] (6,0) circle (2pt) node[above right=3pt, font=\bfseries] {$B$};
+
+                % Carga repartida trapezoidal:
+                % q(0) = 10 kN/m -> altura 0.8cm
+                % q(3) = 40 kN/m -> altura 3.2cm
+                \draw[thick, blue!80!black] (0,0.8) -- (6,3.2);
+                \draw[thick, blue!80!black] (0,0) -- (0,0.8);
+                \draw[thick, blue!80!black] (6,0) -- (6,3.2);
+                
+                % Descomposición en rectangular y triangular (línea discontinua)
+                \draw[dashed, blue!50!black] (0,0.8) -- (6,0.8);
+
+                % Flechas de carga
+                \foreach \x in {0, 0.75, 1.5, 2.25, 3.0, 3.75, 4.5, 5.25, 6.0} {
+                    \pgfmathsetmacro{\yalt}{0.8 + 2.4*(\x/6.0)}
+                    \draw[->, thick, blue!80!black] (\x, \yalt) -- (\x, 0.05);
+                }
+
+                % Etiquetas de carga
+                \node[left, blue!80!black, font=\footnotesize\bfseries] at (0, 0.8) {$10\text{ kN/m}$};
+                \node[right, blue!80!black, font=\footnotesize\bfseries] at (6, 3.2) {$40\text{ kN/m}$};
+
+                % Resultantes descompuestas
+                \draw[->, line width=1.5pt, red!80!black] (3.0, -1.1) -- (3.0, -0.1) node[midway, right=2pt, font=\footnotesize\bfseries] {$R_{\Box} = 30\text{ kN}$};
+                \draw[->, line width=1.5pt, orange!90!black] (4.0, -1.1) -- (4.0, -0.1) node[midway, right=2pt, font=\footnotesize\bfseries] {$R_{\triangle} = 45\text{ kN}$};
+
+                % Cota de longitud
+                \draw[|<->|, >=Latex] (0,-1.4) -- (6,-1.4) node[midway, fill=white, font=\footnotesize] {$L = 3\text{ m}$};
+            \end{scope}
+
+            % --- SECCIÓN EN I ASIMÉTRICA ---
+            \begin{scope}[shift={(9.5,-0.6)}]
+                % Ala superior (1): 50 x 8 mm
+                \draw[thick, fill=blue!15] (-1.25, 2.08) rectangle (1.25, 2.24);
+                \node[font=\footnotesize\bfseries, blue!80!black] at (0, 2.16) {1};
+
+                % Alma (2): 8 x 200 mm (a escala reducida en y: 200mm -> 2.0cm)
+                \draw[thick, fill=green!15] (-0.2, 0.08) rectangle (0.2, 2.08);
+                \node[font=\footnotesize\bfseries, green!60!black] at (0, 1.08) {2};
+
+                % Ala inferior (3): 25 x 8 mm
+                \draw[thick, fill=orange!20] (-0.625, 0.0) rectangle (0.625, 0.08);
+                \node[font=\footnotesize\bfseries, orange!80!black] at (0, 0.04) {3};
+
+                % Eje baricéntrico z (y_CG = 117.45 mm -> ~1.17 cm)
+                \draw[dashed, line width=1.1pt, red!80!black] (-1.6, 1.17) -- (1.6, 1.17) node[right=2pt, font=\footnotesize\bfseries] {$z_{\text{CG}}$};
+                \filldraw[red!80!black] (0, 1.17) circle (1.8pt) node[below left=2pt, font=\scriptsize\bfseries] {$G$};
+
+                % Cotas de la sección
+                % Ancho ala superior
+                \draw[|<->|, >=Latex] (-1.25, 2.45) -- (1.25, 2.45) node[midway, above, font=\scriptsize] {$50\text{ mm}$};
+                % Espesor ala superior
+                \draw[|<->|, >=Latex] (1.45, 2.08) -- (1.45, 2.24) node[midway, right, font=\scriptsize] {$8$};
+                % Canto alma
+                \draw[|<->|, >=Latex] (1.45, 0.08) -- (1.45, 2.08) node[midway, right, font=\scriptsize] {$200\text{ mm}$};
+                % Espesor alma
+                \draw[|<->|, >=Latex] (-0.2, 0.5) -- (0.2, 0.5) node[midway, left=4pt, font=\scriptsize] {$e_w = 8$};
+                % Espesor ala inferior
+                \draw[|<->|, >=Latex] (1.45, 0.0) -- (1.45, 0.08) node[midway, right, font=\scriptsize] {$8$};
+                % Ancho ala inferior
+                \draw[|<->|, >=Latex] (-0.625, -0.25) -- (0.625, -0.25) node[midway, below, font=\scriptsize] {$25\text{ mm}$};
+                % Posición CG desde la base
+                \draw[<->, >=Latex, red!80!black] (-1.4, 0.0) -- (-1.4, 1.17) node[midway, left, font=\scriptsize\bfseries] {$y_{\text{CG}} = 117{,}45$};
+            \end{scope}
+        \end{tikzpicture}%
+    }
+    \caption{Geometría de la viga isostática con carga trapezoidal y sección transversal en I asimétrica.}
+    \label{fig:examen_viga_trapezoidal_geometria}
+\end{figure}
+
+\subsection{Resolución Paso a Paso}
+
+\paso{1}{Cálculo de Reacciones en los Apoyos}
+
+Descomponemos la carga trapezoidal de $q_A = 10\text{ kN/m}$ a $q_B = 40\text{ kN/m}$ en:
+\begin{enumerate}
+    \item Una \textbf{carga uniforme rectangular} de valor $q_1 = 10\text{ kN/m}$ extendida en toda la luz $L = 3\text{ m}$:
+          \begin{equation}
+              R_{\Box} = q_1 \cdot L = 10 \cdot 3 = \mathbf{30\text{ kN}}, \quad \text{aplicada en } x_{\Box} = \frac{L}{2} = 1{,}5\text{ m}
+          \end{equation}
+    \item Una \textbf{carga triangular creciente} de valor máximo $\Delta q = 40 - 10 = 30\text{ kN/m}$ en el apoyo $B$:
+          \begin{equation}
+              R_{\triangle} = \frac{\Delta q \cdot L}{2} = \frac{30 \cdot 3}{2} = \mathbf{45\text{ kN}}, \quad \text{aplicada en } x_{\triangle} = \frac{2}{3}L = 2{,}0\text{ m}
+          \end{equation}
+\end{enumerate}
+
+Planteamos las ecuaciones de equilibrio estático global en el plano:
+\begin{align}
+    (\rightarrow +) \quad \sum F_x = 0 & \implies \boxed{H_A = 0} \\[6pt]
+    (\circlearrowleft +) \quad \sum M_A = 0 & \implies V_B \cdot 3 - R_{\Box} \cdot 1{,}5 - R_{\triangle} \cdot 2{,}0 = 0 \nonumber \\
+                                           & \implies 3\,V_B - 30(1{,}5) - 45(2{,}0) = 0 \nonumber \\
+                                           & \implies 3\,V_B - 45 - 90 = 0 \implies 3\,V_B = 135 \implies \boxed{V_B = 45\text{ kN}\uparrow} \\[6pt]
+    (\uparrow +) \quad \sum F_y = 0 & \implies V_A + V_B - 30 - 45 = 0 \implies V_A = 75 - 45 \implies \boxed{V_A = 30\text{ kN}\uparrow}
+\end{align}
+
+\paso{2}{Leyes Analíticas de Esfuerzos Seccionales ($Q$ y $M_f$)}
+
+Realizamos un corte a una distancia genérica $x \in [0, 3]\text{ m}$ desde el apoyo $A$ considerando la porción izquierda de la viga:
+\begin{itemize}
+    \item La carga por unidad de longitud a la distancia $x$ es:
+          \begin{equation}
+              q(x) = 10 + \frac{30}{3}x = 10 + 10x\text{ [kN/m]}
+          \end{equation}
+    \item Por tanto, en el tramo $[0, x]$ actúan:
+          \begin{itemize}
+              \item La carga rectangular de $10\text{ kN/m}$ sobre longitud $x$: resultante $10x$, aplicada en $x/2$.
+              \item La carga triangular de altura $10x$ sobre longitud $x$: resultante $\dfrac{x \cdot 10x}{2} = 5x^2$, aplicada a $\dfrac{x}{3}$ del corte.
+          \end{itemize}
+\end{itemize}
+
+\subsubsection*{1. Esfuerzo Cortante $Q(x)$:}
+Equilibrio de fuerzas verticales en el sólido aislado ($\uparrow +$):
+\begin{align}
+    \sum F_y = 0 & \implies V_A - 10x - 5x^2 - Q(x) = 0 \nonumber \\
+                 & \implies \boxed{Q(x) = -5x^2 - 10x + 30\text{ [kN]}}
+\end{align}
+Valores en los extremos:
+\begin{align}
+    Q(0) & = +30\text{ kN} = V_A \\[4pt]
+    Q(3) & = -5(3)^2 - 10(3) + 30 = -45 - 30 + 30 = -45\text{ kN} = -V_B
+\end{align}
+
+\subsubsection*{2. Momento Flector $M_f(x)$:}
+Equilibrio de momentos respecto a la sección de corte ($\circlearrowleft +$):
+\begin{align}
+    \sum M_{\text{corte}} = 0 & \implies M_f(x) - V_A \cdot x + (10x)\left(\frac{x}{2}\right) + (5x^2)\left(\frac{x}{3}\right) = 0 \nonumber \\
+                              & \implies \boxed{M_f(x) = -\frac{5}{3}x^3 - 5x^2 + 30x\text{ [kN}\cdot\text{m]}}
+\end{align}
+Valores en los extremos de la viga simplemente apoyada:
+\begin{align}
+    M_f(0) & = 0\text{ kN}\cdot\text{m} \\[4pt]
+    M_f(3) & = -\frac{5}{3}(27) - 5(9) + 30(3) = -45 - 45 + 90 = 0\text{ kN}\cdot\text{m}
+\end{align}
+
+\subsubsection*{3. Sección Crítica de Momento Flector Máximo ($M_{f,\text{máx}}$):}
+El momento flector alcanza su valor extremo donde el esfuerzo cortante se anula:
+\begin{equation}
+    Q(x_0) = 0 \implies -5x_0^2 - 10x_0 + 30 = 0 \implies x_0^2 + 2x_0 - 6 = 0
+\end{equation}
+Resolviendo la ecuación de segundo grado:
+\begin{equation}
+    x_0 = \frac{-2 \pm \sqrt{2^2 - 4(1)(-6)}}{2} = \frac{-2 \pm \sqrt{28}}{2} = -1 \pm \sqrt{7}
+\end{equation}
+Descartando la raíz negativa por carecer de sentido físico ($x \in [0, 3]$):
+\begin{equation}
+    \boxed{x_0 = \sqrt{7} - 1 \approx 1{,}64575\text{ m} \approx \mathbf{1{,}646\text{ m} \approx 1{,}65\text{ m}}}
+\end{equation}
+Evaluamos el momento flector en dicho punto crítico:
+\begin{align}
+    M_{f,\text{máx}} = M_f(1{,}64575) & = -\frac{5}{3}(1{,}64575)^3 - 5(1{,}64575)^2 + 30(1{,}64575) \nonumber \\
+                                     & = -7{,}425 - 13{,}542 + 49{,}373 = \mathbf{+28{,}406\text{ kN}\cdot\text{m} \approx 28{,}41\text{ kN}\cdot\text{m}}
+\end{align}
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.95\textwidth}{%
+        \begin{tikzpicture}[scale=1.15, >=Latex]
+            % --- EJE NORMAL ---
+            \draw[line width=1.2pt, gray!70] (0, 3.5) -- (6, 3.5);
+            \node[left=3pt, font=\bfseries] at (0, 3.5) {$N(x) = 0$};
+            \node[above=2pt, font=\scriptsize\bfseries] at (3, 3.5) {$0\text{ kN}$};
+
+            % --- DIAGRAMA DE CORTANTE Q(x) ---
+            \draw[line width=1.2pt, gray!70] (0, 1.0) -- (6, 1.0);
+            \node[left=3pt, font=\bfseries] at (0, 1.0) {$Q(x)$};
+
+            % Curva parabólica Q(x): x in [0,3] -> t in [0,6]
+            % t_0 = 1.64575 * 2 = 3.2915 cm
+            \draw[line width=1.6pt, blue!80!black] 
+                (0, 1.0) -- (0, 2.0) 
+                plot[domain=0:6, samples=40] (\x, {1.0 + ( -5*(\x/2)*(\x/2) - 10*(\x/2) + 30 )/30}) 
+                -- (6, 1.0);
+            
+            \fill[blue!15, opacity=0.6] 
+                (0, 1.0) -- (0, 2.0) 
+                plot[domain=0:6, samples=40] (\x, {1.0 + ( -5*(\x/2)*(\x/2) - 10*(\x/2) + 30 )/30}) 
+                -- (6, 1.0) -- cycle;
+
+            \node[left=2pt, font=\footnotesize\bfseries, blue!80!black] at (0, 2.0) {$+30\text{ kN}$};
+            \node[right=2pt, font=\footnotesize\bfseries, blue!80!black] at (6, -0.5) {$-45\text{ kN}$};
+            \filldraw[red!80!black] (3.2915, 1.0) circle (1.8pt);
+            \node[above=3pt, font=\scriptsize\bfseries, red!80!black] at (3.2915, 1.0) {$x_0 = 1{,}65\text{ m}$};
+
+            % Signos
+            \node[font=\bfseries, blue!80!black] at (1.2, 1.4) {$+$};
+            \node[font=\bfseries, blue!80!black] at (4.8, 0.5) {$-$};
+
+            % --- DIAGRAMA DE MOMENTO FLECTOR M_f(x) ---
+            \draw[line width=1.2pt, gray!70] (0, -2.2) -- (6, -2.2);
+            \node[left=3pt, font=\bfseries] at (0, -2.2) {$M_f(x)$};
+
+            % Curva cúbica M_f(x) dibujada con convenio habitual (positivo hacia abajo):
+            % En x_0 = 1.646 m, M_f = 28.41 -> 1.8 cm hacia abajo
+            \draw[line width=1.6pt, red!80!black] 
+                (0, -2.2) 
+                plot[domain=0:6, samples=50] (\x, {-2.2 - ( - (5/3)*(\x/2)*(\x/2)*(\x/2) - 5*(\x/2)*(\x/2) + 30*(\x/2) ) / 16}) 
+                -- (6, -2.2);
+
+            \fill[red!15, opacity=0.6] 
+                (0, -2.2) 
+                plot[domain=0:6, samples=50] (\x, {-2.2 - ( - (5/3)*(\x/2)*(\x/2)*(\x/2) - 5*(\x/2)*(\x/2) + 30*(\x/2) ) / 16}) 
+                -- (6, -2.2) -- cycle;
+
+            \filldraw[red!80!black] (3.2915, -3.975) circle (2pt);
+            \node[below=3pt, font=\footnotesize\bfseries, red!80!black] at (3.2915, -3.975) {$M_{f,\text{máx}} = +28{,}41\text{ kN}\cdot\text{m}$};
+            \node[font=\bfseries, red!80!black] at (2.0, -2.8) {$+$};
+
+            % Líneas de referencia discontinuas
+            \draw[dotted, line width=0.8pt, gray] (0, 3.7) -- (0, -4.2);
+            \draw[dotted, line width=0.8pt, red!80!black] (3.2915, 2.2) -- (3.2915, -4.2);
+            \draw[dotted, line width=0.8pt, gray] (6, 3.7) -- (6, -4.2);
+        \end{tikzpicture}%
+    }
+    \caption{Diagramas de esfuerzo axil $N(x)$, cortante parabólico $Q(x)$ y momento flector cúbico $M_f(x)$.}
+    \label{fig:examen_viga_trapezoidal_diagramas}
+\end{figure}
+
+\paso{3}{Ecuación de la Elástica y Flecha en el Centro del Vano}
+
+La ecuación diferencial de flexión de segundo orden es:
+\begin{equation}
+    y''(x) = -\frac{M_f(x)}{E\,I} = \frac{1}{E\,I}\left( \frac{5}{3}x^3 + 5x^2 - 30x \right)
+\end{equation}
+\begin{tcolorbox}[colback=yellow!10!white,colframe=orange!80!black,title=\textbf{Convenio de Signos de la Elástica}]
+    Con el criterio habitual de resistencia de materiales donde la curvatura positiva corresponde a concavidad hacia arriba ($y''(x) = -M_f(x)/(E\,I)$ o bien $y''(x) = M_f(x)/(E\,I)$ según la orientación adoptada para el eje vertical $y$), adoptamos el convenio estándar de la asignatura donde el signo positivo o negativo de la flecha indica el descenso vertical.
+\end{tcolorbox}
+
+Integrando sucesivamente respecto a $x$:
+\begin{align}
+    y'(x) & = \frac{1}{E\,I}\left( \frac{5}{12}x^4 + \frac{5}{3}x^3 - 15x^2 + C_1 \right) \\[6pt]
+    y(x)  & = \frac{1}{E\,I}\left( \frac{1}{12}x^5 + \frac{5}{12}x^4 - 5x^3 + C_1 \cdot x + C_2 \right)
+\end{align}
+\textit{(o bien expresando con signo negativo si se define $y(x)$ con signo contrario a los momentos positivos).}
+
+\subsubsection*{Condiciones de contorno cinemáticas:}
+\begin{enumerate}
+    \item En el apoyo $A$ ($x = 0$): el desplazamiento vertical está impedido:
+          \begin{equation}
+              y(0) = 0 \implies C_2 = 0
+          \end{equation}
+    \item En el apoyo $B$ ($x = 3\text{ m}$): el descenso es nulo:
+          \begin{align}
+              y(3) = 0 & \implies \frac{1}{12}(3)^5 + \frac{5}{12}(3)^4 - 5(3)^3 + 3\,C_1 = 0 \nonumber \\
+                       & \implies \frac{243}{12} + \frac{405}{12} - 135 + 3\,C_1 = 0 \nonumber \\
+                       & \implies \frac{648}{12} - 135 + 3\,C_1 = 0 \implies 54 - 135 + 3\,C_1 = 0 \nonumber \\
+                       & \implies -81 + 3\,C_1 = 0 \implies \boxed{C_1 = 27\text{ kN}\cdot\text{m}^3}
+          \end{align}
+\end{enumerate}
+
+Por consiguiente, la expresión analítica de la deformada (elástica) de la viga es:
+\begin{equation}
+    \boxed{y(x) = \frac{1}{E\,I}\left( \frac{x^5}{12} + \frac{5x^4}{12} - 5x^3 + 27x \right)}
+    \label{eq:elastica_trapezoidal_general}
+\end{equation}
+
+\subsubsection*{Cálculo de las Propiedades Geométricas de la Sección ($\Omega, y_{\text{CG}}, I_z$):}
+Descomponemos la sección en tres rectángulos tomando como referencia la fibra inferior (base del ala 3):
+\begin{table}[H]
+    \centering
+    \caption{Propiedades de las subsecciones del perfil en I asimétrico.}
+    \adjustbox{max width=0.95\textwidth}{%
+        \renewcommand{\arraystretch}{1.3}
+        \begin{tabular}{lccccc}
+            \toprule
+            \textbf{Elemento} & $b_i\text{ [mm]}$ & $h_i\text{ [mm]}$ & $A_i\text{ [mm}^2\text{]}$ & $y_i\text{ [mm]}$ & $I_{z0,i} = \frac{b_i h_i^3}{12}\text{ [mm}^4\text{]}$ \\
+            \midrule
+            (1) Ala superior & $50$ & $8$ & $400$ & $8 + 200 + 4 = 212$ & $\frac{50 \cdot 8^3}{12} = 2.133{,}33$ \\
+            (2) Alma & $8$ & $200$ & $1.600$ & $8 + 100 = 108$ & $\frac{8 \cdot 200^3}{12} = 5.333.333{,}33$ \\
+            (3) Ala inferior & $25$ & $8$ & $200$ & $4$ & $\frac{25 \cdot 8^3}{12} = 1.066{,}67$ \\
+            \midrule
+            \textbf{Total} & & & $A = 2.200\text{ mm}^2$ & & \\
+            \bottomrule
+        \end{tabular}%
+    }
+    \label{tab:propiedades_seccion_I_asimetrica}
+\end{table}
+
+\begin{enumerate}
+    \item \textbf{Centro de gravedad (posición baricéntrica $y_{\text{CG}}$ desde la base):}
+          \begin{align}
+              y_{\text{CG}} & = \frac{\sum A_i \cdot y_i}{\sum A_i} = \frac{400(212) + 1600(108) + 200(4)}{2200} \nonumber \\
+                            & = \frac{84.800 + 172.800 + 800}{2200} = \frac{258.400}{2200} \approx \mathbf{117{,}4545\text{ mm} \approx 117{,}45\text{ mm}}
+          \end{align}
+    \item \textbf{Momento de inercia baricéntrico ($I_z$) por el Teorema de Steiner:}
+          \begin{align}
+              I_{z1} & = \frac{50 \cdot 8^3}{12} + 400(212 - 117{,}4545)^2 = 2.133{,}33 + 400(94{,}5455)^2 = 3.577.672{,}7\text{ mm}^4 \\[4pt]
+              I_{z2} & = \frac{8 \cdot 200^3}{12} + 1600(108 - 117{,}4545)^2 = 5.333.333{,}33 + 1600(-9{,}4545)^2 = 5.476.350{,}3\text{ mm}^4 \\[4pt]
+              I_{z3} & = \frac{25 \cdot 8^3}{12} + 200(4 - 117{,}4545)^2 = 1.066{,}67 + 200(-113{,}4545)^2 = 2.575.050{,}4\text{ mm}^4
+          \end{align}
+          Sumando las tres contribuciones:
+          \begin{equation}
+              \boxed{I_z = 3.577.673 + 5.476.350 + 2.575.050 = \mathbf{11.629.073\text{ mm}^4 \approx 1{,}1629 \cdot 10^{-5}\text{ m}^4}}
+          \end{equation}
+          \textit{(Coincidente con el valor del manuscrito $I_z \approx 11.629.479\text{ mm}^4$).}
+\end{enumerate}
+
+\subsubsection*{Evaluación de la Flecha en el Centro del Vano ($x = 1{,}5\text{ m}$):}
+Sustituimos $x = 1{,}5\text{ m}$ en el paréntesis numerador de la ecuación \eqref{eq:elastica_trapezoidal_general}:
+\begin{align}
+    P(1{,}5) & = \frac{(1{,}5)^5}{12} + \frac{5(1{,}5)^4}{12} - 5(1{,}5)^3 + 27(1{,}5) \nonumber \\
+             & = \frac{7{,}59375}{12} + \frac{25{,}3125}{12} - 5(3{,}375) + 40{,}5 \nonumber \\
+             & = 0{,}6328 + 2{,}1094 - 16{,}875 + 40{,}5 = \mathbf{+26{,}367\text{ kN}\cdot\text{m}^3}
+\end{align}
+Multiplicando por la rigidez a flexión en unidades coherentes:
+\begin{itemize}
+    \item $E = 2{,}1 \cdot 10^5\text{ N/mm}^2 = 2{,}1 \cdot 10^8\text{ kN/m}^2$.
+    \item $I_z = 11.629.479\text{ mm}^4 = 1{,}16295 \cdot 10^{-5}\text{ m}^4$.
+    \item $E\,I_z = (2{,}1 \cdot 10^8)(1{,}16295 \cdot 10^{-5}) \approx \mathbf{2.442{,}19\text{ kN}\cdot\text{m}^2}$.
+\end{itemize}
+Por tanto, el desplazamiento vertical (flecha) en el centro es:
+\begin{equation}
+    \boxed{f_{L/2} = |y(1{,}5)| = \frac{26{,}367\text{ kN}\cdot\text{m}^3}{2.442{,}19\text{ kN}\cdot\text{m}^2} \approx \mathbf{0{,}010796\text{ m} \approx 10{,}80\text{ mm}}}
+\end{equation}
+\textit{(En el cálculo manuscrito, empleando coeficientes decimales aproximados se obtuvo un descenso de $\approx 10{,}45\text{ mm}$).}
+
+\paso{4}{Comprobación Resistente a Flexión en la Sección Más Desfavorable}
+
+La sección más desfavorable es aquella donde el momento flector alcanza su valor máximo:
+\begin{equation}
+    x_0 \approx 1{,}646\text{ m} \implies M_{f,\text{máx}} = +28{,}41\text{ kN}\cdot\text{m} = +28{,}41 \cdot 10^6\text{ N}\cdot\text{mm}
+\end{equation}
+Dado que $M_f > 0$ (flexión positiva), la sección sufre:
+\begin{itemize}
+    \item \textbf{Compresión} en las fibras superiores ($y > 0$ respecto al baricentro).
+    \item \textbf{Tracción} en las fibras inferiores ($y < 0$ respecto al baricentro).
+\end{itemize}
+
+Determinamos las distancias desde el centro de gravedad $G$ a las fibras extremas:
+\begin{align}
+    y_{\text{fibra sup}} & = H - y_{\text{CG}} = 216 - 117{,}45 = \mathbf{+98{,}55\text{ mm}} \quad (\text{compresión}) \\[4pt]
+    y_{\text{fibra inf}} & = y_{\text{CG}} = \mathbf{117{,}45\text{ mm}} \quad (\text{tracción})
+\end{align}
+
+Aplicando la fórmula de Navier para flexión pura/simple ($\sigma = \frac{M_f}{I_z}y$):
+\begin{enumerate}
+    \item \textbf{Tensión máxima de tracción (fibra inferior más alejada):}
+          \begin{equation}
+              \sigma_{\text{trac}} = \frac{M_{f,\text{máx}} \cdot y_{\text{fibra inf}}}{I_z} = \frac{28{,}41 \cdot 10^6\text{ N}\cdot\text{mm} \cdot 117{,}45\text{ mm}}{11.629.479\text{ mm}^4} = \mathbf{+286{,}92\text{ N/mm}^2 = +286{,}92\text{ MPa}}
+          \end{equation}
+    \item \textbf{Tensión máxima de compresión (fibra superior):}
+          \begin{equation}
+              \sigma_{\text{comp}} = \frac{M_{f,\text{máx}} \cdot y_{\text{fibra sup}}}{I_z} = \frac{28{,}41 \cdot 10^6 \cdot 98{,}55}{11.629.479} = \mathbf{-240{,}75\text{ N/mm}^2 = -240{,}75\text{ MPa}}
+          \end{equation}
+\end{enumerate}
+
+\subsubsection*{Comprobación del Criterio de Resistencia Tensional:}
+La tensión admisible del acero es $\sigma_{\text{adm}} = 275\text{ N/mm}^2$.
+Comparando la tensión máxima absoluta con la admisible:
+\begin{equation}
+    \sigma_{\text{máx}} = 286{,}92\text{ N/mm}^2 > \sigma_{\text{adm}} = 275\text{ N/mm}^2
+\end{equation}
+\begin{tcolorbox}[colback=red!10!white,colframe=red!80!black,title=\textbf{Conclusión de Resistencia}]
+    La viga \textbf{NO RESISTE} a flexión, ya que en la fibra inferior más traccionada de la sección crítica se supera la tensión admisible del acero en un:
+    \[
+        \frac{286{,}92 - 275}{275} \cdot 100 \approx 4{,}33\text{ \%}
+    \]
+    Para satisfacer el estado límite de resistencia se requeriría aumentar el ancho o espesor del ala inferior (reforzándola a tracción) o seleccionar un acero de mayor límite elástico (por ejemplo, S355).
+\end{tcolorbox}
+
+\begin{table}[H]
+    \centering
+    \caption{Resumen de resultados del problema de examen de viga con carga trapezoidal y perfil asimétrico.}
+    \adjustbox{max width=0.95\textwidth}{%
+        \renewcommand{\arraystretch}{1.3}
+        \begin{tabular}{lccc}
+            \toprule
+            \textbf{Magnitud} & \textbf{Símbolo / Expresión} & \textbf{Valor Numérico} & \textbf{Estado / Observaciones} \\
+            \midrule
+            Reacción vertical en $A$ & $V_A$ & $\mathbf{30{,}00\text{ kN}}$ & Hacia arriba ($\uparrow$) \\
+            Reacción vertical en $B$ & $V_B$ & $\mathbf{45{,}00\text{ kN}}$ & Hacia arriba ($\uparrow$) \\
+            Reacción horizontal & $H_A$ & $\mathbf{0{,}00\text{ kN}}$ & Sin cargas axiles \\
+            \midrule
+            Sección de cortante nulo & $x_0 = \sqrt{7}-1$ & $\mathbf{1{,}65\text{ m}}$ & Momento flector máximo \\
+            Momento flector máximo & $M_{f,\text{máx}}$ & $\mathbf{+28{,}41\text{ kN}\cdot\text{m}}$ & Tracción abajo, compresión arriba \\
+            \midrule
+            Posición baricentro (desde base) & $y_{\text{CG}}$ & $\mathbf{117{,}45\text{ mm}}$ & Más próximo al ala superior \\
+            Momento de inercia baricéntrico & $I_z$ & $\mathbf{11{,}63 \cdot 10^6\text{ mm}^4}$ & Por teorema de Steiner \\
+            \midrule
+            Flecha en el centro del vano & $|y(1{,}5\text{ m})|$ & $\mathbf{10{,}80\text{ mm}}$ & Descenso vertical \\
+            Tensión normal máxima & $\sigma_{\text{máx}} = \sigma_{\text{trac}}$ & $\mathbf{286{,}92\text{ MPa}}$ & Supera $\sigma_{\text{adm}} = 275\text{ MPa}$ \\
+            \midrule
+            \textbf{Dictamen Resistente} & $\sigma_{\text{máx}} \le \sigma_{\text{adm}}$ & \textbf{NO RESISTE} & Fallo por tracción en ala inferior \\
+            \bottomrule
+        \end{tabular}%
+    }
+    \label{tab:resumen_viga_trapezoidal}
+\end{table}
+
+%=============================================================================
+\section{Problema de Examen: Viga con Voladizo, Momentos Puntuales y Carga Máxima Admisible}
+
+\subsection{Enunciado y Geometría de Partida}
+
+Se considera la viga de longitud total $L = 6\text{ m}$ simplemente apoyada en $A$ ($x = 0$) y en $B$ ($x = 4\text{ m}$), con un voladizo en el extremo derecho de longitud $2\text{ m}$ ($x \in [4, 6]\text{ m}$). Sobre la viga actúan:
+\begin{itemize}
+    \item Una carga distribuida uniforme descendente de valor $q\text{ [kN/m]}$ en toda su longitud ($L = 6\text{ m}$).
+    \item Dos momentos concentrados exteriores de valor $M_0 = 10\text{ kN}\cdot\text{m}$:
+          \begin{itemize}
+              \item En el apoyo izquierdo $A$ ($x = 0$), en sentido antihorario ($\circlearrowleft$).
+              \item Justo en el apoyo intermedio $B$ ($x = 4\text{ m}$), en sentido horario ($\circlearrowright$).
+          \end{itemize}
+\end{itemize}
+La sección transversal de la viga es un perfil en I simétrico de acero cuyas dimensiones se indican en la figura (alas de $60 \times 10\text{ mm}$ y alma de $10 \times 200\text{ mm}$, canto total $H = 220\text{ mm}$). Si la tensión admisible del material es $\sigma_{\text{adm}} = 262\text{ N/mm}^2$ (con un coeficiente de mayoración de carga $\gamma_F = 1{,}5$ en comprobación de diseño), se pide:
+
+\begin{enumerate}[label=\alph*)]
+    \item \textbf{Reacciones y leyes analíticas:} Obtener las reacciones en los apoyos $A$ y $B$ en función de la carga $q$, y formular las expresiones analíticas del esfuerzo cortante $Q(x)$ y del momento flector $M_f(x)$ para cada uno de los dos tramos de la viga.
+    \item \textbf{Diagramas de esfuerzos:} Representar los diagramas acotados de cortante $Q(x)$ y momento flector $M_f(x)$.
+    \item \textbf{Carga máxima admisible $q$:} Determinar las propiedades de la sección ($\Omega, y_{\text{CG}}, I_z$) y calcular la máxima carga distribuida $q$ que puede soportar la viga sin que en ninguna sección se supere la tensión admisible, justificando la sección crítica gobernante.
+\end{enumerate}
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=\textbf{Datos del Problema}]
+    \begin{itemize}
+        \item Longitud del vano principal: $L_1 = 4\text{ m}$ ($x \in [0, 4\text{ m}]$).
+        \item Longitud del voladizo: $L_2 = 2\text{ m}$ ($x \in [4, 6\text{ m}]$). Longitud total: $L = 6\text{ m}$.
+        \item Carga repartida continua: $q\text{ [kN/m]}$ descendente.
+        \item Momentos concentrados externos: $M_A = 10\text{ kN}\cdot\text{m}\;(\circlearrowleft)$, $M_B = 10\text{ kN}\cdot\text{m}\;(\circlearrowright)$.
+        \item Tensión admisible del acero: $\sigma_{\text{adm}} = 262\text{ N/mm}^2 = 262\text{ MPa}$.
+        \item Dimensiones del perfil en I doblemente simétrico:
+              \begin{itemize}
+                  \item Ala superior (1): $b_1 = 60\text{ mm}$, $e_1 = 10\text{ mm}$.
+                  \item Alma (2): $e_w = 10\text{ mm}$, $h_w = 200\text{ mm}$.
+                  \item Ala inferior (3): $b_3 = 60\text{ mm}$, $e_3 = 10\text{ mm}$.
+                  \item Canto total del perfil: $H = 10 + 200 + 10 = 220\text{ mm}$.
+              \end{itemize}
+    \end{itemize}
+\end{tcolorbox}
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.95\textwidth}{%
+        \begin{tikzpicture}[scale=1.1, >=Latex]
+            % --- VIGA CON CARGA Y MOMENTOS ---
+            \begin{scope}[shift={(0,0)}]
+                % Eje viga (0 a 6m, escala 1m = 1.3cm -> 0 a 7.8cm)
+                \draw[line width=2.2pt, black!80] (0,0) -- (7.8,0);
+
+                % Apoyo fijo en A (x=0)
+                \draw[thick] (0,0) -- (-0.3,-0.45) -- (0.3,-0.45) -- cycle;
+                \fill[gray!40] (-0.4,-0.45) rectangle (0.4,-0.55);
+                \draw[thick] (-0.4,-0.45) -- (0.4,-0.45);
+                \filldraw[black] (0,0) circle (2pt) node[above left=3pt, font=\bfseries] {$A$};
+
+                % Apoyo móvil en B (x=4m -> 5.2cm)
+                \draw[thick] (5.2,0) -- (4.9,-0.4) -- (5.5,-0.4) -- cycle;
+                \draw[thick] (4.95,-0.47) circle (0.07);
+                \draw[thick] (5.2,-0.47) circle (0.07);
+                \draw[thick] (5.45,-0.47) circle (0.07);
+                \fill[gray!40] (4.8,-0.55) rectangle (5.6,-0.65);
+                \draw[thick] (4.8,-0.55) -- (5.6,-0.55);
+                \filldraw[black] (5.2,0) circle (2pt) node[above left=3pt, font=\bfseries] {$B$};
+
+                % Extremo voladizo C (x=6m -> 7.8cm)
+                \node[above right=2pt, font=\bfseries] at (7.8,0) {$C$};
+
+                % Carga repartida q descendente
+                \draw[thick, blue!80!black] (0,1.0) -- (7.8,1.0);
+                \foreach \x in {0, 0.65, 1.3, 1.95, 2.6, 3.25, 3.9, 4.55, 5.2, 5.85, 6.5, 7.15, 7.8} {
+                    \draw[->, thick, blue!80!black] (\x, 1.0) -- (\x, 0.05);
+                }
+                \node[above=2pt, blue!80!black, font=\footnotesize\bfseries] at (3.9, 1.0) {$q\text{ [kN/m]}$};
+
+                % Resultante global q*6
+                \draw[->, line width=1.5pt, blue!50!black] (3.9, 1.7) -- (3.9, 0.1) node[midway, right=2pt, font=\scriptsize\bfseries] {$R = 6\,q$};
+
+                % Momento en A (10 kNm, antihorario)
+                \draw[-{Latex[length=2.5mm, width=1.8mm]}, line width=1.5pt, red!80!black] 
+                    (-0.65, 0.1) arc (160:-80:0.45);
+                \node[left=3pt, red!80!black, font=\footnotesize\bfseries] at (-0.65, 0.4) {$10\text{ kN}\cdot\text{m}$};
+
+                % Momento en B (10 kNm, horario)
+                \draw[-{Latex[length=2.5mm, width=1.8mm]}, line width=1.5pt, red!80!black] 
+                    (5.85, 0.1) arc (20:260:0.45);
+                \node[right=3pt, red!80!black, font=\footnotesize\bfseries] at (5.85, 0.4) {$10\text{ kN}\cdot\text{m}$};
+
+                % Reacciones
+                \draw[->, line width=1.6pt, green!60!black] (0,-1.2) -- (0,-0.05) node[midway, left=2pt, font=\footnotesize\bfseries] {$V_A$};
+                \draw[->, line width=1.6pt, green!60!black] (5.2,-1.2) -- (5.2,-0.05) node[midway, right=2pt, font=\footnotesize\bfseries] {$V_B$};
+                \draw[->, line width=1.4pt, green!60!black] (-1.0,0) -- (-0.05,0) node[midway, above, font=\footnotesize\bfseries] {$H_A$};
+
+                % Cotas
+                \draw[|<->|, >=Latex] (0,-1.4) -- (5.2,-1.4) node[midway, fill=white, font=\footnotesize] {$4\text{ m}$};
+                \draw[|<->|, >=Latex] (5.2,-1.4) -- (7.8,-1.4) node[midway, fill=white, font=\footnotesize] {$2\text{ m}$};
+            \end{scope}
+
+            % --- SECCIÓN EN I SIMÉTRICA ---
+            \begin{scope}[shift={(10.5,-0.6)}]
+                % Ala superior (1): 60 x 10 mm
+                \draw[thick, fill=blue!15] (-1.2, 2.1) rectangle (1.2, 2.3);
+                \node[font=\footnotesize\bfseries, blue!80!black] at (0, 2.2) {1};
+
+                % Alma (2): 10 x 200 mm (a escala: 200mm -> 2.0cm)
+                \draw[thick, fill=green!15] (-0.2, 0.1) rectangle (0.2, 2.1);
+                \node[font=\footnotesize\bfseries, green!60!black] at (0, 1.1) {2};
+
+                % Ala inferior (3): 60 x 10 mm
+                \draw[thick, fill=blue!15] (-1.2, -0.1) rectangle (1.2, 0.1);
+                \node[font=\footnotesize\bfseries, blue!80!black] at (0, 0.0) {3};
+
+                % Eje baricéntrico z (y_CG = 110 mm -> 1.1 cm)
+                \draw[dashed, line width=1.1pt, red!80!black] (-1.6, 1.1) -- (1.6, 1.1) node[right=2pt, font=\footnotesize\bfseries] {$z_{\text{CG}}$};
+                \filldraw[red!80!black] (0, 1.1) circle (1.8pt) node[below left=2pt, font=\scriptsize\bfseries] {$G$};
+
+                % Cotas de la sección
+                \draw[|<->|, >=Latex] (-1.2, 2.5) -- (1.2, 2.5) node[midway, above, font=\scriptsize] {$60\text{ mm}$};
+                \draw[|<->|, >=Latex] (1.4, 2.1) -- (1.4, 2.3) node[midway, right, font=\scriptsize] {$10$};
+                \draw[|<->|, >=Latex] (1.4, 0.1) -- (1.4, 2.1) node[midway, right, font=\scriptsize] {$200\text{ mm}$};
+                \draw[|<->|, >=Latex] (-0.2, 0.6) -- (0.2, 0.6) node[midway, left=4pt, font=\scriptsize] {$e_w = 10$};
+                \draw[|<->|, >=Latex] (1.4, -0.1) -- (1.4, 0.1) node[midway, right, font=\scriptsize] {$10$};
+                \draw[|<->|, >=Latex] (-1.2, -0.35) -- (1.2, -0.35) node[midway, below, font=\scriptsize] {$60\text{ mm}$};
+                \draw[<->, >=Latex, red!80!black] (-1.4, -0.1) -- (-1.4, 1.1) node[midway, left, font=\scriptsize\bfseries] {$y_{\text{CG}} = 110$};
+            \end{scope}
+        \end{tikzpicture}%
+    }
+    \caption{Esquema estático de la viga con voladizo, momentos concentrados y geometría del perfil en I simétrico.}
+    \label{fig:examen_viga_voladizo_geometria}
+\end{figure}
+
+\subsection{Resolución Paso a Paso}
+
+\paso{1}{Cálculo de Reacciones en los Apoyos}
+
+Formulamos el equilibrio estático global considerando las fuerzas y los momentos externos aplicados:
+\begin{align}
+    (\rightarrow +) \quad \sum F_x = 0 & \implies \boxed{H_A = 0} \\[6pt]
+    (\uparrow +) \quad \sum F_y = 0    & \implies V_A + V_B - 6\,q = 0 \implies V_A + V_B = 6\,q \label{eq:voladizo_fy}
+\end{align}
+Tomamos momentos respecto al apoyo $A$ ($\circlearrowleft +$):
+\begin{equation}
+    \sum M_A = 0 \implies -M_{A,\text{ext}} + M_{B,\text{ext}} - (6\,q)\left(\frac{6}{2}\right) + V_B \cdot 4 = 0
+\end{equation}
+Sustituyendo los valores numéricos de los momentos exteriores ($M_A = 10\text{ kN}\cdot\text{m}\;(\circlearrowleft)$, que entra con signo negativo, y $M_B = 10\text{ kN}\cdot\text{m}\;(\circlearrowright)$, que entra con signo positivo en el sumatorio):
+\begin{equation}
+    -10 + 10 - 18\,q + 4\,V_B = 0 \implies 4\,V_B = 18\,q \implies \boxed{V_B = 4{,}5\,q\uparrow}
+\end{equation}
+\begin{tcolorbox}[colback=yellow!10!white,colframe=orange!80!black,title=\textbf{Observación Clave sobre los Momentos Exteriores}]
+    Al ser ambos momentos concentrados de igual magnitud ($10\text{ kN}\cdot\text{m}$) pero de sentidos contrarios (uno antihorario en $A$ y otro horario en $B$), su resultante neta global respecto a cualquier punto del plano es idénticamente nula ($-10 + 10 = 0$). Por tanto, las reacciones verticales dependen única y exclusivamente de la carga repartida $q$.
+\end{tcolorbox}
+De la ecuación de fuerzas verticales \eqref{eq:voladizo_fy}:
+\begin{equation}
+    V_A = 6\,q - 4{,}5\,q \implies \boxed{V_A = 1{,}5\,q\uparrow}
+\end{equation}
+
+\paso{2}{Leyes Analíticas de Esfuerzos Seccionales ($Q$ y $M_f$)}
+
+\subsubsection*{Tramo 1: Vano principal entre apoyos ($x \in [0, 4\text{ m}]$)}
+Seccionando a distancia $x$ desde el origen $A$ considerando la porción izquierda:
+\begin{itemize}
+    \item \textbf{Esfuerzo cortante $Q_1(x)$:}
+          \begin{equation}
+              \sum F_y = 0 \implies V_A - q \cdot x - Q_1(x) = 0 \implies \boxed{Q_1(x) = 1{,}5\,q - q \cdot x}
+          \end{equation}
+          Valores en los extremos:
+          \begin{align}
+              Q_1(0) & = +1{,}5\,q \\[4pt]
+              Q_1(4) & = 1{,}5\,q - 4\,q = \mathbf{-2{,}5\,q}
+          \end{align}
+          Punto de cortante nulo ($Q_1(x_0) = 0$):
+          \begin{equation}
+              1{,}5\,q - q \cdot x_0 = 0 \implies \boxed{x_0 = 1{,}5\text{ m}}
+          \end{equation}
+    \item \textbf{Momento flector $M_{f1}(x)$:}
+          Tomando momentos respecto a la sección de corte ($\circlearrowleft +$):
+          \begin{align}
+              \sum M_{\text{corte}} = 0 & \implies M_{f1}(x) - M_A - V_A \cdot x + (q \cdot x)\left(\frac{x}{2}\right) = 0 \nonumber \\
+                                        & \implies M_{f1}(x) - 10 - 1{,}5\,q \cdot x + \frac{q \cdot x^2}{2} = 0 \nonumber \\
+                                        & \implies \boxed{M_{f1}(x) = 10 + 1{,}5\,q \cdot x - \frac{q}{2}x^2}
+          \end{align}
+          Valores en los extremos y en el punto de cortante nulo:
+          \begin{align}
+              M_{f1}(0)          & = \mathbf{+10\text{ kN}\cdot\text{m}} \\[4pt]
+              M_{f1}(x_0 = 1{,}5) & = 10 + 1{,}5\,q(1{,}5) - \frac{q}{2}(1{,}5)^2 = 10 + 2{,}25\,q - 1{,}125\,q = \mathbf{10 + 1{,}125\,q} \\[4pt]
+              M_{f1}(4^-)        & = 10 + 1{,}5\,q(4) - \frac{q}{2}(16) = 10 + 6\,q - 8\,q = \mathbf{10 - 2\,q}
+          \end{align}
+\end{itemize}
+
+\subsubsection*{Tramo 2: Voladizo ($x \in [4, 6\text{ m}]$)}
+Para este tramo resulta mucho más directo y limpio seccionar considerando la porción derecha libre de longitud $u = 6 - x$ ($u \in [0, 2\text{ m}]$):
+\begin{itemize}
+    \item \textbf{Esfuerzo cortante $Q_2(x)$:}
+          Equilibrio vertical en la porción derecha ($\uparrow +$):
+          \begin{equation}
+              Q_2(x) - q(6 - x) = 0 \implies \boxed{Q_2(x) = q(6 - x) = 6\,q - q \cdot x}
+          \end{equation}
+          Valores en los extremos:
+          \begin{align}
+              Q_2(4^+) & = q(6 - 4) = \mathbf{+2\,q} \\[4pt]
+              Q_2(6)   & = q(6 - 6) = \mathbf{0}
+          \end{align}
+          \textit{Discontinuidad en el apoyo $B$:} $\Delta Q = Q_2(4^+) - Q_1(4^-) = 2\,q - (-2{,}5\,q) = 4{,}5\,q = V_B \quad (\checkmark)$.
+    \item \textbf{Momento flector $M_{f2}(x)$:}
+          Tomando momentos respecto a la sección de corte ($\circlearrowleft +$):
+          \begin{equation}
+              -M_{f2}(x) - q(6 - x)\left(\frac{6 - x}{2}\right) = 0 \implies \boxed{M_{f2}(x) = -\frac{q}{2}(6 - x)^2}
+          \end{equation}
+          Valores en los extremos:
+          \begin{align}
+              M_{f2}(4^+) & = -\frac{q}{2}(2)^2 = \mathbf{-2\,q} \\[4pt]
+              M_{f2}(6)   & = 0
+          \end{align}
+          \textit{Discontinuidad de momento en el apoyo $B$:}
+          \[
+              \Delta M_f = M_{f1}(4^-) - M_{f2}(4^+) = (10 - 2\,q) - (-2\,q) = \mathbf{+10\text{ kN}\cdot\text{m}} = M_{B,\text{ext}} \quad (\checkmark)
+          \]
+          El salto en el diagrama de momentos coincide con el momento concentrado horario aplicado en $B$.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.95\textwidth}{%
+        \begin{tikzpicture}[scale=1.1, >=Latex]
+            % --- EJE DE CORTANTE Q(x) ---
+            \draw[line width=1.2pt, gray!70] (0, 2.5) -- (7.8, 2.5);
+            \node[left=3pt, font=\bfseries] at (0, 2.5) {$Q(x)$};
+
+            % Cortante Tramo 1: 0 a 4m (0 a 5.2cm)
+            % Q(0) = +1.5q, Q(1.5) = 0, Q(4) = -2.5q
+            \draw[line width=1.6pt, blue!80!black] (0, 3.5) -- (5.2, 0.833);
+            \fill[blue!15, opacity=0.6] (0, 2.5) -- (0, 3.5) -- (5.2, 0.833) -- (5.2, 2.5) -- cycle;
+            \node[left=2pt, font=\footnotesize\bfseries, blue!80!black] at (0, 3.5) {$+1{,}5\,q$};
+            \node[left=2pt, font=\footnotesize\bfseries, blue!80!black] at (5.2, 0.833) {$-2{,}5\,q$};
+            \filldraw[red!80!black] (1.95, 2.5) circle (1.8pt);
+            \node[above=2pt, font=\scriptsize\bfseries, red!80!black] at (1.95, 2.5) {$x_0 = 1{,}5\text{ m}$};
+
+            % Salto en B por V_B = 4.5q: pasa a +2q (altura 2.5 + 1.33 = 3.83)
+            \draw[line width=1.6pt, blue!80!black] (5.2, 0.833) -- (5.2, 3.833);
+            % Cortante Tramo 2: de +2q a 0 en x=6 (7.8cm)
+            \draw[line width=1.6pt, blue!80!black] (5.2, 3.833) -- (7.8, 2.5);
+            \fill[blue!15, opacity=0.6] (5.2, 2.5) -- (5.2, 3.833) -- (7.8, 2.5) -- cycle;
+            \node[right=2pt, font=\footnotesize\bfseries, blue!80!black] at (5.2, 3.833) {$+2\,q$};
+
+            % Signos cortante
+            \node[font=\bfseries, blue!80!black] at (0.8, 2.9) {$+$};
+            \node[font=\bfseries, blue!80!black] at (4.0, 1.8) {$-$};
+            \node[font=\bfseries, blue!80!black] at (6.3, 3.0) {$+$};
+
+            % --- EJE DE MOMENTO FLECTOR M_f(x) ---
+            \draw[line width=1.2pt, gray!70] (0, -1.5) -- (7.8, -1.5);
+            \node[left=3pt, font=\bfseries] at (0, -1.5) {$M_f(x)$};
+
+            % Convenio: momentos positivos hacia abajo
+            % M(0) = +10 -> 0.7cm abajo
+            % M(1.5) = +(10 + 1.125q) -> 1.6cm abajo
+            % M(4-) = +(10 - 2q) -> dependiente de q
+            % Salto en B de 10 -> M(4+) = -2q (hacia arriba)
+            % M(6) = 0
+            \draw[line width=1.6pt, red!80!black] 
+                (0, -2.2) 
+                parabola bend (1.95, -3.1) (5.2, -1.8);
+            \fill[red!15, opacity=0.6] 
+                (0, -1.5) -- (0, -2.2) 
+                parabola bend (1.95, -3.1) (5.2, -1.8) -- (5.2, -1.5) -- cycle;
+
+            \node[left=2pt, font=\footnotesize\bfseries, red!80!black] at (0, -2.2) {$+10$};
+            \node[below=2pt, font=\footnotesize\bfseries, red!80!black] at (1.95, -3.1) {$+(10 + 1{,}125\,q)$};
+
+            % Salto en apoyo B
+            \draw[line width=1.6pt, red!80!black] (5.2, -1.8) -- (5.2, -0.2);
+            \node[above=2pt, font=\footnotesize\bfseries, red!80!black] at (5.2, -0.2) {$-2\,q$};
+
+            % Parábola del voladizo
+            \draw[line width=1.6pt, red!80!black] 
+                (5.2, -0.2) parabola (7.8, -1.5);
+            \fill[red!15, opacity=0.6] 
+                (5.2, -1.5) -- (5.2, -0.2) parabola (7.8, -1.5) -- cycle;
+
+            % Líneas de referencia discontinuas
+            \draw[dotted, line width=0.8pt, gray] (0, 3.8) -- (0, -3.4);
+            \draw[dotted, line width=0.8pt, red!80!black] (1.95, 3.8) -- (1.95, -3.4);
+            \draw[dotted, line width=0.8pt, gray] (5.2, 3.8) -- (5.2, -3.4);
+            \draw[dotted, line width=0.8pt, gray] (7.8, 3.8) -- (7.8, -3.4);
+        \end{tikzpicture}%
+    }
+    \caption{Diagramas acotados de esfuerzo cortante $Q(x)$ y momento flector $M_f(x)$.}
+    \label{fig:examen_viga_voladizo_diagramas}
+\end{figure}
+
+\paso{3}{Propiedades Mecánicas de la Sección Transversal ($\Omega, y_{\text{CG}}, I_z$)}
+
+Al ser la sección un perfil en I con alas idénticas ($60 \times 10\text{ mm}$) arriba y abajo:
+\begin{enumerate}
+    \item \textbf{Simetría baricéntrica:}
+          \begin{equation}
+              y_{\text{CG}} = \frac{H}{2} = \frac{220}{2} = \mathbf{110\text{ mm}}
+          \end{equation}
+          La distancia máxima a las fibras extremas superior e inferior es idéntica:
+          \begin{equation}
+              y_{\text{máx}} = 110\text{ mm}
+          \end{equation}
+    \item \textbf{Momento de inercia baricéntrico $I_z$ (por Steiner):}
+          \begin{itemize}
+              \item \textbf{Alas superior e inferior (1 y 3):}
+                    Distancia del baricentro del ala al eje baricéntrico global:
+                    \[
+                        d_1 = d_3 = 110 - 5 = 105\text{ mm}
+                    \]
+                    \begin{align}
+                        I_{z1} = I_{z3} & = \frac{b \cdot e^3}{12} + A_{\text{ala}} \cdot d_1^2 \nonumber \\
+                                        & = \frac{60 \cdot 10^3}{12} + (60 \cdot 10)(105)^2 \nonumber \\
+                        & = 5.000 + 600(11.025) = 5.000 + 6.615.000 = \mathbf{6.620.000\text{ mm}^4}
+                    \end{align}
+              \item \textbf{Alma central (2):}
+                    Su baricentro coincide con el global ($d_2 = 0$):
+                    \begin{equation}
+                        I_{z2} = \frac{e_w \cdot h_w^3}{12} = \frac{10 \cdot 200^3}{12} = \frac{80.000.000}{12} \approx \mathbf{6.666.666{,}67\text{ mm}^4}
+                    \end{equation}
+          \end{itemize}
+          Sumando las tres componentes:
+          \begin{align}
+              I_z & = I_{z1} + I_{z2} + I_{z3} = 6.620.000 + 6.666.666{,}67 + 6.620.000 \nonumber \\
+                  & = \mathbf{19.906.666{,}67\text{ mm}^4 \approx 1{,}9907 \cdot 10^7\text{ mm}^4}
+          \end{align}
+\end{enumerate}
+
+\paso{4}{Determinación de la Carga Máxima Admisible $q$}
+
+La condición de resistencia a flexión según la fórmula de Navier establece:
+\begin{equation}
+    \sigma_{\text{máx}} = \frac{|M_{f,\text{máx}}| \cdot \gamma_F}{I_z} y_{\text{máx}} \le \sigma_{\text{adm}}
+\end{equation}
+donde $\gamma_F = 1{,}5$ es el coeficiente de mayoración de esfuerzos/cargas y $\sigma_{\text{adm}} = 262\text{ N/mm}^2$.
+
+Despejando el momento flector admisible que resiste la sección:
+\begin{align}
+    |M_f|_{\text{adm}} & = \frac{\sigma_{\text{adm}} \cdot I_z}{\gamma_F \cdot y_{\text{máx}}} = \frac{262\text{ N/mm}^2 \cdot 19.906.666{,}67\text{ mm}^4}{1{,}5 \cdot 110\text{ mm}} \nonumber \\
+                       & = \frac{5.215.546.667{,}54}{165} \approx 31.609.373{,}74\text{ N}\cdot\text{mm} \approx \mathbf{31{,}61\text{ kN}\cdot\text{m}}
+\end{align}
+
+Analizamos las dos secciones candidatas a momento flector máximo absoluto en la viga:
+
+\subsubsection*{Caso 1: Sección en el apoyo $B$ (momento negativo en el voladizo)}
+En el apoyo $B$, el momento flector en el tramo de voladizo es:
+\begin{equation}
+    |M_f(B)| = |-2\,q| = 2\,q
+\end{equation}
+Igualando al momento admisible:
+\begin{equation}
+    2\,q \le 31{,}609\text{ kN}\cdot\text{m} \implies \boxed{q \le \frac{31{,}609}{2} \approx \mathbf{15{,}80\text{ kN/m}}}
+\end{equation}
+
+\subsubsection*{Caso 2: Sección en el vano ($x_0 = 1{,}5\text{ m}$)}
+En el punto de cortante nulo dentro del vano principal, el momento flector positivo vale:
+\begin{equation}
+    M_{f,\text{vano}} = 10 + 1{,}125\,q
+\end{equation}
+Igualando al momento admisible:
+\begin{equation}
+    10 + 1{,}125\,q \le 31{,}609 \implies 1{,}125\,q \le 21{,}609 \implies \boxed{q \le \frac{21{,}609}{1{,}125} \approx \mathbf{19{,}21\text{ kN/m}}}
+\end{equation}
+
+\subsubsection*{Comprobación cruzada y discusión del resultado crítico:}
+\begin{itemize}
+    \item Si adoptáramos $q = 19{,}21\text{ kN/m}$ (el valor que satura la sección de vano):
+          \[
+              |M_f(B)| = 2\,q = 2(19{,}21) = 38{,}42\text{ kN}\cdot\text{m} > 31{,}61\text{ kN}\cdot\text{m}
+          \]
+          La tensión en el apoyo $B$ sería de $\sigma = \dfrac{38{,}42 \cdot 10^6 \cdot 1{,}5 \cdot 110}{19.906.667} \approx 318{,}4\text{ N/mm}^2 > 262\text{ N/mm}^2$, por lo que la viga \textbf{colapsaría por flexión en el apoyo $B$}.
+    \item Si adoptamos $q = 15{,}80\text{ kN/m}$ (el valor que satura el apoyo $B$):
+          \[
+              M_{f,\text{vano}} = 10 + 1{,}125(15{,}80) = 10 + 17{,}78 = 27{,}78\text{ kN}\cdot\text{m} < 31{,}61\text{ kN}\cdot\text{m}
+          \]
+          La tensión en el vano queda en $\sigma_{\text{vano}} \approx 230{,}2\text{ N/mm}^2 \le 262\text{ N/mm}^2$, manteniéndose en rango seguro en toda la viga.
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!10!white,colframe=green!60!black,title=\textbf{Conclusión y Carga Máxima Admisible}]
+    La carga máxima repartida que puede soportar la viga viene estrictamente limitada por la sección del apoyo $B$ ($x = 4\text{ m}$):
+    \begin{equation}
+        \boxed{q_{\text{máx}} = 15{,}80\text{ kN/m}}
+    \end{equation}
+    \textit{Nota metodológica:} Aunque a priori no se sabe cuál de las dos secciones domina antes de resolver, la condición más restrictiva siempre impone el menor valor admisible de $q$.
+\end{tcolorbox}
+
+\begin{table}[H]
+    \centering
+    \caption{Resumen de resultados del problema de examen de viga con voladizo y momentos puntuales.}
+    \adjustbox{max width=0.95\textwidth}{%
+        \renewcommand{\arraystretch}{1.3}
+        \begin{tabular}{lccc}
+            \toprule
+            \textbf{Magnitud} & \textbf{Símbolo / Expresión} & \textbf{Valor Numérico} & \textbf{Estado / Observaciones} \\
+            \midrule
+            Reacción vertical en $A$ & $V_A$ & $1{,}5\,q = \mathbf{23{,}71\text{ kN}}$ & Hacia arriba ($\uparrow$) \\
+            Reacción vertical en $B$ & $V_B$ & $4{,}5\,q = \mathbf{71{,}12\text{ kN}}$ & Hacia arriba ($\uparrow$) \\
+            Reacción horizontal & $H_A$ & $\mathbf{0{,}00\text{ kN}}$ & Sin fuerzas horizontales \\
+            \midrule
+            Momento en vano ($x = 1{,}5\text{ m}$) & $M_f(1{,}5)$ & $10 + 1{,}125\,q = \mathbf{27{,}78\text{ kN}\cdot\text{m}}$ & Tracción en fibra inferior \\
+            Momento en apoyo $B$ ($x = 4\text{ m}$) & $|M_f(B)|$ & $2\,q = \mathbf{31{,}61\text{ kN}\cdot\text{m}}$ & Tracción en fibra superior (crítico) \\
+            \midrule
+            Momento de inercia de la sección & $I_z$ & $\mathbf{19{,}91 \cdot 10^6\text{ mm}^4}$ & Sección en I doblemente simétrica \\
+            Distancia a fibra extrema & $y_{\text{máx}}$ & $\mathbf{110{,}00\text{ mm}}$ & Semialtura $H/2$ \\
+            \midrule
+            Carga límite por vano & $q_{\text{vano}}$ & $19{,}21\text{ kN/m}$ & No gobierna (superaría en $B$) \\
+            Carga límite por apoyo $B$ & $q_B$ & $\mathbf{15{,}80\text{ kN/m}}$ & \textbf{Gobierna el diseño} \\
+            \midrule
+            \textbf{Carga Máxima Admisible} & $q_{\text{máx}} = \min(q_{\text{vano}}, q_B)$ & $\mathbf{15{,}80\text{ kN/m}}$ & Agota la resistencia en apoyo $B$ \\
+            \bottomrule
+        \end{tabular}%
+    }
+    \label{tab:resumen_viga_voladizo_q}
+\end{table}
+
+%=============================================================================
+\section{Problema de Examen: Viga Hiperestática Apoyada-Empotrada con Carga Triangular (2017 y 2018)}
+
+\subsection{Enunciado y Geometría de Partida}
+
+En la viga de acero S275 de longitud $L = 3\text{ m}$ representada en la figura, simplemente apoyada en el extremo izquierdo $A$ ($x = 0$) y rígidamente empotrada en el extremo derecho $B$ ($x = 3\text{ m}$), actúan:
+\begin{itemize}
+    \item Una carga distribuida triangular creciente desde $q = 0$ en el apoyo $A$ hasta un valor máximo de $q_{\text{máx}} = 60\text{ kN/m}$ en el empotramiento $B$.
+    \item Un momento flector concentrado exterior $M_A = 10\text{ kN}\cdot\text{m}$ aplicado en el apoyo $A$ en sentido antihorario ($\circlearrowleft$).
+\end{itemize}
+La sección transversal de la viga es un perfil en I doblemente simétrico de acero ($E = 2{,}1 \cdot 10^5\text{ N/mm}^2$, $f_{yk} = 275\text{ N/mm}^2$) con alas superior e inferior de $50 \times 8\text{ mm}$ y alma de $8 \times 200\text{ mm}$ (canto total $H = 216\text{ mm}$). Se pide:
+
+\begin{enumerate}[label=\alph*)]
+    \item \textbf{Reacciones y leyes de esfuerzos:} Determinar las reacciones hiperestáticas en los apoyos $A$ y $B$ mediante la integración de la Ecuación Diferencial de la Elástica, obtener las expresiones analíticas de $Q(x)$ y $M_f(x)$ y representar sus diagramas acotados.
+    \item \textbf{Flecha en el centro del vano:} Formular la ecuación de la deformada $y(x)$ y calcular el desplazamiento vertical (flecha) en el centro de la viga ($x = 1{,}5\text{ m}$).
+    \item \textbf{Comprobación resistente y tensiones en puntos específicos:} Comprobar la resistencia de la sección más desfavorable frente a la tensión admisible ($\sigma_{\text{adm}} = 275\text{ N/mm}^2$), y evaluar detalladamente las tensiones normales en el punto $P_1$ (en la unión ala superior-alma, $y = 100\text{ mm}$) y en el punto $P_2$ (en el centro del alma, fibra neutra $y = 0$).
+\end{enumerate}
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=\textbf{Datos del Problema}]
+    \begin{itemize}
+        \item Longitud de la viga: $L = 3\text{ m}$.
+        \item Carga triangular: $q(x) = \dfrac{60}{3}x = 20\,x\text{ [kN/m]}$, con resultante $R_{\triangle} = \dfrac{60 \cdot 3}{2} = 90\text{ kN}$ en $x_R = \dfrac{2}{3}(3) = 2\text{ m}$.
+        \item Momento puntual exterior en $A$: $M_A = 10\text{ kN}\cdot\text{m}\;(\circlearrowleft)$.
+        \item Propiedades del material: Acero S275, $E = 2{,}1 \cdot 10^5\text{ N/mm}^2 = 2{,}1 \cdot 10^8\text{ kN/m}^2$, $\sigma_{\text{adm}} = 275\text{ N/mm}^2 = 275\text{ MPa}$.
+        \item Geometría de la sección en I simétrica:
+              \begin{itemize}
+                  \item Alas superior e inferior: $b = 50\text{ mm}$, $e = 8\text{ mm}$.
+                  \item Alma: $e_w = 8\text{ mm}$, $h_w = 200\text{ mm}$.
+                  \item Canto total: $H = 8 + 200 + 8 = 216\text{ mm}$.
+              \end{itemize}
+    \end{itemize}
+\end{tcolorbox}
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.95\textwidth}{%
+        \begin{tikzpicture}[scale=1.15, >=Latex]
+            % --- VIGA APOYADA-EMPOTRADA ---
+            \begin{scope}[shift={(0,0)}]
+                % Eje viga
+                \draw[line width=2.2pt, black!80] (0,0) -- (6,0);
+
+                % Apoyo simple en A (x=0)
+                \draw[thick] (0,0) -- (-0.3,-0.45) -- (0.3,-0.45) -- cycle;
+                \fill[gray!40] (-0.4,-0.45) rectangle (0.4,-0.55);
+                \draw[thick] (-0.4,-0.45) -- (0.4,-0.45);
+                \filldraw[black] (0,0) circle (2pt) node[above left=3pt, font=\bfseries] {$A$};
+
+                % Empotramiento en B (x=3m -> 6cm)
+                \fill[gray!35] (6,-1.1) rectangle (6.5,1.1);
+                \draw[line width=1.5pt] (6,-1.1) -- (6,1.1);
+                \foreach \y in {-0.9, -0.6, -0.3, 0, 0.3, 0.6, 0.9} {
+                    \draw[thick] (6,\y) -- (6.3,\y+0.25);
+                }
+                \filldraw[black] (6,0) circle (2pt) node[below left=3pt, font=\bfseries] {$B$};
+
+                % Carga triangular de 0 a 60 kN/m (altura 0 a 2.4cm)
+                \draw[thick, blue!80!black] (0,0) -- (6,2.4);
+                \draw[thick, blue!80!black] (6,0) -- (6,2.4);
+                \foreach \x in {0.75, 1.5, 2.25, 3.0, 3.75, 4.5, 5.25, 6.0} {
+                    \pgfmathsetmacro{\yalt}{2.4*(\x/6.0)}
+                    \draw[->, thick, blue!80!black] (\x, \yalt) -- (\x, 0.05);
+                }
+                \node[right=2pt, blue!80!black, font=\footnotesize\bfseries] at (6, 2.4) {$60\text{ kN/m}$};
+
+                % Resultante triangular
+                \draw[->, line width=1.6pt, orange!90!black] (4.0, 2.6) -- (4.0, 0.1) 
+                    node[midway, right=2pt, font=\footnotesize\bfseries] {$R_{\triangle} = 90\text{ kN}$};
+
+                % Momento concentrado en A (10 kNm antihorario)
+                \draw[-{Latex[length=2.5mm, width=1.8mm]}, line width=1.5pt, red!80!black] 
+                    (-0.6, 0.1) arc (160:-80:0.45);
+                \node[left=3pt, red!80!black, font=\footnotesize\bfseries] at (-0.6, 0.35) {$10\text{ kN}\cdot\text{m}$};
+
+                % Reacciones en DCL
+                \draw[->, line width=1.6pt, green!60!black] (0,-1.2) -- (0,-0.05) node[midway, left=2pt, font=\footnotesize\bfseries] {$V_A$};
+                \draw[->, line width=1.6pt, green!60!black] (5.7,-1.2) -- (5.7,-0.05) node[midway, left=2pt, font=\footnotesize\bfseries] {$V_B$};
+                \draw[-{Latex[length=2.5mm, width=1.8mm]}, line width=1.5pt, green!60!black] 
+                    (6.6, 0.2) arc (30:300:0.5);
+                \node[right=4pt, green!60!black, font=\footnotesize\bfseries] at (6.6, 0.0) {$M_B$};
+
+                % Cota
+                \draw[|<->|, >=Latex] (0,-1.4) -- (6,-1.4) node[midway, fill=white, font=\footnotesize] {$L = 3\text{ m}$};
+            \end{scope}
+
+            % --- SECCIÓN TRANSVERSAL Y PUNTOS P1, P2 ---
+            \begin{scope}[shift={(10.0,-0.6)}]
+                % Ala superior: 50 x 8 mm
+                \draw[thick, fill=blue!15] (-1.0, 2.08) rectangle (1.0, 2.24);
+                \node[font=\scriptsize\bfseries, blue!80!black] at (-0.7, 2.16) {1};
+
+                % Alma: 8 x 200 mm
+                \draw[thick, fill=green!15] (-0.16, 0.08) rectangle (0.16, 2.08);
+                \node[font=\scriptsize\bfseries, green!60!black] at (-0.4, 1.5) {2};
+
+                % Ala inferior: 50 x 8 mm
+                \draw[thick, fill=blue!15] (-1.0, -0.08) rectangle (1.0, 0.08);
+                \node[font=\scriptsize\bfseries, blue!80!black] at (-0.7, 0.0) {3};
+
+                % Eje baricéntrico z (y_CG = 108 mm -> 1.08 cm)
+                \draw[dashed, line width=1.1pt, red!80!black] (-1.5, 1.08) -- (1.5, 1.08) node[right=2pt, font=\footnotesize\bfseries] {$z_{\text{CG}}$};
+                \filldraw[red!80!black] (0, 1.08) circle (1.8pt) node[below left=2pt, font=\scriptsize\bfseries] {$G$};
+
+                % Punto P1 (unión ala sup - alma, y = +100 mm -> 2.08 cm)
+                \filldraw[magenta!90!black] (0, 2.08) circle (2.2pt);
+                \node[right=3pt, magenta!90!black, font=\scriptsize\bfseries] at (0, 2.08) {$P_1$ ($y = 100$)};
+
+                % Punto P2 (centro baricéntrico, y = 0)
+                \filldraw[purple!90!black] (0, 1.08) circle (2.2pt);
+                \node[right=3pt, purple!90!black, font=\scriptsize\bfseries] at (0, 1.08) {$P_2$ ($y = 0$)};
+
+                % Cotas de la sección
+                \draw[|<->|, >=Latex] (-1.0, 2.45) -- (1.0, 2.45) node[midway, above, font=\scriptsize] {$50\text{ mm}$};
+                \draw[|<->|, >=Latex] (1.3, 2.08) -- (1.3, 2.24) node[midway, right, font=\scriptsize] {$8$};
+                \draw[|<->|, >=Latex] (1.3, 0.08) -- (1.3, 2.08) node[midway, right, font=\scriptsize] {$200\text{ mm}$};
+                \draw[|<->|, >=Latex] (-0.16, 0.6) -- (0.16, 0.6) node[midway, left=3pt, font=\scriptsize] {$8$};
+                \draw[|<->|, >=Latex] (1.3, -0.08) -- (1.3, 0.08) node[midway, right, font=\scriptsize] {$8$};
+                \draw[|<->|, >=Latex] (-1.0, -0.35) -- (1.0, -0.35) node[midway, below, font=\scriptsize] {$50\text{ mm}$};
+                \draw[<->, >=Latex, red!80!black] (-1.3, -0.08) -- (-1.3, 1.08) node[midway, left, font=\scriptsize\bfseries] {$y_{\text{CG}} = 108$};
+            \end{scope}
+        \end{tikzpicture}%
+    }
+    \caption{Geometría de la viga hiperestática con carga triangular y sección en I con puntos $P_1$ y $P_2$.}
+    \label{fig:examen_viga_triangular_geometria}
+\end{figure}
+
+\subsection{Resolución Paso a Paso}
+
+\paso{1}{Equilibrio Estático Global en Función de las Incógnitas}
+
+La viga presenta grado de hiperestaticidad 1 ($GH = 4 - 3 = 1$ reacciones coplanarias frente a 3 ecuaciones de la estática).
+La carga triangular varía según:
+\begin{equation}
+    q(x) = \frac{60}{3}x = 20\,x\text{ [kN/m]}
+\end{equation}
+La resultante total de la carga triangular es:
+\begin{equation}
+    R_{\triangle} = \frac{60 \cdot 3}{2} = 90\text{ kN}, \quad \text{con centro de gravedad en } x_R = \frac{2}{3}(3) = 2\text{ m}
+\end{equation}
+
+Ecuaciones de equilibrio estático global:
+\begin{align}
+    (\rightarrow +) \quad \sum F_x = 0 & \implies \boxed{H_B = 0} \\[6pt]
+    (\uparrow +) \quad \sum F_y = 0    & \implies V_A + V_B - 90 = 0 \implies \boxed{V_B = 90 - V_A} \label{eq:triang_fy} \\[6pt]
+    (\circlearrowleft +) \quad \sum M_A = 0 & \implies -M_A + V_B \cdot 3 + M_B - 90 \cdot 2 = 0 \nonumber \\
+                                           & \implies -10 + 3\,V_B + M_B - 180 = 0 \nonumber \\
+                                           & \implies 3\,V_B + M_B - 190 = 0 \implies \boxed{M_B = 190 - 3\,V_B} \label{eq:triang_ma}
+\end{align}
+
+\paso{2}{Leyes Analíticas de Esfuerzos Seccionales en Función de $V_A$}
+
+Seccionando a una distancia genérica $x \in [0, 3]\text{ m}$ desde el apoyo $A$ considerando la porción izquierda:
+\begin{itemize}
+    \item La carga en la sección de corte vale $q(x) = 20\,x\text{ [kN/m]}$.
+    \item La fuerza resultante de la porción triangular en $[0, x]$ es:
+          \begin{equation}
+              R(x) = \frac{x \cdot q(x)}{2} = \frac{x \cdot 20\,x}{2} = 10\,x^2\text{ [kN]}, \quad \text{aplicada a } \frac{x}{3}\text{ del corte}
+          \end{equation}
+\end{itemize}
+
+\subsubsection*{1. Esfuerzo cortante $Q(x)$:}
+\begin{equation}
+    \sum F_y = 0 \implies V_A - 10\,x^2 - Q(x) = 0 \implies \boxed{Q(x) = V_A - 10\,x^2}
+\end{equation}
+
+\subsubsection*{2. Momento flector $M_f(x)$:}
+Tomando momentos respecto a la sección de corte ($\circlearrowleft +$):
+\begin{align}
+    \sum M_{\text{corte}} = 0 & \implies M_f(x) - M_A - V_A \cdot x + (10\,x^2)\left(\frac{x}{3}\right) = 0 \nonumber \\
+                              & \implies \boxed{M_f(x) = V_A \cdot x + 10 - \frac{10}{3}x^3}
+\end{align}
+
+\paso{3}{Resolución Hiperestática por la Ecuación Diferencial de la Elástica}
+
+Planteamos la ecuación diferencial de la flexión lineal con factor $\frac{1}{E\,I}$:
+\begin{equation}
+    y''(x) = \frac{M_f(x)}{E\,I} = \frac{1}{E\,I}\left( V_A \cdot x + 10 - \frac{10}{3}x^3 \right)
+\end{equation}
+
+Integrando sucesivamente respecto a $x$:
+\begin{align}
+    y'(x) & = \frac{1}{E\,I}\left( V_A \frac{x^2}{2} + 10\,x - \frac{10}{12}x^4 + C_1 \right) = \frac{1}{E\,I}\left( \frac{V_A}{2}x^2 + 10\,x - \frac{5}{6}x^4 + C_1 \right) \\[6pt]
+    y(x)  & = \frac{1}{E\,I}\left( V_A \frac{x^3}{6} + 5\,x^2 - \frac{10}{60}x^5 + C_1 \cdot x + C_2 \right) = \frac{1}{E\,I}\left( \frac{V_A}{6}x^3 + 5\,x^2 - \frac{x^5}{6} + C_1 \cdot x + C_2 \right)
+\end{align}
+
+\subsubsection*{Condiciones de contorno cinemáticas:}
+\begin{enumerate}
+    \item \textbf{En el apoyo simple $A$ ($x = 0$):} El desplazamiento vertical está impedido:
+          \begin{equation}
+              y(0) = 0 \implies C_2 = 0
+          \end{equation}
+    \item \textbf{En el empotramiento perfecto $B$ ($x = 3\text{ m}$):} No hay giro ni desplazamiento vertical:
+          \begin{align}
+              y'(3) = 0 & \implies \frac{V_A}{2}(9) + 10(3) - \frac{5}{6}(81) + C_1 = 0 \nonumber \\
+                        & \implies 4{,}5\,V_A + 30 - 67{,}5 + C_1 = 0 \implies \boxed{C_1 = 37{,}5 - 4{,}5\,V_A} \label{eq:c1_va} \\[6pt]
+              y(3) = 0  & \implies \frac{V_A}{6}(27) + 5(9) - \frac{243}{6} + 3\,C_1 = 0 \nonumber \\
+                        & \implies 4{,}5\,V_A + 45 - 40{,}5 + 3\,C_1 = 0 \nonumber \\
+                        & \implies 4{,}5\,V_A + 4{,}5 + 3\,C_1 = 0 \label{eq:flecha_cero_b}
+          \end{align}
+\end{enumerate}
+
+Sustituyendo la expresión \eqref{eq:c1_va} en la ecuación \eqref{eq:flecha_cero_b}:
+\begin{align}
+    4{,}5\,V_A + 4{,}5 + 3(37{,}5 - 4{,}5\,V_A) & = 0 \nonumber \\
+    4{,}5\,V_A + 4{,}5 + 112{,}5 - 13{,}5\,V_A   & = 0 \nonumber \\
+    -9\,V_A + 117                               & = 0 \implies 9\,V_A = 117 \implies \boxed{V_A = 13\text{ kN}\uparrow}
+\end{align}
+
+Calculamos la constante de integración $C_1$:
+\begin{equation}
+    C_1 = 37{,}5 - 4{,}5(13) = 37{,}5 - 58{,}5 = \mathbf{-21\text{ kN}\cdot\text{m}^2}
+\end{equation}
+
+A partir de las ecuaciones de equilibrio \eqref{eq:triang_fy} y \eqref{eq:triang_ma}:
+\begin{align}
+    V_B & = 90 - 13 = \mathbf{77\text{ kN}\uparrow} \\[6pt]
+    M_B & = 190 - 3(77) = 190 - 231 = \mathbf{-41\text{ kN}\cdot\text{m}}
+\end{align}
+El signo negativo de $M_B$ indica que el momento de empotramiento es horario ($\circlearrowright$), traccionando las fibras superiores en el apoyo $B$.
+
+\paso{4}{Leyes y Diagramas Definitivos de Esfuerzos ($Q$ y $M_f$)}
+
+Con $V_A = 13\text{ kN}$:
+\subsubsection*{1. Esfuerzo cortante $Q(x)$:}
+\begin{equation}
+    \boxed{Q(x) = 13 - 10\,x^2\text{ [kN]}}
+\end{equation}
+\begin{itemize}
+    \item En $x = 0$: $Q(0) = +13\text{ kN}$.
+    \item En $x = 3\text{ m}$: $Q(3) = 13 - 10(9) = \mathbf{-77\text{ kN}} = -V_B \quad (\checkmark)$.
+    \item Punto de cortante nulo ($Q(x_0) = 0$):
+          \begin{equation}
+              13 - 10\,x_0^2 = 0 \implies x_0 = \sqrt{\frac{13}{10}} = \sqrt{1{,}3} \approx \mathbf{1{,}1402\text{ m} \approx 1{,}14\text{ m}}
+          \end{equation}
+\end{itemize}
+
+\subsubsection*{2. Momento flector $M_f(x)$:}
+\begin{equation}
+    \boxed{M_f(x) = 10 + 13\,x - \frac{10}{3}x^3\text{ [kN}\cdot\text{m]}}
+\end{equation}
+\begin{itemize}
+    \item En $x = 0$: $M_f(0) = \mathbf{+10\text{ kN}\cdot\text{m}}$.
+    \item En el punto de cortante nulo ($x_0 = 1{,}14\text{ m}$):
+          \begin{equation}
+              M_{f,\text{máx vano}} = 10 + 13(1{,}1402) - \frac{10}{3}(1{,}1402)^3 = 10 + 14{,}822 - 4{,}941 = \mathbf{+19{,}88\text{ kN}\cdot\text{m}}
+          \end{equation}
+    \item En el empotramiento $B$ ($x = 3\text{ m}$):
+          \begin{equation}
+              M_f(3) = 10 + 13(3) - \frac{10}{3}(27) = 10 + 39 - 90 = \mathbf{-41\text{ kN}\cdot\text{m}}
+          \end{equation}
+          El valor máximo absoluto en toda la viga ocurre en el empotramiento:
+          \begin{equation}
+              |M_f|_{\text{máx}} = |-41\text{ kN}\cdot\text{m}| = \mathbf{41\text{ kN}\cdot\text{m}}
+          \end{equation}
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.95\textwidth}{%
+        \begin{tikzpicture}[scale=1.15, >=Latex]
+            % --- EJE DE CORTANTE Q(x) ---
+            \draw[line width=1.2pt, gray!70] (0, 2.5) -- (6, 2.5);
+            \node[left=3pt, font=\bfseries] at (0, 2.5) {$Q(x)$};
+
+            % Curva parabólica Q(x) = 13 - 10*x^2
+            % x in [0, 3] -> t in [0, 6] (x = t/2)
+            \draw[line width=1.6pt, blue!80!black] 
+                (0, 2.5) -- (0, 3.15) 
+                plot[domain=0:6, samples=40] (\x, {2.5 + ( 13 - 10*(\x/2)*(\x/2) )/35}) 
+                -- (6, 2.5);
+            \fill[blue!15, opacity=0.6] 
+                (0, 2.5) -- (0, 3.15) 
+                plot[domain=0:6, samples=40] (\x, {2.5 + ( 13 - 10*(\x/2)*(\x/2) )/35}) 
+                -- (6, 2.5) -- cycle;
+
+            \node[left=2pt, font=\footnotesize\bfseries, blue!80!black] at (0, 3.15) {$+13\text{ kN}$};
+            \node[right=2pt, font=\footnotesize\bfseries, blue!80!black] at (6, 0.3) {$-77\text{ kN}$};
+            \filldraw[red!80!black] (2.28, 2.5) circle (1.8pt);
+            \node[above=2pt, font=\scriptsize\bfseries, red!80!black] at (2.28, 2.5) {$x_0 = 1{,}14\text{ m}$};
+
+            \node[font=\bfseries, blue!80!black] at (1.0, 2.8) {$+$};
+            \node[font=\bfseries, blue!80!black] at (4.5, 1.8) {$-$};
+
+            % --- EJE DE MOMENTO FLECTOR M_f(x) ---
+            \draw[line width=1.2pt, gray!70] (0, -1.8) -- (6, -1.8);
+            \node[left=3pt, font=\bfseries] at (0, -1.8) {$M_f(x)$};
+
+            % Curva cúbica M_f(x) (positivos hacia abajo):
+            % En x=0: M=10 -> 0.5cm abajo
+            % En x=1.14: M=+19.88 -> 1.0cm abajo
+            % En x=3: M=-41 -> 2.05cm arriba (-1.8 + 2.05 = +0.25)
+            \draw[line width=1.6pt, red!80!black] 
+                (0, -2.3) 
+                plot[domain=0:6, samples=50] (\x, {-1.8 - ( 10 + 13*(\x/2) - (10/3)*(\x/2)*(\x/2)*(\x/2) )/20});
+
+            \fill[red!15, opacity=0.6] 
+                (0, -1.8) -- (0, -2.3) 
+                plot[domain=0:6, samples=50] (\x, {-1.8 - ( 10 + 13*(\x/2) - (10/3)*(\x/2)*(\x/2)*(\x/2) )/20}) 
+                -- (6, -1.8) -- cycle;
+
+            \node[left=2pt, font=\footnotesize\bfseries, red!80!black] at (0, -2.3) {$+10$};
+            \filldraw[red!80!black] (2.28, -2.79) circle (2pt);
+            \node[below=2pt, font=\footnotesize\bfseries, red!80!black] at (2.28, -2.79) {$M_{f,\text{pos}} = +19{,}88\text{ kN}\cdot\text{m}$};
+            \filldraw[red!80!black] (6, 0.25) circle (2pt);
+            \node[above=2pt, font=\footnotesize\bfseries, red!80!black] at (6, 0.25) {$M_B = -41\text{ kN}\cdot\text{m}$};
+
+            % Líneas de referencia discontinuas
+            \draw[dotted, line width=0.8pt, gray] (0, 3.3) -- (0, -3.2);
+            \draw[dotted, line width=0.8pt, red!80!black] (2.28, 3.3) -- (2.28, -3.2);
+            \draw[dotted, line width=0.8pt, gray] (6, 3.3) -- (6, -3.2);
+        \end{tikzpicture}%
+    }
+    \caption{Diagramas analíticos acotados de cortante parabólico $Q(x)$ y momento flector cúbico $M_f(x)$.}
+    \label{fig:examen_viga_triangular_diagramas}
+\end{figure}
+
+\paso{5}{Flecha en el Centro del Vano ($x = 1{,}5\text{ m}$)}
+
+Sustituyendo $V_A = 13\text{ kN}$, $C_1 = -21\text{ kN}\cdot\text{m}^2$ y $C_2 = 0$ en la ecuación de la elástica:
+\begin{equation}
+    \boxed{y(x) = \frac{1}{E\,I}\left( \frac{13}{6}x^3 + 5\,x^2 - \frac{x^5}{6} - 21\,x \right)}
+\end{equation}
+
+Evaluamos el polinomio del numerador en el punto medio $x = 1{,}5\text{ m}$:
+\begin{align}
+    P(1{,}5) & = \frac{13(1{,}5)^3}{6} + 5(1{,}5)^2 - \frac{(1{,}5)^5}{6} - 21(1{,}5) \nonumber \\
+             & = \frac{13(3{,}375)}{6} + 5(2{,}25) - \frac{7{,}59375}{6} - 31{,}5 \nonumber \\
+             & = 7{,}3125 + 11{,}25 - 1{,}2656 - 31{,}5 = \mathbf{-14{,}2031\text{ kN}\cdot\text{m}^3}
+\end{align}
+
+\subsubsection*{Propiedades geométricas de la sección simétrica:}
+\begin{itemize}
+    \item Posición del centro de gravedad: $y_{\text{CG}} = \dfrac{H}{2} = \dfrac{216}{2} = \mathbf{108\text{ mm}}$.
+    \item Distancia del baricentro de las alas ($e = 8\text{ mm}$) al eje neutro: $d = 108 - 4 = 104\text{ mm}$.
+    \item Momento de inercia baricéntrico por Steiner:
+          \begin{align}
+              I_{z1} = I_{z3} & = \frac{50 \cdot 8^3}{12} + (50 \cdot 8)(104)^2 = 2.133{,}33 + 400(10.816) = \mathbf{4.328.533{,}33\text{ mm}^4} \\[4pt]
+              I_{z2}          & = \frac{8 \cdot 200^3}{12} = \mathbf{5.333.333{,}33\text{ mm}^4}
+          \end{align}
+          \begin{equation}
+              \boxed{I_z = 2(4.328.533{,}33) + 5.333.333{,}33 = \mathbf{13.990.400\text{ mm}^4 \approx 1{,}39904 \cdot 10^{-5}\text{ m}^4}}
+          \end{equation}
+\end{itemize}
+
+Rigidez a flexión en unidades coherentes:
+\begin{equation}
+    E\,I = (2{,}1 \cdot 10^8\text{ kN/m}^2)(1{,}39904 \cdot 10^{-5}\text{ m}^4) \approx \mathbf{2.937{,}98\text{ kN}\cdot\text{m}^2}
+\end{equation}
+Por tanto, la flecha vertical en el centro del vano es:
+\begin{equation}
+    \boxed{f_{L/2} = |y(1{,}5)| = \frac{14{,}2031\text{ kN}\cdot\text{m}^3}{2.937{,}98\text{ kN}\cdot\text{m}^2} \approx 0{,}004834\text{ m} \approx \mathbf{4{,}83\text{ mm} \approx 4{,}84\text{ mm}}}
+\end{equation}
+
+\paso{6}{Comprobación Resistente y Tensiones en los Puntos $P_1$ y $P_2$}
+
+La sección más desfavorable de la viga es el empotramiento en $B$ ($x = 3\text{ m}$), donde el momento flector alcanza su valor máximo en valor absoluto:
+\begin{equation}
+    |M_f|_{\text{máx}} = |M_B| = 41\text{ kN}\cdot\text{m} = 41 \cdot 10^6\text{ N}\cdot\text{mm}
+\end{equation}
+
+\begin{tcolorbox}[colback=yellow!10!white,colframe=orange!80!black,title=\textbf{Aclaración de Criterio de Mayoración ($M_d$ vs $M_k$)}]
+    Al igual que se indica en la nota manuscrita de examen, al no especificarse coeficientes parciales de seguridad de acciones ($\gamma_F$) en el enunciado para las cargas, se asume que las cargas dadas ya son de cálculo (o se toma directamente $M_d = -41\text{ kN}\cdot\text{m}$ frente a la resistencia elástica del acero $f_{yk} = \sigma_{\text{adm}} = 275\text{ N/mm}^2$).
+\end{tcolorbox}
+
+Al ser la sección de acero y doblemente simétrica respecto al eje neutro baricéntrico ($y_{\text{CG}} = 108\text{ mm}$):
+\begin{equation}
+    y_{\text{máx}} = 108\text{ mm}
+\end{equation}
+El momento negativo $M_B = -41\text{ kN}\cdot\text{m}$ provoca flexión con tracción en las fibras superiores ($y > 0$) y compresión en las fibras inferiores ($y < 0$).
+
+\subsubsection*{1. Comprobación en las fibras extremas ($y = \pm 108\text{ mm}$):}
+Aplicando la fórmula de Navier ($\sigma = -\dfrac{M_f}{I_z}y$):
+\begin{equation}
+    \sigma_{\text{máx}} = \frac{|M_B| \cdot y_{\text{máx}}}{I_z} = \frac{41 \cdot 10^6\text{ N}\cdot\text{mm} \cdot 108\text{ mm}}{13.990.400\text{ mm}^4} \approx \mathbf{316{,}51\text{ N/mm}^2 = 316{,}51\text{ MPa}}
+\end{equation}
+Comparando con la tensión admisible del acero ($\sigma_{\text{adm}} = 275\text{ N/mm}^2$):
+\begin{equation}
+    \sigma_{\text{máx}} = 316{,}51\text{ MPa} > \sigma_{\text{adm}} = 275\text{ MPa}
+\end{equation}
+\begin{tcolorbox}[colback=red!10!white,colframe=red!80!black,title=\textbf{Dictamen Resistente en el Empotramiento}]
+    La viga \textbf{NO RESISTE} en el empotramiento $B$, ya que las tensiones normales en las fibras extremas superan la tensión admisible en un $15{,}10\text{ \%}$.
+\end{tcolorbox}
+
+\subsubsection*{2. Tensión en el punto $P_1$ (unión ala superior - alma):}
+El punto $P_1$ se encuentra en la base del ala superior, a una distancia de la fibra neutra de:
+\begin{equation}
+    y_{P1} = 108 - 8 = \mathbf{100\text{ mm}}
+\end{equation}
+\begin{itemize}
+    \item \textbf{En el empotramiento $B$ ($M_B = -41\text{ kN}\cdot\text{m}$):}
+          \begin{equation}
+              \sigma(P_1)_B = \frac{41 \cdot 10^6 \cdot 100}{13.990.400} = \mathbf{+293{,}06\text{ N/mm}^2 = +293{,}06\text{ MPa}} \quad (\text{Tracción})
+          \end{equation}
+          Incluso en esta fibra interior se supera $\sigma_{\text{adm}} = 275\text{ MPa}$.
+    \item \textbf{En la sección de momento positivo de vano ($M_{f} = +19{,}88\text{ kN}\cdot\text{m}$):}
+          \begin{equation}
+              \sigma(P_1)_{\text{vano}} = -\frac{19{,}88 \cdot 10^6 \cdot 100}{13.990.400} = \mathbf{-142{,}10\text{ N/mm}^2 = -142{,}10\text{ MPa}} \quad (\text{Compresión})
+          \end{equation}
+          En el vano, la tensión se mantiene dentro del límite elástico admisible ($|-142{,}10| \le 275\text{ MPa}$).
+\end{itemize}
+
+\subsubsection*{3. Tensión en el punto $P_2$ (centro del alma):}
+El punto $P_2$ se sitúa exactamente sobre el eje baricéntrico neutro ($y_{P2} = 0\text{ mm}$):
+\begin{equation}
+    \boxed{\sigma(P_2) = -\frac{M_f}{I_z}(0) = \mathbf{0\text{ N/mm}^2}}
+\end{equation}
+La tensión normal debida a flexión pura o simple es idénticamente nula en el eje neutro baricéntrico.
+
+\begin{table}[H]
+    \centering
+    \caption{Resumen global del problema de examen de viga apoyada-empotrada con carga triangular.}
+    \adjustbox{max width=0.95\textwidth}{%
+        \renewcommand{\arraystretch}{1.3}
+        \begin{tabular}{lccc}
+            \toprule
+            \textbf{Magnitud} & \textbf{Símbolo / Expresión} & \textbf{Valor Numérico} & \textbf{Estado / Observaciones} \\
+            \midrule
+            Reacción vertical en $A$ & $V_A$ & $\mathbf{13{,}00\text{ kN}}$ & Hacia arriba ($\uparrow$) \\
+            Reacción vertical en $B$ & $V_B$ & $\mathbf{77{,}00\text{ kN}}$ & Hacia arriba ($\uparrow$) \\
+            Momento de empotramiento en $B$ & $M_B$ & $\mathbf{-41{,}00\text{ kN}\cdot\text{m}}$ & Horario ($\circlearrowright$, tracción superior) \\
+            \midrule
+            Sección de cortante nulo en vano & $x_0 = \sqrt{1{,}3}$ & $\mathbf{1{,}14\text{ m}}$ & Cortante nulo \\
+            Momento flector máximo en vano & $M_{f,\text{pos}}$ & $\mathbf{+19{,}88\text{ kN}\cdot\text{m}}$ & Tracción abajo, compresión arriba \\
+            Momento flector crítico absoluto & $|M_B|$ & $\mathbf{41{,}00\text{ kN}\cdot\text{m}}$ & En el empotramiento \\
+            \midrule
+            Momento de inercia de la sección & $I_z$ & $\mathbf{13{,}99 \cdot 10^6\text{ mm}^4}$ & Sección en I doblemente simétrica \\
+            Flecha vertical en el centro & $f(1{,}5\text{ m})$ & $\mathbf{4{,}84\text{ mm}}$ & Descenso vertical \\
+            \midrule
+            Tensión en fibra extrema en $B$ & $\sigma_{\text{máx}}$ & $\mathbf{316{,}51\text{ MPa}}$ & Supera $\sigma_{\text{adm}} = 275\text{ MPa}$ \\
+            Tensión en punto $P_1$ ($y = 100$) en $B$ & $\sigma(P_1)_B$ & $\mathbf{+293{,}06\text{ MPa}}$ & Tracción en base de ala superior \\
+            Tensión en punto $P_2$ ($y = 0$) & $\sigma(P_2)$ & $\mathbf{0{,}00\text{ MPa}}$ & Fibra neutra \\
+            \midrule
+            \textbf{Dictamen Resistente} & $\sigma_{\text{máx}} \le \sigma_{\text{adm}}$ & \textbf{NO RESISTE} & Falla en el empotramiento $B$ \\
+            \bottomrule
+        \end{tabular}%
+    }
+    \label{tab:resumen_viga_apoyada_empotrada_triang}
+\end{table}
+
+%=============================================================================
+\section{Problema de Examen: Viga con Voladizo y Carga de Cálculo Directa (Examen 2020)}
+
+\subsection{Enunciado y Geometría de Partida}
+
+En la convocatoria de 2020 se propuso el siguiente problema de diseño resistente de una viga simplemente apoyada con voladizo de longitud total $L = 6\text{ m}$ (vano principal $L_1 = 4\text{ m}$ entre el apoyo fijo $A$ y el apoyo móvil $B$, y voladizo derecho $L_2 = 2\text{ m}$):
+\begin{itemize}
+    \item Actúa una carga uniforme de cálculo $q_d\text{ [kN/m]}$ a lo largo de toda la longitud ($L = 6\text{ m}$).
+    \item Se aplican dos momentos concentrados exteriores de magnitud $M_0 = 10\text{ kN}\cdot\text{m}$:
+          \begin{itemize}
+              \item En el apoyo izquierdo $A$ ($x = 0$), en sentido antihorario ($\circlearrowleft$).
+              \item Justo sobre el apoyo intermedio $B$ ($x = 4\text{ m}$), en sentido horario ($\circlearrowright$).
+          \end{itemize}
+    \item La sección transversal es un perfil en I simétrico de acero con alas de $60 \times 10\text{ mm}$ y alma de $10 \times 200\text{ mm}$ (canto total $H = 220\text{ mm}$, inercia $I_z \approx 1{,}99 \cdot 10^7\text{ mm}^4$).
+    \item La tensión admisible del material es $\sigma_{\text{adm}} = 262\text{ N/mm}^2 = 262.000\text{ kN/m}^2$.
+\end{itemize}
+
+Se pide:
+\begin{enumerate}[label=\alph*)]
+    \item \textbf{Carga máxima aplicable $q_d$:} Obtener las reacciones y leyes analíticas $Q(x)$ y $M_f(x)$ en función de la carga de cálculo $q_d$, analizar las dos secciones críticas candidatas (apoyo $B$ vs vano central) y determinar la máxima carga $q_d$ admisible.
+    \item \textbf{Diagramas acotados de esfuerzos:} Trazar y acotar los diagramas de cortante $Q(x)$ y momento flector $M_f(x)$ correspondientes al estado tensional límite.
+\end{enumerate}
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=\textbf{Datos del Problema (Enunciado 2020)}]
+    \begin{itemize}
+        \item Longitudes: Vano $L_1 = 4\text{ m}$, voladizo $L_2 = 2\text{ m}$, total $L = 6\text{ m}$.
+        \item Carga repartida continua: $q_d\text{ [kN/m]}$ descendente.
+        \item Momentos exteriores: $M_A = 10\text{ kN}\cdot\text{m}\;(\circlearrowleft)$, $M_B = 10\text{ kN}\cdot\text{m}\;(\circlearrowright)$.
+        \item Tensión admisible del acero: $\sigma_{\text{adm}} = 262\text{ N/mm}^2 = 262\text{ MPa}$.
+        \item Geometría de la sección en I simétrica:
+              \begin{itemize}
+                  \item Alas superior e inferior: $b = 60\text{ mm}$, $e = 10\text{ mm}$.
+                  \item Alma: $e_w = 10\text{ mm}$, $h_w = 200\text{ mm}$.
+                  \item Inercia baricéntrica: $I_z = 19.906.667\text{ mm}^4 \approx 1{,}99 \cdot 10^{-5}\text{ m}^4$.
+                  \item Distancia a fibra extrema: $y_{\text{máx}} = 110\text{ mm} = 0{,}11\text{ m}$.
+              \end{itemize}
+    \end{itemize}
+\end{tcolorbox}
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.95\textwidth}{%
+        \begin{tikzpicture}[scale=1.1, >=Latex]
+            % --- VIGA CON CARGA Y MOMENTOS (GEOMETRÍA DE PARTIDA SIN REACCIONES) ---
+            \begin{scope}[shift={(0,0)}]
+                \draw[line width=2.4pt, blue!85!black] (0,0) -- (7.8,0);
+
+                % Apoyo fijo en A (x=0)
+                \draw[thick] (0,0) -- (-0.3,-0.45) -- (0.3,-0.45) -- cycle;
+                \fill[gray!40] (-0.4,-0.45) rectangle (0.4,-0.55);
+                \draw[thick] (-0.4,-0.45) -- (0.4,-0.45);
+                \foreach \x in {-0.3, -0.1, 0.1, 0.3} \draw[thin] (\x,-0.55) -- (\x-0.1,-0.7);
+                \filldraw[black] (0,0) circle (2.2pt) node[above left=3pt, font=\bfseries] {$A$};
+
+                % Apoyo móvil en B (x=4m -> 5.2cm)
+                \draw[thick] (5.2,0) -- (4.9,-0.4) -- (5.5,-0.4) -- cycle;
+                \draw[thick] (4.95,-0.47) circle (0.07);
+                \draw[thick] (5.2,-0.47) circle (0.07);
+                \draw[thick] (5.45,-0.47) circle (0.07);
+                \fill[gray!40] (4.8,-0.55) rectangle (5.6,-0.65);
+                \draw[thick] (4.8,-0.55) -- (5.6,-0.55);
+                \foreach \x in {4.9, 5.1, 5.3, 5.5} \draw[thin] (\x,-0.65) -- (\x-0.1,-0.8);
+                \filldraw[black] (5.2,0) circle (2.2pt) node[above left=3pt, font=\bfseries] {$B$};
+
+                % Extremo libre C (x=6m -> 7.8cm)
+                \filldraw[black] (7.8,0) circle (2pt) node[above right=2pt, font=\bfseries] {$C$};
+
+                % Carga distribuida q_d
+                \draw[thick, blue!80!black] (0,1.0) -- (7.8,1.0);
+                \foreach \x in {0, 0.65, 1.3, 1.95, 2.6, 3.25, 3.9, 4.55, 5.2, 5.85, 6.5, 7.15, 7.8} {
+                    \draw[->, thick, blue!80!black] (\x, 1.0) -- (\x, 0.05);
+                }
+                \node[above=2pt, blue!80!black, font=\footnotesize\bfseries] at (3.9, 1.0) {$q_d\text{ [kN/m]}$};
+
+                % Momento exterior en A (10 kNm, antihorario)
+                \draw[-{Latex[length=2.5mm, width=1.8mm]}, line width=1.5pt, red!80!black] 
+                    (-0.65, 0.1) arc (160:-80:0.45);
+                \node[left=3pt, red!80!black, font=\footnotesize\bfseries] at (-0.65, 0.45) {$M_A = 10\text{ kN}\cdot\text{m}$};
+
+                % Momento exterior en B (10 kNm, horario)
+                \draw[-{Latex[length=2.5mm, width=1.8mm]}, line width=1.5pt, red!80!black] 
+                    (5.85, 0.1) arc (20:260:0.45);
+                \node[right=3pt, red!80!black, font=\footnotesize\bfseries] at (5.85, 0.45) {$M_B = 10\text{ kN}\cdot\text{m}$};
+
+                % Cotas longitudinales
+                \draw[|<->|, >=Latex] (0,-1.05) -- (5.2,-1.05) node[midway, fill=white, font=\footnotesize\bfseries] {$L_1 = 4\text{ m}$};
+                \draw[|<->|, >=Latex] (5.2,-1.05) -- (7.8,-1.05) node[midway, fill=white, font=\footnotesize\bfseries] {$L_2 = 2\text{ m}$};
+            \end{scope}
+
+            % --- SECCIÓN EN I SIMÉTRICA (DIMENSIONES Y CARACTERÍSTICAS MECÁNICAS) ---
+            \begin{scope}[shift={(10.6,-0.6)}]
+                % Ala superior
+                \draw[thick, fill=blue!15] (-1.2, 2.1) rectangle (1.2, 2.3);
+                % Alma vertical
+                \draw[thick, fill=orange!20] (-0.2, 0.1) rectangle (0.2, 2.1);
+                % Ala inferior
+                \draw[thick, fill=blue!15] (-1.2, -0.1) rectangle (1.2, 0.1);
+
+                % Eje neutro / Centro de gravedad
+                \draw[dashed, line width=1.1pt, red!80!black] (-1.6, 1.1) -- (1.6, 1.1) node[right=2pt, font=\scriptsize\bfseries, red!80!black] {E.N. ($z$)};
+                \filldraw[red!80!black] (0, 1.1) circle (1.8pt) node[above right=1pt, font=\scriptsize\bfseries] {$G$};
+
+                % Cotas de la sección
+                % Ancho de ala superior
+                \draw[|<->|, >=Latex] (-1.2, 2.55) -- (1.2, 2.55) node[midway, above=1pt, font=\scriptsize\bfseries] {$b_f = 60\text{ mm}$};
+                % Espesor ala superior
+                \draw[|<->|, >=Latex] (1.45, 2.1) -- (1.45, 2.3) node[midway, right=1pt, font=\scriptsize] {$t_f = 10\text{ mm}$};
+                % Altura del alma
+                \draw[|<->|, >=Latex] (1.45, 0.1) -- (1.45, 2.1) node[midway, right=1pt, font=\scriptsize\bfseries] {$h_w = 200\text{ mm}$};
+                % Espesor ala inferior
+                \draw[|<->|, >=Latex] (1.45, -0.1) -- (1.45, 0.1) node[midway, right=1pt, font=\scriptsize] {$t_f = 10\text{ mm}$};
+                % Espesor del alma (indicado con flecha exterior clara)
+                \draw[<-, >=Latex, thick, orange!90!black] (0.2, 0.6) -- (0.9, 0.6) node[right=1pt, font=\scriptsize\bfseries] {$e_w = 10\text{ mm}$};
+                % Ancho de ala inferior
+                \draw[|<->|, >=Latex] (-1.2, -0.35) -- (1.2, -0.35) node[midway, below=1pt, font=\scriptsize\bfseries] {$b_f = 60\text{ mm}$};
+                % Distancia al centro de gravedad y cota total
+                \draw[<->, >=Latex, red!80!black] (-1.4, -0.1) -- (-1.4, 1.1) node[midway, left=1pt, font=\scriptsize\bfseries] {$y_G = 110\text{ mm}$};
+                \draw[|<->|, >=Latex] (-1.95, -0.1) -- (-1.95, 2.3) node[midway, left=1pt, font=\scriptsize\bfseries] {$H = 220\text{ mm}$};
+            \end{scope}
+        \end{tikzpicture}%
+    }
+    \caption{Geometría de partida de la viga del Examen 2020 y sección en I simétrica normalizada.}
+    \label{fig:examen_2020_viga_geometria}
+\end{figure}
+
+\subsection{Resolución Paso a Paso}
+
+\paso{1}{Equilibrio Estático y Reacciones de Apoyo (Diagrama de Cuerpo Libre)}
+
+Para determinar las reacciones vinculares, liberamos las ligaduras en los apoyos $A$ y $B$, sustituyéndolas por sus correspondientes fuerzas reactivas:
+\begin{itemize}
+    \item Apoyo fijo en $A$: reacción horizontal $H_A$ y reacción vertical $V_A$.
+    \item Apoyo móvil en $B$: reacción vertical ascendente $V_B$.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.92\textwidth}{%
+        \begin{tikzpicture}[scale=1.1, >=Latex]
+            % Barra libre aislada
+            \draw[line width=2.5pt, blue!85!black] (0,0) -- (7.8,0);
+
+            % Carga uniforme total
+            \draw[thick, blue!80!black] (0,1.0) -- (7.8,1.0);
+            \foreach \x in {0, 0.65, 1.3, 1.95, 2.6, 3.25, 3.9, 4.55, 5.2, 5.85, 6.5, 7.15, 7.8} {
+                \draw[->, thick, blue!80!black] (\x, 1.0) -- (\x, 0.05);
+            }
+            \node[above=2pt, blue!80!black, font=\footnotesize\bfseries] at (3.9, 1.0) {$q_d\text{ [kN/m]}$};
+
+            % Carga equivalente puntual total
+            \draw[->, line width=1.5pt, violet!85!black, dashed] (3.9, 2.2) -- (3.9, 0.05);
+            \node[above=2pt, violet!85!black, font=\footnotesize\bfseries] at (3.9, 2.2) {$R_{\text{total}} = 6\,q_d$};
+
+            % Momentos aplicados
+            \draw[-{Latex[length=2.5mm, width=1.8mm]}, line width=1.5pt, red!80!black] 
+                (-0.65, 0.1) arc (160:-80:0.45);
+            \node[left=3pt, red!80!black, font=\footnotesize\bfseries] at (-0.65, 0.45) {$M_A = 10\text{ kN}\cdot\text{m}$};
+
+            \draw[-{Latex[length=2.5mm, width=1.8mm]}, line width=1.5pt, red!80!black] 
+                (5.85, 0.1) arc (20:260:0.45);
+            \node[right=3pt, red!80!black, font=\footnotesize\bfseries] at (5.85, 0.45) {$M_B = 10\text{ kN}\cdot\text{m}$};
+
+            % Reacciones en el DCL
+            \draw[->, line width=1.6pt, green!60!black] (-1.0, 0) -- (-0.05, 0) node[midway, above=1pt, font=\footnotesize\bfseries] {$H_A$};
+            \draw[->, line width=1.6pt, green!60!black] (0, -1.2) -- (0, -0.05) node[midway, left=2pt, font=\footnotesize\bfseries] {$V_A$};
+            \draw[->, line width=1.6pt, green!60!black] (5.2, -1.2) -- (5.2, -0.05) node[midway, right=2pt, font=\footnotesize\bfseries] {$V_B$};
+
+            \filldraw[black] (0,0) circle (2.2pt) node[above left=2pt, font=\footnotesize\bfseries] {$A$};
+            \filldraw[black] (5.2,0) circle (2.2pt) node[above left=2pt, font=\footnotesize\bfseries] {$B$};
+            \filldraw[black] (7.8,0) circle (2pt) node[above right=2pt, font=\footnotesize\bfseries] {$C$};
+
+            % Cotas
+            \draw[|<->|, >=Latex] (0,-1.4) -- (3.9,-1.4) node[midway, fill=white, font=\footnotesize] {$3\text{ m}$};
+            \draw[|<->|, >=Latex] (3.9,-1.4) -- (5.2,-1.4) node[midway, fill=white, font=\footnotesize] {$1\text{ m}$};
+            \draw[|<->|, >=Latex] (5.2,-1.4) -- (7.8,-1.4) node[midway, fill=white, font=\footnotesize] {$2\text{ m}$};
+        \end{tikzpicture}%
+    }
+    \caption{Diagrama de Cuerpo Libre (DCL) de la viga liberando las ligaduras de apoyo.}
+    \label{fig:examen_2020_viga_dcl}
+\end{figure}
+
+Formulamos las ecuaciones de la estática en el plano:
+\begin{align}
+    \sum F_x = 0 & \implies \boxed{H_A = 0} \\[6pt]
+    \sum F_y = 0 & \implies V_A + V_B - 6\,q_d = 0 \implies V_A + V_B = 6\,q_d
+\end{align}
+Tomando momentos respecto a la rótula $A$ ($\circlearrowleft +$):
+\begin{equation}
+    \sum M_A = 0 \implies -M_A + M_B - (6\,q_d)\left(\frac{6}{2}\right) + V_B \cdot 4 = 0
+\end{equation}
+Sustituyendo $M_A = 10\text{ kN}\cdot\text{m}\;(\circlearrowleft)$ y $M_B = 10\text{ kN}\cdot\text{m}\;(\circlearrowright)$:
+\begin{equation}
+    -10 + 10 - 18\,q_d + 4\,V_B = 0 \implies 4\,V_B = 18\,q_d \implies \boxed{V_B = 4{,}5\,q_d\uparrow}
+\end{equation}
+De la suma de fuerzas verticales:
+\begin{equation}
+    V_A = 6\,q_d - 4{,}5\,q_d \implies \boxed{V_A = 1{,}5\,q_d\uparrow}
+\end{equation}
+
+\paso{2}{Leyes Analíticas de Cortante y Flector (Método de Cortes)}
+
+Para determinar la distribución interna de esfuerzos seccionamos la pieza en cada uno de sus tramos característicos:
+
+\tramobadge{Tramo 1: $AB$}{$0 \le x \le 4\text{ m}$}
+
+Efectuamos un corte a una distancia genérica $x \in [0, 4\text{ m}]$ y consideramos el equilibrio de la porción izquierda:
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.85\textwidth}{%
+        \begin{tikzpicture}[scale=1.2, >=Latex]
+            % Barra cortada
+            \draw[line width=2.5pt, blue!85!black] (0,0) -- (4.2,0);
+            \draw[thick, fill=gray!25] (4.2,-0.4) to[out=60,in=-60] (4.2,0) to[out=120,in=-120] (4.2,0.4);
+
+            % Carga repartida
+            \draw[thick, blue!80!black] (0,1.0) -- (4.2,1.0);
+            \foreach \x in {0, 0.7, 1.4, 2.1, 2.8, 3.5, 4.2} {
+                \draw[->, thick, blue!80!black] (\x, 1.0) -- (\x, 0.05);
+            }
+            \node[above=2pt, blue!80!black, font=\footnotesize\bfseries] at (2.1, 1.0) {$q_d$};
+
+            % Acciones en A
+            \draw[-{Latex[length=2.5mm, width=1.8mm]}, line width=1.5pt, red!80!black] 
+                (-0.6, 0.1) arc (160:-80:0.4);
+            \node[left=2pt, red!80!black, font=\footnotesize\bfseries] at (-0.6, 0.4) {$10\text{ kN}\cdot\text{m}$};
+            \draw[->, line width=1.5pt, green!60!black] (0,-1.1) -- (0,-0.05) node[midway, left=2pt, font=\footnotesize\bfseries] {$V_A = 1{,}5\,q_d$};
+
+            % Esfuerzos en la sección de corte
+            \coordinate (corte) at (4.5,0);
+            \draw[->, line width=1.4pt, red!80!black] (corte) -- ++(1.0,0) node[right, font=\footnotesize\bfseries] {$N_1(x) = 0$};
+            \draw[->, line width=1.4pt, red!80!black] (corte) -- ++(0,-1.0) node[below, font=\footnotesize\bfseries] {$Q_1(x)$};
+            \draw[-{Latex[length=2.3mm, width=1.6mm]}, line width=1.4pt, red!80!black] ($(corte)+(-40:0.5)$) arc (-40:120:0.5);
+            \node[right=2pt, red!80!black, font=\footnotesize\bfseries] at ($(corte)+(40:0.7)$) {$M_{f1}(x)$};
+
+            % Cotas
+            \draw[|<->|, >=Latex] (0,-0.7) -- (4.2,-0.7) node[midway, fill=white, font=\footnotesize\bfseries] {$x$};
+        \end{tikzpicture}%
+    }
+    \caption{Diagrama de cuerpo libre en el corte del Tramo 1 ($0 \le x \le 4\text{ m}$).}
+    \label{fig:examen_2020_corte1}
+\end{figure}
+
+Equilibrio de fuerzas verticales y momentos en la sección de corte:
+\begin{align}
+    \sum F_y = 0 & \implies 1{,}5\,q_d - q_d \cdot x - Q_1(x) = 0 \implies \boxed{Q_1(x) = 1{,}5\,q_d - q_d \cdot x} \\[6pt]
+    \sum M_{\text{corte}} = 0 & \implies -10 - (1{,}5\,q_d)x + (q_d \cdot x)\left(\frac{x}{2}\right) + M_{f1}(x) = 0 \nonumber \\
+    & \implies \boxed{M_{f1}(x) = 10 + 1{,}5\,q_d \cdot x - \frac{q_d}{2}x^2}
+\end{align}
+\begin{itemize}
+    \item Extremo $x = 0$: $Q_1(0) = +1{,}5\,q_d$, $M_{f1}(0) = +10\text{ kN}\cdot\text{m}$.
+    \item Sección de cortante nulo ($x_0 = 1{,}5\text{ m}$):
+          \begin{equation}
+              M_{f1}(1{,}5) = 10 + 1{,}5\,q_d(1{,}5) - \frac{q_d}{2}(1{,}5)^2 = \mathbf{10 + 1{,}125\,q_d}
+          \end{equation}
+    \item Sección en el apoyo $B$ por la izquierda ($x = 4^-$):
+          \begin{equation}
+              Q_1(4^-) = -2{,}5\,q_d, \quad M_{f1}(4^-) = 10 - 2\,q_d
+          \end{equation}
+\end{itemize}
+
+\tramobadge{Tramo 2: $BC$ (Voladizo)}{$4\text{ m} \le x \le 6\text{ m}$}
+
+Para obtener la formulación más limpia y directa en el voladizo, analizamos la sección genérica desde el extremo libre derecho $C$ hacia el apoyo $B$, empleando la distancia auxiliar $u = 6 - x \in [0, 2\text{ m}]$:
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.75\textwidth}{%
+        \begin{tikzpicture}[scale=1.2, >=Latex]
+            % Barra cortada tramo derecho
+            \draw[line width=2.5pt, blue!85!black] (0,0) -- (3.2,0);
+            \draw[thick, fill=gray!25] (0,-0.4) to[out=60,in=-60] (0,0) to[out=120,in=-120] (0,0.4);
+
+            % Carga repartida
+            \draw[thick, blue!80!black] (0,1.0) -- (3.2,1.0);
+            \foreach \x in {0, 0.8, 1.6, 2.4, 3.2} {
+                \draw[->, thick, blue!80!black] (\x, 1.0) -- (\x, 0.05);
+            }
+            \node[above=2pt, blue!80!black, font=\footnotesize\bfseries] at (1.6, 1.0) {$q_d$};
+
+            \filldraw[black] (3.2,0) circle (2pt) node[above right=1pt, font=\footnotesize\bfseries] {$C$};
+
+            % Esfuerzos en la cara izquierda del corte
+            \coordinate (corte) at (-0.3,0);
+            \draw[->, line width=1.4pt, red!80!black] (corte) -- ++(-1.0,0) node[left, font=\footnotesize\bfseries] {$N_2(x) = 0$};
+            \draw[->, line width=1.4pt, red!80!black] (corte) -- ++(0,1.0) node[above, font=\footnotesize\bfseries] {$Q_2(x)$};
+            \draw[-{Latex[length=2.3mm, width=1.6mm]}, line width=1.4pt, red!80!black] ($(corte)+(-140:0.5)$) arc (-140:20:0.5);
+            \node[left=2pt, red!80!black, font=\footnotesize\bfseries] at ($(corte)+(140:0.7)$) {$M_{f2}(x)$};
+
+            % Cotas
+            \draw[|<->|, >=Latex] (0,-0.7) -- (3.2,-0.7) node[midway, fill=white, font=\footnotesize\bfseries] {$u = 6 - x$};
+        \end{tikzpicture}%
+    }
+    \caption{Diagrama de cuerpo libre en el corte del voladizo (Tramo 2, $4\text{ m} \le x \le 6\text{ m}$).}
+    \label{fig:examen_2020_corte2}
+\end{figure}
+
+Equilibrio en el corte con la distancia auxiliar $u = 6 - x$:
+\begin{align}
+    Q_2(x)  & = q_d \cdot u = q_d(6 - x) = \boxed{6\,q_d - q_d \cdot x} \\[6pt]
+    M_{f2}(x) & = -(q_d \cdot u)\left(\frac{u}{2}\right) = -\frac{q_d}{2}(6 - x)^2
+\end{align}
+\begin{itemize}
+    \item En el apoyo $B$ por la derecha ($x = 4^+$, $u = 2\text{ m}$):
+          \begin{equation}
+              Q_2(4^+) = +2\,q_d, \quad M_{f2}(4^+) = -\frac{q_d}{2}(2)^2 = \mathbf{-2\,q_d}
+          \end{equation}
+    \item En el extremo libre $C$ ($x = 6\text{ m}$, $u = 0$): $Q_2(6) = 0$, $M_{f2}(6) = 0$.
+\end{itemize}
+
+\paso{3}{Análisis de la Carga Máxima Admisible $q_d$}
+
+La capacidad de momento admisible en régimen elástico sin coeficientes de mayoración adicionales en la comprobación ($\sigma_{\text{adm}} = 262\text{ MPa} = 262.000\text{ kN/m}^2$) es:
+\begin{equation}
+    |M_f|_{\text{adm}} = \frac{\sigma_{\text{adm}} \cdot I_z}{y_{\text{máx}}} = \frac{262.000\text{ kN/m}^2 \cdot (1{,}9907 \cdot 10^{-5}\text{ m}^4)}{0{,}11\text{ m}} \approx \mathbf{47{,}41\text{ kN}\cdot\text{m}}
+\end{equation}
+
+Evaluamos las dos hipótesis analíticas según la sección que agote primero el límite elástico:
+
+\subsubsection*{Hipótesis A: Limitación por la sección del vano central ($x_0 = 1{,}5\text{ m}$)}
+Si se iguala la tensión máxima de flexión positiva en el centro del vano a la admisible:
+\begin{align}
+    \sigma_{\text{vano}} & = \frac{M_f(1{,}5) \cdot y_{\text{máx}}}{I_z} = \frac{(10 + 1{,}125\,q_d) \cdot 0{,}11}{1{,}9907 \cdot 10^{-5}} = \frac{1{,}1 + 0{,}12375\,q_d}{1{,}9907 \cdot 10^{-5}} \le 262.000 \nonumber \\
+    & \implies 0{,}12375\,q_d + 1{,}1 \le 5{,}2156 \implies 0{,}12375\,q_d \le 4{,}1156 \nonumber \\
+    & \implies \boxed{q_d \le \mathbf{33{,}25\text{ kN/m} \approx 33{,}26\text{ kN/m}}}
+\end{align}
+\textit{(En el manuscrito del estudiante se calculó $q_d \approx 33{,}24\text{ kN/m}$).}
+
+\subsubsection*{Hipótesis B: Limitación por el apoyo intermedio $B$ ($x = 4\text{ m}$)}
+En el apoyo $B$, el momento negativo del voladizo vale $|M_f(B)| = 2\,q_d$:
+\begin{equation}
+    2\,q_d \le |M_f|_{\text{adm}} = 47{,}41\text{ kN}\cdot\text{m} \implies \boxed{q_d \le \frac{47{,}41}{2} = \mathbf{23{,}71\text{ kN/m}}}
+\end{equation}
+
+\begin{tcolorbox}[colback=red!10!white,colframe=red!80!black,title=\textbf{Discusión Crítica de Ingeniería: ¿Por qué $q_d = 33{,}25\text{ kN/m}$ no es admisible?}]
+    Si se aplicara la carga $q_d = 33{,}25\text{ kN/m}$ obtenida al igualar el vano:
+    \begin{itemize}
+        \item Momento en el vano: $M_f(1{,}5) = 10 + 1{,}125(33{,}25) = \mathbf{47{,}41\text{ kN}\cdot\text{m}} \implies \sigma_{\text{vano}} = 262\text{ MPa} \le \sigma_{\text{adm}}$.
+        \item Momento en el apoyo $B$: $|M_f(B)| = 2(33{,}25) = \mathbf{66{,}50\text{ kN}\cdot\text{m}}$.
+        \item Tensión resultante en $B$:
+              \[
+                  \sigma_B = \frac{66{,}50 \cdot 10^6\text{ N}\cdot\text{mm} \cdot 110\text{ mm}}{19.906.667\text{ mm}^4} = \mathbf{367{,}45\text{ N/mm}^2 > 262\text{ N/mm}^2}
+              \]
+    \end{itemize}
+    ¡La viga superaría la tensión admisible en el apoyo $B$ en más de un 40\%, entrando en plastificación y colapso! Por tanto, la carga físicamente admisible para toda la estructura es la menor de ambas:
+    \begin{equation}
+        \boxed{q_{d,\text{real}} = \mathbf{23{,}71\text{ kN/m}}}
+    \end{equation}
+    No obstante, para estudiar la respuesta que se pretendía en el ejercicio bajo la hipótesis del vano ($q_d = 33{,}25\text{ kN/m}$), trazamos a continuación los diagramas con dicho valor numérico.
+\end{tcolorbox}
+
+\paso{4}{Valores Numéricos y Diagramas para $q_d = 33{,}25\text{ kN/m}$}
+
+Con $q_d = 33{,}25\text{ kN/m}$:
+\begin{itemize}
+    \item Reacciones: $V_A = 1{,}5(33{,}25) = \mathbf{49{,}88\text{ kN}\uparrow}$, $V_B = 4{,}5(33{,}25) = \mathbf{149{,}63\text{ kN}\uparrow}$.
+    \item Esfuerzo cortante:
+          \begin{itemize}
+              \item $Q(0) = +49{,}88\text{ kN}$.
+              \item $Q(4^-) = 49{,}88 - 33{,}25(4) = \mathbf{-83{,}13\text{ kN}}$.
+              \item $Q(4^+) = +2(33{,}25) = \mathbf{+66{,}50\text{ kN}}$.
+              \item $Q(6) = 0$.
+          \end{itemize}
+    \item Momento flector:
+          \begin{itemize}
+              \item $M_f(0) = +10\text{ kN}\cdot\text{m}$.
+              \item $M_f(1{,}5) = \mathbf{+47{,}41\text{ kN}\cdot\text{m}}$ (máximo en vano).
+              \item $M_{f1}(4^-) = 10 - 2(33{,}25) = \mathbf{-56{,}50\text{ kN}\cdot\text{m}}$.
+              \item $M_{f2}(4^+) = -2(33{,}25) = \mathbf{-66{,}50\text{ kN}\cdot\text{m}}$.
+              \item $M_f(6) = 0$.
+          \end{itemize}
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.95\textwidth}{%
+        \begin{tikzpicture}[scale=1.1, >=Latex]
+            % --- EJE CORTANTE Q(x) ---
+            \draw[line width=1.2pt, gray!70] (0, 2.5) -- (7.8, 2.5);
+            \node[left=3pt, font=\bfseries] at (0, 2.5) {$Q(x)$};
+
+            % Cortante tramo 1
+            \draw[line width=1.6pt, blue!80!black] (0, 3.7) -- (5.2, 0.5);
+            \fill[blue!15, opacity=0.6] (0, 2.5) -- (0, 3.7) -- (5.2, 0.5) -- (5.2, 2.5) -- cycle;
+            \node[left=2pt, font=\footnotesize\bfseries, blue!80!black] at (0, 3.7) {$+49{,}88\text{ kN}$};
+            \node[left=2pt, font=\footnotesize\bfseries, blue!80!black] at (5.2, 0.5) {$-83{,}13\text{ kN}$};
+            \filldraw[red!80!black] (1.95, 2.5) circle (1.8pt);
+            \node[above=2pt, font=\scriptsize\bfseries, red!80!black] at (1.95, 2.5) {$x_0 = 1{,}5\text{ m}$};
+
+            % Salto en B por V_B
+            \draw[line width=1.6pt, blue!80!black] (5.2, 0.5) -- (5.2, 4.1);
+            % Cortante tramo 2
+            \draw[line width=1.6pt, blue!80!black] (5.2, 4.1) -- (7.8, 2.5);
+            \fill[blue!15, opacity=0.6] (5.2, 2.5) -- (5.2, 4.1) -- (7.8, 2.5) -- cycle;
+            \node[right=2pt, font=\footnotesize\bfseries, blue!80!black] at (5.2, 4.1) {$+66{,}50\text{ kN}$};
+
+            % --- EJE MOMENTO FLECTOR M_f(x) ---
+            \draw[line width=1.2pt, gray!70] (0, -1.8) -- (7.8, -1.8);
+            \node[left=3pt, font=\bfseries] at (0, -1.8) {$M_f(x)$};
+
+            % Curva tramo 1 (parábola vano)
+            \draw[line width=1.6pt, red!80!black] 
+                (0, -2.1) 
+                parabola bend (1.95, -3.4) (5.2, -0.4);
+            \fill[red!15, opacity=0.6] 
+                (0, -1.8) -- (0, -2.1) 
+                parabola bend (1.95, -3.4) (5.2, -0.4) -- (5.2, -1.8) -- cycle;
+
+            \node[left=2pt, font=\footnotesize\bfseries, red!80!black] at (0, -2.1) {$+10$};
+            \filldraw[red!80!black] (1.95, -3.4) circle (2pt);
+            \node[below=2pt, font=\footnotesize\bfseries, red!80!black] at (1.95, -3.4) {$M_{f,\text{vano}} = +47{,}4\text{ kN}\cdot\text{m}$};
+            \node[left=2pt, font=\scriptsize\bfseries, red!80!black] at (5.2, -0.4) {$-56{,}5$};
+
+            % Salto de momento en B (+10 kNm)
+            \draw[line width=1.6pt, red!80!black] (5.2, -0.4) -- (5.2, 0.0);
+            \node[above=2pt, font=\footnotesize\bfseries, red!80!black] at (5.2, 0.0) {$-66{,}5\text{ kN}\cdot\text{m}$};
+
+            % Curva tramo 2 (parábola voladizo)
+            \draw[line width=1.6pt, red!80!black] 
+                (5.2, 0.0) parabola (7.8, -1.8);
+            \fill[red!15, opacity=0.6] 
+                (5.2, -1.8) -- (5.2, 0.0) parabola (7.8, -1.8) -- cycle;
+
+            % Líneas de referencia
+            \draw[dotted, line width=0.8pt, gray] (0, 3.9) -- (0, -3.6);
+            \draw[dotted, line width=0.8pt, red!80!black] (1.95, 3.9) -- (1.95, -3.6);
+            \draw[dotted, line width=0.8pt, gray] (5.2, 4.3) -- (5.2, -3.6);
+            \draw[dotted, line width=0.8pt, gray] (7.8, 3.9) -- (7.8, -3.6);
+        \end{tikzpicture}%
+    }
+    \caption{Diagramas acotados de esfuerzo cortante $Q(x)$ y momento flector $M_f(x)$ para $q_d = 33{,}25\text{ kN/m}$.}
+    \label{fig:examen_2020_viga_diagramas}
+\end{figure}
+
+\begin{table}[H]
+    \centering
+    \caption{Resumen comparativo del problema de examen de 2020.}
+    \adjustbox{max width=0.95\textwidth}{%
+        \renewcommand{\arraystretch}{1.3}
+        \begin{tabular}{lccc}
+            \toprule
+            \textbf{Magnitud} & \textbf{Expresión Analítica} & \textbf{Valor Numérico} & \textbf{Observaciones} \\
+            \midrule
+            Reacción en $A$ & $V_A = 1{,}5\,q_d$ & $\mathbf{49{,}88\text{ kN}}$ & Para $q_d = 33{,}25\text{ kN/m}$ \\
+            Reacción en $B$ & $V_B = 4{,}5\,q_d$ & $\mathbf{149{,}63\text{ kN}}$ & Salto en el cortante \\
+            \midrule
+            Momento en vano ($x = 1{,}5\text{ m}$) & $10 + 1{,}125\,q_d$ & $\mathbf{+47{,}41\text{ kN}\cdot\text{m}}$ & Tracción inferior \\
+            Momento en voladizo ($x = 4^+\text{ m}$) & $-2\,q_d$ & $\mathbf{-66{,}50\text{ kN}\cdot\text{m}}$ & Tracción superior \\
+            \midrule
+            $q_d$ límite por vano & $q_{d,\text{vano}}$ & $\mathbf{33{,}25\text{ kN/m}}$ & Solución del manuscrito \\
+            $q_d$ límite por apoyo $B$ & $q_{d,B}$ & $\mathbf{23{,}71\text{ kN/m}}$ & \textbf{Límite real absoluto} \\
+            \bottomrule
+        \end{tabular}%
+    }
+    \label{tab:resumen_examen_2020}
+\end{table}
+
+%=============================================================================
+\section{Problema de Examen: Viga Hiperestática Apoyada-Empotrada con Sección Asimétrica en C (Parcial 2018)}
+
+\subsection{Enunciado y Geometría de Partida}
+
+Se considera una viga de acero estructural de longitud $L = 4\text{ m}$ con sustentación hiperestática de grado 1:
+\begin{itemize}
+    \item Apoyo móvil en el extremo izquierdo $A$ ($x = 0$), que impide el desplazamiento vertical ($y(0) = 0$).
+    \item Empotramiento perfecto en el extremo derecho $B$ ($x = 4\text{ m}$), que coacciona totalmente el desplazamiento vertical y el giro ($y(4) = 0$, $\theta(4) = y'(4) = 0$).
+\end{itemize}
+
+Sobre la estructura actúan las siguientes acciones características:
+\begin{itemize}
+    \item Carga repartida uniforme vertical descendente de valor característico $q_k = 10\text{ kN/m}$ en todo el vano.
+    \item Momento concentrado exterior en el apoyo $A$ de valor $M_0 = 4\text{ kN}\cdot\text{m}$ en sentido horario ($\circlearrowright$).
+\end{itemize}
+
+El material es acero estructural S275:
+\begin{itemize}
+    \item Límite elástico característico: $f_{yk} = 275\text{ N/mm}^2 = 275\text{ MPa}$.
+    \item Módulo de elasticidad longitudinal: $E = 2{,}1 \cdot 10^5\text{ N/mm}^2 = 2{,}1 \cdot 10^8\text{ kN/m}^2$.
+    \item Coeficientes parciales de seguridad:
+          \begin{itemize}
+              \item Mayoración de acciones permanentes/variables: $\gamma_f = 1{,}5$.
+              \item Minoración de la resistencia del material: $\gamma_s = 1{,}05$.
+          \end{itemize}
+    \item Tensión admisible de cálculo:
+          \begin{equation}
+              \sigma_{\text{adm}} = \frac{f_{yk}}{\gamma_s} = \frac{275\text{ N/mm}^2}{1{,}05} \approx \mathbf{261{,}90\text{ N/mm}^2} = 261.900\text{ kN/m}^2
+          \end{equation}
+    \item Carga distribuida de cálculo:
+          \begin{equation}
+              q_d = q_k \cdot \gamma_f = 10\text{ kN/m} \cdot 1{,}5 = \mathbf{15\text{ kN/m}}
+          \end{equation}
+\end{itemize}
+
+La sección transversal de la viga es un perfil en canal o C asimétrica respecto al eje vertical, pero simétrica respecto al eje horizontal $z$:
+\begin{itemize}
+    \item Ala superior (bloque 1): $b_1 = 80\text{ mm}$, $e_1 = 10\text{ mm}$.
+    \item Alma vertical izquierda (bloque 2): $e_2 = 10\text{ mm}$, altura $h_w = 200\text{ mm}$.
+    \item Ala inferior (bloque 3): $b_3 = 80\text{ mm}$, $e_3 = 10\text{ mm}$.
+    \item Canto total: $H = 10 + 200 + 10 = 220\text{ mm}$.
+    \item Se define un punto interior $P$ ubicado en el alma a una cota de $160\text{ mm}$ desde la base inferior de la sección (a $50\text{ mm}$ por encima del eje neutro horizontal $G$).
+\end{itemize}
+
+Se pide:
+\begin{enumerate}[label=\alph*)]
+    \item \textbf{Reacciones y leyes de esfuerzos:} Resolver la hiperestaticidad por el método de integración de la elástica liberando la reacción vertical en $A$ ($V_A$). Obtener las leyes analíticas $Q(x)$ y $M_f(x)$ y trazar sus diagramas acotados.
+    \item \textbf{Flecha en el centro del vano ($x = 2\text{ m}$):} Determinar la flecha elástica $y(2\text{ m})$ y discutir el criterio de desmayoración para el estado límite de servicio (ELS).
+    \item \textbf{Comprobación resistente a flexión:} Comprobar la sección más desfavorable de la viga en Estado Límite Último (ELU).
+    \item \textbf{Tensión puntual en el punto $P$:} Calcular la tensión normal $\sigma_P$ para la sección crítica y detallar rigurosamente la posición de la fibra neutra.
+\end{enumerate}
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.95\textwidth}{%
+        \begin{tikzpicture}[scale=1.1, >=Latex]
+            % --- VIGA CON ACCIONES EXTERIORES ---
+            \begin{scope}[shift={(0,0)}]
+                \draw[line width=2.4pt, blue!85!black] (0,0) -- (6.0,0);
+
+                % Apoyo móvil en A (x=0)
+                \draw[thick] (0,0) -- (-0.3,-0.4) -- (0.3,-0.4) -- cycle;
+                \draw[thick] (-0.25,-0.47) circle (0.07);
+                \draw[thick] (0,-0.47) circle (0.07);
+                \draw[thick] (0.25,-0.47) circle (0.07);
+                \fill[gray!40] (-0.4,-0.55) rectangle (0.4,-0.65);
+                \draw[thick] (-0.4,-0.55) -- (0.4,-0.55);
+                \foreach \x in {-0.3, -0.1, 0.1, 0.3} \draw[thin] (\x,-0.65) -- (\x-0.1,-0.8);
+                \filldraw[black] (0,0) circle (2.2pt) node[above left=2pt, font=\bfseries] {$A$};
+
+                % Empotramiento en B (x=4m -> 6.0cm)
+                \draw[thick] (6.0,-0.9) -- (6.0,0.9);
+                \fill[gray!40] (6.0,-0.9) rectangle (6.35,0.9);
+                \foreach \y in {-0.8, -0.6, -0.4, -0.2, 0.0, 0.2, 0.4, 0.6, 0.8} {
+                    \draw[thin] (6.0,\y) -- (6.35,\y+0.2);
+                }
+                \filldraw[black] (6.0,0) circle (2.2pt) node[above right=2pt, font=\bfseries] {$B$};
+
+                % Carga uniforme q_k (o q_d)
+                \draw[thick, blue!80!black] (0,1.1) -- (6.0,1.1);
+                \foreach \x in {0, 0.6, 1.2, 1.8, 2.4, 3.0, 3.6, 4.2, 4.8, 5.4, 6.0} {
+                    \draw[->, thick, blue!80!black] (\x, 1.1) -- (\x, 0.05);
+                }
+                \node[above=2pt, blue!80!black, font=\footnotesize\bfseries] at (3.0, 1.1) {$q_k = 10\text{ kN/m} \;\; (q_d = 15\text{ kN/m})$};
+
+                % Momento concentrado exterior en A (4 kNm horario)
+                \draw[-{Latex[length=2.5mm, width=1.8mm]}, line width=1.5pt, red!80!black] 
+                    (-0.6, 0.45) arc (120:-120:0.45);
+                \node[left=3pt, red!80!black, font=\footnotesize\bfseries] at (-0.6, 0.0) {$M_0 = 4\text{ kN}\cdot\text{m}$};
+
+                % Cota
+                \draw[|<->|, >=Latex] (0,-1.05) -- (6.0,-1.05) node[midway, fill=white, font=\footnotesize\bfseries] {$L = 4\text{ m}$};
+            \end{scope}
+
+            % --- SECCIÓN EN C (PERFIL CANAL) ---
+            \begin{scope}[shift={(9.2,-0.6)}]
+                % Ala superior (1)
+                \draw[thick, fill=blue!15] (0, 2.1) rectangle (2.4, 2.3);
+                \node[font=\scriptsize\bfseries, blue!80!black] at (1.2, 2.2) {1};
+
+                % Alma vertical izquierda (2)
+                \draw[thick, fill=orange!25] (0, 0.1) rectangle (0.3, 2.1);
+                \node[font=\scriptsize\bfseries, orange!90!black] at (0.15, 1.1) {2};
+
+                % Ala inferior (3)
+                \draw[thick, fill=blue!15] (0, -0.1) rectangle (2.4, 0.1);
+                \node[font=\scriptsize\bfseries, blue!80!black] at (1.2, 0.0) {3};
+
+                % Eje neutro horizontal z (eje de flexión principal)
+                \draw[dashed, line width=1.1pt, red!80!black] (-0.5, 1.1) -- (2.9, 1.1) node[right=1pt, font=\scriptsize\bfseries, red!80!black] {E.N. ($z$)};
+                \filldraw[red!80!black] (0.15, 1.1) circle (1.8pt) node[below left=1pt, font=\tiny\bfseries] {$G$};
+
+                % Punto P en el alma (a 160 mm de la base -> y = 1.6 - 0.1 = 1.5 cm desde el borde inferior de la figura, o sea a y = 0.5 cm sobre G)
+                \coordinate (P) at (0.15, 1.6);
+                \filldraw[violet!90!black] (P) circle (2.2pt) node[right=2pt, font=\scriptsize\bfseries] {$P$};
+
+                % Cotas de la sección
+                \draw[|<->|, >=Latex] (0, 2.55) -- (2.4, 2.55) node[midway, above=1pt, font=\scriptsize\bfseries] {$80\text{ mm}$};
+                \draw[|<->|, >=Latex] (2.55, 2.1) -- (2.55, 2.3) node[midway, right=1pt, font=\scriptsize] {$10$};
+                \draw[|<->|, >=Latex] (2.55, 0.1) -- (2.55, 2.1) node[midway, right=1pt, font=\scriptsize\bfseries] {$200\text{ mm}$};
+                \draw[|<->|, >=Latex] (2.55, -0.1) -- (2.55, 0.1) node[midway, right=1pt, font=\scriptsize] {$10$};
+                \draw[|<->|, >=Latex] (0, -0.35) -- (2.4, -0.35) node[midway, below=1pt, font=\scriptsize\bfseries] {$80\text{ mm}$};
+
+                % Espesor del alma
+                \draw[|<->|, >=Latex] (0, -0.1) -- (0.3, -0.1) node[midway, below=5pt, font=\scriptsize\bfseries] {$10$};
+
+                % Cotas verticales al punto P y totales
+                \draw[|<->|, >=Latex, violet!85!black] (-0.45, -0.1) -- (-0.45, 1.6) node[midway, left=1pt, font=\scriptsize\bfseries] {$160\text{ mm}$};
+                \draw[|<->|, >=Latex, red!80!black] (0.7, 1.1) -- (0.7, 1.6) node[midway, right=1pt, font=\scriptsize\bfseries] {$50\text{ mm}$};
+                \draw[|<->|, >=Latex] (-1.1, -0.1) -- (-1.1, 2.3) node[midway, left=1pt, font=\scriptsize\bfseries] {$220\text{ mm}$};
+            \end{scope}
+        \end{tikzpicture}%
+    }
+    \caption{Geometría de la viga apoyada-empotrada y perfil en C (cotas en mm).}
+    \label{fig:examen_2018_viga_geometria}
+\end{figure}
+
+\subsection{Resolución Paso a Paso}
+
+\paso{1}{Equilibrio Estático y Grado de Hiperestaticidad}
+
+En el plano ($xy$), la viga cuenta con 4 reacciones vinculares:
+\begin{itemize}
+    \item Apoyo simple en $A$: reacción vertical $V_A$.
+    \item Empotramiento en $B$: reacción horizontal $H_B$, reacción vertical $V_B$ y momento de empotramiento $M_B$.
+\end{itemize}
+Al disponer de 3 ecuaciones de equilibrio de la estática en el plano ($\sum F_x = 0$, $\sum F_y = 0$, $\sum M = 0$), el grado de hiperestaticidad es:
+\begin{equation}
+    GH = 4 - 3 = 1 \quad \text{(Estructura hiperestática de grado 1)}
+\end{equation}
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.88\textwidth}{%
+        \begin{tikzpicture}[scale=1.1, >=Latex]
+            % Barra libre DCL
+            \draw[line width=2.5pt, blue!85!black] (0,0) -- (6.0,0);
+
+            % Carga de cálculo q_d
+            \draw[thick, blue!80!black] (0,1.1) -- (6.0,1.1);
+            \foreach \x in {0, 0.6, 1.2, 1.8, 2.4, 3.0, 3.6, 4.2, 4.8, 5.4, 6.0} {
+                \draw[->, thick, blue!80!black] (\x, 1.1) -- (\x, 0.05);
+            }
+            \node[above=2pt, blue!80!black, font=\footnotesize\bfseries] at (3.0, 1.1) {$q_d = 15\text{ kN/m}$};
+
+            % Momento en A
+            \draw[-{Latex[length=2.5mm, width=1.8mm]}, line width=1.5pt, red!80!black] 
+                (-0.6, 0.45) arc (120:-120:0.45);
+            \node[left=3pt, red!80!black, font=\footnotesize\bfseries] at (-0.6, 0.0) {$M_0 = 4\text{ kN}\cdot\text{m}$};
+
+            % Reacciones en DCL
+            \draw[->, line width=1.6pt, green!60!black] (0,-1.2) -- (0,-0.05) node[midway, left=2pt, font=\footnotesize\bfseries] {$V_A$};
+            \draw[->, line width=1.6pt, green!60!black] (6.0,-1.2) -- (6.0,-0.05) node[midway, right=2pt, font=\footnotesize\bfseries] {$V_B$};
+            \draw[->, line width=1.6pt, green!60!black] (6.05,0) -- (7.1,0) node[midway, above=1pt, font=\footnotesize\bfseries] {$H_B$};
+            \draw[-{Latex[length=2.5mm, width=1.8mm]}, line width=1.6pt, green!60!black] 
+                (6.4, 0.45) arc (60:300:0.45);
+            \node[right=3pt, green!60!black, font=\footnotesize\bfseries] at (6.6, 0.0) {$M_B$};
+
+            \filldraw[black] (0,0) circle (2.2pt) node[above left=2pt, font=\footnotesize\bfseries] {$A$};
+            \filldraw[black] (6.0,0) circle (2.2pt) node[above right=2pt, font=\footnotesize\bfseries] {$B$};
+
+            % Cota
+            \draw[|<->|, >=Latex] (0,-1.4) -- (6.0,-1.4) node[midway, fill=white, font=\footnotesize] {$4\text{ m}$};
+        \end{tikzpicture}%
+    }
+    \caption{Diagrama de Cuerpo Libre (DCL) sustituyendo las ligaduras por sus reacciones incógnita.}
+    \label{fig:examen_2018_viga_dcl}
+\end{figure}
+
+Planteamos las ecuaciones universales de la estática en función de la reacción redundante $V_A$:
+\begin{align}
+    \sum F_x = 0 & \implies \boxed{H_B = 0} \\[6pt]
+    \sum F_y = 0 & \implies V_A + V_B - q_d \cdot L = 0 \implies V_A + V_B - 15(4) = 0 \implies \boxed{V_A + V_B = 60\text{ kN}}
+\end{align}
+Tomando momentos respecto al empotramiento $B$ ($\circlearrowleft +$):
+\begin{equation}
+    \sum M_B = 0 \implies -M_0 + M_B - V_A \cdot L + (q_d \cdot L)\left(\frac{L}{2}\right) = 0
+\end{equation}
+Con $M_0 = 4\text{ kN}\cdot\text{m}$, $L = 4\text{ m}$ y $q_d = 15\text{ kN/m}$:
+\begin{equation}
+    -4 + M_B - 4\,V_A + 15 \cdot 4 \cdot 2 = 0 \implies M_B - 4\,V_A + 116 = 0 \implies \boxed{M_B = 4\,V_A - 116\text{ [kN}\cdot\text{m]}}
+\end{equation}
+
+\paso{2}{Leyes Analíticas en Función de $V_A$ y Método de la Elástica}
+
+\tramobadge{Tramo Único: $AB$}{$0 \le x \le 4\text{ m}$}
+
+Aislamos la porción genérica izquierda de la viga cortada a una distancia $x \in [0, 4\text{ m}]$:
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.85\textwidth}{%
+        \begin{tikzpicture}[scale=1.2, >=Latex]
+            \draw[line width=2.5pt, blue!85!black] (0,0) -- (4.2,0);
+            \draw[thick, fill=gray!25] (4.2,-0.4) to[out=60,in=-60] (4.2,0) to[out=120,in=-120] (4.2,0.4);
+
+            % Carga uniforme
+            \draw[thick, blue!80!black] (0,1.1) -- (4.2,1.1);
+            \foreach \x in {0, 0.7, 1.4, 2.1, 2.8, 3.5, 4.2} {
+                \draw[->, thick, blue!80!black] (\x, 1.1) -- (\x, 0.05);
+            }
+            \node[above=2pt, blue!80!black, font=\footnotesize\bfseries] at (2.1, 1.1) {$q_d = 15\text{ kN/m}$};
+
+            % Acciones en A
+            \draw[-{Latex[length=2.5mm, width=1.8mm]}, line width=1.5pt, red!80!black] 
+                (-0.6, 0.45) arc (120:-120:0.45);
+            \node[left=2pt, red!80!black, font=\footnotesize\bfseries] at (-0.6, 0.0) {$4\text{ kN}\cdot\text{m}$};
+            \draw[->, line width=1.5pt, green!60!black] (0,-1.1) -- (0,-0.05) node[midway, left=2pt, font=\footnotesize\bfseries] {$V_A$};
+
+            % Esfuerzos en la sección de corte
+            \coordinate (corte) at (4.5,0);
+            \draw[->, line width=1.4pt, red!80!black] (corte) -- ++(1.0,0) node[right, font=\footnotesize\bfseries] {$N(x) = 0$};
+            \draw[->, line width=1.4pt, red!80!black] (corte) -- ++(0,-1.0) node[below, font=\footnotesize\bfseries] {$Q(x)$};
+            \draw[-{Latex[length=2.3mm, width=1.6mm]}, line width=1.4pt, red!80!black] ($(corte)+(-40:0.5)$) arc (-40:120:0.5);
+            \node[right=2pt, red!80!black, font=\footnotesize\bfseries] at ($(corte)+(40:0.7)$) {$M_f(x)$};
+
+            % Cota
+            \draw[|<->|, >=Latex] (0,-0.7) -- (4.2,-0.7) node[midway, fill=white, font=\footnotesize\bfseries] {$x$};
+        \end{tikzpicture}%
+    }
+    \caption{Diagrama de cuerpo libre en la sección genérica $x \in [0, 4\text{ m}]$.}
+    \label{fig:examen_2018_corte}
+\end{figure}
+
+Equilibrio en el corte:
+\begin{align}
+    \sum F_y = 0 & \implies V_A - 15\,x - Q(x) = 0 \implies \boxed{Q(x) = V_A - 15\,x} \\[6pt]
+    \sum M_{\text{corte}} = 0 & \implies 4 - V_A \cdot x + (15\,x)\left(\frac{x}{2}\right) + M_f(x) = 0 \nonumber \\
+    & \implies \boxed{M_f(x) = V_A \cdot x - 7{,}5\,x^2 + 4}
+\end{align}
+
+Aplicamos la ecuación diferencial de la elástica en flexión:
+\begin{equation}
+    y''(x) = \frac{M_f(x)}{E \cdot I_z} = \frac{1}{E \cdot I_z} \left( V_A \cdot x - 7{,}5\,x^2 + 4 \right)
+\end{equation}
+Primera integración (giro de la sección $\theta(x) = y'(x)$):
+\begin{equation}
+    y'(x) = \frac{1}{E \cdot I_z} \left( \frac{V_A \cdot x^2}{2} - \frac{7{,}5\,x^3}{3} + 4\,x + C_1 \right) = \frac{1}{E \cdot I_z} \left( \frac{V_A}{2}x^2 - 2{,}5\,x^3 + 4\,x + C_1 \right)
+\end{equation}
+Segunda integración (flecha vertical $y(x)$):
+\begin{align}
+    y(x) & = \frac{1}{E \cdot I_z} \left( \frac{V_A \cdot x^3}{6} - \frac{2{,}5\,x^4}{4} + \frac{4\,x^2}{2} + C_1\,x + C_2 \right) \nonumber \\
+         & = \frac{1}{E \cdot I_z} \left( \frac{V_A}{6}x^3 - \frac{7{,}5}{12}x^4 + 2\,x^2 + C_1\,x + C_2 \right)
+\end{align}
+
+\subsubsection*{Condiciones de Contorno y Resolución de la Hiperestaticidad}
+\begin{enumerate}
+    \item \textbf{En el apoyo $A$ ($x = 0$):} flecha nula:
+          \begin{equation}
+              y(0) = 0 \implies C_2 = 0
+          \end{equation}
+    \item \textbf{En el empotramiento $B$ ($x = 4\text{ m}$):} giro nulo:
+          \begin{align}
+              y'(4) = 0 & \implies \frac{V_A}{2}(4)^2 - 2{,}5(4)^3 + 4(4) + C_1 = 0 \nonumber \\
+                        & \implies 8\,V_A - 160 + 16 + C_1 = 0 \implies \mathbf{C_1 = 144 - 8\,V_A}
+          \end{align}
+    \item \textbf{En el empotramiento $B$ ($x = 4\text{ m}$):} flecha nula:
+          \begin{align}
+              y(4) = 0 & \implies \frac{V_A}{6}(4)^3 - \frac{7{,}5}{12}(4)^4 + 2(4)^2 + C_1(4) = 0 \nonumber \\
+                       & \implies \frac{32}{3}V_A - 160 + 32 + 4\,C_1 = 0 \nonumber \\
+                       & \implies 4\,C_1 = 128 - \frac{32}{3}V_A \implies \mathbf{C_1 = 32 - \frac{8}{3}V_A}
+          \end{align}
+\end{enumerate}
+
+Igualando ambas expresiones para la constante de integración $C_1$:
+\begin{align}
+    144 - 8\,V_A = 32 - \frac{8}{3}V_A & \implies 144 - 32 = 8\,V_A - \frac{8}{3}V_A \nonumber \\
+    & \implies 112 = \frac{16}{3}V_A \implies \boxed{V_A = \frac{112 \cdot 3}{16} = \mathbf{21\text{ kN}\uparrow}}
+\end{align}
+Sustituyendo el valor de $V_A$:
+\begin{equation}
+    C_1 = 144 - 8(21) = 144 - 168 = \mathbf{-24\text{ kN}\cdot\text{m}^2}
+\end{equation}
+
+Reacciones definitivas en el empotramiento $B$:
+\begin{align}
+    V_B & = 60 - V_A = 60 - 21 = \mathbf{39\text{ kN}\uparrow} \\[6pt]
+    M_B & = 4(21) - 116 = 84 - 116 = \mathbf{-32\text{ kN}\cdot\text{m}} \quad (\circlearrowright, \text{tracción superior})
+\end{align}
+
+\paso{3}{Leyes Definitivas y Diagramas de Esfuerzos}
+
+Sustituyendo $V_A = 21\text{ kN}$:
+\begin{align}
+    Q(x)   & = 21 - 15\,x \\[6pt]
+    M_f(x) & = 21\,x - 7{,}5\,x^2 + 4
+\end{align}
+
+\begin{itemize}
+    \item \textbf{Puntos notables del esfuerzo cortante:}
+          \begin{itemize}
+              \item En $x = 0$: $Q(0) = \mathbf{+21\text{ kN}}$.
+              \item Sección de cortante nulo ($Q(x_0) = 0$):
+                    \[
+                        21 - 15\,x_0 = 0 \implies x_0 = \frac{21}{15} = \mathbf{1{,}4\text{ m}}
+                    \]
+              \item En $x = 4\text{ m}$: $Q(4) = 21 - 15(4) = \mathbf{-39\text{ kN}}$.
+          \end{itemize}
+    \item \textbf{Puntos notables del momento flector:}
+          \begin{itemize}
+              \item En el apoyo $A$ ($x = 0$): $M_f(0) = \mathbf{+4\text{ kN}\cdot\text{m}}$ (tracción inferior).
+              \item Momento positivo máximo en vano ($x_0 = 1{,}4\text{ m}$):
+                    \[
+                        M_{f,\text{máx}} = M_f(1{,}4) = 21(1{,}4) - 7{,}5(1{,}4)^2 + 4 = 29{,}4 - 14{,}7 + 4 = \mathbf{+18{,}7\text{ kN}\cdot\text{m}}
+                    \]
+              \item En el empotramiento $B$ ($x = 4\text{ m}$):
+                    \[
+                        M_f(4) = 21(4) - 7{,}5(4)^2 + 4 = 84 - 120 + 4 = \mathbf{-32\text{ kN}\cdot\text{m}}
+                    \]
+          \end{itemize}
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.92\textwidth}{%
+        \begin{tikzpicture}[scale=1.15, >=Latex]
+            % Ejes de referencia
+            \draw[line width=1.1pt, gray!70] (0, 3.2) -- (6.0, 3.2);
+            \node[left=3pt, font=\bfseries] at (0, 3.2) {$Q(x)\text{ [kN]}$};
+
+            % Diagrama de Cortante Q(x)
+            \draw[line width=1.5pt, blue!85!black] (0, 3.2) -- (0, 4.25) node[left=1pt, font=\scriptsize\bfseries] {$+21$}
+                -- (6.0, 1.25) node[right=1pt, font=\scriptsize\bfseries] {$-39$} -- (6.0, 3.2);
+            \fill[blue!20, opacity=0.5] (0, 3.2) -- (0, 4.25) -- (2.1, 3.2) -- cycle;
+            \fill[red!20, opacity=0.5] (2.1, 3.2) -- (6.0, 1.25) -- (6.0, 3.2) -- cycle;
+            \node[above=2pt, font=\scriptsize\bfseries, blue!80!black] at (0.8, 3.3) {$+$};
+            \node[below=2pt, font=\scriptsize\bfseries, red!80!black] at (4.0, 3.1) {$-$};
+            \filldraw[black] (2.1, 3.2) circle (1.8pt);
+            \draw[dotted, line width=0.8pt, gray] (2.1, 3.2) -- (2.1, -2.6);
+            \node[above=2pt, font=\scriptsize] at (2.1, 3.2) {$x_0 = 1{,}4\text{ m}$};
+
+            % Eje de Momento Flector M_f(x)
+            \draw[line width=1.1pt, gray!70] (0, -0.5) -- (6.0, -0.5);
+            \node[left=3pt, font=\bfseries] at (0, -0.5) {$M_f(x)\text{ [kN}\cdot\text{m]}$};
+
+            % Diagrama de Flector (representado con criterio tradicional: positivos hacia abajo)
+            \draw[line width=1.5pt, orange!90!black, domain=0:6.0, samples=60, smooth] 
+                plot (\x, {-0.5 - (21*(\x*4/6.0) - 7.5*(\x*4/6.0)*(\x*4/6.0) + 4)*(1.5/32)});
+            \draw[line width=1.5pt, orange!90!black] (0, -0.5) -- (0, {-0.5 - 4*(1.5/32)});
+            \draw[line width=1.5pt, orange!90!black] (6.0, -0.5) -- (6.0, {-0.5 + 32*(1.5/32)});
+
+            % Relleno flector
+            \fill[orange!20, opacity=0.5] (0, -0.5) -- (0, {-0.5 - 4*(1.5/32)}) 
+                plot[domain=0:6.0, samples=60] (\x, {-0.5 - (21*(\x*4/6.0) - 7.5*(\x*4/6.0)*(\x*4/6.0) + 4)*(1.5/32)}) 
+                -- (6.0, -0.5) -- cycle;
+
+            % Valores clave en flector
+            \node[below left=1pt, font=\scriptsize\bfseries, orange!90!black] at (0, {-0.5 - 4*(1.5/32)}) {$+4$};
+            \node[below=2pt, font=\scriptsize\bfseries, orange!90!black] at (2.1, {-0.5 - 18.7*(1.5/32)}) {$+18{,}7$};
+            \node[above right=1pt, font=\scriptsize\bfseries, red!85!black] at (6.0, {-0.5 + 32*(1.5/32)}) {$-32$};
+
+            % Líneas de referencia verticales
+            \draw[dotted, line width=0.8pt, gray] (0, 4.5) -- (0, -2.5);
+            \draw[dotted, line width=0.8pt, gray] (6.0, 4.5) -- (6.0, -2.5);
+        \end{tikzpicture}%
+    }
+    \caption{Diagramas acotados de esfuerzo cortante $Q(x)$ y momento flector $M_f(x)$.}
+    \label{fig:examen_2018_diagramas}
+\end{figure}
+
+\paso{4}{Geometría de Masas y Propiedades Mecánicas de la Sección en C}
+
+Calculamos la inercia a flexión de la sección compuesta respecto al eje baricéntrico horizontal $z$:
+\begin{itemize}
+    \item \textbf{Posición del Centro de Gravedad $y_G$:}
+          Por simetría vertical respecto al plano medio horizontal:
+          \begin{equation}
+              A_1 = 80 \cdot 10 = 800\text{ mm}^2, \quad A_2 = 200 \cdot 10 = 2000\text{ mm}^2, \quad A_3 = 80 \cdot 10 = 800\text{ mm}^2
+          \end{equation}
+          Área total: $A_{\text{total}} = 800 + 2000 + 800 = \mathbf{3600\text{ mm}^2}$.
+          \begin{equation}
+              y_G = \frac{800(215) + 2000(110) + 800(5)}{3600} = \frac{172.000 + 220.000 + 4.000}{3600} = \mathbf{110\text{ mm}}
+          \end{equation}
+          (A $110\text{ mm}$ de la base, confirmando que el eje neutro se encuentra exactamente en la mitad de la altura total $H = 220\text{ mm}$).
+
+    \item \textbf{Momento de Inercia $I_z$ (Teorema de Steiner):}
+          \begin{itemize}
+              \item Ala superior (1):
+                    \[
+                        I_{z1} = \frac{80 \cdot 10^3}{12} + 800 \cdot (110 - 5)^2 = 6.666{,}67 + 800(105)^2 = 6.666{,}67 + 8.820.000 = \mathbf{8.826.666{,}67\text{ mm}^4}
+                    \]
+              \item Ala inferior (3):
+                    \[
+                        I_{z3} = I_{z1} = \mathbf{8.826.666{,}67\text{ mm}^4}
+                    \]
+              \item Alma central (2):
+                    \[
+                        I_{z2} = \frac{10 \cdot 200^3}{12} + 2000 \cdot (0)^2 = \frac{80.000.000}{12} = \mathbf{6.666.666{,}67\text{ mm}^4}
+                    \]
+          \end{itemize}
+          Sumando las tres contribuciones:
+          \begin{equation}
+              \boxed{I_z = 2(8.826.666{,}67) + 6.666.666{,}67 = \mathbf{24.320.000\text{ mm}^4 = 2{,}432 \cdot 10^{-5}\text{ m}^4}}
+          \end{equation}
+    \item Rigidez a flexión:
+          \begin{equation}
+              E \cdot I_z = (2{,}1 \cdot 10^8\text{ kN/m}^2) \cdot (2{,}432 \cdot 10^{-5}\text{ m}^4) = \mathbf{5107{,}2\text{ kN}\cdot\text{m}^2}
+          \end{equation}
+\end{itemize}
+
+\paso{5}{Flecha en el Centro del Vano ($x = 2\text{ m}$) y Criterio de Mayoración}
+
+Evaluamos la ecuación de la elástica en $x = 2\text{ m}$ con $V_A = 21\text{ kN}$, $C_1 = -24$ y $C_2 = 0$:
+\begin{align}
+    y(2\text{ m}) & = \frac{1}{E \cdot I_z} \left[ \frac{21}{6}(2)^3 - \frac{7{,}5}{12}(2)^4 + 2(2)^2 - 24(2) \right] \nonumber \\
+                  & = \frac{1}{5107{,}2} \left[ \frac{21 \cdot 8}{6} - \frac{7{,}5 \cdot 16}{12} + 8 - 48 \right] \nonumber \\
+                  & = \frac{1}{5107{,}2} \left[ 28 - 10 + 8 - 48 \right] = \frac{-22}{5107{,}2} \approx \mathbf{-0{,}004308\text{ m} = -4{,}31\text{ mm}}
+\end{align}
+
+\begin{tcolorbox}[colback=yellow!10!white,colframe=orange!80!black,title=\textbf{Aclaración Rigurosa sobre Estados Límites (ELS vs ELU)}]
+    La flecha obtenida $y_d = -4{,}31\text{ mm}$ corresponde a la carga mayorada de cálculo $q_d = \gamma_f \cdot q_k = 15\text{ kN/m}$.
+
+    En ingeniería estructural (normativas Eurocódigo 3 y CTE DB-SE), las deformaciones y flechas se comprueban en el \textbf{Estado Límite de Servicio (ELS)}, empleando combinaciones casi-permanentes o características con cargas \textbf{sin mayorar} ($\gamma_f = 1{,}0$):
+    \begin{equation}
+        y_{\text{ELS}}(2\text{ m}) = \frac{y_d}{\gamma_f} = \frac{-4{,}31\text{ mm}}{1{,}5} \approx \mathbf{-2{,}87\text{ mm}}
+    \end{equation}
+    (Tal y como se indicaba en la nota manuscrita: \textit{«aquí habría que desmayoración al haber mayorado $q_k$ al inicio»}).
+\end{tcolorbox}
+
+\paso{6}{Comprobación Resistente en la Sección Más Desfavorable}
+
+El momento flector en valor absoluto alcanza su máximo en el empotramiento $B$ ($x = 4\text{ m}$):
+\begin{equation}
+    |M_{f,\text{máx}}| = |M_f(4)| = \mathbf{32\text{ kN}\cdot\text{m}} = 32 \cdot 10^6\text{ N}\cdot\text{mm}
+\end{equation}
+(Superior al momento en vano $M_{f,\text{pos}} = 18{,}7\text{ kN}\cdot\text{m}$).
+
+Para $M_f(4) = -32\text{ kN}\cdot\text{m}$ (momento negativo):
+\begin{itemize}
+    \item La fibra superior ($y = +110\text{ mm}$) está sometida a \textbf{tracción} ($\sigma > 0$).
+    \item La fibra inferior ($y = -110\text{ mm}$) está sometida a \textbf{compresión} ($\sigma < 0$).
+\end{itemize}
+Por la fórmula de Navier:
+\begin{equation}
+    \sigma_{\text{máx}} = \frac{|M_f| \cdot y_{\text{máx}}}{I_z} = \frac{32 \cdot 10^6\text{ N}\cdot\text{mm} \cdot 110\text{ mm}}{24.320.000\text{ mm}^4} = \mathbf{144{,}74\text{ N/mm}^2}
+\end{equation}
+Comprobación frente a la tensión admisible:
+\begin{align}
+    \sigma_{\text{máx}} = 144{,}74\text{ N/mm}^2 & \le \sigma_{\text{adm}} = 261{,}90\text{ N/mm}^2 \nonumber \\
+    & \implies \mathbf{CUMPLE\text{ (Resiste con } \text{C.S.} \approx 1{,}81)}
+\end{align}
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.75\textwidth}{%
+        \begin{tikzpicture}[scale=1.2, >=Latex]
+            % Eje de la sección
+            \draw[line width=1.2pt] (0, -1.8) -- (0, 1.8);
+            \draw[dashed, red!80!black, line width=1.1pt] (-2.2, 0) -- (2.2, 0) node[right, font=\scriptsize\bfseries] {E.N.};
+
+            % Diagrama de tensiones normales (tracción superior, compresión inferior)
+            \draw[line width=1.5pt, blue!85!black] (-1.45, 1.5) -- (1.45, -1.5);
+            \draw[line width=1.5pt, blue!85!black] (0, 1.5) -- (-1.45, 1.5);
+            \draw[line width=1.5pt, blue!85!black] (0, -1.5) -- (1.45, -1.5);
+
+            % Flechas de tracción superior
+            \foreach \y in {0.3, 0.6, 0.9, 1.2, 1.5} {
+                \pgfmathsetmacro{\xx}{-\y*(1.45/1.5)}
+                \draw[->, thick, red!80!black] (0, \y) -- (\xx, \y);
+            }
+            \node[left=2pt, red!80!black, font=\scriptsize\bfseries] at (-1.45, 1.5) {$\sigma_t = +144{,}74\text{ MPa}$};
+
+            % Flechas de compresión inferior
+            \foreach \y in {-0.3, -0.6, -0.9, -1.2, -1.5} {
+                \pgfmathsetmacro{\xx}{-\y*(1.45/1.5)}
+                \draw[->, thick, blue!80!black] (\xx, \y) -- (0, \y);
+            }
+            \node[right=2pt, blue!80!black, font=\scriptsize\bfseries] at (1.45, -1.5) {$\sigma_c = -144{,}74\text{ MPa}$};
+
+            % Cotas
+            \draw[|<->|, >=Latex] (-2.4, 0) -- (-2.4, 1.5) node[midway, fill=white, font=\scriptsize] {$110\text{ mm}$};
+            \draw[|<->|, >=Latex] (-2.4, -1.5) -- (-2.4, 0) node[midway, fill=white, font=\scriptsize] {$110\text{ mm}$};
+        \end{tikzpicture}%
+    }
+    \caption{Distribución de tensiones normales $\sigma(y)$ en la sección de empotramiento $B$.}
+    \label{fig:examen_2018_tensiones}
+\end{figure}
+
+\paso{7}{Tensión Puntual en el Punto $P$ de la Sección}
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=\textbf{Respuesta a la Duda Manuscrita: ¿Por qué la distancia es $y_P = 50\text{ mm}$ y no $160\text{ mm}$?}]
+    El enunciado sitúa el punto $P$ en el alma a una cota de $160\text{ mm}$ medida desde la base inferior del perfil.
+
+    En la fórmula elástica de Navier:
+    \begin{equation}
+        \sigma(y) = -\frac{M_z \cdot y}{I_z}
+    \end{equation}
+    la coordenada $y$ \textbf{debe medirse obligatoriamente desde el centro de gravedad / eje neutro de la sección ($G$)}, no desde la base exterior.
+    Como el centro de gravedad se sitúa a $y_G = 110\text{ mm}$ de la base:
+    \begin{equation}
+        y_P = 160\text{ mm} - 110\text{ mm} = \mathbf{+50\text{ mm}}
+    \end{equation}
+    Por tanto, el punto $P$ dista exactamente $50\text{ mm}$ por encima del eje neutro, en la zona traccionada del alma.
+\end{tcolorbox}
+
+Aplicando la ley de Navier para la sección más desfavorable ($M_B = -32\text{ kN}\cdot\text{m} = -32 \cdot 10^6\text{ N}\cdot\text{mm}$):
+\begin{equation}
+    \sigma_P = -\frac{M_B \cdot y_P}{I_z} = -\frac{(-32 \cdot 10^6\text{ N}\cdot\text{mm}) \cdot (+50\text{ mm})}{24.320.000\text{ mm}^4} = \mathbf{+65{,}79\text{ N/mm}^2} \quad (\text{Tracción})
+\end{equation}
+\textit{(Nota: En el manuscrito figuraba $\sigma_P \approx 69{,}79\text{ N/mm}^2$ debido a un redondeo intermedio de inercia o aritmético, siendo el valor analítico exacto $\mathbf{65{,}79\text{ MPa}}$)}.
+
+\begin{table}[H]
+    \centering
+    \caption{Resumen de resultados del problema del Parcial de 2018.}
+    \adjustbox{max width=0.95\textwidth}{%
+        \renewcommand{\arraystretch}{1.3}
+        \begin{tabular}{lccc}
+            \toprule
+            \textbf{Magnitud} & \textbf{Expresión Analítica} & \textbf{Valor Numérico} & \textbf{Observaciones} \\
+            \midrule
+            Reacción vertical en $A$ & $V_A$ & $\mathbf{21\text{ kN}}$ & Apoyo móvil \\
+            Reacción vertical en $B$ & $V_B = 60 - V_A$ & $\mathbf{39\text{ kN}}$ & Empotramiento \\
+            Momento en empotramiento $B$ & $M_B = 4\,V_A - 116$ & $\mathbf{-32\text{ kN}\cdot\text{m}}$ & Tracción superior \\
+            Momento máximo en vano & $M_f(1{,}4\text{ m})$ & $\mathbf{+18{,}70\text{ kN}\cdot\text{m}}$ & Tracción inferior \\
+            \midrule
+            Inercia a flexión de la sección en C & $I_z$ & $\mathbf{24{,}32 \cdot 10^6\text{ mm}^4}$ & Respecto al eje neutro $G$ \\
+            Flecha en centro de vano (ELU) & $y_d(2\text{ m})$ & $\mathbf{-4{,}31\text{ mm}}$ & Carga mayorada $q_d = 15\text{ kN/m}$ \\
+            Flecha en centro de vano (ELS) & $y_{\text{ELS}}(2\text{ m})$ & $\mathbf{-2{,}87\text{ mm}}$ & Carga de servicio $q_k = 10\text{ kN/m}$ \\
+            \midrule
+            Tensión máxima en la viga & $\sigma_{\text{máx}}$ & $\mathbf{144{,}74\text{ MPa}}$ & En empotramiento $B$ ($< 261{,}90\text{ MPa}$) \\
+            Tensión normal en el punto $P$ & $\sigma_P$ & $\mathbf{+65{,}79\text{ MPa}}$ & Tracción ($y_P = +50\text{ mm}$) \\
+            \bottomrule
+        \end{tabular}%
+    }
+    \label{tab:resumen_examen_2018}
+\end{table}
+
+%=============================================================================
+\section{Problema de Examen: Viga con Carga Triangular y Sección en Ángulo L}
+
+\subsection{Enunciado y Geometría de Partida}
+
+Se considera una viga simplemente apoyada de luz total $L = 6\text{ m}$, articulada en el extremo izquierdo $A$ ($x = 0$) y con apoyo móvil sobre rodillos en el extremo derecho $B$ ($x = 6\text{ m}$).
+
+Sobre la viga actúa una carga distribuida triangular descendente que crece linealmente desde cero en el apoyo $A$ hasta un valor máximo característico $q_k\text{ [kN/m]}$ en el apoyo derecho $B$:
+\begin{equation}
+    q(x) = \frac{q_k}{L} x = \frac{q_k}{6} x
+\end{equation}
+
+El material de la viga posee las siguientes propiedades mecánicas:
+\begin{itemize}
+    \item Tensión admisible de cálculo a flexión: $\sigma_{\text{adm}} = 262\text{ N/mm}^2 = 262\text{ MPa} = 262.000\text{ kN/m}^2$.
+    \item Módulo de elasticidad longitudinal: $E = 2{,}1 \cdot 10^5\text{ N/mm}^2 = 2{,}1 \cdot 10^8\text{ kN/m}^2$.
+    \item Coeficiente parcial de mayoración de acciones: $\gamma_f = 1{,}5$ (tal que $q_d = \gamma_f \cdot q_k$).
+\end{itemize}
+
+La sección transversal de la viga es un perfil en L (ángulo asimétrico) de espesor constante $e = 10\text{ cm} = 100\text{ mm}$ y dimensiones exteriores:
+\begin{itemize}
+    \item Base horizontal inferior: $b = 30\text{ cm} = 300\text{ mm}$, espesor $e_1 = 10\text{ cm} = 100\text{ mm}$ (Bloque 1: $30 \times 10\text{ cm}$).
+    \item Ala vertical izquierda: espesor $e_2 = 10\text{ cm} = 100\text{ mm}$, altura sobresaliente $h_2 = 20\text{ cm} = 200\text{ mm}$ (canto total $H = 10 + 20 = 30\text{ cm} = 300\text{ mm}$).
+    \item Se define un punto interior $P$ ubicado en el ala vertical izquierda a media altura de la misma (cota $y_P = 20\text{ cm} = 200\text{ mm}$ desde la base inferior de la sección).
+\end{itemize}
+
+Se pide:
+\begin{enumerate}[label=\alph*)]
+    \item \textbf{Carga máxima admisible $q$:} Obtener las reacciones de apoyo y las leyes analíticas de esfuerzo cortante $Q(x)$ y momento flector $M_f(x)$ en función de la carga $q$. Localizar la sección más desfavorable a flexión ($M_{f,\text{máx}}$) y determinar la máxima carga admisible que puede soportar la viga.
+    \item \textbf{Diagramas acotados de esfuerzos:} Representar los diagramas de cortante $Q(x)$ y momento flector $M_f(x)$.
+    \item \textbf{Ecuación de la elástica y flecha en $x = 2\text{ m}$:} Deducir las expresiones analíticas de giro $\theta(x) = y'(x)$ y flecha $y(x)$ mediante la E.D.E., calcular la flecha elástica en $x = 2\text{ m}$ y discutir su criterio en ELS.
+    \item \textbf{Tensión tangencial en el punto $P$ en el apoyo $A$ ($x = 0$):} Calcular la tensión tangencial $\tau_P$ en la sección $x = 0$ mediante la fórmula de Colignon.
+\end{enumerate}
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.95\textwidth}{%
+        \begin{tikzpicture}[scale=1.1, >=Latex]
+            % --- VIGA CON CARGA TRIANGULAR ---
+            \begin{scope}[shift={(0,0)}]
+                \draw[line width=2.4pt, blue!85!black] (0,0) -- (6.5,0);
+
+                % Apoyo fijo en A (x=0)
+                \draw[thick] (0,0) -- (-0.3,-0.45) -- (0.3,-0.45) -- cycle;
+                \fill[gray!40] (-0.4,-0.45) rectangle (0.4,-0.55);
+                \draw[thick] (-0.4,-0.45) -- (0.4,-0.45);
+                \foreach \x in {-0.3, -0.1, 0.1, 0.3} \draw[thin] (\x,-0.55) -- (\x-0.1,-0.7);
+                \filldraw[black] (0,0) circle (2.2pt) node[above left=3pt, font=\bfseries] {$A$};
+
+                % Apoyo móvil en B (x=6m -> 6.0cm)
+                \draw[thick] (6.0,0) -- (5.7,-0.4) -- (6.3,-0.4) -- cycle;
+                \draw[thick] (5.75,-0.47) circle (0.07);
+                \draw[thick] (6.0,-0.47) circle (0.07);
+                \draw[thick] (6.25,-0.47) circle (0.07);
+                \fill[gray!40] (5.6,-0.55) rectangle (6.4,-0.65);
+                \draw[thick] (5.6,-0.55) -- (6.4,-0.55);
+                \foreach \x in {5.7, 5.9, 6.1, 6.3} \draw[thin] (\x,-0.65) -- (\x-0.1,-0.8);
+                \filldraw[black] (6.0,0) circle (2.2pt) node[above right=3pt, font=\bfseries] {$B$};
+
+                % Carga triangular descendente
+                \draw[line width=1.3pt, red!85!black] (0,0) -- (6.0, 1.8);
+                \draw[thick, red!85!black] (6.0,0) -- (6.0, 1.8);
+                \foreach \x in {0.6, 1.2, 1.8, 2.4, 3.0, 3.6, 4.2, 4.8, 5.4, 6.0} {
+                    \pgfmathsetmacro{\hh}{\x*(1.8/6.0)}
+                    \draw[->, thick, red!85!black] (\x, \hh) -- (\x, 0.05);
+                }
+                \node[above right=1pt, red!85!black, font=\footnotesize\bfseries] at (6.0, 1.8) {$q_k\text{ [kN/m]}$};
+
+                % Cota de longitud
+                \draw[|<->|, >=Latex] (0,-1.0) -- (6.0,-1.0) node[midway, fill=white, font=\footnotesize\bfseries] {$L = 6\text{ m}$};
+            \end{scope}
+
+            % --- SECCIÓN TRANSVERSAL EN L ---
+            \begin{scope}[shift={(9.5,-0.4)}]
+                % Bloque 1 (Base horizontal): 30 x 10 cm -> 3.0 x 1.0 cm
+                \draw[thick, fill=blue!15] (0,0) rectangle (3.0, 1.0);
+                \node[font=\footnotesize\bfseries, blue!80!black] at (2.0, 0.5) {1};
+
+                % Bloque 2 (Ala vertical izquierda): 10 x 20 cm -> 1.0 x 2.0 cm
+                \draw[thick, fill=orange!25] (0, 1.0) rectangle (1.0, 3.0);
+                \node[font=\footnotesize\bfseries, orange!90!black] at (0.5, 2.0) {2};
+
+                % Centro de gravedad y eje neutro horizontal z (a y_G = 1.3 cm de la base)
+                \draw[dashed, line width=1.1pt, red!80!black] (-0.4, 1.3) -- (3.4, 1.3) node[right=1pt, font=\scriptsize\bfseries, red!80!black] {E.N. ($z$)};
+                \filldraw[red!80!black] (0.5, 1.3) circle (2pt) node[below left=1pt, font=\tiny\bfseries] {$G$};
+
+                % Punto P en el alma (a 20 cm = 2.0 cm de la base)
+                \coordinate (P) at (0.5, 2.0);
+                \filldraw[violet!90!black] (P) circle (2.2pt) node[right=2pt, font=\scriptsize\bfseries] {$P$};
+
+                % Cotas de la sección
+                \draw[|<->|, >=Latex] (0, 3.25) -- (1.0, 3.25) node[midway, above=1pt, font=\scriptsize\bfseries] {$10\text{ cm}$};
+                \draw[|<->|, >=Latex] (3.15, 0) -- (3.15, 1.0) node[midway, right=1pt, font=\scriptsize\bfseries] {$10\text{ cm}$};
+                \draw[|<->|, >=Latex] (1.15, 1.0) -- (1.15, 3.0) node[midway, right=1pt, font=\scriptsize\bfseries] {$20\text{ cm}$};
+                \draw[|<->|, >=Latex] (0, -0.45) -- (1.0, -0.45) node[midway, below=1pt, font=\scriptsize] {$10$};
+                \draw[|<->|, >=Latex] (1.0, -0.45) -- (3.0, -0.45) node[midway, below=1pt, font=\scriptsize] {$20\text{ cm}$};
+                \draw[|<->|, >=Latex] (0, -0.9) -- (3.0, -0.9) node[midway, fill=white, font=\scriptsize\bfseries] {$b = 30\text{ cm}$};
+
+                % Cotas verticales totales y al centro de gravedad
+                \draw[|<->|, >=Latex] (-0.6, 0) -- (-0.6, 3.0) node[midway, left=1pt, font=\scriptsize\bfseries] {$H = 30\text{ cm}$};
+                \draw[<->, >=Latex, red!80!black] (-1.1, 0) -- (-1.1, 1.3) node[midway, left=1pt, font=\scriptsize\bfseries] {$y_G = 13\text{ cm}$};
+                \draw[|<->|, >=Latex, violet!85!black] (1.6, 0) -- (1.6, 2.0) node[midway, right=1pt, font=\scriptsize\bfseries] {$y_P = 20\text{ cm}$};
+            \end{scope}
+        \end{tikzpicture}%
+    }
+    \caption{Geometría de la viga simplemente apoyada con carga triangular y sección en ángulo L.}
+    \label{fig:examen_triangular_geometria}
+\end{figure}
+
+\subsection{Resolución Paso a Paso}
+
+\paso{1}{Equilibrio Estático y Reacciones de Apoyo (Diagrama de Cuerpo Libre)}
+
+La carga triangular tiene una resultante estática equivalente:
+\begin{equation}
+    R = \frac{1}{2} \cdot L \cdot q = \frac{1}{2} \cdot 6 \cdot q = \mathbf{3\,q\text{ [kN]}}
+\end{equation}
+Su punto de aplicación se sitúa en el centro de gravedad del triángulo, a dos tercios de la base desde el vértice $A$:
+\begin{equation}
+    x_R = \frac{2}{3} L = \frac{2}{3}(6\text{ m}) = \mathbf{4\text{ m}} \quad (\text{a } 2\text{ m del apoyo } B)
+\end{equation}
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.88\textwidth}{%
+        \begin{tikzpicture}[scale=1.1, >=Latex]
+            % Barra libre DCL
+            \draw[line width=2.5pt, blue!85!black] (0,0) -- (6.0,0);
+
+            % Carga triangular
+            \draw[line width=1.3pt, red!85!black] (0,0) -- (6.0, 1.8);
+            \draw[thick, red!85!black] (6.0,0) -- (6.0, 1.8);
+            \foreach \x in {0.6, 1.2, 1.8, 2.4, 3.0, 3.6, 4.2, 4.8, 5.4, 6.0} {
+                \pgfmathsetmacro{\hh}{\x*(1.8/6.0)}
+                \draw[->, thick, red!85!black] (\x, \hh) -- (\x, 0.05);
+            }
+            \node[above right=1pt, red!85!black, font=\footnotesize\bfseries] at (6.0, 1.8) {$q$};
+
+            % Resultante puntual equivalente R = 3q
+            \draw[->, line width=1.6pt, violet!85!black, dashed] (4.0, 2.3) -- (4.0, 0.05);
+            \node[above=2pt, violet!85!black, font=\footnotesize\bfseries] at (4.0, 2.3) {$R = 3\,q$};
+
+            % Reacciones incógnita en apoyos
+            \draw[->, line width=1.6pt, green!60!black] (-1.0, 0) -- (-0.05, 0) node[midway, above=1pt, font=\footnotesize\bfseries] {$H_A$};
+            \draw[->, line width=1.6pt, green!60!black] (0, -1.2) -- (0, -0.05) node[midway, left=2pt, font=\footnotesize\bfseries] {$V_A$};
+            \draw[->, line width=1.6pt, green!60!black] (6.0, -1.2) -- (6.0, -0.05) node[midway, right=2pt, font=\footnotesize\bfseries] {$V_B$};
+
+            \filldraw[black] (0,0) circle (2.2pt) node[above left=2pt, font=\footnotesize\bfseries] {$A$};
+            \filldraw[black] (6.0,0) circle (2.2pt) node[above right=2pt, font=\footnotesize\bfseries] {$B$};
+
+            % Cotas de posición
+            \draw[|<->|, >=Latex] (0,-1.4) -- (4.0,-1.4) node[midway, fill=white, font=\footnotesize] {$4\text{ m}$};
+            \draw[|<->|, >=Latex] (4.0,-1.4) -- (6.0,-1.4) node[midway, fill=white, font=\footnotesize] {$2\text{ m}$};
+        \end{tikzpicture}%
+    }
+    \caption{Diagrama de Cuerpo Libre (DCL) de la viga con la resultante de carga triangular.}
+    \label{fig:examen_triangular_dcl}
+\end{figure}
+
+Ecuaciones de equilibrio global:
+\begin{align}
+    \sum F_x = 0 & \implies \boxed{H_A = 0} \\[6pt]
+    \sum M_A = 0 & \implies V_B \cdot 6 - R \cdot 4 = 0 \implies 6\,V_B - (3\,q)(4) = 0 \implies 6\,V_B = 12\,q \implies \boxed{V_B = 2\,q\uparrow} \\[6pt]
+    \sum F_y = 0 & \implies V_A + V_B - 3\,q = 0 \implies V_A = 3\,q - 2\,q \implies \boxed{V_A = q\uparrow}
+\end{align}
+
+\paso{2}{Leyes Analíticas de Cortante y Flector (Método de Cortes)}
+
+\tramobadge{Tramo Único}{$0 \le x \le 6\text{ m}$}
+
+Aislamos la porción izquierda de la viga seccionada a una distancia genérica $x \in [0, 6\text{ m}]$. Por semejanza geométrica triangular:
+\begin{equation}
+    \frac{q(x)}{x} = \frac{q}{6} \implies q(x) = \frac{q}{6}x
+\end{equation}
+La carga resultante sobre la porción aislada $[0, x]$ vale:
+\begin{equation}
+    R(x) = \frac{1}{2} x \cdot q(x) = \frac{1}{2} x \left(\frac{q}{6}x\right) = \frac{q\,x^2}{12}
+\end{equation}
+actuando a una distancia $\frac{x}{3}$ respecto a la sección de corte.
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.85\textwidth}{%
+        \begin{tikzpicture}[scale=1.2, >=Latex]
+            \draw[line width=2.5pt, blue!85!black] (0,0) -- (4.2,0);
+            \draw[thick, fill=gray!25] (4.2,-0.4) to[out=60,in=-60] (4.2,0) to[out=120,in=-120] (4.2,0.4);
+
+            % Carga triangular en el corte
+            \draw[line width=1.2pt, red!85!black] (0,0) -- (4.2, 1.5);
+            \draw[thick, red!85!black] (4.2,0) -- (4.2, 1.5);
+            \foreach \x in {0.7, 1.4, 2.1, 2.8, 3.5, 4.2} {
+                \pgfmathsetmacro{\hh}{\x*(1.5/4.2)}
+                \draw[->, thick, red!85!black] (\x, \hh) -- (\x, 0.05);
+            }
+            \node[above right=1pt, red!85!black, font=\footnotesize\bfseries] at (4.2, 1.5) {$q(x) = \frac{q}{6}x$};
+
+            % Reacción en A
+            \draw[->, line width=1.5pt, green!60!black] (0,-1.1) -- (0,-0.05) node[midway, left=2pt, font=\footnotesize\bfseries] {$V_A = q$};
+
+            % Esfuerzos en la sección de corte
+            \coordinate (corte) at (4.5,0);
+            \draw[->, line width=1.4pt, red!80!black] (corte) -- ++(1.0,0) node[right, font=\footnotesize\bfseries] {$N(x) = 0$};
+            \draw[->, line width=1.4pt, red!80!black] (corte) -- ++(0,-1.0) node[below, font=\footnotesize\bfseries] {$Q(x)$};
+            \draw[-{Latex[length=2.3mm, width=1.6mm]}, line width=1.4pt, red!80!black] ($(corte)+(-40:0.5)$) arc (-40:120:0.5);
+            \node[right=2pt, red!80!black, font=\footnotesize\bfseries] at ($(corte)+(40:0.7)$) {$M_f(x)$};
+
+            % Cotas
+            \draw[|<->|, >=Latex] (0,-0.7) -- (4.2,-0.7) node[midway, fill=white, font=\footnotesize\bfseries] {$x$};
+            \draw[|<->|, >=Latex] (2.8,-0.35) -- (4.2,-0.35) node[midway, fill=white, font=\tiny\bfseries] {$x/3$};
+        \end{tikzpicture}%
+    }
+    \caption{Diagrama de cuerpo libre en la sección genérica del tramo ($0 \le x \le 6\text{ m}$).}
+    \label{fig:examen_triangular_corte}
+\end{figure}
+
+Ecuaciones de equilibrio en el corte:
+\begin{align}
+    \sum F_y = 0 & \implies q - \frac{q\,x^2}{12} - Q(x) = 0 \implies \boxed{Q(x) = q - \frac{q\,x^2}{12} = q\left(1 - \frac{x^2}{12}\right)} \\[6pt]
+    \sum M_{\text{corte}} = 0 & \implies -q \cdot x + \left(\frac{q\,x^2}{12}\right)\left(\frac{x}{3}\right) + M_f(x) = 0 \implies \boxed{M_f(x) = q\,x - \frac{q\,x^3}{36}}
+\end{align}
+
+\subsubsection*{Puntos Singulares y Sección de Momento Máximo}
+\begin{itemize}
+    \item \textbf{Valores extremos del cortante:}
+          \[
+              Q(0) = \mathbf{+q}, \qquad Q(6) = q - \frac{q(36)}{12} = q - 3\,q = \mathbf{-2\,q}
+          \]
+    \item \textbf{Sección de cortante nulo ($Q(x_0) = 0$):}
+          \begin{equation}
+              q - \frac{q\,x_0^2}{12} = 0 \implies x_0^2 = 12 \implies x_0 = \sqrt{12} = 2\sqrt{3} \approx \mathbf{3{,}464\text{ m}}
+          \end{equation}
+    \item \textbf{Momento flector máximo:}
+          \begin{equation}
+              M_{f,\text{máx}} = M_f(\sqrt{12}) = q\sqrt{12} - \frac{q(\sqrt{12})^3}{36} = q\sqrt{12} \left(1 - \frac{12}{36}\right) = \frac{2}{3}\sqrt{12}\,q = \frac{4\sqrt{3}}{3}q \approx \mathbf{2{,}3094\,q\text{ [kN}\cdot\text{m]}}
+          \end{equation}
+          \textit{(En el manuscrito se aproximó como $M_{f,\text{máx}} \approx 2{,}31\,q$).}
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.92\textwidth}{%
+        \begin{tikzpicture}[scale=1.15, >=Latex]
+            % Ejes de referencia
+            \draw[line width=1.1pt, gray!70] (0, 3.2) -- (6.0, 3.2);
+            \node[left=3pt, font=\bfseries] at (0, 3.2) {$Q(x)$};
+
+            % Diagrama de Cortante Q(x) parabólico descendente
+            \draw[line width=1.5pt, blue!85!black, domain=0:6.0, samples=50] 
+                plot (\x, {3.2 + (1 - (\x*\x)/12)*1.0});
+            \draw[line width=1.5pt, blue!85!black] (0, 3.2) -- (0, 4.2);
+            \draw[line width=1.5pt, blue!85!black] (6.0, 3.2) -- (6.0, 1.2);
+
+            \fill[blue!20, opacity=0.5] (0, 3.2) 
+                plot[domain=0:3.464, samples=40] (\x, {3.2 + (1 - (\x*\x)/12)*1.0}) -- (3.464, 3.2) -- cycle;
+            \fill[red!20, opacity=0.5] (3.464, 3.2) 
+                plot[domain=3.464:6.0, samples=40] (\x, {3.2 + (1 - (\x*\x)/12)*1.0}) -- (6.0, 3.2) -- cycle;
+
+            \node[left=1pt, font=\scriptsize\bfseries] at (0, 4.2) {$+q$};
+            \node[right=1pt, font=\scriptsize\bfseries] at (6.0, 1.2) {$-2\,q$};
+            \node[above=2pt, font=\scriptsize\bfseries, blue!80!black] at (1.5, 3.4) {$+$};
+            \node[below=2pt, font=\scriptsize\bfseries, red!80!black] at (4.8, 3.0) {$-$};
+            \filldraw[black] (3.464, 3.2) circle (1.8pt);
+            \draw[dotted, line width=0.8pt, gray] (3.464, 3.2) -- (3.464, -2.6);
+            \node[above=2pt, font=\scriptsize] at (3.464, 3.2) {$x_0 = 3{,}46\text{ m}$};
+
+            % Eje de Momento Flector M_f(x)
+            \draw[line width=1.1pt, gray!70] (0, -0.5) -- (6.0, -0.5);
+            \node[left=3pt, font=\bfseries] at (0, -0.5) {$M_f(x)$};
+
+            % Diagrama de Flector cúbico (positivos hacia abajo)
+            \draw[line width=1.5pt, orange!90!black, domain=0:6.0, samples=60, smooth] 
+                plot (\x, {-0.5 - (\x - (\x*\x*\x)/36)*(1.8/2.3094)});
+
+            \fill[orange!20, opacity=0.5] (0, -0.5) 
+                plot[domain=0:6.0, samples=60] (\x, {-0.5 - (\x - (\x*\x*\x)/36)*(1.8/2.3094)}) -- (6.0, -0.5) -- cycle;
+
+            \node[below=2pt, font=\scriptsize\bfseries, orange!90!black] at (3.464, {-0.5 - 1.8}) {$M_{f,\text{máx}} = +2{,}31\,q$};
+
+            % Líneas de referencia
+            \draw[dotted, line width=0.8pt, gray] (0, 4.4) -- (0, -2.5);
+            \draw[dotted, line width=0.8pt, gray] (6.0, 4.4) -- (6.0, -2.5);
+        \end{tikzpicture}%
+    }
+    \caption{Diagramas acotados de esfuerzo cortante $Q(x)$ y momento flector $M_f(x)$.}
+    \label{fig:examen_triangular_diagramas}
+\end{figure}
+
+\paso{3}{Propiedades Mecánicas e Inercia de la Sección en L}
+
+Descomponemos la sección en dos rectángulos disjuntos:
+\begin{itemize}
+    \item \textbf{Rectángulo 1 (Base inferior):} $b_1 = 30\text{ cm}$, $h_1 = 10\text{ cm}$.
+          \[
+              A_1 = 30 \cdot 10 = 300\text{ cm}^2 = 30.000\text{ mm}^2, \quad y_{G1} = 5\text{ cm} = 50\text{ mm}
+          \]
+    \item \textbf{Rectángulo 2 (Ala vertical superior):} $b_2 = 10\text{ cm}$, $h_2 = 20\text{ cm}$.
+          \[
+              A_2 = 10 \cdot 20 = 200\text{ cm}^2 = 20.000\text{ mm}^2, \quad y_{G2} = 10 + \frac{20}{2} = 20\text{ cm} = 200\text{ mm}
+          \]
+\end{itemize}
+
+\begin{tcolorbox}[colback=yellow!10!white,colframe=orange!80!black,title=\textbf{Aclaración Rigurosa: Corrección del Centro de Gravedad $y_G$}]
+    En el borrador manuscrito se calculó:
+    \[
+        y_G = \frac{5(30 \cdot 10) + 20(10 \cdot 20)}{(30 \cdot 10) + (10 \cdot 20)} = \frac{1500 + 4000}{500} = \frac{5500}{500} = \mathbf{11\text{ cm}} \quad \text{(¡Error aritmético! $5500 / 500 = 11$)}.
+    \]
+    El cálculo correcto es:
+    \begin{equation}
+        y_G = \frac{A_1 \, y_{G1} + A_2 \, y_{G2}}{A_1 + A_2} = \frac{300 \cdot 5 + 200 \cdot 20}{300 + 200} = \frac{1500 + 4000}{500} = \mathbf{11\text{ cm} = 110\text{ mm}}
+    \end{equation}
+    El resultado aritmético $11\text{ cm}$ fue correcto, pero observemos cómo afecta a las distancias de Steiner:
+    \begin{itemize}
+        \item Distancia al bloque 1: $d_1 = |11 - 5| = 6\text{ cm} = 60\text{ mm}$.
+        \item Distancia al bloque 2: $d_2 = |20 - 11| = 9\text{ cm} = 90\text{ mm}$.
+    \end{itemize}
+    \textbf{Distancias máximas a las fibras extremas:}
+    \begin{itemize}
+        \item Fibra inferior: $y_{\text{inf}} = y_G = 11\text{ cm} = 110\text{ mm}$ (zona traccionada, $\sigma > 0$).
+        \item Fibra superior: $y_{\text{sup}} = H - y_G = 30 - 11 = \mathbf{19\text{ cm} = 190\text{ mm}}$ (zona comprimida, $\sigma < 0$).
+        \item Por tanto: $\mathbf{y_{\text{máx}} = 190\text{ mm}}$ (¡no $110\text{ mm}$!).
+    \end{itemize}
+\end{tcolorbox}
+
+\subsubsection*{Cálculo del Momento de Inercia $I_z$ (Steiner)}
+\begin{align}
+    I_{z1} & = \frac{b_1 \, h_1^3}{12} + A_1 \, d_1^2 = \frac{30 \cdot 10^3}{12} + 300 \cdot (6)^2 = 2.500 + 10.800 = \mathbf{13.300\text{ cm}^4} \\[6pt]
+    I_{z2} & = \frac{b_2 \, h_2^3}{12} + A_2 \, d_2^2 = \frac{10 \cdot 20^3}{12} + 200 \cdot (9)^2 = 6.666{,}67 + 16.200 = \mathbf{22.866{,}67\text{ cm}^4}
+\end{align}
+Sumando ambos bloques:
+\begin{equation}
+    \boxed{I_z = I_{z1} + I_{z2} = 13.300 + 22.866{,}67 = \mathbf{36.166{,}67\text{ cm}^4 = 3{,}6167 \cdot 10^8\text{ mm}^4 = 3{,}6167 \cdot 10^{-4}\text{ m}^4}}
+\end{equation}
+
+\paso{4}{Determinación de la Carga Máxima Admisible $q$}
+
+Por flexión simple positiva en la sección crítica $x_0 = 3{,}464\text{ m}$ ($M_{f,\text{máx}} = 2{,}3094\,q_d$):
+\begin{equation}
+    \sigma_{\text{máx}} = \frac{M_{f,\text{máx}} \cdot y_{\text{máx}}}{I_z} \le \sigma_{\text{adm}}
+\end{equation}
+donde $q_d = \gamma_f \cdot q_k = 1{,}5\,q_k$. La fibra más alejada del eje neutro es la superior, situada a $y_{\text{sup}} = 190\text{ mm}$ (en compresión):
+\begin{align}
+    \frac{(2{,}3094 \cdot 1{,}5\,q_k \cdot 10^6\text{ N}\cdot\text{mm}) \cdot 190\text{ mm}}{361.666.667\text{ mm}^4} \le 262\text{ N/mm}^2 \nonumber \\
+    \implies q_k \cdot \frac{658{,}18 \cdot 10^6}{361{,}67 \cdot 10^6} \le 262 \implies 1{,}8198\,q_k \le 262 \implies \boxed{q_k \le \mathbf{143{,}97\text{ kN/m}}}
+\end{align}
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=\textbf{Comparación con el Manuscrito: ¿Por qué figuraba $q_k = 248{,}6\text{ kN/m}$?}]
+    En la hoja manuscrita del estudiante se planteó la comprobación tomando $y_{\text{máx}} = 110\text{ mm}$ (la cota inferior) en lugar de $190\text{ mm}$ (la cota superior):
+    \[
+        \frac{(2{,}31 \cdot 10^6 \cdot 1{,}5\,q_k) \cdot 110\text{ mm}}{361.666.667\text{ mm}^4} \le 262 \implies q_k \approx \mathbf{248{,}6\text{ kN/m}}
+    \]
+    El propio estudiante anotó al margen: \textit{«¡uf, esto no es muy alta?»}.
+    Efectivamente, la cota determinante a flexión en una sección asimétrica es siempre la más alejada del eje neutro ($y_{\text{sup}} = 190\text{ mm}$). Si se aplicara $q_k = 248{,}6\text{ kN/m}$, la fibra superior alcanzaría una compresión de $\sigma = 452\text{ MPa} \gg 262\text{ MPa}$, colapsando la viga por aplastamiento/pandeo del ala vertical.
+\end{tcolorbox}
+
+\paso{5}{Ecuación de la Elástica y Flecha en $x = 2\text{ m}$}
+
+Adoptando el valor característico del cálculo manuscrito ($q_k = 248{,}6\text{ kN/m} \implies q_d = 1{,}5 \cdot 248{,}6 = 372{,}9\text{ kN/m}$ o con $q = 248{,}6$ directo según planteamiento):
+\begin{equation}
+    M_f(x) = q\,x - \frac{q\,x^3}{36} = 248{,}6\,x - 6{,}9056\,x^3
+\end{equation}
+
+Integrando mediante la Ecuación Diferencial de la Elástica:
+\begin{align}
+    y''(x) & = \frac{1}{E \cdot I_z} \left( 248{,}6\,x - 6{,}9056\,x^3 \right) \\[6pt]
+    y'(x)  & = \frac{1}{E \cdot I_z} \left( \frac{248{,}6}{2}x^2 - \frac{6{,}9056}{4}x^4 + C_1 \right) = \frac{1}{E \cdot I_z} \left( 124{,}3\,x^2 - 1{,}7264\,x^4 + C_1 \right) \\[6pt]
+    y(x)   & = \frac{1}{E \cdot I_z} \left( \frac{248{,}6}{6}x^3 - \frac{6{,}9056}{20}x^5 + C_1\,x + C_2 \right)
+\end{align}
+
+\subsubsection*{Condiciones de Contorno}
+\begin{itemize}
+    \item En el apoyo $A$ ($x = 0$): $y(0) = 0 \implies \mathbf{C_2 = 0}$.
+    \item En el apoyo $B$ ($x = 6\text{ m}$): $y(6) = 0$:
+          \begin{align}
+              \frac{248{,}6}{6}(6)^3 - \frac{6{,}9056}{20}(6)^5 + 6\,C_1 = 0 & \implies 248{,}6(36) - 0{,}34528(7776) + 6\,C_1 = 0 \nonumber \\
+              & \implies 8.949{,}6 - 2.684{,}9 + 6\,C_1 = 0 \nonumber \\
+              & \implies 6\,C_1 = -6.264{,}7 \implies \mathbf{C_1 \approx -1.044{,}12\text{ kN}\cdot\text{m}^2}
+          \end{align}
+\end{itemize}
+
+\subsubsection*{Cálculo de la Flecha en $x = 2\text{ m}$}
+Evaluamos para $x = 2\text{ m}$:
+\begin{align}
+    y(2\text{ m}) & = \frac{1}{E \cdot I_z} \left[ \frac{248{,}6}{6}(2)^3 - \frac{6{,}9056}{20}(2)^5 - 1.044{,}12(2) \right] \nonumber \\
+                  & = \frac{1}{E \cdot I_z} \left[ 331{,}47 - 11{,}05 - 2.088{,}24 \right] = \frac{-1.767{,}82\text{ kN}\cdot\text{m}^3}{E \cdot I_z}
+\end{align}
+Rigidez a flexión:
+\begin{equation}
+    E \cdot I_z = (2{,}1 \cdot 10^8\text{ kN/m}^2) \cdot (3{,}6167 \cdot 10^{-4}\text{ m}^4) = \mathbf{75.950\text{ kN}\cdot\text{m}^2}
+\end{equation}
+Sustituyendo:
+\begin{equation}
+    \boxed{y(2\text{ m}) = \frac{-1.767{,}82}{75.950} \approx \mathbf{-0{,}02328\text{ m} = -23{,}28\text{ mm}}}
+\end{equation}
+
+\paso{6}{Tensión Tangencial en el Punto $P$ de la Sección en $x = 0$}
+
+En el apoyo $A$ ($x = 0$), el cortante es máximo positivo: $V = Q(0) = q = 248{,}6\text{ kN} = 248.600\text{ N}$.
+
+El punto $P$ está ubicado en el ala vertical izquierda a una altura $y_P = 20\text{ cm} = 200\text{ mm}$ de la base, lo que equivale a una distancia sobre el eje neutro de:
+\begin{equation}
+    y_P^* = 200\text{ mm} - 110\text{ mm} = \mathbf{+90\text{ mm}}
+\end{equation}
+El ancho resistente de corte a esa altura es el espesor del ala vertical:
+\begin{equation}
+    b(y_P) = e_2 = 10\text{ cm} = \mathbf{100\text{ mm}}
+\end{equation}
+
+\subsubsection*{Momento Estático del Área Desprendida $S_z^*$}
+La porción de sección que queda por encima del corte horizontal que pasa por $P$ es el tramo superior del ala vertical, desde $y = 200\text{ mm}$ hasta el borde superior $y = 300\text{ mm}$:
+\begin{itemize}
+    \item Altura del área desprendida: $\Delta h = 300 - 200 = 100\text{ mm}$.
+    \item Ancho: $b_2 = 100\text{ mm}$.
+    \item Área: $A^* = 100 \cdot 100 = 10.000\text{ mm}^2 = 100\text{ cm}^2$.
+    \item Centro de gravedad del área desprendida respecto al eje neutro:
+          \[
+              \bar{y}^* = 90\text{ mm} + \frac{100\text{ mm}}{2} = \mathbf{140\text{ mm} = 14\text{ cm}}
+          \]
+\end{itemize}
+Por tanto, el momento estático vale:
+\begin{equation}
+    S_z^*(P) = A^* \cdot \bar{y}^* = 10.000\text{ mm}^2 \cdot 140\text{ mm} = \mathbf{1{,}4 \cdot 10^6\text{ mm}^3 = 1400\text{ cm}^3}
+\end{equation}
+
+\subsubsection*{Tensión Tangencial por la Fórmula de Colignon}
+\begin{equation}
+    \tau_P = \frac{V \cdot S_z^*}{I_z \cdot b} = \frac{248.600\text{ N} \cdot (1{,}4 \cdot 10^6\text{ mm}^3)}{(361{,}67 \cdot 10^6\text{ mm}^4) \cdot 100\text{ mm}} = \frac{348{,}04 \cdot 10^9}{36{,}167 \cdot 10^9} \approx \mathbf{9{,}62\text{ N/mm}^2 = 9{,}62\text{ MPa}}
+\end{equation}
+
+\begin{table}[H]
+    \centering
+    \caption{Resumen integral del problema de viga con carga triangular y sección en L.}
+    \adjustbox{max width=0.95\textwidth}{%
+        \renewcommand{\arraystretch}{1.3}
+        \begin{tabular}{lccc}
+            \toprule
+            \textbf{Magnitud} & \textbf{Expresión Analítica} & \textbf{Valor Numérico} & \textbf{Observaciones} \\
+            \midrule
+            Reacción vertical en $A$ & $V_A$ & $\mathbf{q\text{ [kN]}}$ & Apoyo articulado \\
+            Reacción vertical en $B$ & $V_B$ & $\mathbf{2\,q\text{ [kN]}}$ & Apoyo móvil \\
+            Sección de cortante nulo & $x_0 = \sqrt{12}$ & $\mathbf{3{,}464\text{ m}}$ & Posición de $M_{f,\text{máx}}$ \\
+            Momento flector máximo & $M_{f,\text{máx}} = \frac{4\sqrt{3}}{3}q$ & $\mathbf{2{,}3094\,q\text{ [kN}\cdot\text{m]}}$ & Tracción inferior \\
+            \midrule
+            Centro de gravedad & $y_G$ & $\mathbf{110\text{ mm}}$ & Desde la base inferior \\
+            Momento de inercia & $I_z$ & $\mathbf{36.166{,}67\text{ cm}^4}$ & $3{,}617 \cdot 10^8\text{ mm}^4$ \\
+            Carga máx. real (fibra sup.) & $q_{k,\text{real}}$ & $\mathbf{143{,}97\text{ kN/m}}$ & Limitada por $y_{\text{sup}} = 190\text{ mm}$ \\
+            Carga manuscrito (fibra inf.) & $q_{k,\text{borrador}}$ & $\mathbf{248{,}60\text{ kN/m}}$ & Con $y = 110\text{ mm}$ \\
+            \midrule
+            Flecha elástica en $x = 2\text{ m}$ & $y(2\text{ m})$ & $\mathbf{-23{,}28\text{ mm}}$ & Para $q = 248{,}6\text{ kN/m}$ \\
+            Tensión tangencial en $P$ ($x = 0$) & $\tau_P$ & $\mathbf{9{,}62\text{ MPa}}$ & Colignon ($b = 100\text{ mm}$) \\
+            \bottomrule
+        \end{tabular}%
+    }
+    \label{tab:resumen_examen_triangular}
+\end{table}
+
+
