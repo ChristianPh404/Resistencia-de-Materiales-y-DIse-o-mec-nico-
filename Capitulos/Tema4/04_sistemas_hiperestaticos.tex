@@ -364,4 +364,133 @@ Al tratarse de una única ecuación de equilibrio para dos incógnitas ($N_A, N_
 
 
 
+%% maxima carga F que puede soportar la estructura  // maxima carga F que puedo aplicar en la pieza Problema dos cilindros coaxiales con un empotramiento en la base
+%% Material de fuera aluminio interior latos Datos:para el aluminio \phi_ext =  40mm \phi_int = 25mm  E_al = 72GPA \sigma_adm =80MPA
+%% para el laton \phi = 25mm  E_la = 100GPA \sigma_adm = 120MPA 
+% sabemos que la carga F se reparte entre el aluminio y laton asi que F= F_al *F_lat y por ser una barra con carga axial el diagrama de axiles N=-F constante en toda la barra
+%% F= N_al + N_lat , luego delta L_al = delta L_lat
+%%  delta L_al = N_al * L_al / E_al *Omega_al  =   N_lat*l_al / E_lat *Omega_lat   = \sigma_lat/ E_lat = sigmaal/eal 
+%% Sigma lat = (Elat/Eal) * sigma al 
+%Sigmalat = 100/72 sigma al = 1.38 sigma al
+%%  como la maxima carga es los materiales a su maxima capacidad, como se deforman de forma conjunta primero hacemos una suposicion
+%% por ejemplo que el laton trabaja a su maxima capacidad  es decir sigmamax laton= sigma adm lat ---> 120MPA ----> tension del alumnio = 120MPA/1.38 = 86.95MPA  y como 86.95MPA>80MPA  no es admisible 
+% entoces ahora supondremos que es el aluminio el que trabaja a su maxima capacidad es decir sigma max , sigma al = sigma adm al ---> 80MPA ---> tension del laton = 80*1.38 = 110.4mpa y como 110.4mpa<120mpa es admisible. 
+% Conclusion: el aluminio es el que limita la carga  y la carga maxima es 
+% ahora sacamos el axil del aluminio que es N_d/omega  al tener el sigma max al_d = 61261N
+%luego sacamos el axil del laton que es 54540.5 N
+%F = 115801 N 
 
+%% todo esto responde a la que puedo soportar ya que viene de tmax < tadm ya que lo hemos hecho con las tensiones mayoradas y el axil es el mayorado 
+%% para la primera Fd = coeficiente mayorador de acciones * fk  = 115801/1.5=77200N  por ejemplo es decir que la que puede soportar es fd y la que puedo aplicar es fk 
+
+%! Caso de estructuras articuladas dos variantes 1 isoestaticas 2 hipercentaticas
+% Estructuras articuladas: dfn en los nudos colocaremos siempre una articulacion 
+%- Barras y nudos
+%-Articulaciones en los nudos
+%despreciamos el peso propio
+% las cargas estan aplicadas en los nudos , es decir no hay a lo largo de la barraa ejemeplo cercha 
+% una barra en los extrmemos apoyos fijos en el medio un nudo y 2 nudos arriba por ejemplo en x=1/4 y x=3/4  en y =1  en el nudo de arriba izquierda (A) hay fuerzas F1 y F2 en el otro (B) F3 en el de abajo nada
+% Cortante = 0 mf = 0 axil = cte =! 0 
+%damos un corte tras el nudo A, y miramos sus esfuerzos internos quedandonos en la derecha de la barra  mfa horario Q arriba Na derecha, Mfb antihorario NB derecha QB abajo 
+% % luego otro en el izquierdo del nudo B de forma que se pinta el diagrama como se viera la barra con ambos cortes en izquierda y derecha
+% Calculo del equilibrio = sum Fx= 0 = -NA+NB= Na=NB
+%sum Fy = Qa - QB --> QA= QB
+%sum M_a = -QB*L + mf_b - mf_a (Ejemplo el tomar el momento en A) recordatorio en una rotula no habia impedimento del giro se añadia una ecuacion que el momento flector era 0 de ahi se puede ver que MF_a y mf_b son ambos 0 
+% se despeja de ma ---> QB = 0 y de ahi en la ecuacion de Fy QA= 0 
+% las barras no se flectan unas trabajaran a compresion y otras a traccion 
+
+%! pista para saber si estara a traccion o compresion si es un tirante la barra por ejemplo solo trabajan a traccion ya que los tirantes son varillas de acero que trabajan a traccion 
+
+%^ Ejercicio de union de dos barras isoestaticas (Aclaracion es o mismo que se vea  el apoyo fijo que las lineas del apoyo fijo y solo la rotula sin el triangulo )
+% 2 articulaciones fijas una arriba (A) y otra abajo(C) ambas van hacia un punto qque esta a 3.6m  en horizontal de la de abajo (B) Fk= 30kn que va de B hacia abajo coeficiente de minoraricion \gamma _f = 1..6
+% AB tirante de acero b500 -> fyk = 500n/mm2 , gammas= 1.5 E = 2.1 e5 N/mm phi = ?
+% CB barra de madera Fmk = 7N/mm^2 gammam=1.5
+% Dimensionar las barras es decir AB y bC para cumplir a ELU (estado limite ultimo de resistencia ) es decir sigma max _d < sigma admisible
+% sigma max AB < sigma adm acero  ... ...> Nab_d/ pi r^2 es decir mayorado  = sigma max ab_d <= sigma adm acero 
+% sigma max madera < sigma adm madera ... ...> Nab_d/ a^2 = sigma max bc_d <= sigma adm madera
+
+% siempre se hace un corte y se sustituye la barra pro su axil que como sera constante, lo que hacemos es dar un corte antes de B se puede hablar de axil en la barra o en el nudo, el axil de traccion iria con flecha hacia A , desde el nudo hacia la barra es un axil positivo de traccion 
+% en la barra BC como es de compresion y me quedo con lo que necesito calcular en esta geometria se puede reducir al nudo B con NAB y Nbc dibujarlo con la flechas de ambos y la fuerza de 30 hacia abajo 
+%summ fx = 0 = -NAB cos alpha - nbc 
+%summ fy = NAB sen alpha - 30 = 0 
+% alpha se saca con la geometria y resolviendo Nab = 50Kn   Nbc = -40 Kn  se comprueba con ello que el tirante trabaja a traccion y el de abjo a compresion 
+% como la pregunta era dimensionar, se introduce en la formula de la linea de la linea 409 = 1.6 * 50 *10e3 / pi/r^2 <= 500/1.15 r>= 7.65mm ... > Diametro 16 mm
+% en la otra 1.6*40*10e3 /a^2 <= 7/1.5   a >= 178. barra \approxx 180mm (ya que el 7 hay que minorarlo)
+
+%% posible pregunta calcular posicion final del punto B para ver como se deforma 
+
+% Como la barra B esta a traccion se alarga y la barra C se acorta los giros como son muy pequeños se hacen tangente al segmento por eso es angulo de 90 aunque se vea raro
+% aargamos Ab un trozo que es delta L  que lo dejaria en B' y como se acorta CB  lo ponemos un poco antes en la barra CB que seria B''
+% como la barra primero se alarga y luego gira o al contrario, los puntos posibles que estara sera una linea perpendicular a AB' y los posibes puntos de B'' es una linea perpendicular aa Cb'' que es vertical pues donde corten ambas rectas ahi sera B''' que sera el real 
+
+
+%! Problema de equilibrio hiperestatico ejemplo 
+% Tres tirantes simetricos En el eje X   A B y C en B concurre en una rotula O y en ella se tira con una fuerza F
+%los 3 tirantes son del mismo material AO=BO=CO
+
+%Dimensionar los tirantes por ejemplo o la posicion final del punto O 
+% contestacion de la posicion final :
+% se resuelve con los axiles no se necesitan las reacciones de los tirantes , cortamos y nos quedamos con el punto donde aparecen nuestras incognitas que osn los axiles decir junto a O , como sabemos que son tirantes 
+% y por tanto de traccion va del nudo a la barra  es decir queda un diagrama NA nB nc concurren en O y hacia abajo F 
+
+% summ fx = 0 = -NA sen alpha *NC sen alpha ---> Na = nc
+%sum fy = 0 = na cos alpha + nc cos alpha * nb - f 
+%sum m = 0
+
+% Caso hiperestatico ecuacion de compatibilidad imaginando como se deforma la pieza y ver que relacion nos encontramos
+% se intuye que el punto O bajara a O' todos los tirantes se alargan y giraran en perpendicular  primero dibujar con A luego con C y el B solo se alarga y no gira donde corten Ay C sera el punto O' y tendrmeos ALb 
+% si aproximo alpha prima a alpha ya que es un error despreciable 
+
+%% (ALa / ALb) = (NA La /E omega ) / (NB Lb / Eomega)
+% con eso ya si que tengo 3 ecuaciones con 3 incognitas  (La y lb si se conocian eran un dato inicial)
+
+%! Barra infinitamente rigida es decir no se alarga no se acorta no se flecta solo se desplaza  dibujo rectangulo donde se meten muchas rayas a 45 dentro de este , esta sostenido por 3 tirantes el primero a y= 2 x= 0 el segundo en x=4 y =4  el tercero en x = 10 y = 3 
+% en x = 5 hay una F hacia abajo de 200kn los tres tirantes fyk = 400n/mm^2 E = 2.1 10e5 N/mm^2 phi = 16 
+
+%\Piden comprobar si la estructura comple a E.L.U. de resistencia  coeficciente mayorador de acciones 1.35 minorador 1.05 es decir gammaf y gamma s
+% Primer paso quito los tirantes y pongo los axiles ( ya que no necesito las reacciones)
+% es decir dibujo NA Nb Y nc Hacia arriba y los 200 hacia abajo
+
+% 3 ecuaciones de equilibrio estatico
+%sum Fx = 0  
+%SUM fy = NA +NB +NC -200
+%summ ma = NC*10 + NB*4 - 200*5 
+% Sistema de 2 ecuaciones 3 incognitas necesito 1 ecuacion de compatibilidad
+% supongo una posicion final cualquier aleatoria ya que como no es simetrica no tiene por que quedarse horizontal  
+% se dibuja y se traslada A A' B B' C C'  en la linea nueva, de forma que queda 2 triangulos semejantes 
+% Con esto sabemos incrmeentos de longitud Incremento de longitud de B - la de A /4 = Incremento de longitud de C - A / 10 
+% ademas como sabmeos que estan relacionados con los axiles 
+% (nb*4 /e OMEGA -  nA*2/eOmega)/4 = (nC*2/eOmega - nA*2/eOmega)/10 
+% Queda -10nb +3na+2nc = 0 
+% rESULTADO na= 76.2kn NB = 39.7 nc = 84.1 Esos axiles son reales por que vienen de una carga Fk real 200kn 
+% como todos tienen el mismo area nos vamos al maximo de axil que esNc 
+% 84.1 *10e3 * 1.35 / pi*(8)^2 =  <= 400/1.05 N/m^2 Cumple  ( se podria pedir posteriormente que se redimensionara...)
+%\note  con los coeficientes hay que tener en cuenta que mayoramos acciones (mayores fuerzas) y minoramos resistencias (peores resistencias) 
+
+%! Barra infinitamente rigida sostenida primero por un apoyo en un extremo luego sostenida por otros 2 tirantes 
+% dibujo barra infinitamente rigida en el extremo izquierdo(B)  a una altura Y  Tirante A  a puntos C y D distaancia BC 4m en horizontal Cd 3 HORIZONTAL Y de 2 Horizontal punto A en Y= 4 
+% fuera en e hacia abajo  fk = 60kn
+% dimensionar cables AC y AD con el mismo diametro y material datos :fyk =1200n/mm2  gammas = 1.15 gammaf = 1.6 
+% Primer paso quito los tirantes y sustituyo por axil /imp en este caso si que tengo que tener en cuenta una reaccion que es la de B 
+% dibujo barra infinita.... Nc que va hacia el punto A ND que va hacia A fuera de 60 y en el extremo izquierdo HB hacia derecha y VB hacia arriba
+
+%ecuaciones de equilibrio 
+% Sum fx = 0 = HB -nc cos alpha - ND cos beta
+% sum fy = 0 = VB + nc sen alpha + ND sen beta - 60
+% sum m = 0  en el punto B =  -60*9 + NC sen alpha *4 + ND sen beta *7 
+% 3 ecuaciones 4 incognita sistema hiperestatico 1 ecuacion de compatibilidad 
+% unimos desde B a E' que lo dibujamos como si fuera en el extremo de la flecha de 60  y trasladamos C' D' E' 
+% volvemos a tener triangulos semejantes CC'/4 = DD' /7 
+% dibujamos el tirante de C que se alarga y gira y llega a C' lo mismo con el de D de forma que tenemos triangulos rectanguos y que el incremento de longitud del tirante C
+% si conozco cc' y el angulo ( angulo entre perpendicular se mantiene igual por tanto sigue siendo alpha para el primero y beta para el segundo)
+% sin alpha = delta_lc/cc' y sin beta = delta_ld/dd' 
+% con eso ya se sustituye en la linea 483 por Alc / sen alpha /4 = alb /sin B/7  ----> 7nc lc / Eomega/sen alpha = 4nb*lb / E omega /sin beta
+% NC = 1.1606 ND donde si lo trasladamos a las de equilibrio podemos resolver el sistema NC = 92,79 KN ND = 79.95
+
+% dimensionamos los cables con la tension maxima mayorada < admisible que se dara en el tirante con el mayor axil, como la carga estaba sin mayorar
+% 1.6* 92.79*10e3 / pi r^2 <= 1200/1.15  
+% r = 3.42 mm > diametro 8 mm  area >= 142.6mm^2 
+
+%% ejemplo sin resolver apoyo fijo izquierda en el medio un pilar desde abajo un poco a la derecha fuerza hacia abajo y en el extremo derecha un tirante desde arriba 
+% pilar a comrpesion tirante a traccion  Punto A izquierda en el pilar B y en el tirante C 
+% dibujo VA hacia arriba Ha derecha NP  hacia arriba en B P hacia abajo  Nt hacia arriba 
