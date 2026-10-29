@@ -1,0 +1,551 @@
+% !TeX root = ../../apuntes.tex
+\section{Repaso de Centros de Gravedad y Momentos de Inercia}
+
+El análisis tensional y deformacional de vigas sometidas a flexión requiere caracterizar previamente las propiedades geométricas de su sección recta transversal $\Omega$. En particular, la posición del \textbf{centro de gravedad} (o centroide $G$) determina la ubicación del eje neutro en flexión pura, mientras que los \textbf{momentos de inercia} cuantifican la oposición geométrica de la sección al giro de flexión.
+
+\subsection{Centro de Gravedad de una Sección Plana}
+
+Dada una sección plana $\Omega$ contenida en el plano $YZ$, se definen los \textbf{momentos estáticos} (o momentos de primer orden) respecto a los ejes de referencia como:
+\begin{equation}
+    S_z = m_z = \iint_{\Omega} y \, d\Omega, \qquad S_y = m_y = \iint_{\Omega} z \, d\Omega
+\end{equation}
+Las coordenadas $(y_G, z_G)$ del \textbf{centro de gravedad} $G$ (también denotadas como $Y_{CG}, Z_{CG}$) se obtienen dividiendo los momentos estáticos entre el área total $\Omega = \iint_{\Omega} d\Omega$:
+\begin{equation}
+    Y_{CG} = \frac{\iint_{\Omega} y \, d\Omega}{\Omega}, \qquad Z_{CG} = \frac{\iint_{\Omega} z \, d\Omega}{\Omega}
+\end{equation}
+
+\begin{tcolorbox}[colback=blue!4!white, colframe=myb!85!black, title=\textbf{Propiedad de Simetría y Secciones Compuestas}]
+    \begin{itemize}
+        \item \textbf{Secciones con ejes de simetría:} Si una sección transversal posee un eje de simetría geométrica, el centro de gravedad $G$ se encuentra \textbf{obligatoriamente contenido en dicho eje}. Si dispone de dos ejes de simetría ortogonales, $G$ coincide exactamente con su punto de intersección.
+        \item \textbf{Secciones compuestas discretas ($\Omega = \sum_{i=1}^n \Omega_i$):} Cuando una sección compleja puede descomponerse en $n$ figuras geométricas elementales de áreas conocidas $\Omega_i$ y centroides individuales $(Y_{CG,i}, Z_{CG,i})$, las coordenadas del centro de gravedad global se determinan mediante media ponderada:
+              \begin{align}
+                  Y_{CG} \cdot \Omega = \sum_{i=1}^{n} Y_{CG,i} \cdot \Omega_i & \implies \mathbf{Y_{CG} = \frac{Y_{CG,1}\,\Omega_1 + Y_{CG,2}\,\Omega_2 + \dots + Y_{CG,n}\,\Omega_n}{\Omega_1 + \Omega_2 + \dots + \Omega_n}} \\
+                  Z_{CG} \cdot \Omega = \sum_{i=1}^{n} Z_{CG,i} \cdot \Omega_i & \implies \mathbf{Z_{CG} = \frac{Z_{CG,1}\,\Omega_1 + Z_{CG,2}\,\Omega_2 + \dots + Z_{CG,n}\,\Omega_n}{\Omega_1 + \Omega_2 + \dots + \Omega_n}}
+              \end{align}
+    \end{itemize}
+\end{tcolorbox}
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.92\textwidth}{%
+        \begin{tikzpicture}[>=Latex, scale=1.05]
+            % 1. Rectángulo con doble simetría
+            \begin{scope}[shift={(0,0)}]
+                \node[above, font=\small\bfseries, blue!85!black] at (1.5, 3.2) {1. Sección Rectangular Simétrica};
+                \fill[blue!12] (0, 0) rectangle (3.0, 2.2);
+                \draw[thick, blue!85!black] (0, 0) rectangle (3.0, 2.2);
+                % Ejes de simetría
+                \draw[dashdotted, red!80!black, line width=0.9pt] (-0.4, 1.1) -- (3.4, 1.1);
+                \draw[dashdotted, red!80!black, line width=0.9pt] (1.5, -0.4) -- (1.5, 2.6);
+                \filldraw[red!85!black] (1.5, 1.1) circle (2.2pt) node[above right=2pt, font=\footnotesize\bfseries] {$CG$};
+                % Cotas
+                \draw[<->, line width=0.7pt] (0, -0.6) -- node[below=1pt, font=\footnotesize] {$b$} (3.0, -0.6);
+                \draw[<->, line width=0.7pt] (0, 2.75) -- node[above=1pt, font=\scriptsize] {$b/2$} (1.5, 2.75);
+                \draw[<->, line width=0.7pt] (3.65, 0) -- node[right=1pt, font=\footnotesize] {$h$} (3.65, 2.2);
+                \draw[<->, line width=0.7pt] (3.15, 0) -- node[right=1pt, font=\scriptsize] {$h/2$} (3.15, 1.1);
+            \end{scope}
+
+            % 2. Triángulo rectángulo
+            \begin{scope}[shift={(6.8,0)}]
+                \node[above, font=\small\bfseries, blue!85!black] at (1.6, 3.2) {2. Sección Triangular Rectángula};
+                \fill[orange!15] (0, 0) -- (3.3, 0) -- (0, 2.4) -- cycle;
+                \draw[thick, orange!85!black] (0, 0) -- (3.3, 0) -- (0, 2.4) -- cycle;
+                % Centro de gravedad a (b/3, h/3)
+                \coordinate (CGt) at (1.1, 0.8);
+                \draw[dashed, gray!80, line width=0.8pt] (0, 0.8) -- (CGt);
+                \draw[dashed, gray!80, line width=0.8pt] (1.1, 0) -- (CGt);
+                \filldraw[red!85!black] (CGt) circle (2.2pt) node[above right=2pt, font=\footnotesize\bfseries] {$CG$};
+                % Cotas
+                \draw[<->, line width=0.7pt] (0, -0.75) -- node[below=1pt, font=\footnotesize] {$b$} (3.3, -0.75);
+                \draw[<->, line width=0.7pt] (0, -0.32) -- node[below=1pt, font=\scriptsize] {$b/3$} (1.1, -0.32);
+                \draw[<->, line width=0.7pt] (-0.95, 0) -- node[left=1pt, font=\footnotesize] {$h$} (-0.95, 2.4);
+                \draw[<->, line width=0.7pt] (-0.35, 0) -- node[left=1pt, font=\scriptsize] {$h/3$} (-0.35, 0.8);
+            \end{scope}
+        \end{tikzpicture}%
+    }
+    \caption{Posición del centro de gravedad ($CG$) en figuras elementales de uso frecuente: rectángulo ($b/2, h/2$) y triángulo rectángulo ($b/3, h/3$ medidos desde el ángulo recto).}
+    \label{fig:cg_figuras_elementales}
+\end{figure}
+
+\ex{Cálculo del Centro de Gravedad de una Sección Compuesta Trapecial}{
+    Determinar las coordenadas $(Y_{CG}, Z_{CG})$ del centro de gravedad de la sección compuesta mostrada en la figura, formada por una base rectangular inferior $\Omega_2$ de ancho $20\text{ cm}$ y altura $30\text{ cm}$, coronada por un tramo triangular rectángulo superior $\Omega_1$ de base $20\text{ cm}$ y altura $20\text{ cm}$.
+
+    \begin{center}
+        \adjustbox{max width=0.68\textwidth}{%
+            \begin{tikzpicture}[>=Latex, scale=0.95]
+                % Ejes de referencia en esquina inferior izquierda
+                \draw[->, line width=1.1pt] (0, 0) -- (4.2, 0) node[right, font=\bfseries] {$y$};
+                \draw[->, line width=1.1pt] (0, 0) -- (0, 6.0) node[above, font=\bfseries] {$z$};
+
+                % Subsección 2: Rectángulo inferior (20 x 30) -> escala 10 cm = 1 u -> (2 x 3)
+                \fill[blue!12] (0, 0) rectangle (2.0, 3.0);
+                \draw[thick, blue!85!black] (0, 0) rectangle (2.0, 3.0);
+                \node[font=\small\bfseries, blue!85!black] at (1.35, 1.5) {$\Omega_2$};
+                \filldraw[blue!85!black] (1.0, 1.5) circle (2.0pt) node[below left=1pt, font=\scriptsize\bfseries] {$G_2$};
+
+                % Subsección 1: Triángulo superior (base 20, altura 20) -> de z=3 a z=5
+                \fill[orange!18] (0, 3.0) -- (2.0, 3.0) -- (0, 5.0) -- cycle;
+                \draw[thick, orange!85!black] (0, 3.0) -- (2.0, 3.0) -- (0, 5.0) -- cycle;
+                \node[font=\small\bfseries, orange!85!black] at (1.6, 4.35) {$\Omega_1$};
+                \draw[->, thin, orange!85!black] (1.35, 4.25) -- (0.85, 3.85);
+                \filldraw[orange!90!black] (0.667, 3.667) circle (2.0pt) node[above left=1pt, font=\scriptsize\bfseries] {$G_1$};
+
+                % Cotas internas del triángulo (20/3)
+                \draw[<->, line width=0.6pt, orange!85!black] (0, 2.72) -- node[below=1pt, font=\tiny\bfseries] {$20/3$} (0.667, 2.72);
+                \draw[<->, line width=0.6pt, orange!85!black] (0.28, 3.0) -- node[right=1pt, font=\tiny\bfseries] {$20/3$} (0.28, 3.667);
+
+                % Cotas exteriores (cm)
+                \draw[<->, line width=0.8pt] (-0.75, 0) -- node[left=2pt, font=\footnotesize] {$30\text{ cm}$} (-0.75, 3.0);
+                \draw[<->, line width=0.8pt] (-0.75, 3.0) -- node[left=2pt, font=\footnotesize] {$20\text{ cm}$} (-0.75, 5.0);
+                \draw[<->, line width=0.8pt] (0, -0.65) -- node[below=2pt, font=\footnotesize] {$20\text{ cm}$} (2.0, -0.65);
+
+                % Centro de gravedad global CG
+                \filldraw[red!85!black] (0.917, 2.167) circle (2.5pt) node[right=3pt, font=\footnotesize\bfseries] {$CG$};
+            \end{tikzpicture}%
+        }
+    \end{center}
+
+    \tcblower
+
+    \paso{1}{Descomposición en Figuras Elementales y Cálculo de Áreas}
+
+    Dividimos la sección total $\Omega = \Omega_1 + \Omega_2$ en un triángulo rectángulo superior ($\Omega_1$) y un rectángulo inferior ($\Omega_2$):
+    \begin{align}
+        \Omega_1 & = \frac{b \cdot h_1}{2} = \frac{20 \cdot 20}{2} = \mathbf{200\text{ cm}^2} \\
+        \Omega_2 & = b \cdot h_2 = 30 \cdot 20 = \mathbf{600\text{ cm}^2}                     \\
+        \Omega   & = \Omega_1 + \Omega_2 = 200 + 600 = \mathbf{800\text{ cm}^2}
+    \end{align}
+
+    \paso{2}{Coordenadas de los Centros de Gravedad Parciales}
+
+    Tomando como origen de coordenadas $(0,0)$ la esquina inferior izquierda de la pieza:
+    \begin{itemize}
+        \item \textbf{Triángulo superior ($\Omega_1$):} Su centroide se sitúa a un tercio de la base y un tercio de la altura desde el ángulo recto $(y=0, z=30\text{ cm})$:
+              \begin{equation}
+                  Y_{CG,1} = \frac{20}{3}\text{ cm} \approx 6.67\text{ cm}, \qquad Z_{CG,1} = 30 + \frac{20}{3} = \frac{110}{3}\text{ cm} \approx 36.67\text{ cm}
+              \end{equation}
+        \item \textbf{Rectángulo inferior ($\Omega_2$):} Por simetría de la figura rectangular ($20\text{ cm} \times 30\text{ cm}$):
+              \begin{equation}
+                  Y_{CG,2} = \frac{20}{2} = 10\text{ cm}, \qquad Z_{CG,2} = \frac{30}{2} = 15\text{ cm}
+              \end{equation}
+    \end{itemize}
+
+    \paso{3}{Determinación del Centro de Gravedad Global ($Y_{CG}, Z_{CG}$)}
+
+    Aplicando el teorema de los momentos estáticos para la coordenada horizontal $Y_{CG}$:
+    \begin{equation}
+        Y_{CG} \cdot \Omega = Y_{CG,1} \cdot \Omega_1 + Y_{CG,2} \cdot \Omega_2
+    \end{equation}
+    \begin{itemize}
+        \item \textbf{Cálculo exacto ($\Omega_2 = 600\text{ cm}^2$):}
+              \begin{equation}
+                  Y_{CG} \cdot 800 = \left(\frac{20}{3}\right) \cdot 200 + 10 \cdot 600 = 1333.33 + 6000 = 7333.33 \implies \mathbf{Y_{CG} = 9.17\text{ cm}}
+              \end{equation}
+              \textit{(Nota de los apuntes manuscritos: En el manuscrito original se sustituyó erróneamente $\Omega_2$ por $\Omega = 800$ en el segundo sumando, obteniendo $Y_{CG} \cdot 800 = \frac{20}{3}\cdot 200 + 10 \cdot 800 \implies Y_{CG} = 11.66\text{ cm}$).}
+    \end{itemize}
+
+    Análogamente, para la coordenada vertical $Z_{CG}$:
+    \begin{equation}
+        Z_{CG} \cdot \Omega = Z_{CG,1} \cdot \Omega_1 + Z_{CG,2} \cdot \Omega_2
+    \end{equation}
+    \begin{itemize}
+        \item \textbf{Cálculo exacto ($\Omega_2 = 600\text{ cm}^2$):}
+              \begin{equation}
+                  Z_{CG} \cdot 800 = \left(30 + \frac{20}{3}\right) \cdot 200 + 15 \cdot 600 = 7333.33 + 9000 = 16\,333.33 \implies \mathbf{Z_{CG} = 20.42\text{ cm}}
+              \end{equation}
+              \textit{(Nota de los apuntes manuscritos: Con la sustitución $\Omega_2 \to 800$ del manuscrito se obtiene $Z_{CG} \cdot 800 = \left(30 + \frac{20}{3}\right) \cdot 200 + 15 \cdot 800 \implies Z_{CG} = 24.16\text{ cm}$).}
+    \end{itemize}
+}
+
+%=============================================================================
+\subsection{Momentos de Inercia de una Sección Plana y Teorema de Steiner}
+
+Se definen los \textbf{momentos de inercia axiales} (o momentos de segundo orden) de una sección plana $\Omega$ respecto a los ejes coordenados $y$ y $z$ como las integrales:
+\begin{equation}
+    I_z = \iint_{\Omega} y^2 \, d\Omega, \qquad I_y = \iint_{\Omega} z^2 \, d\Omega
+\end{equation}
+Su unidad en el Sistema Internacional es el $\text{m}^4$, empleándose habitualmente en edificación y estructuras el $\text{cm}^4$ o el $\text{mm}^4$ ($1\text{ cm}^4 = 10^4\text{ mm}^4 = 10^{-8}\text{ m}^4$).
+
+\subsubsection{Momentos de Inercia de Figuras Geométricas Elementales}
+
+\begin{enumerate}
+    \item \textbf{Rectángulo de base $b$ y altura $h$ respecto a ejes que pasan por su centro de gravedad ($CG$):}
+          \begin{equation}
+              \mathbf{I_{y,CG} = \frac{b \cdot h^3}{12}}, \qquad \mathbf{I_{z,CG} = \frac{b^3 \cdot h}{12}}
+          \end{equation}
+          \textit{Regla mnemotécnica esencial:} La dimensión perpendicular al eje de giro (la que corta al eje) es siempre la que se eleva \textbf{al cubo ($^3$)}.
+
+    \item \textbf{Círculo macizo de radio $r$ y corona circular hueca ($r_{\text{ext}}, r_{\text{int}}$):}
+          \begin{equation}
+              \mathbf{I_{\circ} = \frac{\pi \cdot r^4}{4}}, \qquad \mathbf{I_{\text{corona}} = \frac{\pi \cdot \left(r_{\text{ext}}^4 - r_{\text{int}}^4\right)}{4}}
+          \end{equation}
+\end{enumerate}
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.92\textwidth}{%
+        \begin{tikzpicture}[>=Latex, scale=1.0]
+            % 1. Rectángulo
+            \begin{scope}[shift={(0,0)}]
+                \node[above, font=\small\bfseries, blue!85!black] at (1.5, 3.35) {1. Sección Rectangular};
+                \fill[blue!12] (0, 0) rectangle (2.6, 2.2);
+                \draw[thick, blue!85!black] (0, 0) rectangle (2.6, 2.2);
+                \draw[->, thick, red!80!black] (1.3, 1.1) -- (3.8, 1.1) node[right, font=\footnotesize\bfseries] {$y_{CG}$};
+                \draw[->, thick, red!80!black] (1.3, 1.1) -- (1.3, 2.8) node[right=2pt, font=\footnotesize\bfseries] {$z_{CG}$};
+                \filldraw[red!85!black] (1.3, 1.1) circle (2.2pt) node[below left=1pt, font=\scriptsize\bfseries] {$CG$};
+                \draw[<->, line width=0.7pt] (0, -0.45) -- node[below=1pt, font=\footnotesize] {$b$} (2.6, -0.45);
+                \draw[<->, line width=0.7pt] (-0.45, 0) -- node[left=1pt, font=\footnotesize] {$h$} (-0.45, 2.2);
+            \end{scope}
+
+            % 2. Círculo macizo
+            \begin{scope}[shift={(6.2,1.1)}]
+                \node[above, font=\small\bfseries, blue!85!black] at (0, 2.25) {2. Círculo Macizo};
+                \fill[green!12] (0,0) circle (1.2);
+                \draw[thick, green!60!black] (0,0) circle (1.2);
+                \draw[dashdotted, red!80!black, line width=0.9pt] (-1.7, 0) -- (1.7, 0);
+                \filldraw[black] (0,0) circle (2pt) node[below left=1pt, font=\scriptsize\bfseries] {$CG$};
+                \draw[->, thick, blue!85!black] (0,0) -- (45:1.2) node[midway, above left=-1pt, font=\footnotesize\bfseries] {$r$};
+                \node[below=1.35cm, font=\footnotesize\bfseries] at (0,0) {$I_{\circ} = \dfrac{\pi r^4}{4}$};
+            \end{scope}
+
+            % 3. Corona circular
+            \begin{scope}[shift={(10.8,1.1)}]
+                \node[above, font=\small\bfseries, blue!85!black] at (0, 2.25) {3. Corona Circular Hueca};
+                \fill[orange!18, even odd rule] (0,0) circle (1.3) (0,0) circle (0.75);
+                \draw[thick, orange!85!black] (0,0) circle (1.3);
+                \draw[thick, orange!85!black] (0,0) circle (0.75);
+                \draw[dashdotted, red!80!black, line width=0.9pt] (-1.7, 0) -- (1.7, 0);
+                \filldraw[black] (0,0) circle (2pt);
+                \draw[->, thick, blue!85!black] (0,0) -- (35:1.3) node[pos=0.58, above left=1pt, font=\scriptsize\bfseries] {$r_{\text{ext}}$};
+                \draw[->, thick, purple!85!black] (0,0) -- (-45:0.75) node[midway, below left=-1pt, font=\scriptsize\bfseries] {$r_{\text{int}}$};
+                \node[below=1.35cm, font=\footnotesize\bfseries] at (0,0) {$I_{\text{corona}} = \dfrac{\pi (r_{\text{ext}}^4 - r_{\text{int}}^4)}{4}$};
+            \end{scope}
+        \end{tikzpicture}%
+    }
+    \caption{Momentos de inercia baricéntricos de las secciones rectangulares y circulares.}
+    \label{fig:momentos_inercia_elementales}
+\end{figure}
+
+\subsubsection{Teorema de Steiner (Teorema de los Ejes Paralelos)}
+
+Cuando una sección está compuesta por varias subsecciones $\Omega_i$, el momento de inercia total respecto a un eje baricéntrico global ($z_G$ o $y_G$) que pasa por el centro de gravedad de la pieza completa \textbf{NO} es la suma simple de las inercias propias, ya que cada subsección tiene su centro de gravedad local $G_i$ desplazado respecto al global $G$.
+
+\begin{tcolorbox}[colback=yellow!10, colframe=orange!85!black, title=\textbf{Teorema de Steiner y Procedimiento Sistemático en Secciones Compuestas}]
+    El momento de inercia de una subsección $\Omega_i$ respecto al eje global $z_G$ (o $y_G$) es igual a su momento de inercia propio respecto al eje paralelo que pasa por su propio centroide $G_i$, más el producto de su área $\Omega_i$ por el cuadrado de la distancia $d_i$ que separa ambos ejes paralelos:
+    \begin{equation}
+        \mathbf{I_{z_G} = \sum_{i=1}^{n} I_{z_G, \Omega_i} = \sum_{i=1}^{n} \left( I_{z_{G_i}, \Omega_i} + d_{y,i}^2 \cdot \Omega_i \right)}, \qquad \mathbf{I_{y_G} = \sum_{i=1}^{n} \left( I_{y_{G_i}, \Omega_i} + d_{z,i}^2 \cdot \Omega_i \right)}
+    \end{equation}
+    donde $d_{y,i} = |y_{G_i} - y_G|$ es la distancia perpendicular entre el eje local $z_{G_i}$ y el eje global $z_G$, y $d_{z,i} = |z_{G_i} - z_G|$ es la distancia perpendicular entre el eje local $y_{G_i}$ y el eje global $y_G$.
+\end{tcolorbox}
+
+%=============================================================================
+\subsection{Ejercicios Resueltos de Centros de Gravedad y Momentos de Inercia}
+
+\ex{Centro de Gravedad y Momento de Inercia de Perfil en T}{
+    Calcular la posición del centro de gravedad $(Y_G, Z_G)$ y el momento de inercia $I_{z_G}$ respecto al eje horizontal $z_G$ que pasa por dicho centro de gravedad para el perfil en T de la figura (cotas en $\text{cm}$):
+    \begin{itemize}
+        \item \textbf{Alma vertical inferior ($\Omega_1$):} ancho $b_1 = 10\text{ cm}$ y altura $h_1 = 50\text{ cm}$.
+        \item \textbf{Ala horizontal superior ($\Omega_2$):} ancho $b_2 = 60\text{ cm}$ y espesor $h_2 = 10\text{ cm}$.
+    \end{itemize}
+
+    \begin{center}
+        \adjustbox{max width=0.82\textwidth}{%
+            \begin{tikzpicture}[>=Latex, scale=0.95]
+                % Ejes de referencia en la base (z horizontal, y vertical según apuntes)
+                \draw[->, line width=1.1pt] (0, 0) -- (7.8, 0) node[right, font=\bfseries] {$z$};
+                \draw[->, line width=1.1pt] (0, 0) -- (0, 6.8) node[above, font=\bfseries] {$y$};
+
+                % Alma vertical Omega_1 (z in [2.5, 3.5], y in [0, 5.0])
+                \fill[green!12] (2.5, 0) rectangle (3.5, 5.0);
+                \draw[thick, green!55!black] (2.5, 0) rectangle (3.5, 5.0);
+                \node[font=\footnotesize\bfseries, green!50!black] at (3.0, 1.3) {$\Omega_1$};
+
+                % Ala horizontal superior Omega_2 (z in [0, 6.0], y in [5.0, 6.0])
+                \fill[blue!12] (0, 5.0) rectangle (6.0, 6.0);
+                \draw[thick, blue!80!black] (0, 5.0) rectangle (6.0, 6.0);
+                \node[font=\footnotesize\bfseries, blue!80!black] at (1.2, 5.5) {$\Omega_2$};
+
+                % Eje de simetría vertical
+                \draw[dashdotted, gray!80, line width=0.8pt] (3.0, -0.5) -- (3.0, 6.6);
+
+                % Eje local z_G1 (verde, en y = 2.5)
+                \draw[->, dashed, green!60!black, line width=1.0pt] (2.2, 2.5) -- (6.8, 2.5) node[right, font=\footnotesize\bfseries] {$z_{G_1}$};
+                \filldraw[green!60!black] (3.0, 2.5) circle (2.2pt) node[above right=2pt, font=\scriptsize\bfseries, fill=green!12, inner sep=1pt] {$CG_1$};
+
+                % Eje local z_G2 (azul, en y = 5.5)
+                \draw[->, dashed, blue!85!black, line width=1.0pt] (2.0, 5.5) -- (6.8, 5.5) node[right, font=\footnotesize\bfseries] {$z_{G_2}$};
+                \filldraw[blue!85!black] (3.0, 5.5) circle (2.2pt) node[above left=1pt, font=\scriptsize\bfseries] {$CG_2$};
+
+                % Eje global z_G (rojo, en y = 4.136)
+                \draw[->, line width=1.3pt, red!85!black] (0.8, 4.136) -- (7.2, 4.136) node[right, font=\small\bfseries] {$z_G$};
+                \filldraw[red!85!black] (3.0, 4.136) circle (2.5pt) node[above right=2pt, font=\footnotesize\bfseries, fill=green!12, inner sep=1pt] {$CG$};
+
+                % Distancias de Steiner d1 y d2
+                \draw[<->, line width=0.8pt, red!80!black] (4.8, 2.5) -- node[right=2pt, font=\scriptsize\bfseries] {$d_1 = 16.36\text{ cm}$} (4.8, 4.136);
+                \draw[<->, line width=0.8pt, red!80!black] (5.5, 4.136) -- node[right=2pt, font=\scriptsize\bfseries] {$d_2 = 13.64\text{ cm}$} (5.5, 5.5);
+
+                % Cota de Y_G = 41.36 cm
+                \draw[<->, line width=0.8pt, red!85!black] (1.35, 0) -- node[left=2pt, font=\footnotesize\bfseries, fill=white, inner sep=1pt] {$41.36\text{ cm}$} (1.35, 4.136);
+
+                % Cotas geométricas generales
+                \draw[<->, line width=0.7pt] (0, 6.35) -- node[above=1pt, font=\footnotesize] {$60\text{ cm}$} (6.0, 6.35);
+                \draw[<->, line width=0.7pt] (2.5, -0.55) -- node[below=1pt, font=\footnotesize] {$10\text{ cm}$} (3.5, -0.55);
+                \draw[<->, line width=0.7pt] (-0.65, 0) -- node[left=1pt, font=\footnotesize] {$50\text{ cm}$} (-0.65, 5.0);
+                \draw[<->, line width=0.7pt] (-0.65, 5.0) -- node[left=1pt, font=\footnotesize] {$10\text{ cm}$} (-0.65, 6.0);
+            \end{tikzpicture}%
+        }
+    \end{center}
+
+    \tcblower
+
+    \paso{1}{Cálculo del Centro de Gravedad ($Y_G, Z_G$)}
+
+    Colocamos los ejes de referencia con el eje horizontal $z$ en la base inferior y el eje vertical $y$ en el extremo izquierdo del ala:
+    \begin{itemize}
+        \item \textbf{Coordenada horizontal $Z_G$:} Por simetría respecto al plano vertical central, no es necesario realizar cálculo integral:
+              \begin{equation}
+                  \mathbf{Z_G = \frac{60}{2} = 30\text{ cm}}
+              \end{equation}
+        \item \textbf{Coordenada vertical $Y_G$:} Dividimos la pieza en el alma inferior $\Omega_1$ ($10 \times 50\text{ cm}^2$, con $Y_{G_1} = 25\text{ cm}$) y el ala superior $\Omega_2$ ($60 \times 10\text{ cm}^2$, con $Y_{G_2} = 50 + 5 = 55\text{ cm}$):
+              \begin{align}
+                  Y_G & = \frac{Y_{G_1} \cdot \Omega_1 + Y_{G_2} \cdot \Omega_2}{\Omega_{\text{tot}}} = \frac{25 \cdot (10 \cdot 50) + 55 \cdot (60 \cdot 10)}{10 \cdot 50 + 60 \cdot 10} \notag \\
+                      & = \frac{25 \cdot 500 + 55 \cdot 600}{500 + 600} = \frac{12\,500 + 33\,000}{1100} = \frac{45\,500}{1100} = \mathbf{41.36\text{ cm}}
+              \end{align}
+    \end{itemize}
+
+    \paso{2}{Cálculo del Momento de Inercia $I_{z_G}$ mediante el Teorema de Steiner}
+
+    Calculamos primero el momento de inercia de cada rectángulo respecto al eje paralelo que pasa por su propio centro de gravedad ($z_{G_1}$ en verde y $z_{G_2}$ en azul) y lo trasladamos al eje global $z_G$ (en rojo) sumando el término de Steiner $d_i^2 \cdot \Omega_i$:
+    \begin{align}
+        d_1 & = |Y_G - Y_{G_1}| = 41.36 - 25 = 16.36\text{ cm} \\
+        d_2 & = |Y_{G_2} - Y_G| = 55 - 41.36 = 13.64\text{ cm}
+    \end{align}
+    Evaluando cada componente:
+    \begin{align}
+        I_{z_G, \Omega_1} & = I_{z_{G_1}, \Omega_1} + d_1^2 \cdot \Omega_1 = \frac{10 \cdot 50^3}{12} + (41.36 - 25)^2 \cdot (10 \cdot 50) \notag \\
+                          & = 104\,166.67 + 133\,824.80 = \mathbf{237\,991.47\text{ cm}^4}                                                        \\[6pt]
+        I_{z_G, \Omega_2} & = I_{z_{G_2}, \Omega_2} + d_2^2 \cdot \Omega_2 = \frac{60 \cdot 10^3}{12} + (55 - 41.36)^2 \cdot (60 \cdot 10) \notag \\
+                          & = 5000.00 + 111\,629.76 = \mathbf{116\,629.76\text{ cm}^4}
+    \end{align}
+    Sumando ambas contribuciones obtenemos el momento de inercia total de la sección compuesta:
+    \begin{equation}
+        I_{z_G} = I_{z_G, \Omega_1} + I_{z_G, \Omega_2} = 237\,991.47 + 116\,629.76 = \mathbf{354\,621.23\text{ cm}^4}
+    \end{equation}
+}
+
+\ex{Centro de Gravedad y Momentos de Inercia ($I_{y_G}, I_{z_G}$) de Viga en Doble T Asimétrica}{
+    Una viga de edificación presenta la sección transversal en doble T asimétrica de la figura (cotas en $\text{cm}$):
+    \begin{itemize}
+        \item \textbf{Ala inferior ($\Omega_1$):} ancho $b_1 = 40\text{ cm}$, espesor $h_1 = 20\text{ cm}$.
+        \item \textbf{Alma central ($\Omega_2$):} espesor $b_2 = 10\text{ cm}$, altura $h_2 = 50\text{ cm}$.
+        \item \textbf{Ala superior ($\Omega_3$):} ancho $b_3 = 70\text{ cm}$, espesor $h_3 = 10\text{ cm}$.
+    \end{itemize}
+    \textbf{Determinar:}
+    \begin{enumerate}[label=\alph*)]
+        \item La posición del centro de gravedad $CG$ de la sección compuesta.
+        \item El momento de inercia principal mayor respecto al eje horizontal baricéntrico ($I_{y_G}$).
+        \item El momento de inercia principal menor respecto al eje vertical de simetría ($I_{z_G}$).
+    \end{enumerate}
+
+    \begin{center}
+        \adjustbox{max width=0.86\textwidth}{%
+            \begin{tikzpicture}[>=Latex, scale=0.85]
+                % Ejes en esquina inferior izquierda (y horizontal, z vertical según Ejercicio1.jpg y Ejercicio2.jpg)
+                \draw[->, line width=1.1pt] (0, 0) -- (8.8, 0) node[right, font=\bfseries] {$y$};
+                \draw[->, line width=1.1pt] (0, 0) -- (0, 9.2) node[above, font=\bfseries] {$z$};
+
+                % Centro de simetría en y = 4.0
+                % Ala inferior Omega_1: ancho 4.0 (de 2.0 a 6.0), altura 2.0 (de 0 a 2.0)
+                \fill[orange!15] (2.0, 0) rectangle (6.0, 2.0);
+                \draw[thick, orange!85!black] (2.0, 0) rectangle (6.0, 2.0);
+                \node[font=\footnotesize\bfseries, orange!90!black] at (2.6, 0.5) {$\Omega_1$};
+
+                % Alma central Omega_2: ancho 1.0 (de 3.5 a 4.5), altura 5.0 (de 2.0 a 7.0)
+                \fill[green!12] (3.5, 2.0) rectangle (4.5, 7.0);
+                \draw[thick, green!60!black] (3.5, 2.0) rectangle (4.5, 7.0);
+                \node[font=\footnotesize\bfseries, green!50!black] at (5.0, 5.5) {$\Omega_2$};
+
+                % Ala superior Omega_3: ancho 7.0 (de 0.5 a 7.5), altura 1.0 (de 7.0 a 8.0)
+                \fill[blue!12] (0.5, 7.0) rectangle (7.5, 8.0);
+                \draw[thick, blue!80!black] (0.5, 7.0) rectangle (7.5, 8.0);
+
+                % Eje vertical de simetría z_G
+                \draw[->, dashdotted, red!85!black, line width=1.1pt] (4.0, -0.6) -- (4.0, 9.2) node[above, font=\small\bfseries] {$z_G$};
+
+                % Ejes horizontales locales y_G1, y_G2, y_G3
+                \draw[->, dashed, orange!85!black, line width=0.9pt] (2.0, 1.0) -- (7.8, 1.0) node[right, font=\footnotesize\bfseries] {$y_{G_1}$ ($z=10$)};
+                \draw[->, dashed, green!60!black, line width=0.9pt] (3.5, 4.5) -- (7.8, 4.5) node[right, font=\footnotesize\bfseries] {$y_{G_2}$ ($z=45$)};
+                \draw[->, dashed, blue!85!black, line width=0.9pt] (0.5, 7.5) -- (8.4, 7.5) node[right, font=\footnotesize\bfseries] {$y_{G_3}$ ($z=75$)};
+                \node[font=\footnotesize\bfseries, blue!85!black, fill=blue!12, inner sep=1.5pt] at (2.3, 7.5) {$\Omega_3$};
+
+                % Eje horizontal baricéntrico global y_G en z = 4.15
+                \draw[->, line width=1.3pt, red!85!black] (0.5, 4.15) -- (8.4, 4.15) node[right, font=\small\bfseries] {$y_G$};
+                \filldraw[red!85!black] (4.0, 4.15) circle (2.6pt) node[below right=1pt, font=\scriptsize\bfseries, fill=green!12, inner sep=1pt] {$CG$};
+
+                % Cotas de altura parciales a la izquierda
+                \draw[<->, line width=0.7pt] (-0.7, 0) -- node[left=1pt, font=\footnotesize] {$20\text{ cm}$} (-0.7, 2.0);
+                \draw[<->, line width=0.7pt] (-0.7, 2.0) -- node[left=1pt, font=\footnotesize] {$50\text{ cm}$} (-0.7, 7.0);
+                \draw[<->, line width=0.7pt] (-0.7, 7.0) -- node[left=1pt, font=\footnotesize] {$10\text{ cm}$} (-0.7, 8.0);
+
+                % Cotas de posición del CG (41.5 cm abajo y 38.5 cm arriba)
+                \draw[<->, line width=0.8pt, red!85!black] (1.35, 0) -- node[left=2pt, font=\footnotesize\bfseries, fill=white, inner sep=1pt] {$41.5\text{ cm}$} (1.35, 4.15);
+                \draw[<->, line width=0.8pt, red!85!black] (1.35, 4.15) -- node[left=2pt, font=\footnotesize\bfseries, fill=white, inner sep=1pt] {$38.5\text{ cm}$} (1.35, 8.0);
+
+                % Cotas de ancho
+                \draw[<->, line width=0.7pt] (2.0, -0.6) -- node[below=1pt, font=\footnotesize] {$40\text{ cm}$} (6.0, -0.6);
+                \draw[<->, line width=0.7pt] (3.5, 3.0) -- node[below=1pt, font=\scriptsize] {$10$} (4.5, 3.0);
+                \draw[<->, line width=0.7pt] (0.5, 8.4) -- node[above=1pt, font=\footnotesize, fill=white, inner sep=1.5pt] {$70\text{ cm}$} (7.5, 8.4);
+            \end{tikzpicture}%
+        }
+    \end{center}
+
+    \tcblower
+
+    \paso{1}{Posición del Centro de Gravedad ($Z_{CG}$)}
+
+    Observamos que la sección presenta un eje vertical de simetría ($z_G$), por lo que el centro de gravedad se sitúa sobre dicho eje ($Y_{CG} = 35\text{ cm}$ medido desde el borde izquierdo del ala superior).
+
+    Para hallar la cota vertical $Z_{CG}$ desde la base inferior ($z = 0$), descomponemos la sección en tres rectángulos:
+    \begin{itemize}
+        \item \textbf{Rectángulo 1 (Ala inferior):} $\Omega_1 = 40 \cdot 20 = 800\text{ cm}^2$, \quad $Z_{CG,1} = \frac{20}{2} = 10\text{ cm}$.
+        \item \textbf{Rectángulo 2 (Alma central):} $\Omega_2 = 10 \cdot 50 = 500\text{ cm}^2$, \quad $Z_{CG,2} = 20 + \frac{50}{2} = 45\text{ cm}$.
+        \item \textbf{Rectángulo 3 (Ala superior):} $\Omega_3 = 70 \cdot 10 = 700\text{ cm}^2$, \quad $Z_{CG,3} = 20 + 50 + \frac{10}{2} = 75\text{ cm}$.
+    \end{itemize}
+    Aplicando la expresión del momento estático respecto a la base:
+    \begin{align}
+        Z_{CG} & = \frac{Z_{CG,1}\,\Omega_1 + Z_{CG,2}\,\Omega_2 + Z_{CG,3}\,\Omega_3}{\Omega_1 + \Omega_2 + \Omega_3} = \frac{10 \cdot 800 + 45 \cdot 500 + 75 \cdot 700}{800 + 500 + 700} \notag \\
+               & = \frac{8000 + 22\,500 + 52\,500}{2000} = \frac{83\,000}{2000} = \mathbf{41.50\text{ cm}}
+    \end{align}
+    La distancia desde el centro de gravedad hasta la fibra extrema inferior es $z_{\text{inf}} = 41.5\text{ cm}$, y hasta la fibra extrema superior es $z_{\text{sup}} = 80 - 41.5 = \mathbf{38.5\text{ cm}}$.
+
+    \paso{2}{Momento de Inercia respecto al Eje Horizontal Baricéntrico ($I_{y_G}$)}
+
+    Calculamos las distancias verticales $d_i = |Z_{CG} - Z_{CG,i}|$ desde el centroide de cada rectángulo hasta el eje global $y_G$ ($Z_{CG} = 41.5\text{ cm}$):
+    \begin{equation}
+        d_1 = 41.5 - 10 = 31.5\text{ cm}, \qquad d_2 = 45 - 41.5 = 3.5\text{ cm}, \qquad d_3 = 75 - 41.5 = 33.5\text{ cm}
+    \end{equation}
+    Aplicando el teorema de Steiner $I_{\Omega_i, y_G} = I_{\Omega_i, y_{G_i}} + d_i^2 \cdot \Omega_i$:
+    \begin{align}
+        I_{\Omega_1, y_G} & = \frac{40 \cdot 20^3}{12} + 31.5^2 \cdot (40 \cdot 20) = 26\,666.67 + 793\,800 = \mathbf{820\,466.67\text{ cm}^4} \\[6pt]
+        I_{\Omega_2, y_G} & = \frac{10 \cdot 50^3}{12} + 3.5^2 \cdot (10 \cdot 50) = 104\,166.67 + 6125 = \mathbf{110\,291.67\text{ cm}^4}     \\[6pt]
+        I_{\Omega_3, y_G} & = \frac{70 \cdot 10^3}{12} + 33.5^2 \cdot (10 \cdot 70) = 5833.33 + 785\,575 = \mathbf{791\,408.33\text{ cm}^4}
+    \end{align}
+    Sumando las tres componentes:
+    \begin{equation}
+        I_{\Omega, y_G} = 820\,466.67 + 110\,291.67 + 791\,408.33 = \mathbf{1\,722\,166.67\text{ cm}^4}
+    \end{equation}
+
+    \paso{3}{Momento de Inercia respecto al Eje Vertical de Simetría ($I_{z_G}$)}
+
+    Como los centros de gravedad de los tres rectángulos se encuentran alineados sobre el eje de simetría vertical $z_G$, todas las distancias horizontales de Steiner son nulas ($d_{y,1} = d_{y,2} = d_{y,3} = 0$). Por tanto, basta sumar directamente las inercias propias invirtiendo los papeles de base y altura:
+    \begin{align}
+        I_{\Omega, z_G} & = \frac{70^3 \cdot 10}{12} + \frac{10^3 \cdot 50}{12} + \frac{40^3 \cdot 20}{12} \notag      \\
+                        & = 285\,833.33 + 4166.67 + 106\,666.67 = \mathbf{396\,666.67\text{ cm}^4}
+    \end{align}
+}
+
+\ex{Centro de Gravedad y Momento de Inercia de Sección Multinervada (Triple T / Pi)}{
+    Calcular la posición del centro de gravedad $(Y_G, Z_G)$ y el momento de inercia respecto al eje horizontal $z_G$ que pasa por dicho centro de gravedad para la sección nervada de hormigón mostrada en la figura (cotas en $\text{cm}$):
+    \begin{itemize}
+        \item \textbf{Losa superior horizontal ($\Omega_{\text{losa}}$):} ancho total $B = 160\text{ cm}$ y canto $h_{\text{losa}} = 20\text{ cm}$.
+        \item \textbf{Tres nervios verticales idénticos ($\Omega_{\text{nervio}}$):} cada uno de ancho $b_n = 40\text{ cm}$ y altura $h_n = 60\text{ cm}$, separados entre sí por dos huecos de $20\text{ cm}$ ($40 + 20 + 40 + 20 + 40 = 160\text{ cm}$).
+    \end{itemize}
+
+    \begin{center}
+        \adjustbox{max width=0.88\textwidth}{%
+            \begin{tikzpicture}[>=Latex, scale=0.80]
+                % Ejes coordenados (z horizontal en base, y vertical en borde izquierdo)
+                \draw[->, line width=1.1pt] (0, 0) -- (11.5, 0) node[right, font=\bfseries] {$z$};
+                \draw[->, line width=1.1pt] (0, 0) -- (0, 6.2) node[above, font=\bfseries] {$y$};
+
+                % Escala: 160 cm -> 9.6 u (1 u = 16.667 cm, o más limpio: 20 cm = 1.2 u)
+                % Nervio 1: [0, 2.4] x [0, 3.6]
+                \fill[green!12] (0, 0) rectangle (2.4, 3.6);
+                \draw[thick, green!60!black] (0, 0) rectangle (2.4, 3.6);
+                \node[font=\footnotesize\bfseries, green!50!black] at (1.2, 1.8) {$\Omega_{n1}$};
+
+                % Nervio 2: [3.6, 6.0] x [0, 3.6]
+                \fill[green!12] (3.6, 0) rectangle (6.0, 3.6);
+                \draw[thick, green!60!black] (3.6, 0) rectangle (6.0, 3.6);
+
+                % Nervio 3: [7.2, 9.6] x [0, 3.6]
+                \fill[green!12] (7.2, 0) rectangle (9.6, 3.6);
+                \draw[thick, green!60!black] (7.2, 0) rectangle (9.6, 3.6);
+                \node[font=\footnotesize\bfseries, green!50!black] at (8.4, 1.8) {$\Omega_{n3}$};
+
+                % Losa superior: [0, 9.6] x [3.6, 4.8]
+                \fill[blue!12] (0, 3.6) rectangle (9.6, 4.8);
+                \draw[thick, blue!80!black] (0, 3.6) rectangle (9.6, 4.8);
+                \node[font=\footnotesize\bfseries, blue!85!black] at (2.2, 4.2) {$\Omega_{\text{losa}}$};
+
+                % Eje vertical de simetría en z = 80 cm (4.8 u)
+                \draw[dashdotted, gray!80, line width=0.9pt] (4.8, -0.5) -- (4.8, 5.8);
+                \node[font=\footnotesize\bfseries, green!50!black, fill=green!12, inner sep=1.5pt] at (4.8, 1.8) {$\Omega_{n2}$};
+
+                % Eje baricéntrico horizontal z_G en y = 52.86 cm (3.17 u)
+                \draw[->, line width=1.3pt, red!85!black] (-0.4, 3.17) -- (10.8, 3.17) node[right, font=\small\bfseries] {$z_G$};
+                \filldraw[red!85!black] (4.8, 3.17) circle (2.6pt) node[below right=2pt, font=\footnotesize\bfseries] {$CG$};
+
+                % Cotas superiores (160 cm)
+                \draw[<->, line width=0.8pt] (0, 5.3) -- node[above=1pt, font=\footnotesize\bfseries, fill=white, inner sep=1.5pt] {$160\text{ cm}$} (9.6, 5.3);
+
+                % Cotas inferiores (40, 20, 40, 20, 40)
+                \draw[<->, line width=0.7pt] (0, -0.6) -- node[below=1pt, font=\scriptsize] {$40$} (2.4, -0.6);
+                \draw[<->, line width=0.7pt] (2.4, -0.6) -- node[below=1pt, font=\scriptsize] {$20$} (3.6, -0.6);
+                \draw[<->, line width=0.7pt] (3.6, -0.6) -- node[below=1pt, font=\scriptsize] {$40$} (6.0, -0.6);
+                \draw[<->, line width=0.7pt] (6.0, -0.6) -- node[below=1pt, font=\scriptsize] {$20$} (7.2, -0.6);
+                \draw[<->, line width=0.7pt] (7.2, -0.6) -- node[below=1pt, font=\scriptsize] {$40$} (9.6, -0.6);
+
+                % Cotas verticales a la derecha (60 y 20 cm)
+                \draw[<->, line width=0.8pt] (10.1, 0) -- node[right=2pt, font=\footnotesize] {$60\text{ cm}$} (10.1, 3.6);
+                \draw[<->, line width=0.8pt] (10.1, 3.6) -- node[right=2pt, font=\footnotesize] {$20\text{ cm}$} (10.1, 4.8);
+            \end{tikzpicture}%
+        }
+    \end{center}
+
+    \tcblower
+
+    \paso{1}{Cálculo de la Posición del Centro de Gravedad ($Y_G, Z_G$)}
+
+    \begin{itemize}
+        \item \textbf{Coordenada horizontal $Z_G$:} Por simetría respecto al eje vertical central del nervio intermedio:
+              \begin{equation}
+                  \mathbf{Z_G = \frac{160}{2} = 80\text{ cm}}
+              \end{equation}
+        \item \textbf{Coordenada vertical $Y_G$ (medida desde la base inferior de los nervios $y = 0$):}
+              Agrupamos los 3 nervios inferiores idénticos y la losa superior:
+              \begin{align}
+                  \Omega_{\text{nervios}} & = 3 \times (40 \cdot 60) = 3 \times 2400 = 7200\text{ cm}^2, \qquad Y_{G,\text{nervios}} = \frac{60}{2} = 30\text{ cm} \\
+                  \Omega_{\text{losa}}    & = 160 \cdot 20 = 3200\text{ cm}^2, \qquad Y_{G,\text{losa}} = 60 + \frac{20}{2} = 70\text{ cm}                         \\
+                  \Omega_{\text{tot}}     & = 7200 + 3200 = \mathbf{10\,400\text{ cm}^2}
+              \end{align}
+              Aplicando momentos estáticos:
+              \begin{equation}
+                  Y_G = \frac{3 \cdot (40 \cdot 60) \cdot 30 + (160 \cdot 20) \cdot 70}{10\,400} = \frac{216\,000 + 224\,000}{10\,400} = \frac{440\,000}{10\,400} \approx \mathbf{42.31\text{ cm}}
+              \end{equation}
+              \textit{(Nota: Si se contabiliza un único nervio equivalente de área $2400\text{ cm}^2$ junto con la losa de $3200\text{ cm}^2$, resulta $Y_G = \frac{2400 \cdot 30 + 3200 \cdot 70}{2400 + 3200} = \frac{296\,000}{5600} = \mathbf{52.86\text{ cm}}$, valor anotado en la hoja de ejercicios escaneada).}
+    \end{itemize}
+
+    \paso{2}{Momento de Inercia respecto al Eje Horizontal Baricéntrico ($I_{z_G}$)}
+
+    Desarrollamos ambos criterios para disponer tanto de la solución exacta de los 3 nervios como de la referencia numérica de la hoja de ejercicios:
+    \begin{enumerate}
+        \item \textbf{Con $Y_G = 52.86\text{ cm}$ (criterio de la hoja de ejercicios):}
+              Las distancias de Steiner son $d_{\text{nervio}} = 52.86 - 30 = 22.86\text{ cm}$ y $d_{\text{losa}} = 70 - 52.86 = 17.14\text{ cm}$:
+              \begin{align}
+                  I_{z_G, \text{nervio}} & = \frac{40 \cdot 60^3}{12} + 22.86^2 \cdot (40 \cdot 60) = 720\,000 + 1\,254\,191.04 = 1\,974\,191.04\text{ cm}^4   \\
+                  I_{z_G, \text{losa}}   & = \frac{160 \cdot 20^3}{12} + 17.14^2 \cdot (160 \cdot 20) = 106\,666.67 + 940\,094.72 = 1\,046\,761.39\text{ cm}^4
+              \end{align}
+              Sumando ambos términos se obtiene exactamente el resultado indicado en la ficha:
+              \begin{equation}
+                  \mathbf{I_{z_G} = 1\,974\,191.04 + 1\,046\,761.39 = 3\,020\,952.43\text{ cm}^4}
+              \end{equation}
+
+        \item \textbf{Contabilizando los 3 nervios completos ($Y_G = 42.31\text{ cm}$):}
+              Con $d_{\text{nervios}} = 42.31 - 30 = 12.31\text{ cm}$ y $d_{\text{losa}} = 70 - 42.31 = 27.69\text{ cm}$:
+              \begin{align}
+                  I_{z_G} & = 3 \times \left[ \frac{40 \cdot 60^3}{12} + 12.31^2 \cdot 2400 \right] + \left[ \frac{160 \cdot 20^3}{12} + 27.69^2 \cdot 3200 \right] \notag \\
+                          & = 3 \times 1\,083\,690 + 2\,560\,221 = \mathbf{5\,811\,292\text{ cm}^4}
+              \end{align}
+    \end{enumerate}
+}

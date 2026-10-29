@@ -1,0 +1,617 @@
+% !TeX root = ../../apuntes.tex
+\section{Introducción a la Flexión}
+
+\subsection{Recordatorio de Esfuerzos Internos en el Prisma Mecánico}
+
+Al practicar un corte transversal en un prisma mecánico en equilibrio y reducir el sistema de fuerzas internas al centro de gravedad $G$ de la sección recta $\Omega$ (de normal exterior $\vec{i}$ según la directriz longitudinal $x$), obtenemos el vector resultante de fuerzas $\vec{R}$ y el momento resultante $\vec{M}$:
+\begin{align}
+    \vec{R} & = N\,\hat{i} + Q_y\,\hat{j} + Q_z\,\hat{k} \\
+    \vec{M} & = T\,\hat{i} + M_y\,\hat{j} + M_z\,\hat{k}
+\end{align}
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.92\textwidth}{%
+        \begin{tikzpicture}[>=Latex, scale=1.0]
+            % 1. Prisma cilíndrico con reducción de esfuerzos en G
+            \begin{scope}[shift={(0, 2.2)}]
+                \node[above, font=\small\bfseries, blue!85!black] at (2.2, 2.75) {1. Reducción de Esfuerzos en el Centroide $G$};
+                % Cilindro
+                \draw[thick, fill=blue!6] (0, 0) -- (3.6, 0) arc (-90:90:0.45 and 0.9) -- (0, 1.8) arc (90:270:0.45 and 0.9);
+                \draw[thick, fill=blue!15] (3.6, 0.9) ellipse (0.45 and 0.9);
+                % Apoyo articulado izquierdo
+                \draw[thick] (0.3, 0) -- (0.05, -0.45) -- (0.55, -0.45) -- cycle;
+                \draw[thick] (-0.1, -0.45) -- (0.7, -0.45);
+                % Fuerza exterior F
+                \draw[->, line width=1.6pt, red!85!black] (0.9, 2.4) -- (1.3, 1.8) node[pos=0.0, left=2pt, font=\footnotesize\bfseries] {$\vec{F}$};
+                % Ejes locales en G(3.6, 0.9)
+                \coordinate (G) at (3.6, 0.9);
+                \draw[->, thick, blue!85!black] (G) -- ++(2.2, 0) node[right, font=\footnotesize\bfseries] {$X$};
+                \draw[->, thick, blue!85!black] (G) -- ++(0, 1.45) node[right=2pt, font=\footnotesize\bfseries] {$Y$};
+                \draw[->, thick, blue!85!black] (G) -- ++(-0.85, -0.85) node[below left=-1pt, font=\footnotesize\bfseries] {$Z$};
+                % Vectores R y M
+                \draw[->, line width=1.8pt, black] (G) -- ++(1.7, 0.55) node[right, font=\footnotesize\bfseries] {$\vec{R}$};
+                \draw[->, line width=1.5pt, purple!85!black] (G) -- ++(1.0, 0.85) node[above, font=\footnotesize\bfseries] {$\vec{M}$};
+                \filldraw[black] (G) circle (2pt) node[below right=1pt, font=\scriptsize\bfseries] {$G$};
+            \end{scope}
+
+            % 2. Comparativa Tracción/Compresión vs Flexión
+            \begin{scope}[shift={(7.5, 2.2)}]
+                \node[above, font=\small\bfseries, blue!85!black] at (2.6, 2.75) {2. Solicitación de Flexión Plana en Vigas};
+                % Viga prismática 3D bajo cargas transversales
+                \draw[thick, fill=orange!10] (0, 0.3) rectangle (4.6, 1.3);
+                \draw[thick, fill=orange!18] (0, 1.3) -- (0.5, 1.6) -- (5.1, 1.6) -- (4.6, 1.3) -- cycle;
+                \draw[thick, fill=orange!22] (4.6, 0.3) -- (5.1, 0.6) -- (5.1, 1.6) -- (4.6, 1.3) -- cycle;
+                \draw[dashdotted, gray!80, line width=0.8pt] (-0.3, 0.8) -- (5.4, 0.8);
+                % Apoyo móvil izquierdo y fijo derecho
+                \draw[thick] (0.4, 0.3) -- (0.2, -0.05) -- (0.6, -0.05) -- cycle;
+                \draw[thick] (0.1, -0.12) -- (0.7, -0.12);
+                \draw[thick] (5.1, 0.9) -- (5.45, 0.7) -- (5.45, 1.1) -- cycle;
+                % Cargas transversales verticales
+                \foreach \xx in {1.6, 2.5, 3.4} {
+                        \draw[->, line width=1.5pt, red!85!black] (\xx, 2.15) -- (\xx, 1.45);
+                    }
+                \node[above=1pt, font=\scriptsize\bfseries, red!85!black] at (2.5, 2.15) {Cargas transversales $\perp X$};
+            \end{scope}
+        \end{tikzpicture}%
+    }
+    \caption{Reducción de esfuerzos internos en el centro de gravedad $G$ de la sección recta y esquema de una viga solicitada a flexión plana.}
+    \label{fig:introduccion_flexion_esfuerzos}
+\end{figure}
+
+Contrastando el estado tensional con el capítulo anterior:
+\begin{itemize}
+    \item \textbf{Tracción / Compresión Uniaxial (Tema 4):} En la sección actúa únicamente el esfuerzo axil $N \neq 0$, generando tensiones normales uniformes $\sigma_n = \frac{N}{\Omega}$ y alargamientos/acortamientos longitudinales $\Delta l = \int_A^B \frac{N}{E\Omega}\,dx$.
+    \item \textbf{Flexión Plana Directa (Tema 5):} Las cargas exteriores actúan contenidas en el plano de simetría vertical $XY$ y perpendicularmente al eje de la viga. En consecuencia, en la sección transversal aparecen como esfuerzos determinantes el \textbf{momento flector $M_z$} y, en general, el \textbf{esfuerzo cortante $Q_y$}:
+          \begin{enumerate}
+              \item \textbf{Flexión Pura:} En el tramo considerado actúa exclusivamente momento flector constante ($M_z \neq 0$, $Q_y = 0$, $N = 0$).
+              \item \textbf{Flexión Simple:} En la sección coexisten simultáneamente el momento flector y el esfuerzo cortante ($M_z \neq 0$, $Q_y \neq 0$, $N = 0$).
+          \end{enumerate}
+\end{itemize}
+
+%=============================================================================
+\section{Análisis de Tensiones en Flexión Pura: Tensiones Normales y Fórmula de Navier}
+
+\subsection{Modelo Clásico de Flexión Pura e Hipótesis de Partida}
+
+El prototipo clásico de \textbf{flexión pura} se presenta en el tramo central $BC$ de una viga biapoyada simétrica de luz $L$ sometida a dos cargas puntuales idénticas $F$ situadas a igual distancia $a$ de los apoyos extremos $A$ y $D$:
+\begin{itemize}
+    \item En los tramos laterales $AB$ y $CD$ existe esfuerzo cortante ($Q_y = +F$ y $Q_y = -F$) y momento flector linealmente variable (flexión simple).
+    \item En el \textbf{tramo central $BC$}, el esfuerzo axil y el esfuerzo cortante son idénticamente nulos ($N = 0$, $Q_y = 0$), mientras que el momento flector se mantiene estrictamente constante e igual a $\mathbf{M_z = F \cdot a}$ (\textbf{flexión pura}).
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.92\textwidth}{%
+        \begin{tikzpicture}[>=Latex, scale=0.92]
+            % Columna izquierda: Viga biapoyada y diagramas N, Qy, Mz
+            \begin{scope}[shift={(0,0)}]
+                \node[above, font=\small\bfseries, red!85!black] at (3.5, 6.6) {ESQUEMA DE FLEXIÓN PURA (TRAMO CENTRAL $BC$)};
+
+                % Banda sombreada del tramo BC (x de 2.0 a 5.0)
+                \fill[red!8] (2.0, 0.0) rectangle (5.0, 5.8);
+                \draw[dashed, gray!70] (2.0, 0.0) -- (2.0, 5.8);
+                \draw[dashed, gray!70] (5.0, 0.0) -- (5.0, 5.8);
+
+                % Viga en y = 5.4
+                \draw[->, thick] (0, 5.4) -- (0, 6.4) node[right, font=\footnotesize] {$y$};
+                \draw[->, thick] (0, 5.4) -- (7.6, 5.4) node[above, font=\footnotesize] {$x$};
+                \draw[line width=2.4pt, black] (0, 5.4) -- (7.0, 5.4);
+                % Apoyos A y D
+                \draw[thick] (0, 5.4) -- (-0.25, 4.95) -- (0.25, 4.95) -- cycle;
+                \draw[thick] (-0.4, 4.95) -- (0.4, 4.95);
+                \draw[thick] (7.0, 5.4) -- (6.75, 4.95) -- (7.25, 4.95) -- cycle;
+                \draw[thick] (6.6, 4.88) -- (7.4, 4.88);
+                % Nodos y cargas F
+                \node[above left=1pt, font=\footnotesize\bfseries] at (0, 5.4) {$A$};
+                \node[above left=1pt, font=\footnotesize\bfseries] at (2.0, 5.4) {$B$};
+                \node[above right=1pt, font=\footnotesize\bfseries] at (5.0, 5.4) {$C$};
+                \node[above right=1pt, font=\footnotesize\bfseries] at (7.0, 5.4) {$D$};
+                \draw[->, line width=1.6pt, red!85!black] (2.0, 6.3) node[above=1pt, font=\footnotesize\bfseries] {$F$} -- (2.0, 5.45);
+                \draw[->, line width=1.6pt, red!85!black] (5.0, 6.3) node[above=1pt, font=\footnotesize\bfseries] {$F$} -- (5.0, 5.45);
+                % Cotas a
+                \draw[<->, line width=0.7pt] (0, 4.6) -- node[below=1pt, font=\footnotesize] {$a$} (2.0, 4.6);
+                \draw[<->, line width=0.7pt] (5.0, 4.6) -- node[below=1pt, font=\footnotesize] {$a$} (7.0, 4.6);
+
+                % Diagrama N (y = 3.6)
+                \draw[thick] (0, 3.6) -- (7.0, 3.6);
+                \node[left=3pt, font=\footnotesize\bfseries] at (0, 3.6) {$N$};
+                \node[above=1pt, font=\footnotesize\bfseries, blue!85!black] at (3.5, 3.6) {$N = 0$};
+
+                % Diagrama Qy (y = 2.2)
+                \draw[thick] (0, 2.2) -- (7.0, 2.2);
+                \node[left=3pt, font=\footnotesize\bfseries] at (0, 2.2) {$Q_y$};
+                \draw[thick, fill=blue!12] (0, 2.2) rectangle (2.0, 2.85);
+                \node[above=1pt, font=\footnotesize\bfseries] at (1.0, 2.85) {$+F$};
+                \node[above=1pt, font=\footnotesize\bfseries, blue!85!black] at (3.5, 2.2) {$Q_y = 0$};
+                \draw[thick, fill=red!12] (5.0, 2.2) rectangle (7.0, 1.55);
+                \node[below=1pt, font=\footnotesize\bfseries] at (6.0, 1.55) {$-F$};
+
+                % Diagrama Mz (y = 0.9)
+                \draw[thick] (0, 0.9) -- (7.0, 0.9);
+                \node[left=3pt, font=\footnotesize\bfseries] at (0, 0.9) {$M_z$};
+                \draw[thick, purple!85!black, fill=purple!12] (0, 0.9) -- (2.0, 0.0) -- (5.0, 0.0) -- (7.0, 0.9) -- cycle;
+                \node[below=2pt, font=\footnotesize\bfseries, purple!85!black] at (3.5, 0.0) {$M_z = F \cdot a = \text{cte}$};
+            \end{scope}
+
+            % Columna derecha: Deformación de rebanada según Hipótesis de Navier-Bernoulli
+            \begin{scope}[shift={(9.0, 1.2)}]
+                \node[above, font=\small\bfseries, blue!85!black] at (2.5, 4.6) {Hipótesis de Secciones Planas (Bernoulli)};
+                % Rebanada sin deformar
+                \draw[thick, fill=gray!10] (0.5, 2.8) rectangle (4.5, 4.0);
+                \foreach \xx in {1.3, 2.1, 2.9, 3.7} {
+                        \draw[thin, gray!70] (\xx, 2.8) -- (\xx, 4.0);
+                    }
+                \draw[dashed, blue!80!black] (0.3, 3.4) -- (4.7, 3.4);
+                \node[below=1pt, font=\scriptsize\bfseries] at (2.5, 2.8) {Configuración indeformada ($\gamma_{xy} = 0$)};
+
+                % Rebanada deformada por flexión pura
+                \draw[thick, blue!85!black] (0.5, 1.6) to[bend right=18] (4.5, 1.6);
+                \draw[thick, blue!85!black] (0.5, 0.5) to[bend right=18] (4.5, 0.5);
+                \draw[dashed, red!85!black, line width=1.0pt] (0.5, 1.05) to[bend right=18] (4.5, 1.05);
+                \draw[thick, blue!85!black] (0.5, 1.6) -- (0.8, 0.52);
+                \draw[thick, blue!85!black] (4.5, 1.6) -- (4.2, 0.52);
+                \draw[->, thick, purple!85!black] (0.2, 0.6) arc (210:140:0.8) node[left=1pt, font=\footnotesize\bfseries] {$M_z$};
+                \draw[->, thick, purple!85!black] (4.8, 0.6) arc (-30:40:0.8) node[right=1pt, font=\footnotesize\bfseries] {$M_z$};
+                \node[below=2pt, font=\scriptsize\bfseries, align=center] at (2.5, 0.2) {Secciones planas y $\perp$ directriz deformada\\$\implies \gamma = 0 \implies \tau = 0$ (solo $\sigma_{nx}$)};
+            \end{scope}
+        \end{tikzpicture}%
+    }
+    \caption{Caracterización de la flexión pura ($N=0, Q_y=0, M_z=\text{cte}$) y conservación de la planaridad de las secciones rectas según la hipótesis de Navier-Bernoulli.}
+    \label{fig:flexion_pura_hipotesis}
+\end{figure}
+
+Las \textbf{hipótesis fundamentales de partida} para deducir la ley tensional en flexión pura son:
+\begin{enumerate}
+    \item \textbf{Comportamiento elástico lineal (Ley de Hooke):} El material obedece la relación constitutiva lineal con estado tensional uniaxial dominante ($\sigma_{ny} = \sigma_{nz} = 0$):
+          \begin{equation}
+              \varepsilon_{nx} = \frac{1}{E}\left(\sigma_{nx} - \nu(\cancel{\sigma_{ny} + \sigma_{nz}})\right) = \frac{\sigma_{nx}}{E} \implies \mathbf{\sigma_{nx} = E \cdot \varepsilon_{nx}}, \qquad \tau_{xy} = G \cdot \gamma_{xy}
+          \end{equation}
+    \item \textbf{Hipótesis cinemática de Navier-Bernoulli:} \textit{Las secciones transversales originariamente planas y perpendiculares a la directriz de la viga se mantienen planas y perpendiculares a la directriz deformada tras aplicar las cargas} (válida para vigas esbeltas con relación luz/canto $L \ge 10 h$).
+          Al no producirse distorsión angular ($\gamma_{xy} = 0$), las tensiones tangenciales son nulas ($\tau_{xy} = 0$) y \textbf{únicamente existen tensiones normales $\sigma_{nx}$}.
+    \item \textbf{Principio de rigidez relativa y pequeñas deformaciones:} Los desplazamientos $\delta$ son suficientemente pequeños frente a las dimensiones de la estructura como para plantear el equilibrio en la geometría sin deformar.
+    \item \textbf{Principio de superposición de efectos:} Consecuencia directa de la linealidad mecánica (Ley de Hooke) y geométrica (rigidez relativa).
+    \item \textbf{Simetría geométrica y de carga:} La sección transversal es simétrica respecto al eje vertical $Y$, y las cargas están contenidas en el plano de simetría $XY$ (flexión recta o simétrica).
+\end{enumerate}
+
+%=============================================================================
+\subsection{Deducción de la Fórmula de Navier}
+
+\subsubsection{1. Relación Cinemática Tensión--Curvatura}
+
+Consideremos una rebanada elemental de viga de longitud inicial $dx$ sometida a un momento flector positivo $M_z > 0$ (que comprime las fibras superiores $y > 0$ y tracciona las fibras inferiores $y < 0$).
+
+Existe una superficie longitudinal cuyas fibras no sufren ni alargamiento ni acortamiento ($\varepsilon_x = 0$), denominada \textbf{superficie neutra}. Su intersección con el plano de la sección transversal define el \textbf{eje neutro (EN)}, y su intersección con el plano de simetría longitudinal $XY$ se denomina \textbf{fibra neutra (FN)}, de radio de curvatura $\rho$.
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.92\textwidth}{%
+        \begin{tikzpicture}[>=Latex, scale=1.0]
+            % 1. Rebanada deformada izquierda
+            \begin{scope}[shift={(0,0)}]
+                \node[above, font=\small\bfseries, blue!85!black] at (2.8, 3.8) {1. Deformación de las Fibras Longitudinales};
+                % Fibra superior, neutra e inferior
+                \draw[thick, blue!85!black] (0.4, 2.6) to[bend right=22] (5.2, 2.6);
+                \draw[dashed, red!85!black, line width=1.1pt] (0.2, 1.8) to[bend right=22] (5.4, 1.8);
+                \draw[thick, blue!85!black] (0.0, 1.0) to[bend right=22] (5.6, 1.0);
+                \draw[thick, blue!85!black] (0.4, 2.6) -- (0.0, 1.0);
+                \draw[thick, blue!85!black] (5.2, 2.6) -- (5.6, 1.0);
+                % Rebanada central AB
+                \draw[thin, gray!80] (2.4, 0.65) -- (2.5, 2.8);
+                \draw[thin, gray!80] (3.2, 0.65) -- (3.1, 2.8);
+                \node[below left=-1pt, font=\scriptsize\bfseries] at (2.45, 1.45) {$A$};
+                \node[below right=-1pt, font=\scriptsize\bfseries] at (3.15, 1.45) {$B$};
+                % Momentos Mz
+                \draw[->, line width=1.4pt, purple!85!black] (-0.45, 0.9) arc (225:145:0.85) node[above left=1pt, font=\footnotesize\bfseries] {$M_z$};
+                \draw[->, line width=1.4pt, purple!85!black] (6.05, 0.9) arc (-45:35:0.85) node[above right=1pt, font=\footnotesize\bfseries] {$M_z$};
+                % Etiquetas
+                \node[above=2pt, font=\scriptsize\bfseries, blue!85!black] at (2.8, 2.65) {Fibras superiores ($y > 0$, comprimidas)};
+                \node[left=4pt, font=\scriptsize\bfseries, red!85!black] at (-0.65, 1.8) {Fibra neutra ($\varepsilon_x = 0$)};
+                \node[below=2pt, font=\scriptsize\bfseries, green!55!black] at (2.8, 0.38) {Fibras inferiores ($y < 0$, traccionadas)};
+            \end{scope}
+
+            % 2. Semejanza geométrica de triángulos con centro de curvatura O
+            \begin{scope}[shift={(8.2, 0)}]
+                \node[above, font=\small\bfseries, blue!85!black] at (2.2, 3.8) {2. Geometría del Radio de Curvatura $\rho$};
+                \coordinate (O) at (2.2, 3.5);
+                \filldraw[black] (O) circle (2pt) node[above=2pt, font=\footnotesize\bfseries] {$O$};
+                % Líneas radiales desde O
+                \draw[thick, gray!80] (O) -- (1.0, 0.3);
+                \draw[thick, gray!80] (O) -- (3.4, 0.3);
+                \draw[dashdotted, gray!70] (O) -- (2.2, 0.2);
+                % Fibra neutra AB a radio rho
+                \draw[dashed, red!85!black, line width=1.1pt] (1.26, 1.0) to[bend right=14] (3.14, 1.0);
+                \node[below left=-1pt, font=\scriptsize\bfseries] at (1.26, 1.0) {$A$};
+                \node[below right=-1pt, font=\scriptsize\bfseries] at (3.14, 1.0) {$B$};
+                % Fibra a altura y > 0
+                \draw[thick, blue!85!black] (1.56, 1.8) to[bend right=12] (2.84, 1.8);
+                % Paralela desde B
+                \draw[dashed, purple!85!black, line width=0.9pt] (3.14, 1.0) -- (2.54, 2.6);
+                \node[above left=-1pt, font=\scriptsize\bfseries] at (2.68, 1.85) {$M$};
+                \node[above right=-1pt, font=\scriptsize\bfseries] at (2.90, 1.85) {$N$};
+                % Cotas rho, y, dx
+                \draw[<->, line width=0.7pt] (1.75, 1.0) -- node[left=1pt, font=\footnotesize\bfseries] {$\rho$} (1.75, 3.5);
+                \draw[<->, line width=0.7pt] (3.6, 1.0) -- node[right=1pt, font=\footnotesize\bfseries] {$y > 0$} (3.6, 1.8);
+                \draw[<->, line width=0.7pt] (1.26, 0.45) -- node[below=1pt, font=\footnotesize\bfseries] {$dx$} (3.14, 0.45);
+            \end{scope}
+        \end{tikzpicture}%
+    }
+    \caption{Relación geométrica entre la deformación longitudinal $\varepsilon_x$, la ordenada $y$ respecto a la fibra neutra y el radio de curvatura $\rho$.}
+    \label{fig:relacion_tension_curvatura}
+\end{figure}
+
+Por semejanza geométrica entre el sector circular $OAB$ (de radio $\rho$ y arco $AB = dx$) y el triángulo diferencial $BMN$ (de cateto radial $BN = y$ y acortamiento de fibra $MN = -\Delta dx$):
+\begin{equation}
+    \frac{AB}{OA} = \frac{MN}{BN} \implies \frac{dx / 2}{\rho} = \frac{-\Delta dx / 2}{y} \implies \varepsilon_x = \frac{\Delta dx}{dx} = -\frac{y}{\rho}
+\end{equation}
+Sustituyendo en la Ley de Hooke ($\sigma_{nx} = E \cdot \varepsilon_x$), obtenemos la \textbf{relación tensión--curvatura}:
+\begin{equation}
+    \boxed{\sigma_{nx} = -\frac{E \cdot y}{\rho}}
+    \label{eq:relacion_tension_curvatura}
+\end{equation}
+
+\subsubsection{2. Posición de la Fibra Neutra ($N = 0$)}
+
+Imponiendo que en flexión pura el esfuerzo axil resultante sobre la sección es nulo ($N = 0$):
+\begin{equation}
+    N = \iint_{\Omega} \sigma_{nx} \, d\Omega = \iint_{\Omega} -\frac{E \cdot y}{\rho} \, d\Omega = -\frac{E}{\rho} \iint_{\Omega} y \, d\Omega = -\frac{E}{\rho} \cdot S_z = 0
+\end{equation}
+Como la rigidez elástica $E$ y la curvatura $1/\rho$ no son nulas, se deduce que el momento estático respecto al eje neutro debe anularse:
+\begin{equation}
+    \mathbf{S_z = \iint_{\Omega} y \, d\Omega = 0 \implies \text{\textbf{El eje neutro ($z$) pasa obligatoriamente por el centro de gravedad $G$ de la sección.}}}
+\end{equation}
+
+\subsubsection{3. Relación Momento--Curvatura y Fórmula de Navier ($M_z \neq 0$)}
+
+Sustituyendo la expresión tensional~\eqref{eq:relacion_tension_curvatura} en la ecuación de equivalencia del momento flector $M_z$:
+\begin{equation}
+    M_z = \iint_{\Omega} -\sigma_{nx} \cdot y \, d\Omega = \iint_{\Omega} -\left(-\frac{E \cdot y}{\rho}\right) y \, d\Omega = \frac{E}{\rho} \iint_{\Omega} y^2 \, d\Omega = \frac{E \cdot I_z}{\rho}
+\end{equation}
+De aquí se obtiene la ecuación fundamental de la \textbf{curvatura elástica $\kappa$}:
+\begin{equation}
+    \boxed{\frac{1}{\rho} = \kappa = \frac{M_z}{E \cdot I_z}}
+    \label{eq:curvatura_flexion}
+\end{equation}
+Finalmente, despejando $\frac{1}{\rho} = \frac{M_z}{E I_z}$ e introduciéndolo en $\sigma_{nx} = -\frac{E y}{\rho}$, llegamos a la célebre \textbf{Fórmula de Navier}:
+\begin{equation}
+    \boxed{\sigma_{nx}(y) = -\frac{M_z}{I_z} \cdot y}
+    \label{eq:formula_navier}
+\end{equation}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=myg!85!black, title=\textbf{Interpretación Física de la Fórmula de Navier y Distribución Lineal}]
+    En flexión pura, las tensiones normales $\sigma_{nx}(y)$ varían \textbf{linealmente con la distancia $y$ a la fibra neutra}:
+    \begin{itemize}
+        \item En la \textbf{fibra neutra ($y = 0$, que pasa por $G$):} la tensión normal es nula ($\sigma_{nx} = 0$).
+        \item Para un \textbf{momento flector positivo ($M_z > 0$, carita sonriente $\smile$):}
+              \begin{itemize}
+                  \item Las \textbf{fibras superiores ($y > 0$)} están sometidas a \textbf{compresión ($\sigma_{nx} < 0$)}, alcanzando su valor extremo en la coronación superior ($y = +h_1$): $\sigma_{\text{sup}} = -\frac{M_z \cdot h_1}{I_z}$.
+                  \item Las \textbf{fibras inferiores ($y < 0$)} están sometidas a \textbf{tracción ($\sigma_{nx} > 0$)}, alcanzando su valor extremo en el borde inferior ($y = -h_2$): $\sigma_{\text{inf}} = +\frac{M_z \cdot h_2}{I_z}$.
+              \end{itemize}
+        \item Para un \textbf{momento flector negativo ($M_z < 0$, carita triste $\frown$):} los signos se invierten (tracción arriba en $y > 0$ y compresión abajo en $y < 0$).
+    \end{itemize}
+\end{tcolorbox}
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.88\textwidth}{%
+        \begin{tikzpicture}[>=Latex, scale=1.0]
+            % 1. Sección transversal izquierda
+            \begin{scope}[shift={(0,0)}]
+                \fill[blue!10] (0, 0) rectangle (2.2, 3.2);
+                \draw[thick, blue!85!black] (0, 0) rectangle (2.2, 3.2);
+                \draw[dashed, red!85!black, line width=1.1pt] (-0.5, 1.4) -- (5.5, 1.4);
+                \node[below=2pt, font=\scriptsize\bfseries, red!85!black] at (1.1, 1.4) {Fibra neutra};
+                \draw[->, thick, black] (0.8, 1.4) -- (0.8, 2.9) node[midway, right=2pt, font=\footnotesize\bfseries] {$y > 0$};
+                % Cotas h1 y h2
+                \draw[<->, line width=0.7pt] (-0.35, 1.4) -- node[left=1pt, font=\footnotesize] {$h_1$} (-0.35, 3.2);
+                \draw[<->, line width=0.7pt] (-0.35, 0.0) -- node[left=1pt, font=\footnotesize] {$h_2$} (-0.35, 1.4);
+
+                % Diagrama bitriangular de tensiones a la derecha de la sección (x = 3.2)
+                \draw[thick] (3.2, 0.0) -- (3.2, 3.2);
+                \fill[red!12] (3.2, 1.4) -- (3.2, 3.2) -- (4.6, 3.2) -- cycle;
+                \fill[green!12] (3.2, 1.4) -- (3.2, 0.0) -- (4.3, 0.0) -- cycle;
+                \draw[thick, blue!85!black] (4.3, 0.0) -- (3.2, 1.4) -- (4.6, 3.2);
+                % Flechas de compresión (arriba, hacia la sección) y tracción (abajo, salientes)
+                \draw[<-, thick, red!85!black] (3.22, 3.2) -- (4.6, 3.2) node[midway, above=2pt, font=\footnotesize\bfseries] {$\sigma_{\text{máx},C} = -\dfrac{M_z h_1}{I_z}$};
+                \draw[<-, thin, red!85!black] (3.22, 2.6) -- (4.13, 2.6);
+                \draw[<-, thin, red!85!black] (3.22, 2.0) -- (3.67, 2.0);
+                \draw[->, thin, green!60!black] (3.2, 0.93) -- (3.57, 0.93);
+                \draw[->, thin, green!60!black] (3.2, 0.47) -- (3.93, 0.47);
+                \draw[->, thick, green!60!black] (3.2, 0.0) -- (4.3, 0.0) node[midway, below=2pt, font=\footnotesize\bfseries] {$\sigma_{\text{máx},T} = +\dfrac{M_z h_2}{I_z}$};
+                % Momento Mz
+                \draw[->, line width=1.4pt, purple!85!black] (4.9, 1.0) arc (-40:40:0.9) node[midway, right=2pt, font=\footnotesize\bfseries] {$M_z > 0$};
+            \end{scope}
+
+            % 2. Esquema 3D del prisma de tensiones
+            \begin{scope}[shift={(8.2, 0.2)}]
+                \draw[thick, blue!85!black] (0, 0) -- (0, 3.0) -- (1.4, 3.6) -- (1.4, 0.6) -- cycle;
+                \draw[dashed, red!85!black, line width=1.1pt] (0, 1.5) -- (1.4, 2.1);
+                \node[left=3pt, font=\scriptsize\bfseries, red!85!black] at (0, 1.5) {Eje neutro};
+                % Cuñas 3D
+                \draw[thick, red!80!black, fill=red!10, fill opacity=0.7] (0, 1.5) -- (0, 3.0) -- (-1.1, 3.0) -- cycle;
+                \draw[thick, red!80!black, fill=red!10, fill opacity=0.7] (1.4, 2.1) -- (1.4, 3.6) -- (0.3, 3.6) -- cycle;
+                \draw[thick, red!80!black] (-1.1, 3.0) -- (0.3, 3.6);
+                \draw[thick, green!60!black, fill=green!10, fill opacity=0.7] (0, 1.5) -- (0, 0) -- (1.1, 0) -- cycle;
+                \draw[thick, green!60!black, fill=green!10, fill opacity=0.7] (1.4, 2.1) -- (1.4, 0.6) -- (2.5, 0.6) -- cycle;
+                \draw[thick, green!60!black] (1.1, 0) -- (2.5, 0.6);
+                \draw[->, line width=1.4pt, purple!85!black] (2.8, 1.2) arc (-40:40:0.9) node[midway, right=2pt, font=\footnotesize\bfseries] {$M_z$};
+            \end{scope}
+        \end{tikzpicture}%
+    }
+    \caption{Distribución lineal bitriangular de tensiones normales $\sigma_{nx}(y)$ en flexión pura según la ley de Navier.}
+    \label{fig:distribucion_navier_3d}
+\end{figure}
+
+%=============================================================================
+\section{Módulo Resistente y Formas Más Adecuadas de la Sección Transversal}
+
+En el diseño y comprobación de vigas a flexión interesa conocer las \textbf{tensiones normales máximas} que se alcanzan en las fibras más alejadas de la fibra neutra ($y_{\text{máx,sup}} = h_1$ e $|y_{\text{máx,inf}}| = h_2$). Operando en valor absoluto:
+\begin{equation}
+    \sigma_{nx,\text{máx}} = \frac{|M_z| \cdot y_{\text{máx}}}{I_z} = \frac{|M_z|}{\left(\dfrac{I_z}{y_{\text{máx}}}\right)} = \frac{|M_z|}{W_z}
+\end{equation}
+Se define el \textbf{Módulo Resistente elástico de la sección ($W_z$)} como el cociente entre el momento de inercia respecto al eje neutro y la distancia a la fibra extrema:
+\begin{equation}
+    \boxed{W_{z,\text{sup}} = \frac{I_z}{y_{\text{máx,sup}}}, \qquad W_{z,\text{inf}} = \frac{I_z}{|y_{\text{máx,inf}}|}}
+    \label{eq:modulo_resistente}
+\end{equation}
+Sus unidades son de longitud al cubo ($\text{mm}^3$, $\text{cm}^3$ o $\text{m}^3$). En secciones simétricas respecto al eje $z$ ($h_1 = h_2 = h/2$), ambos módulos coinciden ($W_z = \frac{I_z}{h/2}$) y su valor se encuentra directamente tabulado en los prontuarios de perfiles metálicos laminados y conformados.
+
+\subsection{Eficiencia Estructural y Perfiles Más Usados en Edificación}
+
+Dado que la tensión normal crece linealmente con la distancia $y$ al eje neutro ($\sigma \propto y$) y el momento de inercia crece con el cuadrado de dicha distancia ($I_z = \iint y^2 d\Omega$), el material situado cerca de la fibra neutra apenas aporta resistencia a flexión.
+
+Por consiguiente, las \textbf{formas más adecuadas para resistir flexión} son aquellas que \textbf{concentran la mayor parte del área lejos del eje neutro (en las alas superior e inferior)}, conectándolas mediante un alma delgada:
+\begin{itemize}
+    \item \textbf{Vigas y viguetas (flexión dominante en un plano):} Perfiles en doble T esbeltos de tipo \textbf{IPE} e \textbf{IPN}, así como perfiles en U (\textbf{UPN}), que maximizan $I_z$ y $W_z$ con el mínimo peso propio.
+    \item \textbf{Pilares y soportes (compresión combinada y flexión esviada):} Perfiles de alas anchas tipo \textbf{HEB, HEA y HEM}, que proporcionan una mayor inercia transversal $I_y$ frente al pandeo y la flexión en ambos planos.
+\end{itemize}
+
+%=============================================================================
+\section{Ejercicios Resueltos de Comprobación Tensional y Eficiencia en Flexión}
+
+\ex{Comprobación de Viga Armada en T bajo Momento Positivo y Negativo}{
+    Dada la viga armada de acero estructural \textbf{S275} ($f_{yk} = 275\text{ N/mm}^2$) cuya sección transversal en T tiene las dimensiones indicadas en la figura:
+    \begin{itemize}
+        \item \textbf{Ala superior horizontal:} ancho $b_f = 250\text{ mm}$ y espesor $t_f = 8\text{ mm}$.
+        \item \textbf{Alma vertical inferior:} altura $h_w = 300\text{ mm}$ y espesor $t_w = 6\text{ mm}$.
+    \end{itemize}
+    \textbf{Se pide:}
+    \begin{enumerate}[label=\alph*)]
+        \item Comprobar si la sección es apta para resistir un momento flector positivo de cálculo $M_d = +45\text{ kN}\cdot\text{m}$.
+        \item Comprobar si la sección es apta para resistir un momento flector negativo de cálculo $M_d = -38\text{ kN}\cdot\text{m}$.
+    \end{enumerate}
+
+    \begin{center}
+        \adjustbox{max width=0.68\textwidth}{%
+            \begin{tikzpicture}[>=Latex, scale=0.92]
+                % Eje z en la base
+                \draw[->, line width=1.0pt] (0, 0) -- (5.8, 0) node[right, font=\bfseries] {$z$};
+                % Alma vertical (6 mm x 300 mm -> representamos ancho 0.35 y alto 3.6)
+                \fill[green!12] (2.325, 0) rectangle (2.675, 3.6);
+                \draw[thick, green!60!black] (2.325, 0) rectangle (2.675, 3.6);
+                % Ala superior (250 mm x 8 mm -> ancho 4.2, alto 0.35)
+                \fill[blue!12] (0.4, 3.6) rectangle (4.6, 3.95);
+                \draw[thick, blue!85!black] (0.4, 3.6) rectangle (4.6, 3.95);
+
+                % Cotas
+                \draw[<->, line width=0.7pt] (0.4, 4.3) -- node[above=1pt, font=\footnotesize\bfseries] {$250\text{ mm}$} (4.6, 4.3);
+                \draw[<->, line width=0.7pt] (2.25, -0.45) -- node[below=1pt, font=\footnotesize\bfseries] {$6\text{ mm}$} (2.75, -0.45);
+                \draw[<->, line width=0.7pt] (5.1, 0) -- node[right=2pt, font=\footnotesize\bfseries] {$300\text{ mm}$} (5.1, 3.6);
+                \draw[<->, line width=0.7pt] (5.1, 3.6) -- node[right=2pt, font=\footnotesize\bfseries] {$8\text{ mm}$} (5.1, 3.95);
+            \end{tikzpicture}%
+        }
+    \end{center}
+
+    \tcblower
+
+    \paso{1}{Propiedades Geométricas: Centro de Gravedad e Inercia Baricéntrica}
+
+    \begin{itemize}
+        \item \textbf{Coordenada horizontal $Z_G$:} Por simetría respecto al eje vertical del alma:
+              \begin{equation}
+                  \mathbf{Z_G = \frac{250}{2} = 125\text{ mm}}
+              \end{equation}
+        \item \textbf{Coordenada vertical $Y_G$ (medida desde el borde inferior del alma $y = 0$):}
+              Con $\Omega_{\text{alma}} = 300 \times 6 = 1800\text{ mm}^2$ ($Y_{G,1} = 150\text{ mm}$) y $\Omega_{\text{ala}} = 250 \times 8 = 2000\text{ mm}^2$ ($Y_{G,2} = 300 + 4 = 304\text{ mm}$):
+              \begin{equation}
+                  Y_G = \frac{1800 \cdot 150 + 2000 \cdot 304}{1800 + 2000} = \frac{270\,000 + 608\,000}{3800} = \frac{878\,000}{3800} = \mathbf{231.05\text{ mm}}
+              \end{equation}
+              Por tanto, las distancias desde la fibra neutra ($Y_G = 231.05\text{ mm}$) hasta las fibras extremas inferior y superior son:
+              \begin{equation}
+                  y_{\text{inf}} = \mathbf{231.05\text{ mm}}, \qquad y_{\text{sup}} = 308 - 231.05 = \mathbf{76.95\text{ mm}}
+              \end{equation}
+        \item \textbf{Momento de Inercia $I_{z_G}$ (Teorema de Steiner):}
+              \begin{align}
+                  I_{z_G} & = \left[ \frac{6 \cdot 300^3}{12} + 1800 \cdot (231.05 - 150)^2 \right] + \left[ \frac{250 \cdot 8^3}{12} + 2000 \cdot (304 - 231.05)^2 \right] \notag \\
+                          & = 25\,324\,384.5 + 10\,654\,081.7 = \mathbf{35.978467 \times 10^6\text{ mm}^4}
+              \end{align}
+    \end{itemize}
+
+    \paso{2}{Apartado a) Comprobación para $M_d = +45\text{ kN}\cdot\text{m} = 45 \times 10^6\text{ N}\cdot\text{mm}$}
+
+    Un momento flector positivo ($M_d > 0$) comprime las fibras situadas por encima de la fibra neutra ($y_{\text{sup}} = 76.95\text{ mm}$) y tracciona las fibras inferiores ($y_{\text{inf}} = 231.05\text{ mm}$):
+    \begin{align}
+        \sigma_{\text{máx},C} & = -\frac{M_d \cdot y_{\text{sup}}}{I_{z_G}} = -\frac{45 \times 10^6 \cdot 76.95}{35.978467 \times 10^6} \approx \mathbf{-96.25\text{ N/mm}^2} \approx \mathbf{-96\text{ N/mm}^2}    \\
+        \sigma_{\text{máx},T} & = +\frac{M_d \cdot y_{\text{inf}}}{I_{z_G}} = +\frac{45 \times 10^6 \cdot 231.05}{35.978467 \times 10^6} \approx \mathbf{+288.98\text{ N/mm}^2} \approx \mathbf{+289\text{ N/mm}^2}
+    \end{align}
+    \textbf{Verificación resistente:} Como la tensión máxima de tracción en la fibra inferior alcanza $|\sigma_{\text{máx},T}| = 289\text{ N/mm}^2 > f_{yk} = 275\text{ N/mm}^2$, la sección \textbf{NO CUMPLE (NO es apta)} para resistir $M_d = +45\text{ kN}\cdot\text{m}$.
+
+    \paso{3}{Apartado b) Comprobación para $M_d = -38\text{ kN}\cdot\text{m} = -38 \times 10^6\text{ N}\cdot\text{mm}$}
+
+    Un momento flector negativo ($M_d < 0$) tracciona las fibras superiores ($y_{\text{sup}} = 76.95\text{ mm}$) y comprime las fibras inferiores del alma ($y_{\text{inf}} = 231.05\text{ mm}$):
+    \begin{align}
+        \sigma_{\text{máx},T} & = +\frac{|M_d| \cdot y_{\text{sup}}}{I_{z_G}} = +\frac{38 \times 10^6 \cdot 76.95}{35.978467 \times 10^6} \approx \mathbf{+81.27\text{ N/mm}^2} \approx \mathbf{+81\text{ N/mm}^2}    \\
+        \sigma_{\text{máx},C} & = -\frac{|M_d| \cdot y_{\text{inf}}}{I_{z_G}} = -\frac{38 \times 10^6 \cdot 231.05}{35.978467 \times 10^6} \approx \mathbf{-244.03\text{ N/mm}^2} \approx \mathbf{-244\text{ N/mm}^2}
+    \end{align}
+    \textbf{Verificación resistente:} La tensión máxima absoluta es $|\sigma_{\text{máx},C}| = 244\text{ N/mm}^2 \le f_{yk} = 275\text{ N/mm}^2$ (y también menor que $f_{yd} = 275/1.05 = 261.9\text{ N/mm}^2$). Por tanto, la sección \textbf{SÍ CUMPLE (es apta)} para resistir $M_d = -38\text{ kN}\cdot\text{m}$.
+
+    \begin{center}
+        \adjustbox{max width=0.92\textwidth}{%
+            \begin{tikzpicture}[>=Latex, scale=0.88]
+                % Diagrama a) Md = +45 kNm
+                \begin{scope}[shift={(0,0)}]
+                    \node[above, font=\small\bfseries, blue!85!black] at (2.2, 4.6) {a) $M_d = +45\text{ kN}\cdot\text{m}$ (NO apta)};
+                    % Esquema perfil T a la izquierda
+                    \draw[thick] (0, 3.6) -- (1.8, 3.6);
+                    \draw[thick] (0.9, 0) -- (0.9, 3.6);
+                    % Eje neutro en y = 2.7
+                    \draw[dashdotted, gray!80, line width=0.9pt] (-0.2, 2.7) -- (4.5, 2.7) node[right, font=\footnotesize\bfseries] {$x_G$};
+                    \draw[<->, line width=0.7pt] (0.2, 0) -- node[left=1pt, font=\scriptsize] {$231\text{ mm}$} (0.2, 2.7);
+                    % Ley de tensiones en x = 2.6
+                    \draw[thick] (2.6, 0) -- (2.6, 3.6);
+                    \fill[red!12] (2.6, 2.7) -- (2.6, 3.6) -- (2.0, 3.6) -- cycle;
+                    \fill[green!12] (2.6, 2.7) -- (2.6, 0) -- (1.1, 0) -- cycle;
+                    \draw[thick, blue!85!black] (2.0, 3.6) -- (2.6, 2.7) -- (1.1, 0);
+                    \draw[<-, thick, red!85!black] (2.0, 3.6) -- (2.6, 3.6);
+                    \draw[->, thick, green!60!black] (1.1, 0) -- (2.6, 0);
+                    \node[above=2pt, font=\scriptsize\bfseries, red!85!black] at (2.3, 3.6) {$\sigma_{\text{máx},C} = -96\text{ N/mm}^2$};
+                    \node[below=2pt, font=\scriptsize\bfseries, red!85!black] at (2.0, 0) {$\sigma_{\text{máx},T} = +289\text{ N/mm}^2 > 275$};
+                    \draw[->, line width=1.3pt, purple!85!black] (3.3, 1.4) arc (-45:45:1.1) node[pos=0.2, right=2pt, font=\scriptsize\bfseries] {$45\text{ kN}\cdot\text{m}$};
+                \end{scope}
+
+                % Diagrama b) Md = -38 kNm
+                \begin{scope}[shift={(7.5,0)}]
+                    \node[above, font=\small\bfseries, green!55!black] at (2.2, 4.6) {b) $M_d = -38\text{ kN}\cdot\text{m}$ (SÍ apta)};
+                    \draw[thick] (0, 3.6) -- (1.8, 3.6);
+                    \draw[thick] (0.9, 0) -- (0.9, 3.6);
+                    \draw[dashdotted, gray!80, line width=0.9pt] (-0.2, 2.7) -- (4.5, 2.7) node[right, font=\footnotesize\bfseries] {$x_G$};
+                    % Ley de tensiones en x = 2.6
+                    \draw[thick] (2.6, 0) -- (2.6, 3.6);
+                    \fill[green!12] (2.6, 2.7) -- (2.6, 3.6) -- (2.1, 3.6) -- cycle;
+                    \fill[red!12] (2.6, 2.7) -- (2.6, 0) -- (1.3, 0) -- cycle;
+                    \draw[thick, blue!85!black] (2.1, 3.6) -- (2.6, 2.7) -- (1.3, 0);
+                    \draw[->, thick, green!60!black] (2.1, 3.6) -- (2.6, 3.6);
+                    \draw[<-, thick, red!85!black] (1.3, 0) -- (2.6, 0);
+                    \node[above=2pt, font=\scriptsize\bfseries, green!55!black] at (2.4, 3.6) {$\sigma_{\text{máx},T} = +81\text{ N/mm}^2$};
+                    \node[below=2pt, font=\scriptsize\bfseries, blue!85!black] at (2.0, 0) {$\sigma_{\text{máx},C} = -244\text{ N/mm}^2 \le 275$};
+                    \draw[<-, line width=1.3pt, purple!85!black] (3.3, 1.4) arc (-45:45:1.1) node[pos=0.2, right=2pt, font=\scriptsize\bfseries] {$38\text{ kN}\cdot\text{m}$};
+                \end{scope}
+            \end{tikzpicture}%
+        }
+    \end{center}
+}
+
+\ex{Comparativa de Capacidad Resistente a Tracción y Flexión de Tres Perfiles de Igual Área}{
+    Se dispone de 3 perfiles metálicos de acero \textbf{S275} ($f_{yk} = 275\text{ N/mm}^2$) con idéntica altura total $H = 50\text{ cm}$ y distinta forma de sección transversal (cotas en $\text{cm}$, coeficientes parciales de seguridad $\gamma_s = 1.05$ y $\gamma_f = 1.50$):
+    \begin{enumerate}
+        \item \textbf{Sección 1 (Perfil en Doble T simétrico):} Dos alas horizontales de $50 \times 10\text{ cm}^2$ (sobresaliendo $20\text{ cm}$ a cada lado del alma) y un alma central de $10 \times 30\text{ cm}^2$.
+        \item \textbf{Sección 2 (Perfil en Cruz simétrico):} Un nervio vertical central de $10 \times 50\text{ cm}^2$ y dos brazos horizontales centrados de $20 \times 20\text{ cm}^2$ cada uno (en la franja central de altura $20\text{ cm}$, dejando $15\text{ cm}$ libres arriba y abajo).
+        \item \textbf{Sección 3 (Perfil Rectangular macizo):} Ancho $b = 26\text{ cm}$ y altura $h = 50\text{ cm}$.
+    \end{enumerate}
+
+    \begin{center}
+        \adjustbox{max width=0.94\textwidth}{%
+            \begin{tikzpicture}[>=Latex, scale=0.78]
+                % SECCIÓN 1: Doble T
+                \begin{scope}[shift={(0,0)}]
+                    \node[above, font=\small\bfseries, blue!85!black] at (2.5, 5.8) {Sección 1 (Doble T)};
+                    \fill[blue!12] (0, 0) rectangle (5.0, 1.0);
+                    \fill[blue!12] (2.0, 1.0) rectangle (3.0, 4.0);
+                    \fill[blue!12] (0, 4.0) rectangle (5.0, 5.0);
+                    \draw[thick, blue!85!black] (0,0) -- (5,0) -- (5,1) -- (3,1) -- (3,4) -- (5,4) -- (5,5) -- (0,5) -- (0,4) -- (2,4) -- (2,1) -- (0,1) -- cycle;
+                    \draw[->, dashed, red!80!black] (2.5, -0.4) -- (2.5, 5.6) node[right, font=\scriptsize\bfseries] {$y_G$};
+                    \draw[->, dashed, red!80!black] (-0.5, 2.5) -- (5.05, 2.5);
+                    \node[left=1pt, font=\scriptsize\bfseries, red!80!black] at (-0.5, 2.5) {$z_G$};
+                    \draw[<->, line width=0.6pt] (0, -0.5) -- node[below=1pt, font=\tiny] {$20$} (2.0, -0.5);
+                    \draw[<->, line width=0.6pt] (2.0, -0.5) -- node[below=1pt, font=\tiny] {$10$} (3.0, -0.5);
+                    \draw[<->, line width=0.6pt] (3.0, -0.5) -- node[below=1pt, font=\tiny] {$20$} (5.0, -0.5);
+                    \draw[<->, line width=0.6pt] (5.3, 0) -- node[right=1pt, font=\tiny] {$10$} (5.3, 1.0);
+                    \draw[<->, line width=0.6pt] (5.3, 1.0) -- node[right=1pt, font=\tiny] {$30$} (5.3, 4.0);
+                    \draw[<->, line width=0.6pt] (5.3, 4.0) -- node[right=1pt, font=\tiny] {$10$} (5.3, 5.0);
+                \end{scope}
+
+                % SECCIÓN 2: Cruz
+                \begin{scope}[shift={(7.2,0)}]
+                    \node[above, font=\small\bfseries, orange!85!black] at (2.5, 5.8) {Sección 2 (Cruz)};
+                    \fill[orange!14] (2.0, 0) rectangle (3.0, 5.0);
+                    \fill[orange!14] (0, 1.5) rectangle (5.0, 3.5);
+                    \draw[thick, orange!85!black] (2,0) -- (3,0) -- (3,1.5) -- (5,1.5) -- (5,3.5) -- (3,3.5) -- (3,5) -- (2,5) -- (2,3.5) -- (0,3.5) -- (0,1.5) -- (2,1.5) -- cycle;
+                    \draw[->, dashed, red!80!black] (2.5, -0.4) -- (2.5, 5.6) node[right, font=\scriptsize\bfseries] {$y_G$};
+                    \draw[->, dashed, red!80!black] (-0.5, 2.5) -- (5.05, 2.5);
+                    \node[left=1pt, font=\scriptsize\bfseries, red!80!black] at (-0.5, 2.5) {$z_G$};
+                    \draw[<->, line width=0.6pt] (0, -0.5) -- node[below=1pt, font=\tiny] {$20$} (2.0, -0.5);
+                    \draw[<->, line width=0.6pt] (2.0, -0.5) -- node[below=1pt, font=\tiny] {$10$} (3.0, -0.5);
+                    \draw[<->, line width=0.6pt] (3.0, -0.5) -- node[below=1pt, font=\tiny] {$20$} (5.0, -0.5);
+                    \draw[<->, line width=0.6pt] (5.3, 0) -- node[right=1pt, font=\tiny] {$15$} (5.3, 1.5);
+                    \draw[<->, line width=0.6pt] (5.3, 1.5) -- node[right=1pt, font=\tiny] {$20$} (5.3, 3.5);
+                    \draw[<->, line width=0.6pt] (5.3, 3.5) -- node[right=1pt, font=\tiny] {$15$} (5.3, 5.0);
+                \end{scope}
+
+                % SECCIÓN 3: Rectángulo
+                \begin{scope}[shift={(14.4,0)}]
+                    \node[above, font=\small\bfseries, green!55!black] at (1.3, 5.8) {Sección 3 (Rectángulo)};
+                    \fill[green!12] (0, 0) rectangle (2.6, 5.0);
+                    \draw[thick, green!60!black] (0, 0) rectangle (2.6, 5.0);
+                    \draw[->, dashed, red!80!black] (1.3, -0.4) -- (1.3, 5.6) node[right, font=\scriptsize\bfseries] {$y_G$};
+                    \draw[->, dashed, red!80!black] (-0.5, 2.5) -- (2.65, 2.5);
+                    \node[left=1pt, font=\scriptsize\bfseries, red!80!black] at (-0.5, 2.5) {$z_G$};
+                    \draw[<->, line width=0.6pt] (0, -0.5) -- node[below=1pt, font=\tiny] {$26\text{ cm}$} (2.6, -0.5);
+                    \draw[<->, line width=0.6pt] (2.9, 0) -- node[right=1pt, font=\tiny] {$50\text{ cm}$} (2.9, 5.0);
+                \end{scope}
+            \end{tikzpicture}%
+        }
+    \end{center}
+
+    \textbf{Determinar:}
+    \begin{enumerate}[label=\alph*)]
+        \item El máximo esfuerzo axil de tracción que puede resistir cada sección.
+        \item El máximo momento flector positivo que puede resistir cada sección.
+        \item La conclusión estructural que se extrae de la comparación.
+    \end{enumerate}
+
+    \tcblower
+
+    \paso{1}{Apartado a) Área Transversal y Máximo Esfuerzo de Tracción}
+
+    Comprobamos el área de las tres secciones transversales:
+    \begin{align}
+        \Omega_1 & = 2 \cdot (50 \cdot 10) + 10 \cdot 30 = 1000 + 300 = \mathbf{1300\text{ cm}^2} \\
+        \Omega_2 & = 10 \cdot 50 + 2 \cdot (20 \cdot 20) = 500 + 800 = \mathbf{1300\text{ cm}^2}  \\
+        \Omega_3 & = 26 \cdot 50 = \mathbf{1300\text{ cm}^2}
+    \end{align}
+    Las tres secciones poseen exactamente la \textbf{misma área transversal} $\Omega = 1300\text{ cm}^2 = 130\,000\text{ mm}^2$.
+    Con la resistencia de cálculo del acero $f_{yd} = \frac{f_{yk}}{\gamma_s} = \frac{275}{1.05} = 261.905\text{ N/mm}^2$, el esfuerzo axil máximo de cálculo que agota la sección a tracción es idéntico para las tres:
+    \begin{equation}
+        \mathbf{N_d = \Omega \cdot f_{yd} = 130\,000\text{ mm}^2 \times 261.905\text{ N/mm}^2 = 34\,047\,619\text{ N} \approx 34\,047.6\text{ kN}}
+    \end{equation}
+    (En valor característico de servicio: $N_k = \frac{N_d}{\gamma_f} = \frac{34\,047.6}{1.5} = 22\,698.4\text{ kN}$).
+
+    \paso{2}{Apartado b) Momentos de Inercia $I_{z_G}$ y Momento Flector Máximo $M_d$}
+
+    Al tener todas las secciones doble simetría y canto total $H = 50\text{ cm}$, la distancia desde la fibra neutra hasta la fibra extrema es común e igual a $y_{\text{máx}} = 25\text{ cm} = 250\text{ mm}$. Calculamos el momento de inercia $I_{z_G}$ y el momento último $M_d = \frac{f_{yd} \cdot I_{z_G}}{y_{\text{máx}}}$ para cada sección:
+    \begin{enumerate}
+        \item \textbf{Sección 1 (Doble T):} Calculado por diferencia entre el rectángulo envolvente ($50 \times 50$) y los dos huecos laterales ($2 \times 20 \times 30$):
+              \begin{equation}
+                  I_{z_G,1} = \frac{50 \cdot 50^3}{12} - 2 \cdot \frac{20 \cdot 30^3}{12} = 520\,833.33 - 90\,000 = \mathbf{430\,833.33\text{ cm}^4}
+              \end{equation}
+              \begin{equation}
+                  \mathbf{M_{d,1} = \frac{261.905\text{ N/mm}^2 \cdot \left(430\,833.33 \times 10^4\text{ mm}^4\right)}{250\text{ mm}} = 4513.49 \times 10^6\text{ N}\cdot\text{mm} \approx 4513.4\text{ kN}\cdot\text{m}}
+              \end{equation}
+
+        \item \textbf{Sección 2 (Cruz):} Sumando la inercia del nervio vertical ($10 \times 50$) y de las dos alas centrales ($40 \times 20$):
+              \begin{equation}
+                  I_{z_G,2} = \frac{10 \cdot 50^3}{12} + 2 \cdot \frac{20 \cdot 20^3}{12} = 104\,166.67 + 26\,666.67 = \mathbf{130\,833.33\text{ cm}^4}
+              \end{equation}
+              \begin{equation}
+                  \mathbf{M_{d,2} = \frac{261.905\text{ N/mm}^2 \cdot \left(130\,833.33 \times 10^4\text{ mm}^4\right)}{250\text{ mm}} = 1370.63 \times 10^6\text{ N}\cdot\text{mm} \approx 1370.6\text{ kN}\cdot\text{m}}
+              \end{equation}
+
+        \item \textbf{Sección 3 (Rectángulo $26 \times 50$):}
+              \begin{equation}
+                  I_{z_G,3} = \frac{26 \cdot 50^3}{12} = \mathbf{270\,833.33\text{ cm}^4}
+              \end{equation}
+              \begin{equation}
+                  \mathbf{M_{d,3} = \frac{261.905\text{ N/mm}^2 \cdot \left(270\,833.33 \times 10^4\text{ mm}^4\right)}{250\text{ mm}} = 2837.30 \times 10^6\text{ N}\cdot\text{mm} \approx 2837.2\text{ kN}\cdot\text{m}}
+              \end{equation}
+    \end{enumerate}
+
+    \paso{3}{Apartado c) Conclusión de Diseño Estructural}
+
+    \begin{tcolorbox}[colback=yellow!10, colframe=orange!85!black, arc=3pt, boxrule=0.8pt]
+        \textbf{Conclusión Fundamental:}
+        \begin{itemize}
+            \item \textbf{Frente a Esfuerzo Axil ($N$):} Las 3 secciones tienen exactamente la \textbf{misma área ($\Omega = 1300\text{ cm}^2$)} y, por tanto, consumen la misma cantidad de acero y \textbf{aguantan exactamente el mismo esfuerzo axil ($34\,047.6\text{ kN}$)}.
+            \item \textbf{Frente a Momento Flector ($M$):} Poseen \textbf{muy distinto momento de inercia ($I_z$)}. A mayor momento de inercia, mayor momento flector resiste la pieza: el perfil en \textbf{Doble T} ($4513.4\text{ kN}\cdot\text{m}$) resiste un $\mathbf{59\%}$ más que el rectángulo macizo ($2837.2\text{ kN}\cdot\text{m}$) y $\mathbf{3.29\text{ veces}}$ más que la sección en cruz ($1370.6\text{ kN}\cdot\text{m}$) empleando el mismo peso de material.
+        \end{itemize}
+    \end{tcolorbox}
+}

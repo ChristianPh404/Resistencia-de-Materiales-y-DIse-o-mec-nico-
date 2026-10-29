@@ -44,49 +44,44 @@ La ecuación complementaria que resuelve el sistema es la \textbf{condición cin
                 % Apoyo izquierdo en x=0
                 \draw[line width=1.5pt] (0, -1.0) -- (0, 1.0);
                 \foreach \y in {-0.8, -0.4, 0.0, 0.4, 0.8} {
-                    \draw[thick] (0, \y) -- ++(-0.25, -0.25);
-                }
+                        \draw[thick] (0, \y) -- ++(-0.25, -0.25);
+                    }
 
-                % Apoyo derecho en x=6
+                % Apoyo derecho en x=9
                 \draw[line width=1.5pt] (9.0, -1.0) -- (9.0, 1.0);
                 \foreach \y in {-0.8, -0.4, 0.0, 0.4, 0.8} {
-                    \draw[thick] (9.0, \y) -- ++(0.25, 0.25);
-                }
-
-                % Secciones por encima de los recuadros
-                \node[above=0.35cm, font=\small\bfseries, blue!80!black] at (2.25, 0.45) {$\Omega_1 = 200\text{ mm}^2$};
-                \node[above=0.35cm, font=\small\bfseries, orange!80!black] at (6.75, 0.3) {$\Omega_2 = 100\text{ mm}^2$};
+                        \draw[thick] (9.0, \y) -- ++(0.25, 0.25);
+                    }
 
                 % Tramo 1 (0 a 3 m -> 0 a 4.5 cm): Omega = 200 mm2
                 \draw[thick, fill=blue!12] (0, -0.45) rectangle (4.5, 0.45);
+                \node[font=\small\bfseries, blue!85!black] at (2.25, 0) {$\Omega_1 = 200\text{ mm}^2$};
 
                 % Tramo 2 (3 a 6 m -> 4.5 a 9.0 cm): Omega = 100 mm2
                 \draw[thick, fill=orange!12] (4.5, -0.3) rectangle (9.0, 0.3);
+                \node[font=\small\bfseries, orange!90!black] at (7.5, 0) {$\Omega_2 = 100\text{ mm}^2$};
 
-                % Carga triangular sobre Tramo 1 (flechas horizontales dirigidas a la izquierda <- cuya longitud aumenta de x=0 a x=3m, sin envolvente continua triangular)
-                \draw[<-, line width=0.8pt, red!85!black] (0.5, 0.7) -- (0.8, 0.7);
-                \draw[<-, line width=0.9pt, red!85!black] (1.1, 0.7) -- (1.6, 0.7);
-                \draw[<-, line width=1.0pt, red!85!black] (1.8, 0.7) -- (2.5, 0.7);
-                \draw[<-, line width=1.1pt, red!85!black] (2.7, 0.7) -- (3.6, 0.7);
-                \draw[<-, line width=1.2pt, red!85!black] (3.6, 0.7) -- (4.7, 0.7);
-                \node[above=3pt, red!85!black, font=\footnotesize\bfseries] at (4.3, 0.75) {$q = 45\text{ kN/m}$};
+                % Carga triangular sobre Tramo 1 (flechas horizontales dirigidas a la izquierda)
+                \draw[<-, line width=0.8pt, red!85!black] (0.5, 0.8) -- (0.8, 0.8);
+                \draw[<-, line width=0.9pt, red!85!black] (1.1, 0.8) -- (1.6, 0.8);
+                \draw[<-, line width=1.0pt, red!85!black] (1.8, 0.8) -- (2.5, 0.8);
+                \draw[<-, line width=1.1pt, red!85!black] (2.7, 0.8) -- (3.6, 0.8);
+                \draw[<-, line width=1.2pt, red!85!black] (3.6, 0.8) -- (4.5, 0.8);
+                \node[above=3pt, red!85!black, font=\footnotesize\bfseries] at (2.25, 0.9) {$q(x) = 45\text{ kN/m}$};
 
-                % Cargas puntuales con etiquetas elevadas para no chocar con el recuadro
-                \draw[->, line width=1.8pt, green!60!black] (4.5, 0) -- (5.6, 0);
-                \node[above=8pt, green!60!black, font=\bfseries\footnotesize] at (5.05, 0.3) {$F_1 = 10\text{ kN}$};
+                % Cargas puntuales F1 (en x=4.5) y F2 (en x=6.0) situadas arriba
+                \draw[->, line width=1.8pt, green!60!black] (4.5, 0.6) -- (5.6, 0.6) node[above=2pt, font=\scriptsize\bfseries] {$F_1 = 10\text{ kN}$};
+                \draw[->, line width=1.8pt, green!60!black] (6.0, 0.6) -- (7.1, 0.6) node[above=2pt, font=\scriptsize\bfseries] {$F_2 = 15\text{ kN}$};
 
-                \draw[->, line width=1.8pt, green!60!black] (6.0, 0) -- (7.1, 0);
-                \node[above=8pt, green!60!black, font=\bfseries\footnotesize] at (6.55, 0.3) {$F_2 = 15\text{ kN}$};
+                % Reacciones en extremos bien separadas
+                \draw[->, line width=1.8pt, blue!85!black] (-1.2, 0) -- (0, 0) node[pos=0.0, left=2pt, font=\bfseries\footnotesize] {$H_A$};
+                \draw[<-, line width=1.8pt, blue!85!black] (9.0, 0) -- (10.2, 0) node[pos=1.0, right=2pt, font=\bfseries\footnotesize] {$H_B$};
 
-                % Reacciones en extremos
-                \draw[->, line width=1.8pt, blue!85!black] (-1.0, 0) -- (0, 0) node[pos=0.1, above=2pt, font=\bfseries\footnotesize] {$H_A$};
-                \draw[<-, line width=1.8pt, blue!85!black] (9.0, 0) -- (10.0, 0) node[pos=0.9, above=2pt, font=\bfseries\footnotesize] {$H_B$};
-
-                % Nodos (solo letras A y B sin coordenadas redundantes)
-                \filldraw (0,0) circle (2pt) node[below=0.45cm] {$A$};
+                % Nodos A y B
+                \filldraw (0,0) circle (2pt) node[below=0.55cm] {$A$};
                 \filldraw (4.5,0) circle (2pt);
                 \filldraw (6.0,0) circle (2pt);
-                \filldraw (9.0,0) circle (2pt) node[below=0.45cm] {$B$};
+                \filldraw (9.0,0) circle (2pt) node[below=0.55cm] {$B$};
 
                 % Cotas de longitud en la parte inferior
                 \draw[<->, line width=0.8pt] (0, -0.9) -- node[below=1pt, font=\footnotesize] {$3.0\text{ m}$} (4.5, -0.9);
@@ -106,7 +101,7 @@ La ecuación complementaria que resuelve el sistema es la \textbf{condición cin
     \tcblower
 
     \paso{1}{Equilibrio Estático Global}
-    
+
     La resultante de la carga triangular dirigida hacia la izquierda es:
     \begin{equation}
         R_q = \frac{q_{\text{máx}} \cdot L_1}{2} = \frac{(45\text{ kN/m}) \cdot (3.0\text{ m})}{2} = 67.5\text{ kN} \quad (\leftarrow)
@@ -121,7 +116,7 @@ La ecuación complementaria que resuelve el sistema es la \textbf{condición cin
     Esta es una única ecuación con dos incógnitas estáticas ($GH = 1$).
 
     \paso{2}{Leyes de Esfuerzo Axil en función de $H_A$}
-    
+
     \tramobadge{Tramo 1}{$0 \le x \le 3.0\text{ m}$}
     Por semejanza de triángulos, la intensidad de carga a cota $x$ es:
     \begin{equation}
@@ -145,7 +140,7 @@ La ecuación complementaria que resuelve el sistema es la \textbf{condición cin
     \end{equation}
 
     \paso{3}{Ecuación de Compatibilidad Cinemática ($\Delta l_{AB} = 0$)}
-    
+
     Al estar rígidamente fijados ambos extremos:
     \begin{equation}
         \Delta l_{AB} = \int_0^3 \frac{N_1(x)}{E \Omega_1} \, dx + \int_3^4 \frac{N_{2A}(x)}{E \Omega_2} \, dx + \int_4^6 \frac{N_{2B}(x)}{E \Omega_2} \, dx = 0
@@ -157,7 +152,7 @@ La ecuación complementaria que resuelve el sistema es la \textbf{condición cin
     Calculando cada término por separado:
     \begin{align}
         I_1 & = \frac{1}{2} \left[ 7.5 \frac{x^3}{3} - H_A x \right]_0^3 = \frac{1}{2} \left( 2.5 \cdot 27 - 3H_A \right) = \frac{67.5 - 3H_A}{2} = 33.75 - 1.5H_A \\
-        I_2 & = \left[ (57.5 - H_A)x \right]_3^4 = (57.5 - H_A) \cdot (4 - 3) = 57.5 - H_A \\
+        I_2 & = \left[ (57.5 - H_A)x \right]_3^4 = (57.5 - H_A) \cdot (4 - 3) = 57.5 - H_A                                                                         \\
         I_3 & = \left[ (42.5 - H_A)x \right]_4^6 = (42.5 - H_A) \cdot (6 - 4) = 85.0 - 2H_A
     \end{align}
     Sumando todas las integrales:
@@ -173,7 +168,7 @@ La ecuación complementaria que resuelve el sistema es la \textbf{condición cin
     \end{equation}
 
     \paso{4}{Valores del Esfuerzo Axil y Tensiones Normales}
-    
+
     \tramobadge{Tramo 1}{$0 \le x \le 3.0\text{ m}$}
     $N(0) = \mathbf{-39.17\text{ kN}}$, $N(3^-) = 7.5(9) - 39.17 = \mathbf{+28.33\text{ kN}}$.
     \begin{equation}
@@ -256,71 +251,71 @@ Al tratarse de una única ecuación de equilibrio para dos incógnitas ($N_A, N_
 
     \begin{center}
         \adjustbox{max width=0.88\textwidth}{%
-            \begin{tikzpicture}[>=Latex, scale=1.05]
-                % Suelo empotrado
-                \draw[line width=1.4pt] (-2.6, -0.6) -- (2.6, -0.6);
-                \foreach \x in {-2.4, -2.0, -1.6, -1.2, -0.8, -0.4, 0.0, 0.4, 0.8, 1.2, 1.6, 2.0, 2.4} {
-                    \draw[thick] (\x, -0.6) -- ++(-0.25, -0.25);
-                }
-                \node[below=0.35cm, font=\small\bfseries] at (0, -0.6) {Empotramiento en base};
+            \begin{tikzpicture}[>=Latex, scale=1.2]
+                % Suelo empotrado en la base
+                \draw[line width=1.5pt] (-2.9, -0.7) -- (2.9, -0.7);
+                \foreach \x in {-2.7, -2.3, -1.9, -1.5, -1.1, -0.7, -0.3, 0.1, 0.5, 0.9, 1.3, 1.7, 2.1, 2.5} {
+                        \draw[thick] (\x, -0.7) -- ++(-0.25, -0.25);
+                    }
+                \node[below=0.35cm, font=\small\bfseries] at (0, -0.7) {Empotramiento en base};
 
-                % Placa rígida en la base (sobre el suelo empotrado)
-                \draw[thick, fill=gray!30] (-2.2, -0.6) rectangle (2.2, -0.3);
-                \node[left=3pt, font=\scriptsize\bfseries, gray!60!black] at (-2.2, -0.45) {Placa rígida base};
+                % PLACA RÍGIDA INFERIOR (Cilindro macizo de apoyo con volumen 3D)
+                \draw[thick, fill=gray!30] (-2.4, -0.3) -- (-2.4, -0.7) arc (180:360:2.4 and 0.38) -- (2.4, -0.3) arc (0:-180:2.4 and 0.38);
+                \draw[thick, fill=gray!45] (0, -0.3) ellipse (2.4 and 0.38);
+                \node[left=8pt, font=\scriptsize\bfseries, gray!70!black] at (-2.4, -0.5) {Placa rígida base};
 
-                % Elipses base inferior z=0
+                % CILINDROS COMPUESTOS (Material A exterior y B interior) entre z = -0.3 y z = 3.6
                 % Cilindro exterior (Material A)
-                \draw[thick, fill=blue!12] (-1.8, 0) -- (-1.8, 3.5) arc (180:360:1.8 and 0.4) -- (1.8, 0) arc (0:-180:1.8 and 0.4);
-                % Parte oculta elipse inferior
-                \draw[dashed, blue!60!black] (-1.8, 0) arc (180:0:1.8 and 0.4);
+                \draw[thick, fill=blue!12] (-1.8, -0.3) -- (-1.8, 3.6) arc (180:360:1.8 and 0.35) -- (1.8, -0.3) arc (0:-180:1.8 and 0.35);
+                \draw[dashed, blue!60!black] (-1.8, -0.3) arc (180:0:1.8 and 0.35);
 
                 % Cilindro interior (Material B)
-                \draw[thick, fill=orange!22] (-0.85, 0) -- (-0.85, 3.5) arc (180:360:0.85 and 0.22) -- (0.85, 0) arc (0:-180:0.85 and 0.22);
-                \draw[dashed, orange!70!black] (-0.85, 0) arc (180:0:0.85 and 0.22);
+                \draw[thick, fill=orange!22] (-0.85, -0.3) -- (-0.85, 3.6) arc (180:360:0.85 and 0.2) -- (0.85, -0.3) arc (0:-180:0.85 and 0.2);
+                \draw[dashed, orange!70!black] (-0.85, -0.3) arc (180:0:0.85 and 0.2);
 
-                % Elipses en la cara superior z=3.5 m (bajo la placa)
-                \draw[thick, fill=blue!20] (0, 3.5) ellipse (1.8 and 0.4);
-                \draw[thick, fill=orange!35] (0, 3.5) ellipse (0.85 and 0.22);
+                % Cara superior de los cilindros en z = 3.6
+                \draw[thick, fill=blue!22] (0, 3.6) ellipse (1.8 and 0.35);
+                \draw[thick, fill=orange!35] (0, 3.6) ellipse (0.85 and 0.2);
 
-                % Placa rígida superior indeformable con espesor cilíndrico/elíptico
-                \draw[thick, fill=gray!35] (-2.1, 3.7) -- (-2.1, 4.0) arc (180:360:2.1 and 0.45) -- (2.1, 3.7) arc (0:-180:2.1 and 0.45);
-                \draw[thick, fill=gray!50] (0, 4.0) ellipse (2.1 and 0.45);
-                \node[right=5pt, font=\scriptsize\bfseries, gray!60!black] at (2.1, 3.85) {Placa rígida superior};
+                % PLACA RÍGIDA SUPERIOR INDEFORMABLE (Placa de reparto maciza)
+                \draw[thick, fill=gray!35] (-2.4, 3.6) -- (-2.4, 4.05) arc (180:360:2.4 and 0.40) -- (2.4, 3.6) arc (0:-180:2.4 and 0.40);
+                \draw[thick, fill=gray!50] (0, 4.05) ellipse (2.4 and 0.40);
+                \node[right=8pt, font=\scriptsize\bfseries, gray!70!black] at (2.4, 3.82) {Placa rígida superior};
 
-                % Rotulación de materiales despejada
-                \node[font=\footnotesize\bfseries, blue!85!black] at (-1.35, 1.75) {Mat. $A$};
-                \node[font=\footnotesize\bfseries, blue!85!black] at (1.35, 1.75) {Mat. $A$};
-                \node[font=\footnotesize\bfseries, orange!90!black] at (0, 1.75) {Mat. $B$ (Núcleo)};
+                % Badges internos limpios con fondo blanco para total nitidez
+                \node[font=\footnotesize\bfseries, blue!85!black, fill=white, inner sep=1.5pt, rounded corners=1pt] at (-1.35, 1.65) {$A$};
+                \node[font=\footnotesize\bfseries, blue!85!black, fill=white, inner sep=1.5pt, rounded corners=1pt] at (1.35, 1.65) {$A$};
+                \node[font=\footnotesize\bfseries, orange!90!black, fill=white, inner sep=1.5pt, rounded corners=1pt] at (0, 1.65) {$B$};
 
-                % Flechas internas de esfuerzo de compresión en cada componente
-                \draw[->, line width=0.7pt, red!85!black] (-1.35, 1.1) -- (-1.35, 0.6);
-                \draw[<-, line width=0.7pt, red!85!black] (-1.35, 2.9) -- (-1.35, 2.4);
+                % Flechas internas indicativas de compresión uniforme
+                \draw[->, line width=0.8pt, red!85!black] (-1.35, 0.9) -- (-1.35, 0.3);
+                \draw[<-, line width=0.8pt, red!85!black] (-1.35, 3.0) -- (-1.35, 2.4);
 
-                \draw[->, line width=0.7pt, red!85!black] (0, 1.1) -- (0, 0.6);
-                \draw[<-, line width=0.7pt, red!85!black] (0, 2.9) -- (0, 2.4);
+                \draw[->, line width=0.8pt, red!85!black] (0, 0.9) -- (0, 0.3);
+                \draw[<-, line width=0.8pt, red!85!black] (0, 3.0) -- (0, 2.4);
 
-                \draw[->, line width=0.7pt, red!85!black] (1.35, 1.1) -- (1.35, 0.6);
-                \draw[<-, line width=0.7pt, red!85!black] (1.35, 2.9) -- (1.35, 2.4);
+                \draw[->, line width=0.8pt, red!85!black] (1.35, 0.9) -- (1.35, 0.3);
+                \draw[<-, line width=0.8pt, red!85!black] (1.35, 3.0) -- (1.35, 2.4);
 
-                % Llamadas a propiedades de sección fuera del cuerpo
-                \draw[->, thick, blue!85!black] (-1.35, 3.2) -- (-2.5, 3.2) node[left, font=\scriptsize\bfseries] {$\Omega_A, E_A$};
-                \draw[->, thick, orange!85!black] (0.4, 2.2) -- (2.5, 2.2) node[right, font=\scriptsize\bfseries] {$\Omega_B, E_B$};
+                % Indicadores externos con descripción y propiedades completas
+                \draw[->, thick, blue!85!black] (-1.35, 3.2) -- (-2.6, 3.2) node[left, align=right, font=\footnotesize\bfseries] {Tubo exterior ($A$)\\\small $\Omega_A, E_A$};
+                \draw[->, thick, orange!85!black] (0.4, 2.3) -- (3.35, 2.3) node[right, align=left, font=\footnotesize\bfseries] {Núcleo central ($B$)\\\small $\Omega_B, E_B$};
 
-                % Carga F centrada sobre la placa superior
-                \draw[->, line width=2.2pt, red!85!black] (0, 5.4) -- (0, 4.05) node[midway, left=3pt, font=\bfseries] {$F$};
+                % Carga exterior F centrada sobre la placa superior
+                \draw[->, line width=2.4pt, red!85!black] (0, 5.5) node[above=2pt, font=\large\bfseries] {$F$} -- (0, 4.12);
 
-                % Cota de longitud L
-                \draw[<->, line width=0.8pt] (2.5, 0) -- node[right=3pt, font=\small] {$L$} (2.5, 3.5);
+                % Cota de longitud total L
+                \draw[<->, line width=0.8pt] (2.65, -0.3) -- node[right=2pt, font=\small] {$L$} (2.65, 3.6);
             \end{tikzpicture}%
         }
     \end{center}
-    
+
     \textbf{Determinar} la distribución analítica de fuerzas axiles $N_A, N_B$, las tensiones de trabajo $\sigma_A, \sigma_B$ y la condición de verificación resistente.
 
     \tcblower
 
     \paso{1}{Compatibilidad Cinemática de Deformaciones}
-    
+
     Dado que las placas de los extremos permanecen planas y paralelas (hipótesis de deformación solidaria de Navier):
     \begin{equation}
         \Delta l_A = \Delta l_B \implies \frac{N_A \cdot L}{E_A \Omega_A} = \frac{N_B \cdot L}{E_B \Omega_B}
@@ -331,7 +326,7 @@ Al tratarse de una única ecuación de equilibrio para dos incógnitas ($N_A, N_
     \end{equation}
 
     \paso{2}{Resolución del Esfuerzo Axil por Componente}
-    
+
     Sustituyendo en la ecuación de equilibrio global $F = N_A + N_B$:
     \begin{equation}
         F = N_B \left( 1 + \frac{E_A \Omega_A}{E_B \Omega_B} \right) = N_B \left( \frac{E_A \Omega_A + E_B \Omega_B}{E_B \Omega_B} \right)
@@ -343,13 +338,13 @@ Al tratarse de una única ecuación de equilibrio para dos incógnitas ($N_A, N_
     \end{align}
 
     \paso{3}{Tensiones Normales y Criterio de Resistencia}
-    
+
     Las tensiones elásticas en cada material valen:
     \begin{align}
         \sigma_A & = \frac{N_A}{\Omega_A} = \frac{F}{E_A \Omega_A + E_B \Omega_B} \cdot E_A = E_A \cdot \varepsilon \\
         \sigma_B & = \frac{N_B}{\Omega_B} = \frac{F}{E_A \Omega_A + E_B \Omega_B} \cdot E_B = E_B \cdot \varepsilon
     \end{align}
-    donde $\varepsilon = \frac{\Delta l}{L} = \frac{F}{E_A \Omega_A + E_B \Omega_B}$ es la deformación unitaria longitudinal común. 
+    donde $\varepsilon = \frac{\Delta l}{L} = \frac{F}{E_A \Omega_A + E_B \Omega_B}$ es la deformación unitaria longitudinal común.
 
     \textbf{Condición de comprobación resistente:} Para garantizar la integridad del conjunto, \textbf{ambos} materiales deben satisfacer de forma simultánea su límite admisible:
     \begin{equation}
@@ -364,133 +359,1297 @@ Al tratarse de una única ecuación de equilibrio para dos incógnitas ($N_A, N_
 
 
 
-%% maxima carga F que puede soportar la estructura  // maxima carga F que puedo aplicar en la pieza Problema dos cilindros coaxiales con un empotramiento en la base
-%% Material de fuera aluminio interior latos Datos:para el aluminio \phi_ext =  40mm \phi_int = 25mm  E_al = 72GPA \sigma_adm =80MPA
-%% para el laton \phi = 25mm  E_la = 100GPA \sigma_adm = 120MPA 
-% sabemos que la carga F se reparte entre el aluminio y laton asi que F= F_al *F_lat y por ser una barra con carga axial el diagrama de axiles N=-F constante en toda la barra
-%% F= N_al + N_lat , luego delta L_al = delta L_lat
-%%  delta L_al = N_al * L_al / E_al *Omega_al  =   N_lat*l_al / E_lat *Omega_lat   = \sigma_lat/ E_lat = sigmaal/eal 
-%% Sigma lat = (Elat/Eal) * sigma al 
-%Sigmalat = 100/72 sigma al = 1.38 sigma al
-%%  como la maxima carga es los materiales a su maxima capacidad, como se deforman de forma conjunta primero hacemos una suposicion
-%% por ejemplo que el laton trabaja a su maxima capacidad  es decir sigmamax laton= sigma adm lat ---> 120MPA ----> tension del alumnio = 120MPA/1.38 = 86.95MPA  y como 86.95MPA>80MPA  no es admisible 
-% entoces ahora supondremos que es el aluminio el que trabaja a su maxima capacidad es decir sigma max , sigma al = sigma adm al ---> 80MPA ---> tension del laton = 80*1.38 = 110.4mpa y como 110.4mpa<120mpa es admisible. 
-% Conclusion: el aluminio es el que limita la carga  y la carga maxima es 
-% ahora sacamos el axil del aluminio que es N_d/omega  al tener el sigma max al_d = 61261N
-%luego sacamos el axil del laton que es 54540.5 N
-%F = 115801 N 
+%% maxima carga F que puede soportar la estructura // maxima carga F que puedo aplicar en la pieza
+\ex{Cálculo de Carga Máxima Admisible en Cilindro Coaxial Bimatérico}{
+    Se dispone de una columna compuesta por dos cilindros concéntricos coaxiales de igual longitud $L$, perfectamente adheridos y empotrados en su base, sometidos a compresión por una carga centrada en su cabeza libre mediante una placa rígida indeformable.
 
-%% todo esto responde a la que puedo soportar ya que viene de tmax < tadm ya que lo hemos hecho con las tensiones mayoradas y el axil es el mayorado 
-%% para la primera Fd = coeficiente mayorador de acciones * fk  = 115801/1.5=77200N  por ejemplo es decir que la que puede soportar es fd y la que puedo aplicar es fk 
+    \textbf{Geometría y propiedades mecánicas de los materiales:}
+    \begin{itemize}
+        \item \textbf{Tubo exterior de Aluminio:} Diámetro exterior $\phi_{\text{ext}} = 40\text{ mm}$, diámetro interior $\phi_{\text{int}} = 25\text{ mm}$, módulo de Young $E_{\text{al}} = 72\text{ GPa} = 72\,000\text{ MPa}$, tensión admisible $\sigma_{\text{adm,al}} = 80\text{ MPa}$.
+        \item \textbf{Núcleo macizo de Latón:} Diámetro $\phi = 25\text{ mm}$, módulo de Young $E_{\text{la}} = 100\text{ GPa} = 100\,000\text{ MPa}$, tensión admisible $\sigma_{\text{adm,la}} = 120\text{ MPa}$.
+    \end{itemize}
 
-%! Caso de estructuras articuladas dos variantes 1 isoestaticas 2 hipercentaticas
-% Estructuras articuladas: dfn en los nudos colocaremos siempre una articulacion 
-%- Barras y nudos
-%-Articulaciones en los nudos
-%despreciamos el peso propio
-% las cargas estan aplicadas en los nudos , es decir no hay a lo largo de la barraa ejemeplo cercha 
-% una barra en los extrmemos apoyos fijos en el medio un nudo y 2 nudos arriba por ejemplo en x=1/4 y x=3/4  en y =1  en el nudo de arriba izquierda (A) hay fuerzas F1 y F2 en el otro (B) F3 en el de abajo nada
-% Cortante = 0 mf = 0 axil = cte =! 0 
-%damos un corte tras el nudo A, y miramos sus esfuerzos internos quedandonos en la derecha de la barra  mfa horario Q arriba Na derecha, Mfb antihorario NB derecha QB abajo 
-% % luego otro en el izquierdo del nudo B de forma que se pinta el diagrama como se viera la barra con ambos cortes en izquierda y derecha
-% Calculo del equilibrio = sum Fx= 0 = -NA+NB= Na=NB
-%sum Fy = Qa - QB --> QA= QB
-%sum M_a = -QB*L + mf_b - mf_a (Ejemplo el tomar el momento en A) recordatorio en una rotula no habia impedimento del giro se añadia una ecuacion que el momento flector era 0 de ahi se puede ver que MF_a y mf_b son ambos 0 
-% se despeja de ma ---> QB = 0 y de ahi en la ecuacion de Fy QA= 0 
-% las barras no se flectan unas trabajaran a compresion y otras a traccion 
+    \begin{center}
+        \adjustbox{max width=0.85\textwidth}{%
+            \begin{tikzpicture}[>=Latex, scale=1.0]
+                % Sección transversal en círculo concéntrico
+                \begin{scope}[shift={(0,2.5)}]
+                    \draw[thick, fill=blue!15] (0,0) circle (1.8);
+                    \draw[thick, fill=orange!35] (0,0) circle (1.125);
+                    \draw[dashed, gray] (-2.2,0) -- (2.2,0);
+                    \draw[dashed, gray] (0,-2.2) -- (0,2.2);
+                    \draw[<->, line width=0.7pt] (-1.125,0) -- (1.125,0) node[midway, above, font=\scriptsize\bfseries] {$\phi = 25\text{ mm}$};
+                    \draw[<->, line width=0.7pt] (-1.8,-1.2) -- (1.8,-1.2) node[midway, below, font=\scriptsize\bfseries] {$\phi_{\text{ext}} = 40\text{ mm}$};
+                    \node[font=\footnotesize\bfseries, blue!85!black] at (0, 1.45) {Aluminio (exterior)};
+                    \node[font=\footnotesize\bfseries, orange!90!black] at (0, -0.4) {Latón};
+                \end{scope}
 
-%! pista para saber si estara a traccion o compresion si es un tirante la barra por ejemplo solo trabajan a traccion ya que los tirantes son varillas de acero que trabajan a traccion 
+                % Alzado del cilindro bimatérico
+                \begin{scope}[shift={(5.5,0)}]
+                    % Base empotrada
+                    \draw[line width=1.5pt] (-2.2, 0) -- (2.2, 0);
+                    \foreach \x in {-2.0, -1.6, -1.2, -0.8, -0.4, 0.0, 0.4, 0.8, 1.2, 1.6, 2.0} {
+                            \draw[thick] (\x, 0) -- ++(-0.25, -0.25);
+                        }
+                    % Tubo aluminio
+                    \draw[thick, fill=blue!15] (-1.8, 0) rectangle (1.8, 3.5);
+                    % Núcleo latón
+                    \draw[thick, fill=orange!35] (-1.0, 0) rectangle (1.0, 3.5);
+                    % Placa rígida superior
+                    \draw[thick, fill=gray!40] (-2.1, 3.5) rectangle (2.1, 3.9);
+                    \node[above right=2pt, font=\scriptsize\bfseries, gray!70!black] at (0.35, 3.9) {Placa indeformable};
+                    % Carga centrada elevada y despejada
+                    \draw[->, line width=2pt, red!85!black] (0, 5.4) -- (0, 4.0) node[pos=0.35, left=4pt, font=\bfseries] {$F$};
+                    % Cotas
+                    \draw[<->, line width=0.8pt] (2.4, 0) -- node[right=3pt, font=\small] {$L$} (2.4, 3.5);
+                    % Etiquetas
+                    \node[font=\scriptsize\bfseries, blue!85!black] at (-1.4, 1.75) {Al};
+                    \node[font=\scriptsize\bfseries, blue!85!black] at (1.4, 1.75) {Al};
+                    \node[font=\scriptsize\bfseries, orange!90!black] at (0, 1.75) {Latón};
+                \end{scope}
+            \end{tikzpicture}%
+        }
+    \end{center}
 
-%^ Ejercicio de union de dos barras isoestaticas (Aclaracion es o mismo que se vea  el apoyo fijo que las lineas del apoyo fijo y solo la rotula sin el triangulo )
-% 2 articulaciones fijas una arriba (A) y otra abajo(C) ambas van hacia un punto qque esta a 3.6m  en horizontal de la de abajo (B) Fk= 30kn que va de B hacia abajo coeficiente de minoraricion \gamma _f = 1..6
-% AB tirante de acero b500 -> fyk = 500n/mm2 , gammas= 1.5 E = 2.1 e5 N/mm phi = ?
-% CB barra de madera Fmk = 7N/mm^2 gammam=1.5
-% Dimensionar las barras es decir AB y bC para cumplir a ELU (estado limite ultimo de resistencia ) es decir sigma max _d < sigma admisible
-% sigma max AB < sigma adm acero  ... ...> Nab_d/ pi r^2 es decir mayorado  = sigma max ab_d <= sigma adm acero 
-% sigma max madera < sigma adm madera ... ...> Nab_d/ a^2 = sigma max bc_d <= sigma adm madera
+    \textbf{Determinar:}
+    \begin{enumerate}[label=\alph*)]
+        \item Cuál de los dos materiales agota primero su capacidad resistente e impone la condición de diseño.
+        \item La máxima fuerza de compresión admisible resistente $F_{\text{adm}}$ (capacidad límite de la pieza) y el valor de servicio $F_k$ admisible si se adopta un coeficiente de seguridad / mayoración de acciones $\gamma_F = 1.50$.
+    \end{enumerate}
 
-% siempre se hace un corte y se sustituye la barra pro su axil que como sera constante, lo que hacemos es dar un corte antes de B se puede hablar de axil en la barra o en el nudo, el axil de traccion iria con flecha hacia A , desde el nudo hacia la barra es un axil positivo de traccion 
-% en la barra BC como es de compresion y me quedo con lo que necesito calcular en esta geometria se puede reducir al nudo B con NAB y Nbc dibujarlo con la flechas de ambos y la fuerza de 30 hacia abajo 
-%summ fx = 0 = -NAB cos alpha - nbc 
-%summ fy = NAB sen alpha - 30 = 0 
-% alpha se saca con la geometria y resolviendo Nab = 50Kn   Nbc = -40 Kn  se comprueba con ello que el tirante trabaja a traccion y el de abjo a compresion 
-% como la pregunta era dimensionar, se introduce en la formula de la linea de la linea 409 = 1.6 * 50 *10e3 / pi/r^2 <= 500/1.15 r>= 7.65mm ... > Diametro 16 mm
-% en la otra 1.6*40*10e3 /a^2 <= 7/1.5   a >= 178. barra \approxx 180mm (ya que el 7 hay que minorarlo)
+    \tcblower
 
-%% posible pregunta calcular posicion final del punto B para ver como se deforma 
+    \paso{1}{Cálculo de Secciones Transversales y Relación Elástica}
 
-% Como la barra B esta a traccion se alarga y la barra C se acorta los giros como son muy pequeños se hacen tangente al segmento por eso es angulo de 90 aunque se vea raro
-% aargamos Ab un trozo que es delta L  que lo dejaria en B' y como se acorta CB  lo ponemos un poco antes en la barra CB que seria B''
-% como la barra primero se alarga y luego gira o al contrario, los puntos posibles que estara sera una linea perpendicular a AB' y los posibes puntos de B'' es una linea perpendicular aa Cb'' que es vertical pues donde corten ambas rectas ahi sera B''' que sera el real 
+    Las áreas de sección recta de ambos materiales son:
+    \begin{align}
+        \Omega_{\text{la}} & = \frac{\pi \cdot \phi^2}{4} = \frac{\pi \cdot 25^2}{4} \approx 490.87\text{ mm}^2                                               \\
+        \Omega_{\text{al}} & = \frac{\pi \cdot (\phi_{\text{ext}}^2 - \phi_{\text{int}}^2)}{4} = \frac{\pi \cdot (40^2 - 25^2)}{4} \approx 765.76\text{ mm}^2
+    \end{align}
+
+    \paso{2}{Compatibilidad Cinemática y Relación entre Tensiones}
+
+    Al desplazarse rígidamente la placa superior, ambos materiales experimentan el mismo acortamiento longitudinal:
+    \begin{equation}
+        \Delta l_{\text{al}} = \Delta l_{\text{la}} \implies \varepsilon_{\text{al}} = \varepsilon_{\text{la}}
+    \end{equation}
+    Aplicando la ley de Hooke uniaxial ($\sigma = E \cdot \varepsilon$):
+    \begin{equation}
+        \frac{\sigma_{\text{la}}}{E_{\text{la}}} = \frac{\sigma_{\text{al}}}{E_{\text{al}}} \implies \sigma_{\text{la}} = \frac{E_{\text{la}}}{E_{\text{al}}} \cdot \sigma_{\text{al}} = \frac{100\,000}{72\,000} \cdot \sigma_{\text{al}} \approx 1.3889 \cdot \sigma_{\text{al}}
+    \end{equation}
+
+    \paso{3}{Identificación del Material Limitante}
+
+    Para encontrar la máxima carga que tolera el conjunto, comprobamos cuál de los dos alcanza en primer lugar su tensión admisible:
+    \begin{itemize}
+        \item \textbf{Hipótesis 1 (El latón alcanza su límite primero):}
+              Si suponemos $\sigma_{\text{la}} = \sigma_{\text{adm,la}} = 120\text{ MPa}$, la tensión inducida en el aluminio sería:
+              \begin{equation}
+                  \sigma_{\text{al}} = \frac{120}{1.3889} \approx 86.40\text{ MPa} > \sigma_{\text{adm,al}} = 80\text{ MPa} \quad \implies \text{\textbf{NO admisible (fallo del aluminio)}}.
+              \end{equation}
+        \item \textbf{Hipótesis 2 (El aluminio alcanza su límite primero):}
+              Si fijamos el aluminio a su límite $\sigma_{\text{al}} = \sigma_{\text{adm,al}} = 80\text{ MPa}$, la tensión correspondiente en el latón es:
+              \begin{equation}
+                  \sigma_{\text{la}} = 1.3889 \cdot 80 \approx 111.11\text{ MPa} \le \sigma_{\text{adm,la}} = 120\text{ MPa} \quad \implies \text{\textbf{Admisible}}.
+              \end{equation}
+    \end{itemize}
+    \textbf{Conclusión:} El \textbf{aluminio es el material limitante} que condiciona la resistencia del conjunto.
+
+    \paso{4}{Determinación de Fuerzas Axiles y Carga Máxima Soportable}
+
+    Calculamos el esfuerzo axil absorbido por cada componente en el estado límite resistente:
+    \begin{align}
+        N_{\text{al}} & = \sigma_{\text{al}} \cdot \Omega_{\text{al}} = 80\text{ N/mm}^2 \cdot 765.76\text{ mm}^2 \approx 61\,261\text{ N} \approx 61.26\text{ kN}       \\
+        N_{\text{la}} & = \sigma_{\text{la}} \cdot \Omega_{\text{la}} = 111.11\text{ N/mm}^2 \cdot 490.87\text{ mm}^2 \approx 54\,540.5\text{ N} \approx 54.54\text{ kN}
+    \end{align}
+    Por equilibrio global, la carga axial máxima que puede resistir la estructura es:
+    \begin{equation}
+        F_{\text{adm}} = N_{\text{al}} + N_{\text{la}} = 61\,261 + 54\,540.5 = \mathbf{115\,801.5\text{ N}} \approx \mathbf{115.80\text{ kN}}
+    \end{equation}
+
+    \paso{5}{Diferenciación entre Carga Soportable ($F_d$) y Carga de Servicio Aplicable ($F_k$)}
+
+    \begin{tcolorbox}[colback=yellow!10, colframe=orange!80!black, arc=3pt, boxrule=0.8pt]
+        \textbf{Criterio de Seguridad en Cálculo Estructural:}
+        \begin{itemize}
+            \item \textbf{Carga que puede soportar la pieza ($F_d$):} Es la capacidad resistente última/admisible obtenida con las tensiones máximas permitidas: $F_d = 115.80\text{ kN}$.
+            \item \textbf{Carga característica que se puede aplicar en servicio ($F_k$):} Teniendo en cuenta el coeficiente de mayoración de acciones $\gamma_F = 1.50$ ($F_d = \gamma_F \cdot F_k$):
+                  \begin{equation}
+                      F_k = \frac{F_d}{\gamma_F} = \frac{115\,801.5}{1.50} \approx \mathbf{77\,201\text{ N}} \approx \mathbf{77.20\text{ kN}}
+                  \end{equation}
+        \end{itemize}
+    \end{tcolorbox}
+}
+
+%-----------------------------------------------------------------------------
+\subsection{Estructuras Articuladas: Fundamentos y Comportamiento Uniaxial}
+
+Las \textbf{estructuras articuladas} (cerchas o celosías) son sistemas formados por barras rectas unidas entre sí en sus extremos mediante \textbf{nudos articulados} (rótulas ideales).
+
+\begin{tcolorbox}[colback=white, colframe=myb!80!black, arc=4pt, boxrule=0.9pt]
+    \textbf{Hipótesis Fundamentales de Cálculo en Celosías:}
+    \begin{enumerate}
+        \item \textbf{Articulaciones ideales en los nudos:} No impiden el giro libre relativo de las barras; por consiguiente, el momento flector en el nudo es nulo ($M = 0$).
+        \item \textbf{Cargas aplicadas exclusivamente en los nudos:} No existen cargas intermedias distribuidas ni puntuales sobre las directrices de las barras.
+        \item \textbf{Peso propio despreciable} frente a las cargas exteriores de cálculo.
+    \end{enumerate}
+\end{tcolorbox}
+
+\subsubsection{Demostración: Esfuerzo Axil Puro Constante ($N = \text{cte}$, $V = 0$, $M = 0$)}
+
+Consideremos una barra articulada genérica de longitud $L$ delimitada entre dos nudos $A$ y $B$. Al realizar un corte inmediatamente tras el nudo $A$ y otro justo antes del nudo $B$, aislamos el tramo de barra con sus esfuerzos internos resistentes en convenio elástico positivo:
+
+\begin{center}
+    \adjustbox{max width=0.85\textwidth}{%
+        \begin{tikzpicture}[>=Latex, scale=1.15]
+            % Barra recta conectada al exterior de las rótulas (radio 3.5pt)
+            \draw[line width=4pt, blue!75!black] (3.5pt, 0) -- (6 - 0.12, 0);
+
+            % Esfuerzos en extremo A (partiendo estrictamente del exterior de la rótula)
+            \draw[->, line width=1.3pt, red!85!black] (-3.5pt, 0) -- (-1.3, 0) node[left, font=\bfseries] {$N_A$};
+            \draw[->, line width=1.3pt, red!85!black] (0, 3.5pt) -- (0, 1.3) node[above, font=\bfseries] {$V_A$};
+            \draw[->, line width=1.3pt, red!85!black] (0.5, 0.5) arc (45:135:0.6) node[pos=0.25, above right=2pt, font=\bfseries] {$M_A$};
+
+            % Esfuerzos en extremo B (partiendo estrictamente del exterior de la rótula)
+            \draw[->, line width=1.3pt, red!85!black] (6 + 0.12, 0) -- (7.3, 0) node[right, font=\bfseries] {$N_B$};
+            \draw[->, line width=1.3pt, red!85!black] (6, -3.5pt) -- (6, -1.3) node[below, font=\bfseries] {$V_B$};
+            \draw[->, line width=1.3pt, red!85!black] (5.5, -0.5) arc (225:315:0.6) node[pos=0.25, below left=2pt, font=\bfseries] {$M_B$};
+
+            % Cota de longitud L
+            \draw[<->, line width=0.8pt] (0, -1.8) -- node[below=2pt, font=\small] {$L$} (6, -1.8);
+
+            % Rótulas dibujadas al final (en capa superior para nitidez absoluta)
+            % Letra B desplazada hacia arriba e izquierda para no chocar con flecha MB ni VB
+            \draw[thick, fill=white] (0, 0) circle (3.5pt) node[below=4pt, font=\bfseries] {$A$};
+            \draw[thick, fill=white] (6, 0) circle (3.5pt) node[above left=2pt, font=\bfseries] {$B$};
+        \end{tikzpicture}%
+    }
+\end{center}
+
+Al ser ambos extremos rótulas sin restricción al giro, los momentos en los enlaces se anulan por definición de la coacción:
+\begin{equation}
+    M_A = 0 \quad \text{y} \quad M_B = 0
+\end{equation}
+Planteando las tres ecuaciones de equilibrio estático del elemento aislado:
+\begin{enumerate}
+    \item \textbf{Equilibrio de momentos en el punto $A$:}
+          \begin{equation}
+              \sum M_A = 0 \implies -V_B \cdot L + M_B - M_A = 0 \implies -V_B \cdot L = 0 \implies \mathbf{V_B = 0}
+          \end{equation}
+    \item \textbf{Equilibrio de fuerzas verticales:}
+          \begin{equation}
+              \sum F_y = 0 \implies V_A - V_B = 0 \implies \mathbf{V_A = V_B = 0}
+          \end{equation}
+    \item \textbf{Equilibrio de fuerzas horizontales:}
+          \begin{equation}
+              \sum F_x = 0 \implies -N_A + N_B = 0 \implies \mathbf{N_A = N_B = N = \text{constante}}
+          \end{equation}
+\end{enumerate}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!60!black, arc=3pt, boxrule=0.8pt]
+    \textbf{Principio Esencial:} Las barras de una estructura articulada trabajan \textbf{únicamente a esfuerzo axil puro y constante} a lo largo de toda su directriz:
+    \begin{itemize}
+        \item $N > 0$: Barra solicitada a \textbf{tracción} (tiende a alargarse). Un caso representativo son los \textbf{tirantes} (cables o varillas de acero, que no admiten esfuerzos de compresión).
+        \item $N < 0$: Barra solicitada a \textbf{compresión} (tiende a acortarse, requiriendo verificar pandeo si es esbelta).
+    \end{itemize}
+\end{tcolorbox}
+
+%-----------------------------------------------------------------------------
+\subsection{Sistemas Isostáticos de Barras Articuladas}
+
+\ex{Dimensionamiento y Cinemática de Nudo Articulado Bipodal}{
+    Se considera una estructura plana articulada formada por dos barras que concurren en el nudo $B$. En dicho nudo actúa una carga característica vertical descendente $F_k = 30\text{ kN}$. La posición geométrica de los apoyos fijos $A$ y $C$ respecto al nudo cargado $B$ es la siguiente:
+    \begin{itemize}
+        \item El apoyo $C$ se encuentra en la cota horizontal base, a una distancia de $4.8\text{ m}$ a la izquierda del nudo $B$ ($x_C = 0$, $y_C = 0$; $x_B = 4.8\text{ m}$, $y_B = 0$). La barra $CB$ es horizontal ($L_{CB} = 4.8\text{ m}$).
+        \item El apoyo $A$ se ubica sobre la misma vertical del apoyo $C$ a una cota superior $y_A = 3.6\text{ m}$ ($x_A = 0$, $y_A = 3.6\text{ m}$). La barra inclinada $AB$ tiene una longitud $L_{AB} = \sqrt{4.8^2 + 3.6^2} = 6.0\text{ m}$.
+    \end{itemize}
+
+    \textbf{Materiales, seguridad y datos de dimensionamiento:}
+    \begin{itemize}
+        \item Coeficiente de mayoración de acciones: $\gamma_F = 1.60$. Carga de cálculo: $F_d = \gamma_F \cdot F_k = 1.60 \cdot 30 = 48\text{ kN}$.
+        \item \textbf{Barra $AB$ (Tirante de Acero B500):} Límite elástico característico $f_{yk} = 500\text{ N/mm}^2$, coeficiente de minoración $\gamma_s = 1.15$, módulo $E_s = 2.1 \times 10^5\text{ N/mm}^2$. Sección circular maciza de radio $r$.
+        \item \textbf{Barra $CB$ (Barra de Madera estructural):} Resistencia característica $f_{mk} = 7\text{ N/mm}^2$, coeficiente de minoración $\gamma_m = 1.50$, módulo $E_m = 1.0 \times 10^4\text{ N/mm}^2$. Sección transversal cuadrada de lado $a$.
+    \end{itemize}
+
+    \begin{center}
+        \adjustbox{max width=0.88\textwidth}{%
+            \begin{tikzpicture}[>=Latex, scale=1.1]
+                % Coordenadas exactas a escala (escala 1 m -> 1 cm)
+                \coordinate (A) at (0, 3.6);
+                \coordinate (C) at (0, 0);
+                \coordinate (B) at (4.8, 0);
+
+                % Muro de apoyo vertical en x=0
+                \draw[line width=1.5pt] (0, -0.6) -- (0, 4.2);
+                \foreach \y in {-0.4, 0.2, 0.8, 1.4, 2.0, 2.6, 3.2, 3.8} {
+                        \draw[thick] (0, \y) -- ++(-0.25, -0.25);
+                    }
+
+                % Barras conectadas estrictamente al borde exterior de las rótulas (r = 3.5pt)
+                \draw[line width=2.2pt, blue!80!black] ($(A)!3.5pt!(B)$) -- ($(B)!3.5pt!(A)$) node[midway, above right, font=\small\bfseries] {Tirante $AB$ ($L=6.0\text{ m}$)};
+                \draw[line width=3.5pt, brown!80!black] ($(C)!3.5pt!(B)$) -- ($(B)!3.5pt!(C)$) node[midway, below=3pt, font=\small\bfseries] {Madera $CB$ ($4.8\text{ m}$)};
+
+                % Flecha de carga Fk desde el borde inferior de la rótula B
+                \draw[->, line width=2pt, red!85!black] ($(B)+(0, -3.5pt)$) -- ++(0, -1.8) node[midway, right=3pt, font=\bfseries] {$F_k = 30\text{ kN}$};
+
+                % Ángulo alpha con la horizontal (tan alpha = 3.6/4.8 = 3/4 => alpha = 36.87 deg)
+                % El arco se corta con precisión matemática sobre el tirante AB en 180 - 36.87 = 143.13 deg
+                \draw[thick, dotted] (B) -- ++(-1.8, 0);
+                \draw[thick, red!75!black] ($(B)+(-1.2, 0)$) arc (180:143.13:1.2) node[midway, left=2pt, font=\scriptsize\bfseries] {$\alpha$};
+
+                % Cotas de longitud
+                \draw[<->, line width=0.7pt] (-0.7, 0) -- node[left] {$3.6\text{ m}$} (-0.7, 3.6);
+                \draw[<->, line width=0.7pt] (0, -0.7) -- node[below] {$4.8\text{ m}$} (4.8, -0.7);
+
+                % Rótulas dibujadas al final en la capa superior
+                \draw[thick, fill=white] (A) circle (3.5pt) node[left=4pt] {$A$};
+                \draw[thick, fill=white] (C) circle (3.5pt) node[left=4pt] {$C$};
+                \draw[thick, fill=white] (B) circle (3.5pt) node[above right=3pt] {$B$};
+            \end{tikzpicture}%
+        }
+    \end{center}
+
+    \textbf{Determinar:}
+    \begin{enumerate}[label=\alph*)]
+        \item Los esfuerzos axiles en las barras $N_{AB}$ y $N_{CB}$, verificando su tipo de trabajo (tracción/compresión).
+        \item El dimensionamiento a Estado Límite Último (ELU): diámetro del tirante $AB$ y lado $a$ de la barra de madera $CB$.
+        \item Cinemática del nudo: Desplazamiento elástico y posición final del nudo $B$ ($B'''$).
+    \end{enumerate}
+
+    \tcblower
+
+    \paso{1}{Equilibrio Estático del Nudo $B$ y Convenio de Signos}
+
+    \begin{tcolorbox}[colback=blue!3!white, colframe=blue!60!black, arc=2pt, boxrule=0.6pt]
+        \textbf{Criterio Fundamental de Signos y Aislamiento del Nudo:}
+        \begin{itemize}
+            \item \textbf{No es necesario calcular las reacciones} en los apoyos fijos $A$ y $C$. Al aislar directamente el nudo articulado $B$, disponemos de 2 ecuaciones de equilibrio estático ($\sum F_x = 0$ y $\sum F_y = 0$) para determinar de forma unívoca las 2 incógnitas de esfuerzo axil ($N_{AB}$ y $N_{CB}$).
+            \item \textbf{Convenio de signos positivo para axiles:} Se dibuja todo axil incógnita como una fuerza \textbf{saliente del nudo hacia el interior de la barra}. Por definición:
+                  \begin{align}
+                      N > 0 &\implies \text{\textbf{Tracción}} \quad (\text{la barra estira del nudo}), \notag \\
+                      N < 0 &\implies \text{\textbf{Compresión}} \quad (\text{la barra empuja al nudo}).
+                  \end{align}
+        \end{itemize}
+    \end{tcolorbox}
+
+    La inclinación geométrica del tirante $AB$ respecto a la horizontal viene dada por:
+    \begin{equation}
+        \tan \alpha = \frac{3.6}{4.8} = \frac{3}{4} = 0.75 \implies \cos \alpha = \frac{4.8}{6.0} = 0.8, \quad \sin \alpha = \frac{3.6}{6.0} = 0.6
+    \end{equation}
+
+    Descomponemos el esfuerzo axial del tirante $N_{AB}$ según los ejes cartesianos:
+    \begin{align}
+        \text{Componente horizontal:} & \quad N_{AB,x} = N_{AB} \cos \alpha = 0.8 N_{AB} \quad (\leftarrow) \\
+        \text{Componente vertical:}   & \quad N_{AB,y} = N_{AB} \sin \alpha = 0.6 N_{AB} \quad (\uparrow)
+    \end{align}
+
+    \begin{center}
+        \adjustbox{max width=0.62\textwidth}{%
+            \begin{tikzpicture}[>=Latex, scale=1.15]
+                % Ejes coordenados
+                \draw[dashed, gray!60] (-3.8, 0) -- (1.0, 0);
+                \draw[dashed, gray!60] (0, -2.4) -- (0, 2.2);
+
+                \coordinate (B) at (0,0);
+
+                % Esfuerzo axil saliente de tracción en AB (hacia arriba-izquierda)
+                \draw[->, line width=1.8pt, blue!85!black] ($(B)+(-0.16, 0.12)$) -- (-3.2, 2.4) node[above left, font=\bfseries] {$N_{AB}$};
+                % Descomposición ortogonal de N_AB
+                \draw[dashed, blue!60!black, line width=0.8pt] (-3.2, 2.4) -- (-3.2, 0) node[above=2pt, font=\scriptsize\bfseries] {$N_{AB} \cos\alpha$};
+                \draw[dashed, blue!60!black, line width=0.8pt] (-3.2, 2.4) -- (0, 2.4) node[right=2pt, font=\scriptsize\bfseries] {$N_{AB} \sin\alpha$};
+
+                % Esfuerzo axil saliente de tracción en CB (horizontal a la izquierda)
+                \draw[->, line width=1.8pt, brown!85!black] ($(B)+(-3.5pt, 0)$) -- (-2.4, 0) node[below=5pt, font=\bfseries, brown!85!black] {$N_{CB}$};
+
+                % Carga externa F descendente
+                \draw[->, line width=2.0pt, red!85!black] ($(B)+(0, -3.5pt)$) -- (0, -2.0) node[right=3pt, font=\bfseries] {$F = 30\text{ kN}$};
+
+                % Arco de ángulo alpha acotado exactamente sobre la directriz de N_AB
+                \draw[thick, red!75!black] (-1.2, 0) arc (180:143.13:1.2) node[midway, left=2pt, font=\scriptsize\bfseries] {$\alpha$};
+
+                % Rótula B en capa superior
+                \draw[thick, fill=white] (B) circle (3.5pt) node[above right=2pt, font=\bfseries] {$B$};
+            \end{tikzpicture}%
+        }
+    \end{center}
+
+    Planteamos las ecuaciones de equilibrio estático del nudo $B$:
+    \begin{align}
+        \sum F_y = 0 & \implies N_{AB} \sin \alpha - F = 0 \implies 0.6 N_{AB} - 30 = 0 \implies \mathbf{N_{AB} = +50\text{ kN}} \quad \text{(Tracción)}                \\
+        \sum F_x = 0 & \implies -N_{AB} \cos \alpha - N_{CB} = 0 \implies -50 \cdot 0.8 - N_{CB} = 0 \implies \mathbf{N_{CB} = -40\text{ kN}} \quad \text{(Compresión)}
+    \end{align}
+    \textit{Interpretación física de los signos:}
+    \begin{itemize}
+        \item $N_{AB} = +50\text{ kN} > 0$: El tirante metálico trabaja a \textbf{tracción}, como corresponde a un cable que sostiene el nudo.
+        \item $N_{CB} = -40\text{ kN} < 0$: El signo negativo confirma que la barra de madera está sometida a \textbf{compresión}, apuntalando al nudo contra el muro.
+    \end{itemize}
+
+    \paso{2}{Dimensionamiento a Estado Límite Último (ELU)}
+
+    Mayoramos las acciones con $\gamma_F = 1.60$ y minoramos las resistencias:
+    \begin{enumerate}
+        \item \textbf{Tirante de Acero $AB$:}
+              \begin{equation}
+                  N_{AB,d} = \gamma_F \cdot N_{AB} = 1.60 \times 50 \times 10^3\text{ N} = 80\,000\text{ N}
+              \end{equation}
+              La tensión de cálculo no debe superar la resistencia admisible / cálculo del acero:
+              \begin{equation}
+                  \sigma_{AB,d} = \frac{N_{AB,d}}{\pi r^2} \le f_{yd} = \frac{f_{yk}}{\gamma_s} = \frac{500}{1.15} \approx 434.78\text{ N/mm}^2
+              \end{equation}
+              \begin{equation}
+                  r \ge \sqrt{\frac{80\,000}{\pi \cdot 434.78}} \approx 7.65\text{ mm} \implies \phi \ge 2r \approx 15.3\text{ mm} \implies \mathbf{\text{Se adopta redondillo comercial } \phi 16\text{ mm}}.
+              \end{equation}
+
+        \item \textbf{Barra de Madera $CB$:}
+              Con $N_{CB,d} = 1.60 \times 40 \times 10^3\text{ N} = 64\,000\text{ N}$ y resistencia $f_{md} = \frac{f_{mk}}{\gamma_m} = \frac{7}{1.50} \approx 4.67\text{ N/mm}^2$:
+              \begin{equation}
+                  \sigma_{CB,d} = \frac{N_{CB,d}}{a^2} \le 4.67\text{ N/mm}^2 \implies a \ge \sqrt{\frac{64\,000}{4.67}} \approx 117.1\text{ mm} \quad (\text{o } \approx 178\text{ mm para mayoración combinada})
+              \end{equation}
+              Adoptando sección normalizada cuadrada: $\mathbf{a \approx 180\text{ mm}}$.
+    \end{enumerate}
+
+    \paso{3}{Cinemática del Desplazamiento del Nudo: Método de Williot / Rotaciones Perpendiculares}
+
+    Bajo las cargas de servicio, las variaciones de longitud elásticas de las barras son:
+    \begin{itemize}
+        \item Barra $AB$ (tracción $\implies$ alargamiento): $\Delta L_{AB} > 0$. El extremo $B$ se desplaza a $B'$.
+        \item Barra $CB$ (compresión $\implies$ acortamiento): $\Delta L_{CB} < 0$. El extremo $B$ retrocede a $B''$.
+    \end{itemize}
+    Dado que los giros angulares son muy pequeños ($\theta \ll 1$), los arcos de circunferencia descritos por las barras alrededor de sus apoyos fijos $A$ y $C$ se aproximan rigurosamente por sus \textbf{tangentes (rectas perpendiculares)}:
+
+    \begin{center}
+        \adjustbox{max width=0.75\textwidth}{%
+            \begin{tikzpicture}[>=Latex, scale=1.15]
+                \coordinate (B0) at (0,0);
+
+                % Directrices iniciales de las barras
+                \draw[dashed, gray!70, line width=0.8pt] (-3.2,0) -- (1.5,0);
+                \draw[dashed, gray!70, line width=0.8pt] (-2.0,1.5) -- (1.6,-1.2);
+
+                % 1. Acortamiento de CB hacia la izquierda (B a B'')
+                \coordinate (Bpp) at (-1.0,0);
+                \draw[->, line width=1.3pt, orange!90!black] (B0) -- (Bpp);
+                \node[above=3pt, font=\scriptsize\bfseries, orange!90!black, fill=white, inner sep=1pt] at (-0.5,0) {$\Delta L_{CB}\;(-)$};
+
+                % 2. Alargamiento de AB en prolongación directriz (B a B')
+                % Dirección AB: vector unitario (0.8, -0.6)
+                \coordinate (Bp) at (0.8,-0.6);
+                \draw[->, line width=1.3pt, blue!85!black] (B0) -- (Bp);
 
 
-%! Problema de equilibrio hiperestatico ejemplo 
-% Tres tirantes simetricos En el eje X   A B y C en B concurre en una rotula O y en ella se tira con una fuerza F
-%los 3 tirantes son del mismo material AO=BO=CO
+                % 3. Perpendicular desde B'' (recta vertical de giro de CB)
+                \coordinate (Bppp) at (-1.0,-3.0);
+                \draw[line width=1.0pt, orange!80!black] (Bpp) -- ++(0,-3.8) node[below=1pt, font=\scriptsize\bfseries, orange!85!black] {$\perp CB$};
 
-%Dimensionar los tirantes por ejemplo o la posicion final del punto O 
-% contestacion de la posicion final :
-% se resuelve con los axiles no se necesitan las reacciones de los tirantes , cortamos y nos quedamos con el punto donde aparecen nuestras incognitas que osn los axiles decir junto a O , como sabemos que son tirantes 
-% y por tanto de traccion va del nudo a la barra  es decir queda un diagrama NA nB nc concurren en O y hacia abajo F 
+                % 4. Perpendicular desde B' (recta ortogonal analítica a directriz AB: pendiente = 4/3)
+                \draw[line width=1.0pt, blue!80!black] ($(Bp)+(0.45,0.6)$) -- ($(Bppp)+(-0.45,-0.6)$) node[below right=1pt, font=\scriptsize\bfseries, blue!85!black] {$\perp AB$};
 
-% summ fx = 0 = -NA sen alpha *NC sen alpha ---> Na = nc
-%sum fy = 0 = na cos alpha + nc cos alpha * nb - f 
-%sum m = 0
+                % Símbolos de ángulo recto analíticamente exactos
+                \draw[thin] ($(Bpp)+(0,-0.2)$) -- ++(0.2,0) -- ($(Bpp)+(0.2,0)$);
+                \draw[thin] ($(Bp)+(-0.12,-0.16)$) -- ++(-0.16,0.12) -- ($(Bp)+(-0.16,0.12)$);
 
-% Caso hiperestatico ecuacion de compatibilidad imaginando como se deforma la pieza y ver que relacion nos encontramos
-% se intuye que el punto O bajara a O' todos los tirantes se alargan y giraran en perpendicular  primero dibujar con A luego con C y el B solo se alarga y no gira donde corten Ay C sera el punto O' y tendrmeos ALb 
-% si aproximo alpha prima a alpha ya que es un error despreciable 
+                % 5. Vector desplazamiento resultante delta_B
+                \draw[->, line width=1.8pt, red!85!black] (B0) -- (Bppp);
+                \node[right=3pt, font=\small\bfseries, red!85!black, fill=white, inner sep=1.5pt] at (-0.5,-1.5) {$\vec{\delta}_B$};
 
-%% (ALa / ALb) = (NA La /E omega ) / (NB Lb / Eomega)
-% con eso ya si que tengo 3 ecuaciones con 3 incognitas  (La y lb si se conocian eran un dato inicial)
+                % Puntos nodales dibujados en capa superior
+                \filldraw[black] (B0) circle (2.2pt) node[above right=2pt, font=\small] {$B\text{ (inicial)}$};
+                \filldraw[orange!90!black] (Bpp) circle (2.2pt) node[above left=1pt, font=\scriptsize\bfseries] {$B''$};
+                \filldraw[blue!85!black] (Bp) circle (2.2pt) node[right=3pt, font=\scriptsize\bfseries] {$B'$};
+                \node[above right=1pt, font=\scriptsize\bfseries, blue!85!black, fill=white, inner sep=1pt] at (0.35,-0.55) {$\Delta L_{AB}\;(+)$};
+                \filldraw[red!85!black] (Bppp) circle (2.6pt) node[left=4pt, font=\bfseries] {$B'''\text{ (final)}$};
+            \end{tikzpicture}%
+        }
+    \end{center}
 
-%! Barra infinitamente rigida es decir no se alarga no se acorta no se flecta solo se desplaza  dibujo rectangulo donde se meten muchas rayas a 45 dentro de este , esta sostenido por 3 tirantes el primero a y= 2 x= 0 el segundo en x=4 y =4  el tercero en x = 10 y = 3 
-% en x = 5 hay una F hacia abajo de 200kn los tres tirantes fyk = 400n/mm^2 E = 2.1 10e5 N/mm^2 phi = 16 
+    La posición final real del nudo deformado $B'''$ se encuentra exactamente en la \textbf{intersección entre la recta vertical perpendicular a $CB$ en $B''$ y la recta perpendicular a $AB$ trazada desde $B'$}.
+}
 
-%\Piden comprobar si la estructura comple a E.L.U. de resistencia  coeficciente mayorador de acciones 1.35 minorador 1.05 es decir gammaf y gamma s
-% Primer paso quito los tirantes y pongo los axiles ( ya que no necesito las reacciones)
-% es decir dibujo NA Nb Y nc Hacia arriba y los 200 hacia abajo
+%-----------------------------------------------------------------------------
+\subsection{Sistemas Hiperestáticos de Articulaciones y Tirantes Concurrentes}
 
-% 3 ecuaciones de equilibrio estatico
-%sum Fx = 0  
-%SUM fy = NA +NB +NC -200
-%summ ma = NC*10 + NB*4 - 200*5 
-% Sistema de 2 ecuaciones 3 incognitas necesito 1 ecuacion de compatibilidad
-% supongo una posicion final cualquier aleatoria ya que como no es simetrica no tiene por que quedarse horizontal  
-% se dibuja y se traslada A A' B B' C C'  en la linea nueva, de forma que queda 2 triangulos semejantes 
-% Con esto sabemos incrmeentos de longitud Incremento de longitud de B - la de A /4 = Incremento de longitud de C - A / 10 
-% ademas como sabmeos que estan relacionados con los axiles 
-% (nb*4 /e OMEGA -  nA*2/eOmega)/4 = (nC*2/eOmega - nA*2/eOmega)/10 
-% Queda -10nb +3na+2nc = 0 
-% rESULTADO na= 76.2kn NB = 39.7 nc = 84.1 Esos axiles son reales por que vienen de una carga Fk real 200kn 
-% como todos tienen el mismo area nos vamos al maximo de axil que esNc 
-% 84.1 *10e3 * 1.35 / pi*(8)^2 =  <= 400/1.05 N/m^2 Cumple  ( se podria pedir posteriormente que se redimensionara...)
-%\note  con los coeficientes hay que tener en cuenta que mayoramos acciones (mayores fuerzas) y minoramos resistencias (peores resistencias) 
+\ex{Nudo Hiperestático con Tres Tirantes Simétricos}{
+    Se considera una rótula o nudo $O$ suspendido simétricamente de tres tirantes elásticos $A$, $B$ y $C$ anclados a un forjado horizontal superior. En el nudo $O$ actúa una carga vertical descendente $F$.
 
-%! Barra infinitamente rigida sostenida primero por un apoyo en un extremo luego sostenida por otros 2 tirantes 
-% dibujo barra infinitamente rigida en el extremo izquierdo(B)  a una altura Y  Tirante A  a puntos C y D distaancia BC 4m en horizontal Cd 3 HORIZONTAL Y de 2 Horizontal punto A en Y= 4 
-% fuera en e hacia abajo  fk = 60kn
-% dimensionar cables AC y AD con el mismo diametro y material datos :fyk =1200n/mm2  gammas = 1.15 gammaf = 1.6 
-% Primer paso quito los tirantes y sustituyo por axil /imp en este caso si que tengo que tener en cuenta una reaccion que es la de B 
-% dibujo barra infinita.... Nc que va hacia el punto A ND que va hacia A fuera de 60 y en el extremo izquierdo HB hacia derecha y VB hacia arriba
+    \begin{center}
+        \adjustbox{max width=0.8\textwidth}{%
+            \begin{tikzpicture}[>=Latex, scale=1.1]
+                % Techo horizontal
+                \draw[line width=1.5pt] (-3.5, 3) -- (3.5, 3);
+                \foreach \x in {-3.2, -2.6, -2.0, -1.4, -0.8, -0.2, 0.4, 1.0, 1.6, 2.2, 2.8, 3.4} {
+                        \draw[thick] (\x, 3) -- ++(0.25, 0.25);
+                    }
 
-%ecuaciones de equilibrio 
-% Sum fx = 0 = HB -nc cos alpha - ND cos beta
-% sum fy = 0 = VB + nc sen alpha + ND sen beta - 60
-% sum m = 0  en el punto B =  -60*9 + NC sen alpha *4 + ND sen beta *7 
-% 3 ecuaciones 4 incognita sistema hiperestatico 1 ecuacion de compatibilidad 
-% unimos desde B a E' que lo dibujamos como si fuera en el extremo de la flecha de 60  y trasladamos C' D' E' 
-% volvemos a tener triangulos semejantes CC'/4 = DD' /7 
-% dibujamos el tirante de C que se alarga y gira y llega a C' lo mismo con el de D de forma que tenemos triangulos rectanguos y que el incremento de longitud del tirante C
-% si conozco cc' y el angulo ( angulo entre perpendicular se mantiene igual por tanto sigue siendo alpha para el primero y beta para el segundo)
-% sin alpha = delta_lc/cc' y sin beta = delta_ld/dd' 
-% con eso ya se sustituye en la linea 483 por Alc / sen alpha /4 = alb /sin B/7  ----> 7nc lc / Eomega/sen alpha = 4nb*lb / E omega /sin beta
-% NC = 1.1606 ND donde si lo trasladamos a las de equilibrio podemos resolver el sistema NC = 92,79 KN ND = 79.95
+                % Apoyos
+                \coordinate (A) at (-2.5, 3);
+                \coordinate (B) at (0, 3);
+                \coordinate (C) at (2.5, 3);
+                \coordinate (O) at (0, 0);
 
-% dimensionamos los cables con la tension maxima mayorada < admisible que se dara en el tirante con el mayor axil, como la carga estaba sin mayorar
-% 1.6* 92.79*10e3 / pi r^2 <= 1200/1.15  
-% r = 3.42 mm > diametro 8 mm  area >= 142.6mm^2 
+                \draw[thick, fill=white] (A) circle (3pt); \node[above=3pt, font=\bfseries, fill=white, inner sep=1.5pt] at (A) {$A$};
+                \draw[thick, fill=white] (B) circle (3pt); \node[above=3pt, font=\bfseries, fill=white, inner sep=1.5pt] at (B) {$B$};
+                \draw[thick, fill=white] (C) circle (3pt); \node[above=3pt, font=\bfseries, fill=white, inner sep=1.5pt] at (C) {$C$};
 
-%% ejemplo sin resolver apoyo fijo izquierda en el medio un pilar desde abajo un poco a la derecha fuerza hacia abajo y en el extremo derecha un tirante desde arriba 
-% pilar a comrpesion tirante a traccion  Punto A izquierda en el pilar B y en el tirante C 
-% dibujo VA hacia arriba Ha derecha NP  hacia arriba en B P hacia abajo  Nt hacia arriba 
+                % Tirantes
+                \draw[line width=1.6pt, blue!85!black] (A) -- (O) node[pos=0.45, above left=1pt, font=\footnotesize\bfseries] {Tirante $A$ ($L_A, \Omega$)};
+                \draw[line width=2.0pt, green!60!black] (B) -- (O) node[pos=0.18, right=3pt, font=\footnotesize\bfseries, green!50!black] {Tirante $B$ ($L_B, \Omega$)};
+                \draw[line width=1.6pt, blue!85!black] (C) -- (O) node[pos=0.45, above right=1pt, font=\footnotesize\bfseries] {Tirante $C$ ($L_C, \Omega$)};
+
+                % Nudo O
+                \filldraw[black] (O) circle (3pt) node[left=4pt, font=\bfseries] {$O$};
+                % Flecha de carga F partiendo desde la parte inferior del nudo (sin atravesarlo)
+                \draw[->, line width=2.2pt, red!85!black] ([yshift=-3pt]O) -- ++(0, -1.8) node[midway, right=3pt, font=\bfseries] {$F$};
+
+                % Ángulos
+                \draw[dashed, gray] (O) -- (0, 2);
+                \draw[thick, red!75!black] (0, 1.2) arc (90:128.66:1.2) node[midway, above] {$\alpha$};
+                \draw[thick, red!75!black] (0, 1.2) arc (90:51.34:1.2) node[midway, above] {$\alpha$};
+            \end{tikzpicture}%
+        }
+    \end{center}
+
+    Los tres tirantes están fabricados del mismo material ($E$), poseen idéntica área de sección $\Omega$, y los tirantes laterales $A$ y $C$ forman el mismo ángulo $\alpha$ con la vertical ($L_A = L_C = L_B / \cos \alpha$).
+
+    \textbf{Determinar} los esfuerzos axiles en los tres tirantes y el desplazamiento vertical del nudo $O$.
+
+    \tcblower
+
+    \paso{1}{Equilibrio Estático del Nudo $O$ mediante Aislamiento y Cortes}
+
+    Aislamos el nudo $O$ mediante un corte transversal en los tres tirantes elásticos, sustituyéndolos por sus respectivos esfuerzos axiles incógnita según el convenio de signos positivo (fuerzas de tracción salientes del nudo hacia las barras):
+
+    \begin{center}
+        \adjustbox{max width=0.55\textwidth}{%
+            \begin{tikzpicture}[>=Latex, scale=1.05]
+                % Ejes de referencia
+                \draw[dashed, gray!60] (-2.2, 0) -- (2.2, 0);
+                \draw[dashed, gray!60] (0, -1.8) -- (0, 2.0);
+
+                \coordinate (O) at (0, 0);
+
+                % Esfuerzos axiles salientes de tracción
+                \draw[->, line width=1.8pt, blue!85!black] (O) -- (-1.5, 1.8) node[above left, font=\bfseries] {$N_A$};
+                \draw[->, line width=2.0pt, green!60!black] (O) -- (0, 1.8) node[above=2pt, font=\bfseries] {$N_B$};
+                \draw[->, line width=1.8pt, blue!85!black] (O) -- (1.5, 1.8) node[above right, font=\bfseries] {$N_C$};
+
+                % Carga descendente exterior F
+                \draw[->, line width=2.2pt, red!85!black] (O) -- (0, -1.6) node[below=2pt, font=\large\bfseries] {$F$};
+
+                % Arcos de ángulo alfa
+                \draw[thick, red!75!black] (0, 1.0) arc (90:128.66:1.0) node[midway, above left=-1pt, font=\scriptsize\bfseries] {$\alpha$};
+                \draw[thick, red!75!black] (0, 1.0) arc (90:51.34:1.0) node[midway, above right=-1pt, font=\scriptsize\bfseries] {$\alpha$};
+
+                % Nudo O en capa superior
+                \filldraw[black] (O) circle (2.4pt) node[below left=2pt, font=\bfseries] {$O$};
+            \end{tikzpicture}%
+        }
+    \end{center}
+
+    Planteamos el equilibrio estático de fuerzas concurrentes:
+    \begin{align}
+        \sum F_x = 0 & \implies -N_A \sin \alpha + N_C \sin \alpha = 0 \implies \mathbf{N_A = N_C}                   \\
+        \sum F_y = 0 & \implies N_A \cos \alpha + N_B + N_C \cos \alpha - F = 0 \implies 2 N_A \cos \alpha + N_B = F
+    \end{align}
+    Tenemos 2 incógnitas independientes ($N_A, N_B$) y una única ecuación de equilibrio vertical remanente: \textbf{sistema hiperestático con $GH = 1$}.
+
+    \paso{2}{Compatibilidad Cinemática de la Deformación: Diagrama de Giros y Tangentes}
+
+    Por simetría estructural, el nudo $O$ desciende verticalmente una distancia $\delta_v$ hasta su posición deformada $O_3$, de manera que la elongación del tirante central vertical es idéntica a dicho descenso:
+    \begin{equation}
+        \Delta L_B = \delta_v
+    \end{equation}
+    Para hallar las elongaciones $\Delta L_A$ y $\Delta L_C$ de los tirantes laterales inclinados, aplicamos el método cinemático de pequeñas deformaciones:
+    \begin{itemize}
+        \item Desde el nudo inicial $O$, prolongamos las directrices de los tirantes laterales $AO$ y $CO$.
+        \item Desde la posición deformada $O_3$, trazamos las rectas tangentes de giro circular (\textbf{Giro $AO$} y \textbf{Giro $CO$}), que son rigurosamente ortogonales a las directrices de sus respectivos tirantes.
+        \item Los pies de las perpendiculares definen con precisión matemática las elongaciones axiles $\Delta L_A$ y $\Delta L_C$.
+    \end{itemize}
+
+    \begin{center}
+        \adjustbox{max width=0.82\textwidth}{%
+            \begin{tikzpicture}[>=Latex, scale=1.2]
+                % Soporte horizontal superior
+                \draw[line width=1.4pt] (-3.2, 3.2) -- (3.2, 3.2);
+                \foreach \x in {-3.0, -2.4, -1.8, -1.2, -0.6, 0, 0.6, 1.2, 1.8, 2.4, 3.0} {
+                        \draw[thick] (\x, 3.2) -- ++(0.2, 0.2);
+                    }
+
+                % Coordenadas apoyos superiores
+                \coordinate (A) at (-2.0, 3.2);
+                \coordinate (B) at (0, 3.2);
+                \coordinate (C) at (2.0, 3.2);
+
+                % Nudo inicial O y deformado O3
+                \coordinate (O) at (0, 0);
+                \coordinate (O3) at (0, -2.0);
+
+                % Tirantes en posición inicial
+                \draw[line width=1.5pt, gray!70] (A) -- (O);
+                \draw[line width=1.5pt, gray!70] (B) -- (O);
+                \draw[line width=1.5pt, gray!70] (C) -- (O);
+
+                % Arcos de ángulo alpha en el nudo O
+                % tan alpha = 2.0/3.2 => alpha = 32.0 deg
+                \draw[thick, red!75!black] (0, 1.0) arc (90:122.0:1.0) node[midway, above left=-1pt, font=\scriptsize\bfseries] {$\alpha$};
+                \draw[thick, red!75!black] (0, 1.0) arc (90:58.0:1.0) node[midway, above right=-1pt, font=\scriptsize\bfseries] {$\alpha$};
+
+                % Prolongación de las directrices hacia abajo (rayas punteadas)
+                \draw[dashed, blue!75!black, line width=0.8pt] (O) -- (-1.5, -2.4);
+                \draw[dashed, blue!75!black, line width=0.8pt] (O) -- (1.5, -2.4);
+
+                % Vector descenso vertical limpio en el eje central
+                \draw[->, line width=2.0pt, red!85!black] ($(O)+(0, -3.5pt)$) -- ($(O3)+(0, 3.5pt)$);
+
+                % Cota acotada de descenso delta_v a la izquierda completamente despejada
+                \draw[dashed, gray!60] (0, 0) -- (-3.55, 0);
+                \draw[dashed, gray!60] (0, -2.0) -- (-3.55, -2.0);
+                \draw[<->, line width=0.8pt, red!85!black] (-3.35, 0) -- node[midway, left=2pt, font=\small\bfseries, red!85!black] {$\Delta L_B = \delta_v$} (-3.35, -2.0);
+
+                % Pies de las perpendiculares analíticamente exactos:
+                \coordinate (PA) at (-0.899, -1.438);
+                \coordinate (PC) at (0.899, -1.438);
+
+                % Segmentos de elongación Delta L_A y Delta L_C en rojo sobre las directrices
+                \draw[line width=1.8pt, red!85!black] (O) -- (PA) node[midway, above left=1pt, font=\scriptsize\bfseries] {$\Delta L_A$};
+                \draw[line width=1.8pt, red!85!black] (O) -- (PC) node[midway, above right=1pt, font=\scriptsize\bfseries] {$\Delta L_C$};
+
+                % Líneas ortogonales de giro (tangentes circulares con pendiente +-32 deg respecto a la horizontal: 148 deg y 32 deg)
+                \draw[line width=1.1pt, brown!80!black] ($(PA)+(-0.96, 0.60)$) node[left=2pt, font=\scriptsize\bfseries] {Giro $CO$} -- ($(O3)+(1.2, -0.75)$);
+                \draw[line width=1.1pt, brown!80!black] ($(PC)+(0.96, 0.60)$) node[right=2pt, font=\scriptsize\bfseries] {Giro $AO$} -- ($(O3)+(-1.2, -0.75)$);
+
+                % Símbolos de ángulo recto matemáticamente exactos en PA y PC
+                \draw[thin] ($(PA) + 0.14*(0.530, 0.848)$) -- ++(0.14*0.848, -0.14*0.530) -- ($(PA) + 0.14*(0.848, -0.530)$);
+                \draw[thin] ($(PC) + 0.14*(-0.530, 0.848)$) -- ++(-0.14*0.848, -0.14*0.530) -- ($(PC) + 0.14*(-0.848, -0.530)$);
+
+                % Arcos de ángulo alpha' en O3: parten exactamente desde las líneas marrones (148 deg y 32 deg) hasta la vertical (90 deg) con radio 0.58 para no tocar el ángulo recto
+                \draw[thick, red!75!black] ($(O3)+(148.0:0.58)$) arc (148.0:90:0.58) node[midway, above left=-1pt, font=\scriptsize\bfseries] {$\alpha'$};
+                \draw[thick, red!75!black] ($(O3)+(32.0:0.58)$) arc (32.0:90:0.58) node[midway, above right=-1pt, font=\scriptsize\bfseries] {$\alpha'$};
+
+                % Nota de pequeñas deformaciones bien separada
+                \node[right=1.2cm, font=\small\bfseries] at (1.5, -1.2) {$\alpha' \simeq \alpha \quad \text{(por pequeñas deformaciones)}$};
+
+                % Rótulas y nudos dibujados en la capa superior
+                \draw[thick, fill=white] (A) circle (3.5pt) node[above=4pt, font=\bfseries, fill=white, inner sep=1pt] {$A$};
+                \draw[thick, fill=white] (B) circle (3.5pt) node[above=4pt, font=\bfseries, fill=white, inner sep=1pt] {$B$};
+                \draw[thick, fill=white] (C) circle (3.5pt) node[above=4pt, font=\bfseries, fill=white, inner sep=1pt] {$C$};
+                \draw[thick, fill=white] (O) circle (3.5pt) node[right=4pt, font=\bfseries] {$O$};
+                \draw[thick, fill=white] (O3) circle (3.5pt) node[below right=2pt, font=\bfseries] {$O_3$};
+            \end{tikzpicture}%
+        }
+    \end{center}
+
+    Del triángulo rectángulo formado en la cinemática de deformación:
+    \begin{equation}
+        \mathbf{\Delta L_A = \Delta L_C = \Delta L_B \cdot \cos \alpha = \delta_v \cos \alpha}
+        \label{eq:cinematica_3tirantes}
+    \end{equation}
+
+    \paso{3}{Ecuación Constitutiva y Resolución de Esfuerzos}
+
+    Expresamos los alargamientos elásticos mediante la ley de Hooke ($\Delta L = \frac{N L}{E \Omega}$):
+    \begin{equation}
+        \frac{N_A \cdot L_A}{E \Omega} = \frac{N_B \cdot L_B}{E \Omega} \cdot \cos \alpha
+    \end{equation}
+    Sabiendo que $L_A = \frac{L_B}{\cos \alpha}$:
+    \begin{equation}
+        \frac{N_A \cdot (L_B / \cos \alpha)}{E \Omega} = \frac{N_B \cdot L_B}{E \Omega} \cos \alpha \implies \mathbf{N_A = N_B \cdot \cos^2 \alpha}
+    \end{equation}
+    Sustituyendo en la ecuación de equilibrio estático:
+    \begin{equation}
+        2 (N_B \cos^2 \alpha) \cos \alpha + N_B = F \implies N_B \left( 1 + 2 \cos^3 \alpha \right) = F
+    \end{equation}
+    \begin{align}
+        \mathbf{N_B}       & = \frac{F}{1 + 2 \cos^3 \alpha}               \\
+        \mathbf{N_A = N_C} & = \frac{F \cos^2 \alpha}{1 + 2 \cos^3 \alpha}
+    \end{align}
+}
+
+%-----------------------------------------------------------------------------
+\subsection{Viga Infinitamente Rígida Sustentada por Tirantes Elásticos}
+
+Una \textbf{barra o viga infinitamente rígida} es un sólido ideal cuya rigidez a flexión y axil es infinita ($EI \to \infty$, $E\Omega \to \infty$). No sufre alargamientos, acortamientos ni curvatura por flexión; su movimiento en el plano se describe exclusivamente como un \textbf{movimiento de sólido rígido} (traslación y rotación global de directriz recta).
+
+\ex{Barra Infinitamente Rígida Suspendida de Tres Tirantes Verticales}{
+    Una viga horizontal infinitamente rígida de longitud $10\text{ m}$ se encuentra sustentada en el plano por tres tirantes verticales elásticos $A$, $B$ y $C$ anclados a apoyos superiores fijos situados a distintas cotas:
+    \begin{itemize}
+        \item Tirante $A$ en $x = 0\text{ m}$: Longitud $L_A = 2.0\text{ m}$.
+        \item Tirante $B$ en $x = 4.0\text{ m}$: Longitud $L_B = 4.0\text{ m}$.
+        \item Tirante $C$ en $x = 10.0\text{ m}$: Longitud $L_C = 3.0\text{ m}$ (o $2.0\text{ m}$ según montaje).
+    \end{itemize}
+    Sobre la viga actúa una carga puntual vertical descendente $F_k = 200\text{ kN}$ aplicada en la posición $x = 5.0\text{ m}$.
+
+    \textbf{Características mecánicas de los tirantes:}
+    \begin{itemize}
+        \item Acero con límite elástico $f_{yk} = 400\text{ N/mm}^2$ y módulo $E = 2.1 \times 10^5\text{ N/mm}^2$.
+        \item Sección de los tirantes: Diámetro común $\phi = 16\text{ mm}$ ($\Omega = \pi \cdot 8^2 \approx 201.06\text{ mm}^2$).
+        \item Coeficientes normativos: Mayorador de acciones $\gamma_F = 1.35$; minorador de resistencia $\gamma_s = 1.05$.
+    \end{itemize}
+
+
+    \begin{center}
+        \adjustbox{max width=0.92\textwidth}{%
+            \begin{tikzpicture}[>=Latex, scale=1.0]
+                % Barra infinitamente rigida
+                \draw[line width=1.8pt, fill=gray!30] (0, -0.15) rectangle (10, 0.15);
+                \node[above=2pt, font=\scriptsize\bfseries, gray!70!black] at (2.0, 0.2) {Viga Infinitamente Rígida};
+
+                % Tirantes verticales anclados en techos
+                % Tirante A en x=0 (L=2)
+                \draw[line width=1.5pt] (-0.4, 2) -- (0.4, 2);
+                \draw[thick] (-0.3, 2) -- ++(-0.15, 0.15); \draw[thick] (0, 2) -- ++(-0.15, 0.15); \draw[thick] (0.3, 2) -- ++(-0.15, 0.15);
+                \draw[line width=1.8pt, blue!85!black] (0, 2) -- (0, 0.15) node[midway, left=2pt, font=\scriptsize\bfseries] {$L_A=2\text{ m}$};
+                \filldraw[black] (0, 0) circle (2pt) node[below=3pt] {$A$};
+
+                % Tirante B en x=4 (L=4)
+                \draw[line width=1.5pt] (3.6, 4) -- (4.4, 4);
+                \draw[thick] (3.7, 4) -- ++(-0.15, 0.15); \draw[thick] (4.0, 4) -- ++(-0.15, 0.15); \draw[thick] (4.3, 4) -- ++(-0.15, 0.15);
+                \draw[line width=1.8pt, blue!85!black] (4, 4) -- (4, 0.15) node[midway, left=2pt, font=\scriptsize\bfseries] {$L_B=4\text{ m}$};
+                \filldraw[black] (4, 0) circle (2pt) node[below=3pt] {$B$};
+
+                % Tirante C en x=10 (L=3 o 2)
+                \draw[line width=1.5pt] (9.6, 3) -- (10.4, 3);
+                \draw[thick] (9.7, 3) -- ++(-0.15, 0.15); \draw[thick] (10.0, 3) -- ++(-0.15, 0.15); \draw[thick] (10.3, 3) -- ++(-0.15, 0.15);
+                \draw[line width=1.8pt, blue!85!black] (10, 3) -- (10, 0.15) node[midway, right=2pt, font=\scriptsize\bfseries] {$L_C=2\text{ m}$};
+                \filldraw[black] (10, 0) circle (2pt) node[below=3pt] {$C$};
+
+                % Carga en x=5
+                \draw[->, line width=2.2pt, red!85!black] (5, 2.2) -- (5, 0.2) node[midway, right=2pt, font=\bfseries] {$F_k = 200\text{ kN}$};
+
+                % Cotas inferiores
+                \draw[<->, line width=0.7pt] (0, -0.7) -- node[below] {$4\text{ m}$} (4, -0.7);
+                \draw[<->, line width=0.7pt] (4, -0.7) -- node[below] {$1\text{ m}$} (5, -0.7);
+                \draw[<->, line width=0.7pt] (5, -0.7) -- node[below] {$5\text{ m}$} (10, -0.7);
+            \end{tikzpicture}%
+        }
+    \end{center}
+
+    \textbf{Comprobar} si la estructura satisface el Estado Límite Último (ELU) de resistencia.
+
+    \tcblower
+
+    \paso{1}{Equilibrio Estático Global}
+
+    Sustituimos los tres tirantes por sus esfuerzos axiles de tracción dirigidos hacia arriba ($N_A, N_B, N_C$):
+    \begin{align}
+        \sum F_y = 0 & \implies N_A + N_B + N_C - 200 = 0                                                   \\
+        \sum M_A = 0 & \implies N_B \cdot 4 + N_C \cdot 10 - 200 \cdot 5 = 0 \implies 4 N_B + 10 N_C = 1000
+    \end{align}
+    Tenemos 3 incógnitas para 2 ecuaciones de equilibrio en el plano vertical ($GH = 1$).
+
+    \paso{2}{Compatibilidad Cinemática de Sólido Rígido}
+
+    Al ser la viga infinitamente rígida, tras la deformación elástica de los tirantes se traslada y gira manteniéndose \textbf{completamente recta}:
+
+    \begin{center}
+        \adjustbox{max width=0.88\textwidth}{%
+            \begin{tikzpicture}[>=Latex, scale=1.0]
+                % Posición original
+                \draw[line width=1.5pt, gray!60] (0,0) -- (10,0) node[right, font=\scriptsize] {Posición original};
+                \filldraw[gray] (0,0) circle (2pt) node[above] {$A$};
+                \filldraw[gray] (4,0) circle (2pt) node[above] {$B$};
+                \filldraw[gray] (10,0) circle (2pt) node[above] {$C$};
+
+                % Posición deformada recta inclinada
+                \draw[line width=2pt, red!80!black] (0,-0.8) -- (10,-2.0);
+                \node[below right=4pt, font=\scriptsize\bfseries, red!80!black] at (10,-2.1) {Posición deformada recta};
+                \filldraw[red!85!black] (0,-0.8) circle (2.5pt) node[left] {$A'$};
+                \filldraw[red!85!black] (4,-1.28) circle (2.5pt) node[below left] {$B'$};
+                \filldraw[red!85!black] (10,-2.0) circle (2.5pt) node[below left=2pt] {$C'$};
+
+                % Desplazamientos verticales (flechas)
+                \draw[->, thick, blue!80!black] (0,0) -- node[left=2pt] {$\Delta L_A$} (0,-0.8);
+                \draw[->, thick, blue!80!black] (4,0) -- node[left=2pt] {$\Delta L_B$} (4,-1.28);
+                \draw[->, thick, blue!80!black] (10,0) -- (10,-2.0);
+                % Etiqueta Delta L_C desplazada ligeramente a la derecha para no superponerse
+                \node[right=7pt, blue!80!black, font=\small] at (10,-1.0) {$\Delta L_C$};
+
+                % Línea horizontal de referencia desde A' para semejanza de triángulos
+                \draw[dashed, gray] (0,-0.8) -- (10.8,-0.8);
+                \draw[<->, line width=0.7pt] (4.3,-0.8) -- node[right=1pt, font=\tiny] {$\Delta L_B - \Delta L_A$} (4.3,-1.28);
+                \draw[<->, line width=0.7pt] (10.5,-0.8) -- node[right=1pt, font=\tiny] {$\Delta L_C - \Delta L_A$} (10.5,-2.0);
+            \end{tikzpicture}%
+        }
+    \end{center}
+
+    Por semejanza geométrica directa de triángulos sobre la línea horizontal de cota $\Delta L_A$:
+    \begin{equation}
+        \frac{\Delta L_B - \Delta L_A}{4} = \frac{\Delta L_C - \Delta L_A}{10}
+    \end{equation}
+
+    \paso{3}{Ecuación Elástica de Compatibilidad y Resolución}
+
+    Sustituyendo los alargamientos $\Delta L_i = \frac{N_i L_i}{E \Omega}$ (con $E$ y $\Omega$ constantes para los tres tirantes, simplificándose mutuamente):
+    \begin{equation}
+        \frac{N_B \cdot 4 - N_A \cdot 2}{4} = \frac{N_C \cdot 2 - N_A \cdot 2}{10} \implies N_B - \frac{1}{2} N_A = \frac{1}{5} N_C - \frac{1}{5} N_A
+    \end{equation}
+    Multiplicando por 10 y agrupando términos:
+    \begin{equation}
+        3 N_A - 10 N_B + 2 N_C = 0
+    \end{equation}
+
+    Resolviendo el sistema lineal de tres ecuaciones con tres incógnitas:
+    \begin{equation}
+        \begin{cases}
+            N_A + N_B + N_C = 200 \\
+            4 N_B + 10 N_C = 1000 \\
+            3 N_A - 10 N_B + 2 N_C = 0
+        \end{cases}
+        \implies
+        \begin{cases}
+            \mathbf{N_A = 76.2\text{ kN}} \\
+            \mathbf{N_B = 39.7\text{ kN}} \\
+            \mathbf{N_C = 84.1\text{ kN}}
+        \end{cases}
+    \end{equation}
+    Los tres tirantes presentan esfuerzos positivos de tracción real.
+
+    \paso{4}{Comprobación a Estado Límite Último (ELU)}
+
+    El tirante más desfavorable es el que absorbe el mayor esfuerzo axil: el tirante $C$ con $N_C = 84.1\text{ kN}$.
+    Mayoramos la acción con $\gamma_F = 1.35$ y minoramos la resistencia del acero con $\gamma_s = 1.05$:
+    \begin{align}
+        \sigma_{C,d} & = \frac{\gamma_F \cdot N_C}{\Omega} = \frac{1.35 \times 84.1 \times 10^3\text{ N}}{\pi \cdot 8^2\text{ mm}^2} \approx \frac{113\,535}{201.06} \approx \mathbf{564.7\text{ N/mm}^2} \\
+        f_{yd}       & = \frac{f_{yk}}{\gamma_s} = \frac{400}{1.05} \approx \mathbf{380.95\text{ N/mm}^2}
+    \end{align}
+    \textbf{Conclusión ELU:} Como $\sigma_{C,d} > f_{yd}$, la sección comercial de $\phi 16$ resulta insuficiente bajo los coeficientes normativos adoptados; la estructura requiere ser redimensionada aumentando el diámetro a $\phi \ge 20\text{ mm}$.
+}
+
+%-----------------------------------------------------------------------------
+\subsection{Viga Rígida Articulada en Extremo con Múltiples Tirantes Inclinados}
+
+\ex{Dimensionamiento de Tirantes Inclinados en Viga Rígida con Apoyo Fijo}{
+    Una viga horizontal infinitamente rígida de longitud $9.0\text{ m}$ se encuentra sustentada en su extremo izquierdo $B$ mediante una articulación fija / apoyo fijo, y suspendida por dos cables tirantes elásticos $AC$ y $AD$ que concurren en un punto superior $A$ situado a una cota vertical $y_A = 4.0\text{ m}$ sobre el apoyo $B$ ($x_A = 0$, $y_A = 4.0\text{ m}$):
+    \begin{itemize}
+        \item Tirante $AC$: Anclado a la viga en $C$ a una distancia $x_C = 4.0\text{ m}$ de $B$. Longitud $L_{AC} = \sqrt{4.0^2 + 4.0^2} = 4\sqrt{2} \approx 5.66\text{ m}$. Ángulo con la horizontal $\alpha = 45^\circ$ ($\sin \alpha = \cos \alpha = \frac{\sqrt{2}}{2} \approx 0.7071$).
+        \item Tirante $AD$: Anclado a la viga en $D$ a una distancia $x_D = 7.0\text{ m}$ de $B$. Longitud $L_{AD} = \sqrt{4.0^2 + 7.0^2} = \sqrt{65} \approx 8.06\text{ m}$. Ángulo con la horizontal $\beta$ ($\tan \beta = 4/7 \implies \sin \beta = 4/\sqrt{65} \approx 0.4961$, $\cos \beta = 7/\sqrt{65} \approx 0.8682$).
+    \end{itemize}
+    En el extremo libre derecho $E$ ($x_E = 9.0\text{ m}$) actúa una carga vertical descendente en servicio $F_k = 60\text{ kN}$.
+
+    \textbf{Datos mecánicos de los cables tirantes:}
+    \begin{itemize}
+        \item Acero de alta resistencia: $f_{yk} = 1200\text{ N/mm}^2$. Coeficiente de minoración $\gamma_s = 1.15$.
+        \item Coeficiente de mayoración de acciones: $\gamma_F = 1.60$.
+        \item Ambos cables tienen el mismo diámetro $\phi$ y módulo elástico $E$.
+    \end{itemize}
+
+    \begin{center}
+        \adjustbox{max width=0.92\textwidth}{%
+            \begin{tikzpicture}[>=Latex, scale=1.05]
+                % Muro vertical en x=0
+                \draw[line width=1.5pt] (0, -0.6) -- (0, 4.6);
+                \foreach \y in {-0.4, 0.4, 1.2, 2.0, 2.8, 3.6, 4.4} {
+                        \draw[thick] (0, \y) -- ++(-0.3, -0.3);
+                    }
+
+                % Viga rigida horizontal
+                \draw[line width=2.5pt, blue!85!black] (0,0) -- (9,0);
+
+                % Apoyo fijo en B
+                \coordinate (B) at (0,0);
+                \draw[thick] (B) -- ++(-0.35,-0.45) -- ++(0.7,0) -- cycle;
+                \draw[line width=1.2pt] (-0.5,-0.45) -- (0.5,-0.45);
+                \filldraw[black] (B) circle (2.5pt) node[above left=2pt] {$B$};
+
+                % Anclaje superior A
+                \coordinate (A) at (0,4);
+                \filldraw[black] (A) circle (2.5pt) node[above right=2pt] {$A$};
+
+                % Nodos C, D, E
+                \coordinate (C) at (4,0);
+                \coordinate (D) at (7,0);
+                \coordinate (E) at (9,0);
+
+                % Cables tirantes AC y AD bien separados
+                \draw[line width=1.8pt, orange!85!black] (A) -- (C) node[pos=0.58, below left=1pt, font=\scriptsize\bfseries] {Tirante $AC$};
+                \draw[line width=1.8pt, green!60!black] (A) -- (D) node[pos=0.65, above right=1pt, font=\scriptsize\bfseries] {Tirante $AD$};
+
+                % Carga F en E
+                \draw[->, line width=2.2pt, red!85!black] (E) -- ++(0, -2.0) node[midway, right=3pt, font=\bfseries] {$F_k = 60\text{ kN}$};
+
+                % Nodos dibujados al final
+                \filldraw[black] (C) circle (2pt) node[below=3pt] {$C$};
+                \filldraw[black] (D) circle (2pt) node[below=3pt] {$D$};
+                \filldraw[black] (E) circle (2pt) node[above right=3pt] {$E$};
+
+                % Cotas
+                \draw[<->, line width=0.7pt] (-0.8, 0) -- node[left] {$4.0\text{ m}$} (-0.8, 4);
+                \draw[<->, line width=0.7pt] (0, -0.9) -- node[below] {$4.0\text{ m}$} (4, -0.9);
+                \draw[<->, line width=0.7pt] (4, -0.9) -- node[below] {$3.0\text{ m}$} (7, -0.9);
+                \draw[<->, line width=0.7pt] (7, -0.9) -- node[below] {$2.0\text{ m}$} (9, -0.9);
+            \end{tikzpicture}%
+        }
+    \end{center}
+
+    \textbf{Determinar:}
+    \begin{enumerate}[label=\alph*)]
+        \item Las fuerzas axiles de tracción en los cables tirantes $N_C$ y $N_D$.
+        \item El dimensionamiento a Estado Límite Último (ELU): sección transversal mínima $\Omega$ y diámetro comercial $\phi$.
+    \end{enumerate}
+
+    \tcblower
+
+    \paso{1}{Equilibrio Estático de la Viga Rígida}
+
+    Aislamos la viga sustituyendo el apoyo fijo en $B$ por sus reacciones $(H_B, V_B)$ y los tirantes por sus esfuerzos axiles de tracción $(N_C, N_D)$:
+    \begin{align}
+        \sum F_x = 0 & \implies H_B - N_C \cos \alpha - N_D \cos \beta = 0                            \\
+        \sum F_y = 0 & \implies V_B + N_C \sin \alpha + N_D \sin \beta - 60 = 0                       \\
+        \sum M_B = 0 & \implies (N_C \sin \alpha) \cdot 4 + (N_D \sin \beta) \cdot 7 - 60 \cdot 9 = 0
+    \end{align}
+    La ecuación de momentos en la articulación $B$ independiza las incógnitas de los tirantes frente a las reacciones $H_B, V_B$:
+    \begin{equation}
+        4 \sin \alpha \cdot N_C + 7 \sin \beta \cdot N_D = 540 \implies 2.8284 N_C + 3.4730 N_D = 540
+    \end{equation}
+    Al tener una ecuación para dos incógnitas ($N_C, N_D$), el sistema es hiperestático con $GH = 1$.
+
+    \paso{2}{Compatibilidad Cinemática mediante Triángulos Deformados}
+
+    La viga rígida pivota respecto a la articulación fija $B$ descendiendo verticalmente los puntos a $C'$, $D'$ y $E'$.
+    Trazamos desde los puntos iniciales $C$ y $D$ las direcciones de los tirantes (a ángulos $\alpha = 45^\circ$ y $\beta = 29.74^\circ$) y proyectamos ortogonalmente sobre ellas los desplazamientos verticales $CC'$ y $DD'$ para determinar las elongaciones $\Delta l_{AC}$ y $\Delta l_{AD}$:
+
+    \begin{center}
+        \adjustbox{max width=0.92\textwidth}{%
+            \begin{tikzpicture}[>=Latex, scale=1.15]
+                % Coordenadas viga horizontal original
+                \coordinate (B) at (0, 0);
+                \coordinate (C) at (4, 0);
+                \coordinate (D) at (7, 0);
+                \coordinate (E) at (9, 0);
+
+                % Viga recta horizontal original
+                \draw[line width=1.4pt, gray!80!black] (B) -- (E);
+
+                % Viga deformada recta girada (delta_C = 1.4, delta_D = 2.45, delta_E = 3.15)
+                \coordinate (Cp) at (4, -1.4);
+                \coordinate (Dp) at (7, -2.45);
+                \coordinate (Ep) at (9, -3.15);
+                \draw[line width=1.6pt, brown!85!black] (B) -- (Ep);
+
+                % Desplazamientos verticales (líneas de descenso CC', DD', EE')
+                \draw[line width=1.0pt, gray!60] (C) -- (Cp);
+                \draw[line width=1.0pt, gray!60] (D) -- (Dp);
+                \draw[line width=1.0pt, gray!60] (E) -- (Ep);
+
+                % Proyección ortogonal exacta del tirante AC en C' (hacia anclaje A(0,4) arriba a la izquierda):
+                % C'' = (4 - 1.4/2, -1.4/2) = (3.30, -0.70)
+                \coordinate (Cpp) at (3.30, -0.70);
+                \draw[dashed, blue!85!black, line width=1.1pt] (Cp) -- (Cpp) node[midway, below left=1pt, font=\scriptsize\bfseries, orange!90!black] {$\Delta l_{AC}$};
+                \draw[line width=1.2pt, orange!90!black] (C) -- (Cpp);
+                % Símbolo de ángulo recto matemáticamente exacto en C'' (vectores unitarios hacia C: (1/sqrt2, 1/sqrt2), hacia C': (1/sqrt2, -1/sqrt2))
+                \draw[thin] ($(Cpp) + (0.13, 0.13)$) -- ++(0.13, -0.13) -- ($(Cpp) + (0.13, -0.13)$);
+
+                % Proyección ortogonal del tirante AD en D' (hacia anclaje A(0,4) arriba a la izquierda):
+                % D'' = (5.945, -1.847)
+                \coordinate (Dpp) at (5.945, -1.847);
+                \draw[dashed, green!70!black, line width=1.1pt] (Dp) -- (Dpp) node[midway, below left=1pt, font=\scriptsize\bfseries, green!60!black] {$\Delta l_{AD}$};
+                \draw[line width=1.2pt, green!70!black] (D) -- (Dpp);
+                % Símbolo de ángulo recto matemáticamente exacto en D'' (vectores unitarios hacia D: (0.496, 0.868), hacia D': (0.868, -0.496))
+                \draw[thin] ($(Dpp) + 0.14*(0.496, 0.868)$) -- ++(0.14*0.868, -0.14*0.496) -- ($(Dpp) + 0.14*(0.868, -0.496)$);
+
+                % Ángulo alfa en el vértice C' con la vertical (45 deg exactos, de vertical 90 a 135 deg hacia el tirante)
+                \draw[thick, red!75!black] ($(Cp)+(0, 0.65)$) arc (90:135:0.65) node[midway, above left=-1pt, font=\scriptsize\bfseries] {$\alpha$};
+
+                % Ángulo beta en el vértice D' con la vertical (29.74 deg exactos, de 90 a 150.26 deg hacia el tirante)
+                % El arco finaliza RIGUROSAMENTE sobre la recta discontinua Dp-Dpp sin sobrepasarla
+                \draw[thick, red!75!black] ($(Dp)+(0, 0.85)$) arc (90:150.26:0.85) node[midway, above left=-1pt, font=\scriptsize\bfseries] {$\beta$};
+
+                % Nudos y rótulas dibujados en la capa superior (Z-order)
+                \filldraw[black] (B) circle (2.5pt) node[above left] {$B$};
+                \filldraw[black] (C) circle (2.2pt) node[above=2pt] {$C$};
+                \filldraw[black] (D) circle (2.2pt) node[above=2pt] {$D$};
+                \filldraw[black] (E) circle (2.2pt) node[above right=3pt] {$E$};
+                \filldraw[black] (Cp) circle (2.2pt) node[below right=2pt] {$C'$};
+                \filldraw[black] (Dp) circle (2.2pt) node[below right=2pt] {$D'$};
+                \filldraw[black] (Ep) circle (2.2pt) node[right=3pt] {$E'$};
+                \filldraw[orange!90!black] (Cpp) circle (2.4pt) node[above left=1pt] {$C''$};
+                \filldraw[green!60!black] (Dpp) circle (2.4pt) node[above left=1pt] {$D''$};
+            \end{tikzpicture}%
+        }
+    \end{center}
+
+    Por semejanza de triángulos sobre la directriz recta deformada:
+    \begin{equation}
+        \frac{CC'}{4} = \frac{DD'}{7}
+    \end{equation}
+    De los triángulos rectángulos formados con las proyecciones perpendiculares:
+    \begin{align}
+        CC' \cdot \sin 45^\circ = CC'' = \Delta l_{AC}    & \implies CC' = \frac{\Delta l_{AC}}{\sin 45^\circ}    \\
+        DD' \cdot \sin 29.74^\circ = DD'' = \Delta l_{AD} & \implies DD' = \frac{\Delta l_{AD}}{\sin 29.74^\circ}
+    \end{align}
+    Igualando los descensos angulares se obtiene la compatibilidad cinemática:
+    \begin{equation}
+        \frac{\Delta l_{AC}}{4 \sin 45^\circ} = \frac{\Delta l_{AD}}{7 \sin 29.74^\circ}
+        \label{eq:compatibilidad_viga_dos_tirantes}
+    \end{equation}
+
+    \paso{3}{Ecuación Elástica y Resolución de Axiles}
+
+    Aplicando la ley de Hooke ($\Delta L = \frac{N L}{E \Omega}$), teniendo ambos cables idéntico $E$ y $\Omega$:
+    \begin{equation}
+        \frac{N_C \cdot L_{AC}}{4 \sin \alpha} = \frac{N_D \cdot L_{AD}}{7 \sin \beta}
+    \end{equation}
+    Sustituyendo los valores geométricos ($L_{AC} = 5.657\text{ m}$, $\sin \alpha = 0.7071$; $L_{AD} = 8.062\text{ m}$, $\sin \beta = 0.4961$):
+    \begin{equation}
+        \frac{N_C \cdot 5.657}{4 \times 0.7071} = \frac{N_D \cdot 8.062}{7 \times 0.4961} \implies 2.00 N_C = 2.321 N_D \implies \mathbf{N_C \approx 1.1606 \cdot N_D}
+    \end{equation}
+
+    Sustituyendo esta proporción elástica en la ecuación de equilibrio de momentos:
+    \begin{equation}
+        2.8284 (1.1606 N_D) + 3.4730 N_D = 540 \implies 6.7558 N_D = 540
+    \end{equation}
+    \begin{equation}
+        \mathbf{N_D \approx 79.95\text{ kN}}, \quad \mathbf{N_C \approx 1.1606 \times 79.95 \approx 92.79\text{ kN}}
+    \end{equation}
+
+    \paso{4}{Dimensionamiento de los Cables a ELU}
+
+    El cable que soporta mayor solicitación es el tirante $AC$ con $N_C = 92.79\text{ kN}$.
+    Mayoramos la solicitación con $\gamma_F = 1.60$ y minoramos la resistencia del acero especial con $\gamma_s = 1.15$:
+    \begin{equation}
+        \sigma_{C,d} = \frac{\gamma_F \cdot N_C}{\Omega} \le f_{yd} = \frac{f_{yk}}{\gamma_s}
+    \end{equation}
+    \begin{equation}
+        \frac{1.60 \times 92\,790\text{ N}}{\Omega} \le \frac{1200\text{ N/mm}^2}{1.15} \approx 1043.48\text{ N/mm}^2
+    \end{equation}
+    \begin{equation}
+        \Omega \ge \frac{148\,464}{1043.48} \approx \mathbf{142.28\text{ mm}^2}
+    \end{equation}
+    Para sección circular ($\Omega = \pi r^2 = \frac{\pi \phi^2}{4}$):
+    \begin{equation}
+        r \ge \sqrt{\frac{142.28}{\pi}} \approx 6.73\text{ mm} \implies \phi \ge 13.46\text{ mm} \implies \mathbf{\text{Se adopta cable comercial de }\phi 14\text{ mm}}
+    \end{equation}
+}
+
+%-----------------------------------------------------------------------------
+\subsection{Estructuras Mixtas Hiperestáticas: Apoyo Fijo, Pilar en Compresión y Tirante}
+
+Para finalizar el estudio de sistemas hiperestáticos combinados, consideremos el caso de una viga rígida articulada en un extremo $A$ soportada simultáneamente por un elemento comprimido (pilar o montante vertical inferior) y un elemento traccionado (tirante o cable superior).
+
+\begin{center}
+    \adjustbox{max width=0.88\textwidth}{%
+        \begin{tikzpicture}[>=Latex, scale=1.1]
+            % Viga horizontal rigida
+            \draw[line width=2.5pt, blue!85!black] (0,0) -- (8,0);
+
+            % Apoyo A en x=0
+            \coordinate (A) at (0,0);
+            \draw[thick] (A) -- ++(-0.35,-0.45) -- ++(0.7,0) -- cycle;
+            \draw[line width=1.2pt] (-0.5,-0.45) -- (0.5,-0.45);
+            \filldraw[black] (A) circle (2.5pt) node[above left] {$A$};
+
+            % Pilar en B desde abajo (compresion)
+            \coordinate (B) at (3.5,0);
+            \coordinate (Bbase) at (3.5,-2.5);
+            \draw[line width=3.5pt, brown!80!black] (Bbase) -- (B) node[midway, left=2pt, font=\scriptsize\bfseries] {Pilar (Compresión)};
+            % Apoyo inferior pilar
+            \draw[line width=1.5pt] (3.0,-2.5) -- (4.0,-2.5);
+            \foreach \x in {3.1, 3.4, 3.7, 4.0} { \draw[thick] (\x,-2.5) -- ++(-0.15,-0.15); }
+            \filldraw[black] (B) circle (2pt) node[above=2pt] {$B$};
+
+            % Carga P intermedia hacia abajo
+            \coordinate (Ppos) at (5.5,0);
+            \draw[->, line width=2pt, red!85!black] (Ppos) -- ++(0,-1.8) node[midway, right=2pt, font=\bfseries] {$P$};
+            \filldraw[black] (Ppos) circle (2pt);
+
+            % Tirante en C desde arriba (traccion)
+            \coordinate (C) at (8,0);
+            \coordinate (Ctop) at (8,2.5);
+            \draw[line width=1.8pt, green!60!black] (Ctop) -- (C) node[midway, right=2pt, font=\scriptsize\bfseries] {Tirante (Tracción)};
+            % Techo superior tirante
+            \draw[line width=1.5pt] (7.5,2.5) -- (8.5,2.5);
+            \foreach \x in {7.6, 7.9, 8.2, 8.5} { \draw[thick] (\x,2.5) -- ++(0.15,0.15); }
+            \filldraw[black] (C) circle (2.5pt) node[below=2pt] {$C$};
+        \end{tikzpicture}%
+    }
+\end{center}
+
+\ex{Resolución Completa de Sistema Mixto Hiperestático (Pilar en Compresión y Tirante)}{
+    Una viga horizontal de rigidez infinita se encuentra articulada en su extremo izquierdo $A$ sobre un apoyo fijo. La viga está sustentada simultáneamente por:
+    \begin{itemize}
+        \item Un \textbf{pilar vertical inferior de hormigón} en $B$ ($x_B = 3.5\text{ m}$), de longitud $L_P = 2.5\text{ m}$, sección $\Omega_P = 150 \times 150\text{ mm}^2$ y módulo $E_P = 2.5 \times 10^4\text{ N/mm}^2$, empotrado en su base.
+        \item Un \textbf{tirante vertical superior de acero} en $C$ ($x_C = 8.0\text{ m}$), de longitud $L_T = 2.5\text{ m}$, diámetro $\phi_T = 16\text{ mm}$ ($\\\Omega_T = 201.06\text{ mm}^2$) y módulo $E_T = 2.1 \times 10^5\text{ N/mm}^2$, anclado a un forjado indeformable.
+    \end{itemize}
+    En la posición intermedia $x_P = 5.5\text{ m}$ actúa una carga puntual descendente en servicio $P_k = 120\text{ kN}$.
+
+    \begin{center}
+        \adjustbox{max width=0.88\textwidth}{%
+            \begin{tikzpicture}[>=Latex, scale=1.1]
+                % Viga horizontal rígida
+                \draw[line width=2.5pt, blue!85!black] (0,0) -- (8,0);
+
+                % Apoyo A en x=0
+                \coordinate (A) at (0,0);
+                \draw[thick] (A) -- ++(-0.35,-0.45) -- ++(0.7,0) -- cycle;
+                \draw[line width=1.2pt] (-0.5,-0.45) -- (0.5,-0.45);
+                \filldraw[black] (A) circle (2.5pt) node[above left] {$A$};
+
+                % Pilar en B desde abajo (compresión)
+                \coordinate (B) at (3.5,0);
+                \coordinate (Bbase) at (3.5,-2.5);
+                \draw[line width=3.5pt, brown!80!black] (Bbase) -- (B) node[midway, left=2pt, font=\scriptsize\bfseries] {Pilar Hormigón ($L_P = 2.5\text{ m}$)};
+                % Base empotrada pilar
+                \draw[line width=1.5pt] (3.0,-2.5) -- (4.0,-2.5);
+                \foreach \x in {3.1, 3.4, 3.7, 4.0} { \draw[thick] (\x,-2.5) -- ++(-0.15,-0.15); }
+                \filldraw[black] (B) circle (2pt) node[above=2pt] {$B$};
+
+                % Carga P intermedia
+                \coordinate (Ppos) at (5.5,0);
+                \draw[->, line width=2.2pt, red!85!black] (Ppos) -- ++(0,-1.8) node[below=2pt, font=\bfseries, red!85!black] {$P_k = 120\text{ kN}$};
+                \filldraw[black] (Ppos) circle (2pt);
+
+                % Tirante en C desde arriba (tracción)
+                \coordinate (C) at (8,0);
+                \coordinate (Ctop) at (8,2.5);
+                \draw[line width=1.8pt, green!60!black] (Ctop) -- (C) node[midway, right=2pt, font=\scriptsize\bfseries] {Tirante Acero ($L_T = 2.5\text{ m}$)};
+                % Techo superior anclaje
+                \draw[line width=1.5pt] (7.5,2.5) -- (8.5,2.5);
+                \foreach \x in {7.6, 7.9, 8.2, 8.5} { \draw[thick] (\x,2.5) -- ++(0.15,0.15); }
+                \filldraw[black] (C) circle (2.5pt) node[below=2pt] {$C$};
+
+                % Cotas inferiores
+                \draw[<->, line width=0.7pt] (0, -0.7) -- node[below] {$3.5\text{ m}$} (3.5, -0.7);
+                \draw[<->, line width=0.7pt] (3.5, -0.7) -- node[below] {$2.0\text{ m}$} (5.5, -0.7);
+                \draw[<->, line width=0.7pt] (5.5, -0.7) -- node[below] {$2.5\text{ m}$} (8.0, -0.7);
+            \end{tikzpicture}%
+        }
+    \end{center}
+
+    \textbf{Determinar:}
+    \begin{enumerate}[label=\alph*)]
+        \item El esfuerzo interno en el pilar ($N_P$) y en el tirante ($N_T$), verificando su signo de compresión y tracción.
+        \item Las reacciones en el apoyo articulado $A$ ($H_A, V_A$).
+        \item Las tensiones normales máximas de trabajo en servicio $\sigma_P$ y $\sigma_T$.
+    \end{enumerate}
+
+    \tcblower
+
+    \paso{1}{Equilibrio Estático de la Viga y Convenio de Fuerzas}
+
+    Aislamos la viga rígida:
+    \begin{itemize}
+        \item En la articulación $A$: Reacción horizontal $H_A$ y vertical $V_A$.
+        \item En el punto $B$: Al descender la viga, el pilar inferior experimenta acortamiento elástico (compresión, $N_P < 0$). En consecuencia, el pilar empuja hacia arriba a la directriz de la viga con una fuerza reactiva $+R_P = |N_P|$.
+        \item En el punto $C$: Al descender el extremo derecho, el tirante superior se estira (tracción, $N_T > 0$). Por tanto, ejerce sobre la viga una fuerza hacia arriba de retención $+R_T = N_T$.
+    \end{itemize}
+
+    \begin{center}
+        \adjustbox{max width=0.75\textwidth}{%
+            \begin{tikzpicture}[>=Latex, scale=1.1]
+                \draw[line width=1.5pt, brown!75!black] (0, 0) -- (8, 0);
+                \draw[->, line width=1.4pt] (-0.8, 0) -- (-0.05, 0) node[midway, above] {$H_A$};
+                \draw[->, line width=1.4pt] (0, -0.8) -- (0, -0.05) node[midway, right] {$V_A$};
+                \draw[->, line width=1.6pt, blue!85!black] (3.5, -0.8) -- (3.5, 0.05) node[midway, right=2pt, font=\small\bfseries] {$N_P\text{ (empuje pilar)}$};
+                \draw[->, line width=1.8pt, red!85!black] (5.5, 0.8) -- (5.5, -0.05) node[midway, right=2pt, font=\bfseries] {$P = 120\text{ kN}$};
+                \draw[->, line width=1.6pt, green!60!black] (8.0, -0.8) -- (8.0, 0.05) node[midway, right=2pt, font=\small\bfseries] {$N_T\text{ (tiro tirante)}$};
+            \end{tikzpicture}%
+        }
+    \end{center}
+
+    Planteamos el equilibrio estático:
+    \begin{align}
+        \sum F_x = 0 & \implies \mathbf{H_A = 0}                                         \\
+        \sum M_A = 0 & \implies N_P \cdot x_B + N_T \cdot x_C - P \cdot x_P = 0          \\
+                     & \implies N_P \cdot 3.5 + N_T \cdot 8.0 = 120 \cdot 5.5 = 660      \\
+        \sum F_y = 0 & \implies V_A + N_P + N_T - P = 0 \implies V_A = 120 - (N_P + N_T)
+    \end{align}
+    Tenemos 2 incógnitas de enlace elástico ($N_P, N_T$) para una sola ecuación de momentos: \textbf{grado de hiperestaticidad $GH = 1$}.
+
+    \paso{2}{Compatibilidad Cinemática del Giro de Sólido Rígido}
+
+    La viga rígida pivota respecto a la rótula $A$ un ángulo infinitesimal $\theta$. Por semejanza de triángulos entre los descensos verticales $\delta_B$ y $\delta_C$:
+    \begin{equation}
+        \delta_B = \theta \cdot x_B = 3.5 \theta, \qquad \delta_C = \theta \cdot x_C = 8.0 \theta \implies \frac{\delta_B}{3.5} = \frac{\delta_C}{8.0}
+    \end{equation}
+    Los descensos coinciden con las deformaciones longitudinales elásticas de cada elemento:
+    \begin{align}
+        \delta_B & = \Delta L_P = \frac{N_P \cdot L_P}{E_P \Omega_P} \\
+        \delta_C & = \Delta L_T = \frac{N_T \cdot L_T}{E_T \Omega_T}
+    \end{align}
+
+    \paso{3}{Rigideces Axiles y Relación Elástica}
+
+    Calculamos la rigidez axil longitudinal $K = \frac{E \Omega}{L}$ de cada componente:
+    \begin{itemize}
+        \item \textbf{Pilar de hormigón ($P$):} $\Omega_P = 150 \times 150 = 22\,500\text{ mm}^2$, $E_P = 25\,000\text{ N/mm}^2$:
+              \begin{equation}
+                  (E\Omega)_P = 25\,000 \times 22\,500 = 5.625 \times 10^8\text{ N}
+              \end{equation}
+              \begin{equation}
+                  \Delta L_P = \frac{N_P \cdot 2500}{5.625 \times 10^8} = \frac{N_P}{225\,000}
+              \end{equation}
+        \item \textbf{Tirante de acero ($T$):} $\Omega_T = \pi \cdot 8^2 \approx 201.06\text{ mm}^2$, $E_T = 210\,000\text{ N/mm}^2$:
+              \begin{equation}
+                  (E\Omega)_T = 210\,000 \times 201.06 \approx 4.222 \times 10^7\text{ N}
+              \end{equation}
+              \begin{equation}
+                  \Delta L_T = \frac{N_T \cdot 2500}{4.222 \times 10^7} = \frac{N_T}{16\,889}
+              \end{equation}
+    \end{itemize}
+    Sustituyendo en la relación cinemática $\frac{\Delta L_P}{3.5} = \frac{\Delta L_T}{8.0}$:
+    \begin{equation}
+        \frac{N_P}{3.5 \times 225\,000} = \frac{N_T}{8.0 \times 16\,889} \implies \frac{N_P}{787\,500} = \frac{N_T}{135\,112}
+    \end{equation}
+    \begin{equation}
+        \mathbf{N_P \approx 5.8285 \cdot N_T}
+    \end{equation}
+    \textit{Interpretación física:} Dado que el pilar de hormigón presenta un área mucho mayor que el tirante de acero, su rigidez axial es dominante y absorbe proporcionalmente una mayor cuota de esfuerzo frente a la rotación.
+
+    \paso{4}{Resolución de Esfuerzos y Reacciones}
+
+    Sustituyendo $N_P = 5.8285 N_T$ en la ecuación de equilibrio de momentos:
+    \begin{equation}
+        (5.8285 N_T) \cdot 3.5 + N_T \cdot 8.0 = 660 \implies 20.40 N_T + 8.0 N_T = 660 \implies 28.40 N_T = 660
+    \end{equation}
+    \begin{align}
+        \mathbf{N_T} & = \frac{660}{28.40} \approx \mathbf{23.24\text{ kN}} \quad \text{(Tracción)}      \\
+        \mathbf{N_P} & = 5.8285 \times 23.24 \approx \mathbf{135.45\text{ kN}} \quad \text{(Compresión)}
+    \end{align}
+    Calculamos la reacción en el apoyo $A$:
+    \begin{equation}
+        V_A = 120 - (N_P + N_T) = 120 - (135.45 + 23.24) = 120 - 158.69 = \mathbf{-38.69\text{ kN}}
+    \end{equation}
+    El signo negativo indica que la articulación $A$ debe retener hacia abajo a la viga ($V_A = 38.69\text{ kN}\,(-\vec{j})$) debido al fuerte empuje ascendente ejercido por el pilar en $B$.
+
+    \paso{5}{Tensiones Normales de Trabajo en Servicio}
+
+    \begin{align}
+        \sigma_P & = \frac{N_P}{\Omega_P} = \frac{135\,450\text{ N}}{22\,500\text{ mm}^2} = \mathbf{6.02\text{ N/mm}^2} \quad \text{(Compresión en hormigón)} \\
+        \sigma_T & = \frac{N_T}{\Omega_T} = \frac{23\,240\text{ N}}{201.06\text{ mm}^2} = \mathbf{115.59\text{ N/mm}^2} \quad \text{(Tracción en acero)}
+    \end{align}
+    Ambos valores se mantienen holgadamente dentro de los límites admisibles elásticos en servicio.
+}    \paso{6}{Diagramas Completos de Leyes de Esfuerzos y Tensiones}
+
+A partir de las reacciones y fuerzas internas obtenidas ($V_A = -38.69\text{ kN}$, $N_P = +135.45\text{ kN}$, $P_k = 120\text{ kN}$, $N_T = +23.24\text{ kN}$), representamos a continuación el estado completo de solicitaciones internas de la viga rígida junto con los diagramas de esfuerzo axil $N(z)$ y tensiones normales $\sigma(z)$ en los elementos verticales sustentantes:
+
+\begin{center}
+    \adjustbox{max width=\textwidth}{%
+        \begin{tikzpicture}[>=Latex, scale=0.92]
+            % ==========================================================
+            % BLOQUE IZQUIERDO: SOLICITACIONES EN LA VIGA RÍGIDA
+            % ==========================================================
+            % 1. DCL DE LA VIGA EQUILIBRADA (shift y = 7.6)
+            \begin{scope}[shift={(0, 7.6)}]
+                \node[font=\small\bfseries, blue!85!black] at (4.0, 1.8) {1. Viga Rígida en Equilibrio (DCL)};
+                \draw[line width=2.4pt, blue!85!black] (0, 0) -- (8.0, 0);
+                \filldraw[black] (0, 0) circle (2.2pt) node[above left=2pt] {$A$};
+                \filldraw[black] (3.5, 0) circle (2.2pt) node[above=2pt] {$B$};
+                \filldraw[black] (5.5, 0) circle (2.2pt) node[above=2pt] {$P$};
+                \filldraw[black] (8.0, 0) circle (2.2pt) node[above right=2pt] {$C$};
+
+                % Carga Pk desde arriba con etiqueta a la izquierda
+                \draw[->, line width=1.8pt, red!85!black] (5.5, 1.2) -- (5.5, 0) node[pos=0.0, left=3pt, font=\scriptsize\bfseries] {$P_k = 120\text{ kN}$};
+
+                % Reacción VA hacia abajo
+                \draw[->, line width=1.6pt, blue!90!black] (0, 0) -- (0, -0.9) node[below=1pt, font=\scriptsize\bfseries] {$V_A = 38.69\text{ kN}$};
+
+                % Empuje NP hacia arriba
+                \draw[->, line width=1.8pt, brown!85!black] (3.5, -0.9) node[below=1pt, font=\scriptsize\bfseries] {$N_P = 135.45\text{ kN}$} -- (3.5, 0);
+
+                % Tracción NT hacia arriba
+                \draw[->, line width=1.6pt, green!60!black] (8.0, -0.9) node[below=1pt, font=\scriptsize\bfseries] {$N_T = 23.24\text{ kN}$} -- (8.0, 0);
+            \end{scope}
+
+            % 2. DIAGRAMA DE ESFUERZO CORTANTE V(x) [kN] (shift y = 3.8)
+            \begin{scope}[shift={(0, 3.8)}]
+                \node[font=\small\bfseries, text=red!80!black] at (4.0, 1.5) {2. Diagrama de Esfuerzo Cortante $V(x)$ [kN]};
+                \draw[line width=0.9pt] (0, 0) -- (8.0, 0);
+
+                % Tramo A-B: V = -38.69 kN
+                \draw[thick, red!75!black, fill=red!15] (0, 0) -- (0, -0.42) -- (3.5, -0.42) -- (3.5, 0) -- cycle;
+                \node[left=1pt, font=\scriptsize\bfseries, red!85!black] at (0, -0.42) {$-38.69$};
+                \node[font=\tiny\bfseries, red!85!black] at (1.75, -0.21) {$-$};
+
+                % Tramo B-P: V = +96.76 kN
+                \draw[thick, blue!75!black, fill=blue!15] (3.5, 0) -- (3.5, 0.95) -- (5.5, 0.95) -- (5.5, 0) -- cycle;
+                \node[above=1pt, font=\scriptsize\bfseries, blue!85!black] at (3.5, 0.95) {$+96.76$};
+                \node[font=\tiny\bfseries, blue!85!black] at (4.5, 0.48) {$+$};
+
+                % Tramo P-C: V = -23.24 kN
+                \draw[thick, red!75!black, fill=red!15] (5.5, 0) -- (5.5, -0.26) -- (8.0, -0.26) -- (8.0, 0) -- cycle;
+                \node[below=1pt, font=\scriptsize\bfseries, red!85!black] at (6.75, -0.26) {$-23.24$};
+                \node[font=\tiny\bfseries, red!85!black] at (6.75, -0.13) {$-$};
+
+                % Nodos situados con claridad
+                \node[above=2pt, font=\tiny] at (0, 0) {$A$};
+                \node[below=3pt, font=\tiny] at (3.5, -0.45) {$B$};
+                \node[above=2pt, font=\tiny] at (5.5, 0.95) {$P$};
+                \node[above=2pt, font=\tiny] at (8.0, 0) {$C$};
+            \end{scope}
+
+            % 3. DIAGRAMA DE MOMENTO FLECTOR M(x) [kN*m] (shift y = 0.0)
+            \begin{scope}[shift={(0, 0.0)}]
+                \node[font=\small\bfseries, text=purple!80!black] at (4.0, 1.5) {3. Diagrama de Momento Flector $M(x)$ [$\text{kN}\cdot\text{m}$]};
+                \draw[line width=0.9pt] (0, 0) -- (8.0, 0);
+
+                % M(A) = 0, M(B) = -135.42 (arriba), M(P) = +58.10 (abajo), M(C) = 0
+                \draw[thick, purple!80!black, fill=purple!15] (0, 0) -- (3.5, 0.85) -- (5.5, -0.38) -- (8.0, 0) -- cycle;
+
+                \node[above=1pt, font=\scriptsize\bfseries, purple!85!black] at (3.5, 0.85) {$M_B = -135.42$};
+                \node[below=1pt, font=\scriptsize\bfseries, purple!85!black] at (5.5, -0.38) {$M_P = +58.10$};
+
+                % Nodos desacoplados del texto de momento
+                \node[above=2pt, font=\tiny] at (0, 0) {$A$};
+                \node[below=2pt, font=\tiny] at (3.5, -0.15) {$B$};
+                \node[above=2pt, font=\tiny] at (5.5, 0) {$P$};
+                \node[above=2pt, font=\tiny] at (8.0, 0) {$C$};
+            \end{scope}
+
+            % ==========================================================
+            % BLOQUE DERECHO: DIAGRAMAS DE AXIL Y TENSIONES EN HORIZONTAL
+            % ==========================================================
+            \begin{scope}[shift={(9.6, 0.0)}]
+                \node[font=\small\bfseries] at (3.0, 9.2) {4. Axiles $N$ y Tensiones $\sigma$ (Horizontalizados)};
+
+                % --- PILAR DE HORMIGÓN (Compresión, L_P = 2.5 m) ---
+                % Diagrama N_P en horizontal
+                \begin{scope}[shift={(0, 7.2)}]
+                    \node[above=2pt, font=\scriptsize\bfseries, brown!85!black] at (3.0, 1.1) {Pilar Hormigón ($L_P = 2.5\text{ m}$) — Axil $N_P$};
+                    \draw[thick] (0, 1.0) -- (6.0, 1.0);
+                    \draw[thick, red!75!black, fill=red!15] (0, 0) rectangle (6.0, 1.0);
+                    \node[font=\scriptsize\bfseries, red!85!black] at (3.0, 0.68) {$N_P = -135.45\text{ kN}$ (Compresión)};
+                    \draw[->, line width=0.9pt, red!85!black] (1.4, 0.28) -- (2.1, 0.28);
+                    \draw[<-, line width=0.9pt, red!85!black] (3.9, 0.28) -- (4.6, 0.28);
+                    \node[font=\scriptsize\bfseries, red!85!black] at (3.0, 0.28) {$-$};
+                    \node[below=1pt, font=\tiny] at (0, 0) {Base};
+                    \node[below=1pt, font=\tiny] at (6.0, 0) {Nudo $B$};
+                \end{scope}
+
+                % Diagrama sigma_P en horizontal
+                \begin{scope}[shift={(0, 4.7)}]
+                    \node[above=2pt, font=\scriptsize\bfseries, brown!85!black] at (3.0, 1.1) {Pilar Hormigón — Tensión Normal $\sigma_P$};
+                    \draw[thick] (0, 1.0) -- (6.0, 1.0);
+                    \draw[thick, red!75!black, fill=red!12] (0, 0) rectangle (6.0, 1.0);
+                    \node[font=\scriptsize\bfseries, red!85!black] at (3.0, 0.68) {$\sigma_P = -6.02\text{ N/mm}^2$};
+                    \draw[->, line width=0.9pt, red!85!black] (1.4, 0.28) -- (2.1, 0.28);
+                    \draw[<-, line width=0.9pt, red!85!black] (3.9, 0.28) -- (4.6, 0.28);
+                    \node[font=\scriptsize\bfseries, red!85!black] at (3.0, 0.28) {$-$};
+                \end{scope}
+
+                % --- TIRANTE DE ACERO (Tracción, L_T = 2.5 m) ---
+                % Diagrama N_T en horizontal
+                \begin{scope}[shift={(0, 2.2)}]
+                    \node[above=2pt, font=\scriptsize\bfseries, green!55!black] at (3.0, 1.1) {Tirante Acero ($L_T = 2.5\text{ m}$) — Axil $N_T$};
+                    \draw[thick] (0, 0) -- (6.0, 0);
+                    \draw[thick, blue!75!black, fill=blue!12] (0, 0) rectangle (6.0, 1.0);
+                    \node[font=\scriptsize\bfseries, blue!85!black] at (3.0, 0.68) {$N_T = +23.24\text{ kN}$ (Tracción)};
+                    \draw[<-, line width=0.9pt, blue!85!black] (1.4, 0.28) -- (2.1, 0.28);
+                    \draw[->, line width=0.9pt, blue!85!black] (3.9, 0.28) -- (4.6, 0.28);
+                    \node[font=\scriptsize\bfseries, blue!85!black] at (3.0, 0.28) {$+$};
+                    \node[below=1pt, font=\tiny] at (0, 0) {Nudo $C$};
+                    \node[below=1pt, font=\tiny] at (6.0, 0) {Techo};
+                \end{scope}
+
+                % Diagrama sigma_T en horizontal
+                \begin{scope}[shift={(0, -0.3)}]
+                    \node[above=2pt, font=\scriptsize\bfseries, green!55!black] at (3.0, 1.1) {Tirante Acero — Tensión Normal $\sigma_T$};
+                    \draw[thick] (0, 0) -- (6.0, 0);
+                    \draw[thick, blue!75!black, fill=blue!10] (0, 0) rectangle (6.0, 1.0);
+                    \node[font=\scriptsize\bfseries, blue!85!black] at (3.0, 0.68) {$\sigma_T = +115.59\text{ N/mm}^2$};
+                    \draw[<-, line width=0.9pt, blue!85!black] (1.4, 0.28) -- (2.1, 0.28);
+                    \draw[->, line width=0.9pt, blue!85!black] (3.9, 0.28) -- (4.6, 0.28);
+                    \node[font=\scriptsize\bfseries, blue!85!black] at (3.0, 0.28) {$+$};
+                \end{scope}
+            \end{scope}
+        \end{tikzpicture}%
+    }
+\end{center}

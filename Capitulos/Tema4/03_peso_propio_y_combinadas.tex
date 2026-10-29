@@ -87,20 +87,17 @@ Definimos la coordenada vertical local $z$ medida desde la cabeza libre superior
                 \node at (0, 0.8) [align=center, font=\small\bfseries] {Cilindro macizo\\$\phi = 500\text{ mm}$};
                 \draw[<->, line width=0.8pt] (1.6, 0) -- node[right=2pt, font=\small] {$0.5\text{ m}$} (1.6, 1.6);
 
-                % Flechas de peso propio en cilindro macizo
-                \draw[->, gray!75!black, line width=0.8pt] (-0.8, 1.3) -- ++(0, -0.4);
-                \draw[->, gray!75!black, line width=0.8pt] (0.8, 1.3) -- ++(0, -0.4);
-
                 % Tubo hueco superior (1.6 a 4.8 de alto)
                 \draw[thick, fill=blue!15] (-0.45, 1.6) rectangle (0.45, 4.8);
-                \node at (0, 3.2) [rotate=90, font=\small\bfseries, align=center] {Tubo hueco\\$\phi_{\text{ext}} = 150$, $e=5$};
+                % Etiqueta horizontal fuera del tubo para máxima legibilidad sin solape
+                \draw[->, thick, blue!85!black] (-0.45, 3.2) -- (-1.5, 3.2) node[left, font=\scriptsize\bfseries, align=right] {Tubo hueco\\$\phi_{\text{ext}} = 150\text{ mm}$\\$e = 5\text{ mm}$};
                 \draw[<->, line width=0.8pt] (0.8, 1.6) -- node[right=2pt, font=\small] {$1.0\text{ m}$} (0.8, 4.8);
 
-                % Flechas de peso propio en tubo hueco
-                \draw[->, gray!75!black, line width=0.8pt] (-0.2, 4.1) -- ++(0, -0.5);
-                \draw[->, gray!75!black, line width=0.8pt] (0.2, 4.1) -- ++(0, -0.5);
-                \draw[->, gray!75!black, line width=0.8pt] (-0.2, 2.7) -- ++(0, -0.5);
-                \draw[->, gray!75!black, line width=0.8pt] (0.2, 2.7) -- ++(0, -0.5);
+                % Flechas de peso propio en tubo hueco (pequeñas y limpias)
+                \draw[->, gray!75!black, line width=0.7pt] (-0.2, 4.2) -- ++(0, -0.4);
+                \draw[->, gray!75!black, line width=0.7pt] (0.2, 4.2) -- ++(0, -0.4);
+                \draw[->, gray!75!black, line width=0.7pt] (-0.2, 2.5) -- ++(0, -0.4);
+                \draw[->, gray!75!black, line width=0.7pt] (0.2, 2.5) -- ++(0, -0.4);
 
                 % Carga F_k en coronación
                 \draw[->, line width=2.2pt, red!85!black] (0, 6.0) -- (0, 4.8) node[midway, left=3pt, font=\bfseries] {$F_k = 10\text{ kN}$};
@@ -120,11 +117,11 @@ Definimos la coordenada vertical local $z$ medida desde la cabeza libre superior
                 \foreach \y in {1.1, 1.25, 1.4} {
                     \draw[thin] (0, \y) -- ++(-0.25, 0.2);
                 }
+                \node[above left=3pt, font=\small\bfseries] at (0, 1.35) {Base};
+                \node[above=3pt, font=\small] at (2.3, 1.0) {Unión};
+                \node[above=3pt, font=\small] at (7.0, 1.0) {Coronación};
 
                 % Diagrama con relleno
-                % x=0 (base): -17.88 kN -> y = -1.2
-                % x=2.3 (unión): -10.17 kN -> y = -0.4
-                % x=7.0 (coronación): -10.00 kN -> y = -0.35
                 \draw[thick, red!75!black, fill=red!15] (0, 1.0) -- (0, -1.2) -- (2.3, -0.4) -- (7.0, -0.35) -- (7.0, 1.0) -- cycle;
 
                 % Línea discontinua de separación de tramos
@@ -144,14 +141,9 @@ Definimos la coordenada vertical local $z$ medida desde la cabeza libre superior
                 \draw[<-, line width=0.8pt, red!85!black] (4.7, 0.3) -- (5.3, 0.3);
                 \node[font=\footnotesize\bfseries, red!85!black] at (4.65, 0.6) {$-$};
 
-                % Cotas de longitud en la parte inferior suficientemente bajas para no solapar
+                % Cotas de longitud en la parte inferior
                 \draw[<->, line width=0.8pt] (0, -1.8) -- node[below=2pt, font=\small] {$0.5\text{ m}$} (2.3, -1.8);
                 \draw[<->, line width=0.8pt] (2.3, -1.8) -- node[below=2pt, font=\small] {$1.0\text{ m}$} (7.0, -1.8);
-
-                % Etiquetas de secciones en la parte superior
-                \node[above=2pt, font=\small] at (0, 1.0) {Base};
-                \node[above=2pt, font=\small] at (2.3, 1.0) {Unión};
-                \node[above=2pt, font=\small] at (7.0, 1.0) {Coronación};
             \end{scope}
         \end{tikzpicture}%
     }
@@ -245,7 +237,7 @@ A diferencia de los casos donde se desprecia el peso propio (que producen leyes 
 %=============================================================================
 \section{Problema de Aplicación: Barra Escalonada bajo Cargas Combinadas}
 
-\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=\textbf{Problema 10: Barra Escalonada con Carga Uniformemente Repartida y Cargas Puntuales}]
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=\textbf{Problema 8: Barra Escalonada con Carga Uniformemente Repartida y Cargas Puntuales}]
     Una barra recta vertical de $4.0\text{ m}$ de longitud total se encuentra rígidamente empotrada en su extremo inferior $A$ y libre en su coronación superior $D$. El elemento se compone de dos tramos rectangulares coaxiales:
     \begin{itemize}
         \item \textbf{Tramo inferior $AB$ ($0 \le x \le 1.0\text{ m}$):} Sección $\Omega_1 = 15\text{ cm}^2 = 1500\text{ mm}^2$.
@@ -277,67 +269,105 @@ Para mayor comodidad y sistemática en el trazado de leyes, disponemos la barra 
 \begin{figure}[H]
     \centering
     \adjustbox{max width=\textwidth}{%
-        \begin{tikzpicture}[>=Latex, scale=1.05]
-            % Geometría de la barra
-            % Empotramiento en x = 0
-            \draw[line width=1.5pt] (0, -1.2) -- (0, 1.2);
-            \foreach \y in {-1.0, -0.6, -0.2, 0.2, 0.6, 1.0} {
-                \draw[thick] (0, \y) -- ++(-0.3, -0.3);
-            }
+        \begin{tikzpicture}[>=Latex]
+            % ==============================================================
+            % 1. MODELO VERTICAL ORIGINAL
+            % ==============================================================
+            \begin{scope}[shift={(0,0)}]
+                \node[font=\bfseries\small, blue!85!black] at (0.0, 6.4) {\underline{1. Modelo Físico Vertical Original}};
+                
+                % Suelo empotrado en base z=0
+                \draw[line width=1.5pt] (-1.5, 0) -- (1.5, 0);
+                \foreach \x in {-1.3, -0.9, -0.5, -0.1, 0.3, 0.7, 1.1} {
+                    \draw[thick] (\x, 0) -- ++(-0.25, -0.25);
+                }
+                \node[below=3pt, font=\scriptsize\bfseries] at (0, -0.25) {Empotramiento base ($A$)};
 
-            % Secciones por ENCIMA de los recuadros
-            \node at (1.25, 1.1) [font=\small\bfseries, blue!85!black] {$\Omega_1 = 15\text{ cm}^2$};
-            \node at (6.25, 0.85) [font=\small\bfseries, orange!85!black] {$\Omega_2 = 10\text{ cm}^2$};
+                % Tramo inferior AB (z in [0, 1.25]): Omega1 = 15 cm2
+                \draw[thick, fill=blue!15] (-0.9, 0) rectangle (0.9, 1.25);
+                \node[font=\scriptsize\bfseries, blue!85!black] at (0, 0.625) {$\Omega_1 = 15\text{ cm}^2$};
 
-            % Tramo 1 (0 a 1 m -> 0 a 2.5 cm): Omega = 15 cm2
-            \draw[thick, fill=blue!15] (0, -0.75) rectangle (2.5, 0.75);
+                % Tramo superior BD (z in [1.25, 4.5]): Omega2 = 10 cm2
+                \draw[thick, fill=orange!15] (-0.65, 1.25) rectangle (0.65, 4.5);
+                \node[right=4pt, font=\scriptsize\bfseries, orange!85!black] at (0.65, 3.85) {$\Omega_2 = 10\text{ cm}^2$};
 
-            % Tramo 2 (1 m a 4 m -> 2.5 a 10.0 cm): Omega = 10 cm2
-            \draw[thick, fill=orange!15] (2.5, -0.5) rectangle (10.0, 0.5);
+                % Carga distribuida q = 50 kN/m hacia abajo DENTRO del cuadro naranja
+                \foreach \y in {1.85, 2.45, 3.05, 3.65, 4.25} {
+                    \draw[->, line width=1.0pt, red!85!black] (0.0, \y) -- ++(0, -0.48);
+                }
+                \node[right=4pt, red!85!black, font=\scriptsize\bfseries] at (0.65, 2.85) {$q = 50\text{ kN/m}$};
 
-            % Flechas internas de esfuerzos dentro de los recuadros
-            % En tramo 1: esfuerzo de compresión
-            \draw[->, line width=0.8pt, red!80!black] (0.4, 0) -- (0.9, 0);
-            \draw[<-, line width=0.8pt, red!80!black] (1.6, 0) -- (2.1, 0);
-            \node[font=\footnotesize\bfseries, red!80!black] at (1.25, 0) {Compresión};
+                % Carga puntual 200 kN hacia arriba en z = 3.5 (a 1 m de cabeza)
+                \draw[->, line width=2.0pt, green!60!black] (-0.55, 3.5) -- ++(0, 1.2) node[left=2pt, font=\scriptsize\bfseries] {$200\text{ kN}$};
 
-            % En tramo 2: flechas internas
-            \draw[<-, line width=0.7pt, green!60!black] (4.0, 0) -- (4.7, 0);
-            \draw[->, line width=0.7pt, green!60!black] (5.3, 0) -- (6.0, 0);
-            \node[font=\footnotesize\bfseries, green!60!black] at (5.0, 0) {Tracción};
+                % Carga puntual 50 kN hacia abajo en hombro derecho z = 1.25
+                \draw[->, line width=1.6pt, red!80!black] (0.75, 2.05) -- (0.75, 1.25) node[pos=0.0, right=2pt, font=\scriptsize\bfseries] {$50\text{ kN}$};
 
-            \draw[->, line width=0.7pt, red!80!black] (8.2, 0) -- (8.7, 0);
-            \draw[<-, line width=0.7pt, red!80!black] (9.3, 0) -- (9.8, 0);
+                % Carga puntual 100 kN en cabeza z = 4.5 hacia abajo
+                \draw[->, line width=2.0pt, red!85!black] (0, 5.5) -- (0, 4.5) node[midway, right=3pt, font=\scriptsize\bfseries] {$100\text{ kN}$};
 
-            % Puntos nodales
-            \filldraw (0,0) circle (2pt) node[below left=2pt] {$A$ ($x=0$)};
-            \filldraw (2.5,0) circle (2pt) node[below=0.8cm] {$B$ ($x=1\text{ m}$)};
-            \filldraw (7.5,0) circle (2pt) node[below=0.6cm] {$C$ ($x=3\text{ m}$)};
-            \filldraw (10.0,0) circle (2pt) node[below right=2pt] {$D$ ($x=4\text{ m}$)};
+                % Cotas verticales desplazadas a la izquierda para no solapar con flecha 200 kN
+                \draw[<->, line width=0.7pt] (-1.6, 0) -- node[left, font=\scriptsize] {$1.0\text{ m}$} (-1.6, 1.25);
+                \draw[<->, line width=0.7pt] (-1.6, 1.25) -- node[left, font=\scriptsize] {$2.0\text{ m}$} (-1.6, 3.5);
+                \draw[<->, line width=0.7pt] (-1.6, 3.5) -- node[left, font=\scriptsize] {$1.0\text{ m}$} (-1.6, 4.5);
+            \end{scope}
 
-            % Carga distribuida q = 50 kN/m hacia la izquierda (compresion hacia A)
-            \draw[line width=1.0pt, red!85!black] (2.5, 1.4) -- (10.0, 1.4);
-            \foreach \x in {3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0} {
-                \draw[->, line width=1.0pt, red!85!black] (\x, 1.4) -- ++(-0.6, 0);
-            }
-            \node[above=2pt, red!85!black, font=\bfseries] at (6.25, 1.4) {$q = 50\text{ kN/m}$};
 
-            % Carga puntual en C (x = 3 m): 200 kN hacia la derecha (+x, tracción hacia fuera)
-            \draw[->, line width=2.0pt, green!60!black] (7.5, 0) -- (9.0, 0) node[above=2pt, font=\bfseries] {$F_C = 200\text{ kN}$};
 
-            % Carga puntual en D (x = 4 m): 100 kN hacia la izquierda (compresión)
-            \draw[<-, line width=2.0pt, red!80!black] (10.0, 0) -- (11.5, 0) node[right=2pt, font=\bfseries] {$F_D = 100\text{ kN}$};
+            % ==============================================================
+            % 2. MODELO HORIZONTALIZADO CON PLANOS DE CORTE (SECCIONES S1, S2, S3)
+            % ==============================================================
+            \begin{scope}[shift={(5.6, 2.2)}]
+                \node[font=\bfseries\small, blue!85!black] at (5.0, 3.8) {\underline{2. Modelo Horizontalizado con Cortes de Secciones}};
 
-            % Reacción en A
-            \draw[->, line width=2.0pt, blue!80!black] (-1.5, 0) -- (0, 0) node[pos=0.2, above=2pt, font=\bfseries] {$H_A$};
+                % Empotramiento en x = 0
+                \draw[line width=1.5pt] (0, -1.2) -- (0, 1.2);
+                \foreach \y in {-1.0, -0.6, -0.2, 0.2, 0.6, 1.0} {
+                    \draw[thick] (0, \y) -- ++(-0.25, -0.25);
+                }
 
-            % Cotas de longitud
-            \draw[<->, line width=0.8pt] (0, -1.2) -- node[below=2pt, font=\small] {$1.0\text{ m}$} (2.5, -1.2);
-            \draw[<->, line width=0.8pt] (2.5, -1.2) -- node[below=2pt, font=\small] {$2.0\text{ m}$} (7.5, -1.2);
-            \draw[<->, line width=0.8pt] (7.5, -1.2) -- node[below=2pt, font=\small] {$1.0\text{ m}$} (10.0, -1.2);
+                % Tramo 1 (0 a 1 m): Omega = 15 cm2
+                \draw[thick, fill=blue!15] (0, -0.75) rectangle (2.5, 0.75);
+
+                % Tramo 2 (1 m a 4 m): Omega = 10 cm2
+                \draw[thick, fill=orange!15] (2.5, -0.55) rectangle (10.0, 0.55);
+
+                % Nodos
+                \filldraw (0,0) circle (2pt) node[below left=2pt] {$A$};
+                \filldraw (2.5,0) circle (2pt) node[below=0.8cm] {$B$};
+                \filldraw (7.5,-0.18) circle (2pt) node[below=0.45cm] {$C$};
+                \filldraw (10.0,0) circle (2pt) node[below right=2pt] {$D$};
+
+                % Carga distribuida q = 50 kN/m hacia la izquierda DENTRO del cuadro naranja (franja superior y=0.25)
+                \foreach \x in {3.3, 4.2, 5.1, 6.0, 6.9, 7.8, 8.7, 9.6} {
+                    \draw[->, line width=1.0pt, red!85!black] (\x, 0.28) -- ++(-0.55, 0);
+                }
+                \node[above=2pt, red!85!black, font=\scriptsize\bfseries] at (6.25, 0.55) {$q = 50\text{ kN/m}$};
+
+                % Cargas puntuales dentro de los cuadros sin solapar con la linea S3 (x=8.75) ni con q
+                \draw[->, line width=1.8pt, red!80!black] (2.5, 0.35) -- ++(-0.95, 0) node[above=1pt, font=\scriptsize\bfseries] {$50\text{ kN}$};
+                \draw[->, line width=2.0pt, green!60!black] (7.5, -0.18) -- (8.55, -0.18);
+                \node[below=1pt, font=\scriptsize\bfseries, green!55!black] at (8.05, -0.18) {$200\text{ kN}$};
+                \draw[<-, line width=2.0pt, red!80!black] (10.0, 0) -- (11.4, 0) node[right=2pt, font=\scriptsize\bfseries] {$100\text{ kN}$};
+
+                % Reaccion en A
+                \draw[->, line width=2.0pt, blue!80!black] (-1.1, 0) -- (0, 0) node[pos=0.1, above=3pt, font=\scriptsize\bfseries] {$H_A$};
+
+                % LINEAS DISCONTINUAS DE CORTE DE SECCIONES (S1, S2, S3)
+                \draw[dashed, line width=1.0pt, purple!80!black] (1.25, -2.3) -- (1.25, 1.8) node[above, font=\bfseries\scriptsize, purple!80!black, fill=white, inner sep=1.5pt] {Sección $S_1$};
+                \draw[dashed, line width=1.0pt, purple!80!black] (5.0, -2.3) -- (5.0, 1.8) node[above, font=\bfseries\scriptsize, purple!80!black, fill=white, inner sep=1.5pt] {Sección $S_2$};
+                \draw[dashed, line width=1.0pt, purple!80!black] (8.75, -2.3) -- (8.75, 1.8) node[above, font=\bfseries\scriptsize, purple!80!black, fill=white, inner sep=1.5pt] {Sección $S_3$};
+
+                % Cotas de longitud y secciones debajo de las cotas
+                \draw[<->, line width=0.8pt] (0, -1.25) -- node[fill=white, inner sep=1.5pt, below=1pt, font=\scriptsize] {$1.0\text{ m}$} (2.5, -1.25);
+                \draw[<->, line width=0.8pt] (2.5, -1.25) -- node[fill=white, inner sep=1.5pt, below=1pt, font=\scriptsize] {$2.0\text{ m}$} (7.5, -1.25);
+                \draw[<->, line width=0.8pt] (7.5, -1.25) -- node[fill=white, inner sep=1.5pt, below=1pt, font=\scriptsize] {$1.0\text{ m}$} (10.0, -1.25);
+                \node[font=\scriptsize\bfseries, blue!85!black, fill=white, inner sep=1.5pt] at (1.25, -1.95) {$\Omega_1 = 15\text{ cm}^2$};
+                \node[font=\scriptsize\bfseries, orange!85!black, fill=white, inner sep=1.5pt] at (6.25, -1.95) {$\Omega_2 = 10\text{ cm}^2$};
+            \end{scope}
         \end{tikzpicture}%
     }
-    \caption{Esquema estático de la barra horizontalizada con las secciones rotuladas sobre los recuadros y cargas axiles actuantes.}
+    \caption{Transformación del soporte vertical original a la barra longitudinal horizontalizada de cálculo, mostrando las cargas axiles y los tres planos de corte seccional ($S_1, S_2, S_3$).}
     \label{fig:problema10_barra}
 \end{figure}
 
@@ -350,41 +380,119 @@ El sistema es estrictamente isostático exterior e interiormente ($N_I = 3$, $N_
 \textit{Nota de comprobación:} Si la carga resultante exterior total a la derecha del empotramiento es $-50 \cdot 3 + 200 - 100 = -50\text{ kN}$ (neta hacia la izquierda), el empotramiento reacciona con $H_A = +50\text{ kN}$ hacia la derecha, induciendo compresión según el equilibrio local de la rebanada inicial.
 
 \subsubsection*{Paso 2: Leyes de Esfuerzo Axil $N(x)$ por el Método de las Secciones}
-Dividimos la barra en los 3 tramos delimitados por el cambio de sección y la aplicación de cargas puntuales:
-\begin{enumerate}
-    \item \textbf{Tramo 1 ($0 \le x < 1.0\text{ m}$):}
-          Aislando la rebanada izquierda con la reacción $H_A = 50\text{ kN}$ hacia la derecha:
-          \begin{equation}
-              \sum F_x = 0 \implies H_A + N_1(x) = 0 \implies N_1(x) = -H_A = \mathbf{-50\text{ kN} \quad (\text{Compresión constante})}
-          \end{equation}
-          \textit{Comentario práctico de examen:} Si en lugar de calcular las reacciones nos hubiésemos quedado con el extremo derecho libre $[x, 4]$, habríamos integrado las cargas desde la derecha sin necesidad previa de calcular $H_A$, obteniendo el mismo resultado idéntico.
+Dividimos la barra en los 3 tramos delimitados por el cambio de sección y la aplicación de cargas puntuales, analizando el equilibrio del corte en cada sección:
 
-    \item \textbf{Tramo 2 ($1.0 \le x < 3.0\text{ m}$):}
-          Aislando el bloque izquierdo $[0, x]$ donde entra la carga repartida en una longitud $(x - 1)$:
-          \begin{equation}
-              \sum F_x = 0 \implies H_A - q \cdot (x - 1) + N_2(x) = 0 \implies N_2(x) = -50 + 50(x - 1) = \mathbf{50x - 100\text{ [kN]}}
-          \end{equation}
-          Evaluando los extremos del tramo:
-          \begin{itemize}
-              \item En $x = 1.0\text{ m}^+$: $N_2(1) = 50(1) - 100 = \mathbf{-50\text{ kN} \quad (\text{Compresión})}$.
-              \item En $x = 3.0\text{ m}^-$: $N_2(3) = 50(3) - 100 = \mathbf{+50\text{ kN} \quad (\text{Tracción})}$.
-              \item Anulación de axil ($N=0$): $50x - 100 = 0 \implies \mathbf{x = 2.0\text{ m}}$.
-          \end{itemize}
+\tramobadge{Tramo 1}{Sección $S_1$, $x \in [0, 1.0\text{ m}]$}
 
-    \item \textbf{Tramo 3 ($3.0 \le x \le 4.0\text{ m}$):}
-          Por comodidad analítica, consideramos el equilibrio de la parte derecha de la barra comprendida entre la sección genérica $x$ y el extremo libre $x = 4.0\text{ m}$ (longitud $4 - x$):
-          \begin{align}
-              \sum F_{x,\text{derecha}} = 0 & \implies - N_3(x) - F_D - q \cdot (4 - x) = 0 \notag \\
-                                            & \implies N_3(x) = - 100 - 50(4 - x) = \mathbf{50x - 300\text{ [kN]}}
-          \end{align}
-          Evaluando los extremos:
-          \begin{itemize}
-              \item En $x = 3.0\text{ m}^+$: $N_3(3) = 50(3) - 300 = \mathbf{-150\text{ kN} \quad (\text{Compresión})}$.\\
-              \textit{Comprobación del salto en $x=3$:} $\Delta N = N(3^+) - N(3^-) = -150 - (+50) = -200\text{ kN}$, que coincide exactamente con el valor de la carga concentrada aplicada $F_C = 200\text{ kN}$ hacia la derecha.
-              \item En $x = 4.0\text{ m}$: $N_3(4) = 50(4) - 300 = \mathbf{-100\text{ kN} \quad (\text{Compresión})}$, equilibrando exactamente a $F_D$.
-          \end{itemize}
-\end{enumerate}
+\begin{center}
+    \adjustbox{max width=0.62\textwidth}{%
+        \begin{tikzpicture}[>=Latex, scale=1.1]
+            % Rebanada izquierda [0, x]
+            \draw[line width=1.5pt] (0, -0.9) -- (0, 0.9);
+            \foreach \y in {-0.7, -0.3, 0.1, 0.5} {
+                \draw[thick] (0, \y) -- ++(-0.25, -0.25);
+            }
+            \draw[thick, fill=blue!15] (0, -0.6) rectangle (2.2, 0.6);
+            \node[font=\scriptsize\bfseries, blue!85!black] at (1.1, 0) {$\Omega = 15\text{ cm}^2$};
+            % Reaccion HA
+            \draw[->, line width=1.8pt, blue!80!black] (-1.5, 0) -- (0, 0) node[pos=0.0, left=2pt, font=\scriptsize\bfseries] {$H_A = 50\text{ kN}$};
+            % Corte seccional S1
+            \draw[dashed, purple!80!black, line width=1pt] (2.2, -0.9) -- (2.2, 0.9) node[above, font=\scriptsize\bfseries] {Corte $S_1$};
+            % Axil positivo saliente
+            \draw[->, line width=1.8pt, red!85!black] (2.2, 0) -- ++(1.4, 0) node[right, font=\bfseries] {$N_1(x)$};
+            % Cota x
+            \draw[<->, line width=0.7pt] (0, -0.8) -- node[below, font=\scriptsize] {$x$} (2.2, -0.8);
+        \end{tikzpicture}%
+    }
+\end{center}
 
+Aislando la rebanada izquierda con la reacción $H_A = 50\text{ kN}$ hacia la derecha:
+\begin{equation}
+    \sum F_x = 0 \implies H_A + N_1(x) = 0 \implies N_1(x) = -H_A = \mathbf{-50\text{ kN} \quad (\text{Compresión constante})}
+\end{equation}
+\textit{Comentario práctico de examen:} Si en lugar de calcular las reacciones nos hubiésemos quedado con el extremo derecho libre $[x, 4]$, habríamos integrado las cargas desde la derecha sin necesidad previa de calcular $H_A$, obteniendo el mismo resultado idéntico.
+
+\tramobadge{Tramo 2}{Sección $S_2$, $x \in [1.0, 3.0\text{ m}]$}
+
+\begin{center}
+    \adjustbox{max width=0.75\textwidth}{%
+        \begin{tikzpicture}[>=Latex, scale=1.1]
+            % Rebanada izquierda [0, x]
+            \draw[line width=1.5pt] (0, -0.9) -- (0, 0.9);
+            \foreach \y in {-0.7, -0.3, 0.1, 0.5} {
+                \draw[thick] (0, \y) -- ++(-0.25, -0.25);
+            }
+            \draw[thick, fill=blue!15] (0, -0.65) rectangle (1.8, 0.65);
+            \draw[thick, fill=orange!15] (1.8, -0.45) rectangle (4.2, 0.45);
+            \node[above=2pt, font=\scriptsize\bfseries, blue!85!black] at (0.9, 0.65) {$\Omega_1 = 15\text{ cm}^2$};
+            \node[above=2pt, font=\scriptsize\bfseries, orange!85!black] at (3.0, 0.45) {$\Omega_2 = 10\text{ cm}^2$};
+            % Reaccion HA
+            \draw[->, line width=1.8pt, blue!80!black] (-1.5, 0) -- (0, 0) node[pos=0.0, left=2pt, font=\scriptsize\bfseries] {$H_A = 50\text{ kN}$};
+            % Carga puntual en hombro x=1 m dentro del rectángulo azul
+            \draw[->, line width=1.5pt, red!80!black] (1.8, 0.25) -- ++(-0.85, 0) node[midway, above=1pt, font=\scriptsize\bfseries] {$50\text{ kN}$};
+            % Carga repartida q = 50 kN/m hacia la izquierda dentro del rectángulo naranja
+            \foreach \xx in {2.35, 2.95, 3.55, 4.10} {
+                \draw[->, line width=0.9pt, red!85!black] (\xx, 0.15) -- ++(-0.45, 0);
+            }
+            \node[font=\scriptsize\bfseries, red!85!black] at (3.0, -0.18) {$q=50\text{ kN/m}$};
+            % Corte seccional S2
+            \draw[dashed, purple!80!black, line width=1pt] (4.2, -0.9) -- (4.2, 0.9) node[above, font=\scriptsize\bfseries] {Corte $S_2$};
+            % Axil positivo saliente
+            \draw[->, line width=1.8pt, red!85!black] (4.2, 0) -- ++(1.3, 0) node[right, font=\bfseries] {$N_2(x)$};
+            % Cotas
+            \draw[<->, line width=0.7pt] (0, -0.8) -- node[below, font=\scriptsize] {$1.0\text{ m}$} (1.8, -0.8);
+            \draw[<->, line width=0.7pt] (1.8, -0.8) -- node[below, font=\scriptsize] {$x - 1.0$} (4.2, -0.8);
+        \end{tikzpicture}%
+    }
+\end{center}
+
+Aislando el bloque izquierdo $[0, x]$ donde entra la carga repartida en una longitud $(x - 1)$:
+\begin{equation}
+    \sum F_x = 0 \implies H_A - q \cdot (x - 1) + N_2(x) = 0 \implies N_2(x) = -50 + 50(x - 1) = \mathbf{50x - 100\text{ [kN]}}
+\end{equation}
+Evaluando los extremos del tramo:
+\begin{itemize}
+    \item En $x = 1.0\text{ m}^+$: $N_2(1) = 50(1) - 100 = \mathbf{-50\text{ kN} \quad (\text{Compresión})}$.
+    \item En $x = 3.0\text{ m}^-$: $N_2(3) = 50(3) - 100 = \mathbf{+50\text{ kN} \quad (\text{Tracción})}$.
+    \item Anulación de axil ($N=0$): $50x - 100 = 0 \implies \mathbf{x = 2.0\text{ m}}$.
+\end{itemize}
+
+\tramobadge{Tramo 3}{Sección $S_3$, $x \in [3.0, 4.0\text{ m}]$}
+
+\begin{center}
+    \adjustbox{max width=0.68\textwidth}{%
+        \begin{tikzpicture}[>=Latex, scale=1.1]
+            % Rebanada derecha [x, 4] (extremo libre en 4)
+            \draw[thick, fill=orange!15] (0, -0.45) rectangle (2.8, 0.45);
+            \node[above=2pt, font=\scriptsize\bfseries, orange!85!black] at (1.4, 0.45) {$\Omega = 10\text{ cm}^2$};
+            % Corte seccional S3 a la izquierda
+            \draw[dashed, purple!80!black, line width=1pt] (0, -0.9) -- (0, 0.9) node[above, font=\scriptsize\bfseries] {Corte $S_3$};
+            % Axil hacia la izquierda (saliente de la sección derecha)
+            \draw[->, line width=1.8pt, red!85!black] (0, 0) -- ++(-1.3, 0) node[left, font=\bfseries] {$N_3(x)$};
+            % Carga repartida q dentro del rectángulo naranja junto a su texto
+            \foreach \xx in {0.65, 1.25, 1.85, 2.45} {
+                \draw[->, line width=0.9pt, red!85!black] (\xx, 0.15) -- ++(-0.42, 0);
+            }
+            \node[font=\scriptsize\bfseries, red!85!black] at (1.4, -0.18) {$q=50\text{ kN/m}$};
+            % Carga puntual FD = 100 kN en x=4 m
+            \draw[<-, line width=2.0pt, red!80!black] (2.8, 0) -- ++(1.2, 0) node[right, font=\scriptsize\bfseries] {$F_D = 100\text{ kN}$};
+            % Cota (4 - x)
+            \draw[<->, line width=0.7pt] (0, -0.7) -- node[below, font=\scriptsize] {$4.0 - x$} (2.8, -0.7);
+        \end{tikzpicture}%
+    }
+\end{center}
+
+Por comodidad analítica, consideramos el equilibrio de la parte derecha de la barra comprendida entre la sección genérica $x$ y el extremo libre $x = 4.0\text{ m}$ (longitud $4 - x$):
+\begin{align}
+    \sum F_{x,\text{derecha}} = 0 & \implies - N_3(x) - F_D - q \cdot (4 - x) = 0 \notag \\
+                                  & \implies N_3(x) = - 100 - 50(4 - x) = \mathbf{50x - 300\text{ [kN]}}
+\end{align}
+Evaluando los extremos:
+\begin{itemize}
+    \item En $x = 3.0\text{ m}^+$: $N_3(3) = 50(3) - 300 = \mathbf{-150\text{ kN} \quad (\text{Compresión})}$.\\
+    \textit{Comprobación del salto en $x=3$:} $\Delta N = N(3^+) - N(3^-) = -150 - (+50) = -200\text{ kN}$, que coincide exactamente con el valor de la carga concentrada aplicada $F_C = 200\text{ kN}$ hacia la derecha.
+    \item En $x = 4.0\text{ m}$: $N_3(4) = 50(4) - 300 = \mathbf{-100\text{ kN} \quad (\text{Compresión})}$, equilibrando exactamente a $F_D$.
+\end{itemize}
 \subsubsection*{Paso 3: Diagramas de Esfuerzos Axiles y Tensiones Normales}
 Las tensiones normales se obtienen mediante la relación elástica uniaxial $\sigma(x) = \frac{N(x)}{\Omega(x)}$:
 \begin{itemize}
@@ -431,10 +539,10 @@ Las tensiones normales se obtienen mediante la relación elástica uniaxial $\si
                 \draw[<-, line width=0.8pt, red!85!black] (1.3, -0.25) -- (1.7, -0.25);
                 \node[font=\footnotesize\bfseries, red!85!black] at (1.25, -0.25) [above=1pt] {$-$};
 
-                % Tracción en tramo 2
-                \draw[<-, line width=0.8pt, green!60!black] (5.8, 0.25) -- (6.2, 0.25);
-                \draw[->, line width=0.8pt, green!60!black] (6.3, 0.25) -- (6.7, 0.25);
-                \node[font=\footnotesize\bfseries, green!60!black] at (6.25, 0.25) [above=1pt] {$+$};
+                % Tracción en tramo 2 (desplazado a la derecha dentro del triángulo)
+                \draw[<-, line width=0.8pt, green!60!black] (6.20, 0.16) -- (6.65, 0.16);
+                \draw[->, line width=0.8pt, green!60!black] (7.05, 0.16) -- (7.42, 0.16);
+                \node[font=\footnotesize\bfseries, green!60!black] at (6.85, 0.16) {$+$};
 
                 % Compresión en tramo 3
                 \draw[->, line width=0.8pt, red!85!black] (8.2, -0.6) -- (8.7, -0.6);
@@ -474,9 +582,9 @@ Las tensiones normales se obtienen mediante la relación elástica uniaxial $\si
                 \draw[<-, line width=0.8pt, red!85!black] (1.3, -0.16) -- (1.7, -0.16);
                 \node[font=\footnotesize\bfseries, red!85!black] at (1.25, -0.16) [above=1pt] {$-$};
 
-                \draw[<-, line width=0.8pt, green!60!black] (5.8, 0.25) -- (6.2, 0.25);
-                \draw[->, line width=0.8pt, green!60!black] (6.3, 0.25) -- (6.7, 0.25);
-                \node[font=\footnotesize\bfseries, green!60!black] at (6.25, 0.25) [above=1pt] {$+$};
+                \draw[<-, line width=0.8pt, green!60!black] (6.20, 0.16) -- (6.65, 0.16);
+                \draw[->, line width=0.8pt, green!60!black] (7.05, 0.16) -- (7.42, 0.16);
+                \node[font=\footnotesize\bfseries, green!60!black] at (6.85, 0.16) {$+$};
 
                 \draw[->, line width=0.8pt, red!85!black] (8.2, -0.6) -- (8.7, -0.6);
                 \draw[<-, line width=0.8pt, red!85!black] (8.8, -0.6) -- (9.3, -0.6);
@@ -484,7 +592,7 @@ Las tensiones normales se obtienen mediante la relación elástica uniaxial $\si
 
                 % Etiquetas ordenadas y sin solapamiento
                 \node[left=2pt, font=\footnotesize\bfseries] at (0, -0.33) {$-33.3$};
-                \node[above=2pt, font=\footnotesize\bfseries, red!80!black] at (2.2, -0.33) {$-33.3$};
+                % \node at (2.2, -0.33): omitida para evitar colisión con flechas internas, ya acotada en x=0
                 \node[below=2pt, font=\footnotesize\bfseries, red!80!black] at (2.7, -0.5) {$-50.0$};
                 \node[above=2pt, font=\footnotesize\bfseries] at (7.5, 0.5) {$+50.0$};
                 \node[below left=2pt, font=\footnotesize\bfseries] at (7.5, -1.5) {$-150.0$};
@@ -540,5 +648,190 @@ Para la presente estructura, la integral se descompone en los 3 tramos definidos
 \begin{equation}
     \Delta l = \int_0^1 \frac{-50}{E \cdot \Omega_1} \, dx + \int_1^3 \frac{50x - 100}{E \cdot \Omega_2} \, dx + \int_3^4 \frac{50x - 300}{E \cdot \Omega_2} \, dx
 \end{equation}
-\textit{Observación didáctica:} Si la sección hubiese cambiado a mitad del segundo tramo (por ejemplo en $x = 1.5\text{ m}$), habría sido obligatorio desdoblar la segunda integral en dos: $\int_1^{1.5} \frac{50x - 100}{E \Omega_1} dx + \int_{1.5}^3 \frac{50x - 100}{E \Omega_2} dx$.
+\nt{
+    \textbf{Observación didáctica (Segmentación por discontinuidad seccional):} Si la sección hubiese cambiado a mitad del segundo tramo (por ejemplo en $x = 1.5\text{ m}$), habría sido obligatorio desdoblar la segunda integral en dos intervalos continuos independientes:
+    \begin{equation*}
+        \int_1^{1.5} \frac{50x - 100}{E \cdot \Omega_1} \, dx + \int_{1.5}^3 \frac{50x - 100}{E \cdot \Omega_2} \, dx
+    \end{equation*}
+}
+
+%=============================================================================
+\section{Problema de Aplicación: Pilar Sometido a Carga Puntual y Peso Propio Uniforme}
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=\textbf{Problema 9 (Ejemplo de Clase): Pilar de Sección Cuadrada con Carga en Cabeza y Peso Propio}]
+    Se considera un pilar vertical recto de sección cuadrada constante de dimensiones $0.25\text{ m} \times 0.25\text{ m}$ y altura total $h = 5\text{ m}$, rígidamente empotrado en su base inferior y libre en su coronación superior. En la coronación actúa una carga puntual axial de compresión $F_k = 40\text{ kN}$.
+
+    \textbf{Datos geométricos y del material:}
+    \begin{itemize}
+        \item Sección transversal: $\Omega = 0.25\text{ m} \times 0.25\text{ m} = 0.0625\text{ m}^2 = 62\,500\text{ mm}^2$.
+        \item Altura del pilar: $h = 5\text{ m}$.
+        \item Peso específico volumétrico del material: $\gamma = 20\text{ kN/m}^3$.
+        \item Módulo de elasticidad longitudinal: $E = 700\text{ N/mm}^2 = 700 \times 10^3\text{ kN/m}^2$.
+    \end{itemize}
+
+    \textbf{Se pide:}
+    \begin{enumerate}[label=\alph*)]
+        \item Determinar y justificar el modelo de carga distribuida asociado al peso propio.
+        \item Obtener la reacción de empotramiento en la base y la ley analítica del esfuerzo axil $N(x)$.
+        \item Representar el diagrama de esfuerzos axiles acotado a lo largo del pilar.
+        \item Calcular el acortamiento total $\Delta l_{AB}$ que experimenta el pilar bajo la acción combinada de ambas cargas.
+    \end{enumerate}
+\end{tcolorbox}
+
+\subsubsection*{Paso 1: Modelización de la Carga de Peso Propio}
+
+\begin{question}{¿Dónde metemos la carga del peso propio y cómo es la carga repartida?}{}
+    \begin{itemize}
+        \item \textbf{Uniformidad volumétrica:} Como el pilar posee sección transversal constante $\Omega$ y peso específico uniforme $\gamma$, cada porción elemental de altura $dx$ tiene exactamente el mismo peso:
+              \begin{equation}
+                  dP = \gamma \cdot dV = \gamma \cdot \Omega \cdot dx
+              \end{equation}
+        \item \textbf{Carga linealmente constante ($p = \text{cte}$):} El peso propio actúa como una \textbf{carga uniformemente repartida} a lo largo de toda la directriz de intensidad:
+              \begin{equation}
+                  p = \gamma \cdot \Omega = 20\text{ kN/m}^3 \cdot (0.25\text{ m} \cdot 0.25\text{ m}) = 20 \cdot 0.0625 = \mathbf{1.25\text{ kN/m}}
+              \end{equation}
+        \item \textbf{Acumulación de cargas hacia la base:} Aunque la intensidad de carga $p$ es constante en cada metro de pilar, el esfuerzo axil interno se acumula de arriba hacia abajo (la base soporta el peso total del fuste más la carga puntual superior).
+    \end{itemize}
+\end{question}
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.88\textwidth}{%
+        \begin{tikzpicture}[>=Latex, scale=1.0]
+            % 1. Esquema vertical original del pilar
+            \begin{scope}[shift={(0,0)}]
+                \node[above, font=\small\bfseries, blue!85!black] at (1.0, 5.8) {1. Modelo Físico Vertical};
+                % Empotramiento en base z=0
+                \draw[line width=1.5pt] (-0.3, 0) -- (2.3, 0);
+                \foreach \x in {-0.1, 0.3, 0.7, 1.1, 1.5, 1.9} {
+                    \draw[thick] (\x, 0) -- ++(-0.25, -0.25);
+                }
+                % Fuste del pilar (ancho 1.4 cm, alto 5.0 cm)
+                \fill[blue!10] (0.3, 0) rectangle (1.7, 5.0);
+                \draw[thick, blue!85!black] (0.3, 0) rectangle (1.7, 5.0);
+                % Flechas internas de peso propio descendente
+                \foreach \y in {0.6, 1.2, 1.8, 2.4, 3.0, 3.6, 4.2, 4.7} {
+                    \draw[->, line width=0.8pt, red!80!black] (1.0, \y+0.25) -- (1.0, \y);
+                }
+                \node[right=2pt, font=\scriptsize\bfseries, red!85!black] at (1.7, 2.5) {$p = 1.25\text{ kN/m}$};
+                % Carga puntual en cabeza 40 kN
+                \draw[->, line width=2.0pt, red!85!black] (1.0, 6.0) -- (1.0, 5.0) node[pos=0.0, above=2pt, font=\footnotesize\bfseries] {$40\text{ kN}$};
+                % Cota de altura h = 5 m
+                \draw[<->, line width=0.8pt] (-0.5, 0) -- node[left=2pt, font=\footnotesize\bfseries] {$h = 5\text{ m}$} (-0.5, 5.0);
+                % Sección transversal indicada
+                \node[below=0.85cm, font=\scriptsize, align=center] at (1.0, 0) {Sección transversal:\\$0.25\text{ m} \times 0.25\text{ m}$\\$\gamma = 20\text{ kN/m}^3$};
+            \end{scope}
+
+            % 2. Modelo de cálculo horizontalizado
+            \begin{scope}[shift={(6.0, 2.0)}]
+                \node[above, font=\small\bfseries, blue!85!black] at (2.5, 2.4) {2. Modelo Horizontalizado de Cálculo};
+                % Empotramiento en x=0 (punto A)
+                \draw[line width=1.5pt] (0, -0.9) -- (0, 0.9);
+                \foreach \y in {-0.7, -0.3, 0.1, 0.5} {
+                    \draw[thick] (0, \y) -- ++(-0.25, -0.25);
+                }
+                % Barra de longitud 5.0 (escala 1 m = 1 cm)
+                \fill[orange!15] (0, -0.45) rectangle (5.0, 0.45);
+                \draw[thick, orange!85!black] (0, -0.45) rectangle (5.0, 0.45);
+                % Nodos A y B
+                \filldraw (0,0) circle (2pt) node[below left=2pt, font=\footnotesize\bfseries] {$A$};
+                \filldraw (5.0,0) circle (2pt) node[below right=2pt, font=\footnotesize\bfseries] {$B$};
+                % Carga distribuida uniforme p = 1.25 kN/m hacia la izquierda dentro del rectángulo
+                \foreach \x in {0.8, 1.5, 2.2, 2.9, 3.6, 4.3} {
+                    \draw[->, line width=0.9pt, red!85!black] (\x, 0.16) -- ++(-0.45, 0);
+                }
+                \node[above=2pt, font=\scriptsize\bfseries, red!85!black] at (2.5, 0.45) {$p = 1.25\text{ kN/m}$};
+                % Carga puntual en extremo libre B: 40 kN hacia la izquierda
+                \draw[<-, line width=2.0pt, red!85!black] (5.0, 0) -- ++(1.3, 0) node[right=2pt, font=\footnotesize\bfseries] {$40\text{ kN}$};
+                % Reaccion HA en el empotramiento A hacia la derecha
+                \draw[->, line width=2.0pt, blue!80!black] (-1.2, 0) -- (0, 0) node[pos=0.0, left=2pt, font=\footnotesize\bfseries] {$H_A$};
+                % Cota
+                \draw[<->, line width=0.8pt] (0, -1.0) -- node[below=1pt, font=\footnotesize\bfseries] {$5.0\text{ m}$} (5.0, -1.0);
+            \end{scope}
+        \end{tikzpicture}%
+    }
+    \caption{Transformación del pilar vertical con peso propio continuo y carga en cabeza al modelo horizontalizado de cálculo.}
+    \label{fig:problema_pilar_pesopropio}
+\end{figure}
+
+\subsubsection*{Paso 2: Equilibrio Estático y Reacción de Enlace}
+
+El pilar empotrado en base es estrictamente isostático ($N_I = 3$, $N_E = 3 \implies GH = 0$). Planteando el equilibrio de fuerzas longitudinales $\sum F_x = 0$:
+\begin{align}
+    \sum F_x = 0 & \implies H_A - p \cdot L - F_{\text{cabeza}} = 0 \notag \\
+                 & \implies H_A - 1.25\text{ kN/m} \cdot 5\text{ m} - 40\text{ kN} = 0 \notag \\
+                 & \implies H_A - 6.25 - 40 = 0 \implies \mathbf{H_A = 46.25\text{ kN \quad (hacia la derecha)}}
+\end{align}
+Por simetría de la sección transversal y ausencia de fuerzas perpendiculares o momentos: $V_A = 0$ y $M_A = 0$.
+
+\subsubsection*{Paso 3: Ley del Esfuerzo Axil $N(x)$}
+
+Practicando una sección genérica $S_1$ a distancia $x \in [0, 5\text{ m}]$ del empotramiento $A$ y aislando la rebanada izquierda $[0, x]$:
+\begin{align}
+    \sum F_x = 0 & \implies H_A - p \cdot x + N(x) = 0 \notag \\
+                 & \implies 46.25 - 1.25 x + N(x) = 0 \implies \mathbf{N(x) = 1.25 x - 46.25\text{ [kN]}}
+\end{align}
+Evaluando en los extremos de la barra:
+\begin{itemize}
+    \item \textbf{En la base ($x = 0$):} $N(0) = 1.25(0) - 46.25 = \mathbf{-46.25\text{ kN \quad (Compresión máxima)}}$, equilibrando a la reacción $H_A$.
+    \item \textbf{En la coronación ($x = 5\text{ m}$):} $N(5) = 1.25(5) - 46.25 = 6.25 - 46.25 = \mathbf{-40.00\text{ kN \quad (Compresión)}}$, equilibrando a la carga concentrada de $40\text{ kN}$.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.68\textwidth}{%
+        \begin{tikzpicture}[>=Latex, scale=1.1]
+            \node[above, font=\large\bfseries] at (2.5, 1.2) {Diagrama de Esfuerzos Axiles $N(x)$ [kN]};
+            % Eje de referencia
+            \draw[line width=1.1pt] (0, 0) -- (5.6, 0) node[right, font=\footnotesize\bfseries] {$x$};
+            % Lineas de referencia
+            \draw[dotted, gray] (0, -2.0) -- (0, 0.8);
+            \draw[dotted, gray] (5.0, -2.0) -- (5.0, 0.8);
+            % Trapecio de axil negativo: N(0)=-46.25, N(5)=-40.00
+            \fill[red!15] (0, 0) -- (0, -1.85) -- (5.0, -1.60) -- (5.0, 0) -- cycle;
+            \draw[thick, red!70!black] (0, 0) -- (0, -1.85) -- (5.0, -1.60) -- (5.0, 0) -- cycle;
+            % Flechas de compresion internas
+            \draw[->, line width=0.8pt, red!85!black] (2.0, -0.9) -- (2.4, -0.9);
+            \draw[<-, line width=0.8pt, red!85!black] (2.6, -0.9) -- (3.0, -0.9);
+            \node[font=\footnotesize\bfseries, red!85!black] at (2.5, -0.9) [above=1pt] {$-$};
+            % Cotas de valores
+            \node[left=2pt, font=\footnotesize\bfseries, red!80!black] at (0, -1.85) {$-46.25$};
+            \node[right=2pt, font=\footnotesize\bfseries, red!80!black] at (5.0, -1.60) {$-40.00$};
+            % Cota horizontal
+            \draw[<->, line width=0.8pt] (0, -2.2) -- node[below=1pt, font=\footnotesize\bfseries] {$5.0\text{ m}$} (5.0, -2.2);
+        \end{tikzpicture}%
+    }
+    \caption{Diagrama de esfuerzos axiles $N(x)$ del pilar bajo peso propio y carga en cabeza. La compresión varía linealmente entre $-46.25\text{ kN}$ en la base y $-40.00\text{ kN}$ en coronación.}
+    \label{fig:diagrama_axil_pilar_pesopropio}
+\end{figure}
+
+\subsubsection*{Paso 4: Cálculo del Acortamiento Longitudinal Total $\Delta l_{AB}$}
+
+Aplicando la expresión general del alargamiento elástico:
+\begin{equation}
+    \Delta l_{AB} = \int_0^L \frac{N(x)}{E \cdot \Omega} \, dx
+\end{equation}
+Homogeneizamos las magnitudes en el sistema $(\text{kN}, \text{m})$:
+\begin{itemize}
+    \item Módulo elástico: $E = 700\text{ N/mm}^2 = 700 \times \frac{10^{-3}\text{ kN}}{10^{-6}\text{ m}^2} = 700 \times 10^3\text{ kN/m}^2$.
+    \item Área transversal: $\Omega = 0.25\text{ m} \cdot 0.25\text{ m} = 0.0625\text{ m}^2$.
+    \item Rigidez axil de la sección:
+          \begin{equation}
+              E \cdot \Omega = (700 \times 10^3\text{ kN/m}^2) \cdot (0.0625\text{ m}^2) = \mathbf{43\,750\text{ kN}}
+          \end{equation}
+\end{itemize}
+Sustituyendo la ley lineal $N(x) = 1.25 x - 46.25$:
+\begin{align}
+    \Delta l_{AB} & = \int_0^5 \frac{1.25 x - 46.25}{43\,750} \, dx = \frac{1}{43\,750} \left[ 1.25 \frac{x^2}{2} - 46.25 x \right]_0^5 \notag \\
+                  & = \frac{1}{43\,750} \left( 1.25 \frac{25}{2} - 46.25 \cdot 5 \right) = \frac{1}{43\,750} (15.625 - 231.25) \notag \\
+                  & = \frac{-215.625}{43\,750} \approx \mathbf{-4.9286 \times 10^{-3}\text{ m}} \approx \mathbf{-4.93\text{ mm}} \approx \mathbf{-5\text{ mm}}
+\end{align}
+
+\begin{ImportanteBox}[title={Comprobación Física del Signo Negativo y Magnitud}]
+    \textbf{¡OJO con el signo!} Nos \textbf{tiene que salir rigurosamente negativo ($-$)}; a la vista de las acciones aplicadas (carga puntual en cabeza y peso propio gravitatorio), todas las fuerzas actúan en compresión y la pieza \textbf{sólo puede acortarse}. El acortamiento total del pilar es:
+    \begin{equation}
+        \boxed{\delta = |\Delta l_{AB}| \approx 4.93\text{ mm} \approx \mathbf{5\text{ mm \quad (Acortamiento)}}}
+    \end{equation}
+\end{ImportanteBox}
+
 

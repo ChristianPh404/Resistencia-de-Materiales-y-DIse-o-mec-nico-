@@ -107,25 +107,27 @@ Mayorando el esfuerzo característico con el coeficiente de seguridad de accione
         \begin{tikzpicture}[>=Latex, scale=1.0]
             % Diagrama de Axiles Característico
             \begin{scope}[shift={(0,0)}]
-                \draw[thick] (0, 1.2) -- (4, 1.2);
-                \draw[thick, fill=blue!10] (0, 0) rectangle (4, 0.8);
-                \node at (2, 0.4) {$\boldsymbol{N_k = -600\text{ kN}}$};
-                \draw[->, line width=1pt] (0.8, 0.4) -- (1.2, 0.4);
-                \draw[<-, line width=1pt] (2.8, 0.4) -- (3.2, 0.4);
-                \node[below] at (2, -0.1) {Diagrama de Axiles $N_k$ (Servicio)};
+                \draw[thick] (0, 1.35) -- (4.4, 1.35);
+                \draw[thick, fill=blue!10] (0, 0) rectangle (4.4, 1.05);
+                \node at (2.2, 0.72) {$\boldsymbol{N_k = -600\text{ kN}}$};
+                \draw[->, line width=1pt] (1.0, 0.28) -- (1.6, 0.28);
+                \draw[<-, line width=1pt] (2.8, 0.28) -- (3.4, 0.28);
+                \node[font=\scriptsize\bfseries] at (2.2, 0.28) {$-$};
+                \node[below] at (2.2, -0.1) {Diagrama de Axiles $N_k$ (Servicio)};
             \end{scope}
 
             % Flecha de mayoración
-            \draw[->, very thick] (4.6, 0.4) -- node[above, font=\footnotesize] {$\times \gamma_F = 1.35$} (6.2, 0.4);
+            \draw[->, very thick] (4.9, 0.52) -- node[above, font=\footnotesize] {$\times \gamma_F = 1.35$} (6.5, 0.52);
 
             % Diagrama de Axiles de Cálculo
-            \begin{scope}[shift={(6.8,0)}]
-                \draw[thick] (0, 1.2) -- (4, 1.2);
-                \draw[thick, fill=red!15] (0, 0) rectangle (4, 0.8);
-                \node at (2, 0.4) {$\boldsymbol{N_d = -810\text{ kN}}$};
-                \draw[->, line width=1pt] (0.8, 0.4) -- (1.2, 0.4);
-                \draw[<-, line width=1pt] (2.8, 0.4) -- (3.2, 0.4);
-                \node[below] at (2, -0.1) {Diagrama de Axiles $N_d$ (Cálculo)};
+            \begin{scope}[shift={(7.0,0)}]
+                \draw[thick] (0, 1.35) -- (4.4, 1.35);
+                \draw[thick, fill=red!15] (0, 0) rectangle (4.4, 1.05);
+                \node at (2.2, 0.72) {$\boldsymbol{N_d = -810\text{ kN}}$};
+                \draw[->, line width=1pt] (1.0, 0.28) -- (1.6, 0.28);
+                \draw[<-, line width=1pt] (2.8, 0.28) -- (3.4, 0.28);
+                \node[font=\scriptsize\bfseries] at (2.2, 0.28) {$-$};
+                \node[below] at (2.2, -0.1) {Diagrama de Axiles $N_d$ (Cálculo)};
             \end{scope}
         \end{tikzpicture}%
     }
@@ -180,7 +182,7 @@ Aplicando la expresión del alargamiento elástico:
                   & = \frac{-2.4 \times 10^9}{1.935 \times 10^9} = \mathbf{-1.24\text{ mm}}
 \end{align}
 
-El signo negativo indica físicamente que el pilar experimenta un **acortamiento total de $1.24\text{ mm}$**, valor perfectamente admisible para la funcionalidad de la estructura.
+El signo negativo indica físicamente que el pilar experimenta un \textbf{acortamiento total de $1.24\text{ mm}$}, valor perfectamente admisible para la funcionalidad de la estructura.
 
 %=============================================================================
 \section{Problema de Aplicación: Efecto Poisson y Variación Dimensional 3D}
@@ -229,9 +231,9 @@ Disponemos el eje longitudinal $x$ a lo largo de la directriz de la barra, desde
                 \draw[<->, line width=0.9pt] (-0.7, 0.2) -- node[left] {$l_0 = 50\text{ cm}$} (-0.7, 4.3);
                 \draw[->, line width=2pt, red!85!black] (0.2, 4.4) -- (0.2, 5.7) node[above, font=\bfseries] {$F_k = 20\text{ kN}$};
 
-                % Ejes locales 3D en la cabeza
-                \draw[->, line width=1pt] (0.2, 4.4) -- ++(0, 1.0) node[right, font=\footnotesize] {$x$};
-                \draw[->, line width=1pt] (0.2, 4.4) -- ++(0.7, 0.35) node[right, font=\footnotesize] {$y$};
+                % Ejes locales 3D desplazados para no solapar con Fk
+                \draw[->, line width=1pt] (1.1, 3.6) -- ++(0, 1.0) node[above, font=\footnotesize] {$x$};
+                \draw[->, line width=1pt] (0.2, 4.4) -- ++(-0.9, 0) node[left, font=\footnotesize] {$y$};
                 \draw[->, line width=1pt] (0.2, 4.4) -- ++(0.9, -0.2) node[below right, font=\footnotesize] {$z$};
 
                 \node[below=0.25cm, font=\footnotesize] at (0.2, -0.1) {$a = 5\text{ mm}$, $b = 4\text{ mm}$};
@@ -269,19 +271,20 @@ Disponemos el eje longitudinal $x$ a lo largo de la directriz de la barra, desde
                 \draw[dashed, gray!60] (5, 3.5) -- (5, 0.2);
 
                 % --- Sub-bloque inferior: Diagrama de Axiles N(x) ---
-                \begin{scope}[shift={(0, 0.6)}]
-                    \node[above, font=\bfseries] at (2.5, 1.2) {Diagrama de Esfuerzos Axiles $N(x)$};
+                \begin{scope}[shift={(0, 0.4)}]
+                    \node[above, font=\bfseries] at (2.5, 1.3) {Diagrama de Esfuerzos Axiles $N(x)$};
 
                     % Eje de referencia
                     \draw[thick] (0, 0) -- (5, 0);
 
                     % Bloque de axil positivo (+20 kN constante)
-                    \draw[thick, fill=green!15] (0, 0) rectangle (5, 0.9);
-                    \node[font=\bfseries] at (2.5, 0.45) {$N(x) = +20\text{ kN}\quad (\text{Tracción})$};
+                    \draw[thick, fill=green!15] (0, 0) rectangle (5, 1.15);
+                    \node[font=\bfseries] at (2.5, 0.78) {$N(x) = +20\text{ kN}\quad (\text{Tracción})$};
 
-                    % Flechas de tracción salientes
-                    \draw[<-, line width=1pt] (0.6, 0.45) -- (1.0, 0.45);
-                    \draw[->, line width=1pt] (4.0, 0.45) -- (4.4, 0.45);
+                    % Flechas de tracción salientes en franja inferior sin chocar con el texto
+                    \draw[<-, line width=1pt] (1.2, 0.30) -- (1.8, 0.30);
+                    \draw[->, line width=1pt] (3.2, 0.30) -- (3.8, 0.30);
+                    \node[font=\footnotesize\bfseries] at (2.5, 0.30) {$+$};
 
                     \node[below left] at (0, 0) {$A$};
                     \node[below right] at (5, 0) {$B$};
@@ -443,8 +446,8 @@ Disponemos la pieza horizontalmente a lo largo del eje $x$ con origen en la base
             % Tubo de acero ABC (de x=3 a x=9)
             \draw[thick, fill=blue!10] (3, 0.6) -- (9, 0.6) -- (9, -0.6) -- (3, -0.6) -- cycle;
 
-            % Eje x
-            \draw[->, dashdotted, line width=0.8pt] (0,0) -- (10.2, 0) node[right] {$x$};
+            % Eje x extendido para no chocar con la flecha de 120 kN
+            \draw[->, dashdotted, line width=0.8pt] (0,0) -- (11.5, 0) node[right] {$x$};
 
             % Puntos notables
             \filldraw[red] (3, 0) circle (2pt) node[below=0.6cm, black] {$C$};
@@ -457,8 +460,8 @@ Disponemos la pieza horizontalmente a lo largo del eje $x$ con origen en la base
             \draw[<->, line width=0.8pt] (6, 1.6) -- node[above] {$0.5$} (9, 1.6);
 
             % Cargas en B y A
-            \draw[->, line width=2pt, red!90!black] (6, 0) -- (7.5, 0) node[above, font=\bfseries] {$30$};
-            \draw[<-, line width=2.2pt, red!90!black] (9, 0) -- (10.8, 0) node[above, font=\bfseries] {$120$};
+            \draw[->, line width=2pt, red!90!black] (6, 0) -- (7.5, 0) node[midway, above, font=\bfseries] {$30$};
+            \draw[<-, line width=2.2pt, red!90!black] (9, 0) -- (10.8, 0) node[midway, above, font=\bfseries] {$120$};
 
             % Reacciones en D
             \draw[->, line width=1.8pt, blue!90!black] (-1.3, 0) -- (0, 0) node[midway, above, font=\bfseries] {$H_D$};
@@ -551,7 +554,7 @@ Aplicando las ecuaciones de la estática clásica:
                 \draw[thick, fill=gray!15] (-1.25, -1.25) rectangle (1.25, 1.25);
                 \draw[->, line width=0.8pt] (0, 0) -- (0, 1.8) node[above] {$z$};
                 \draw[->, line width=0.8pt] (0, 0) -- (1.8, 0) node[right] {$y$};
-                \node at (0, 0) {$C$};
+                \node[below left=1pt, font=\bfseries] at (0, 0) {$C$};
                 \draw[<->, line width=0.6pt] (-1.25, -1.5) -- node[below] {$250$} (1.25, -1.5);
                 \draw[<->, line width=0.6pt] (-1.5, -1.25) -- node[left] {$250$} (-1.5, 1.25);
                 \node[below=0.6cm, font=\small\bfseries] at (0, -1.5) {Sección $C$};
@@ -562,7 +565,7 @@ Aplicando las ecuaciones de la estática clásica:
                 \draw[thick, fill=gray!15] (-1.5, -1.25) rectangle (1.5, 1.25);
                 \draw[->, line width=0.8pt] (0, 0) -- (0, 1.8) node[above] {$z$};
                 \draw[->, line width=0.8pt] (0, 0) -- (2.1, 0) node[right] {$y$};
-                \node at (0, 0) {$D$};
+                \node[below left=1pt, font=\bfseries] at (0, 0) {$D$};
                 \draw[<->, line width=0.6pt] (-1.5, -1.5) -- node[below] {$300$} (1.5, -1.5);
                 \draw[<->, line width=0.6pt] (-1.8, -1.25) -- node[left] {$250$} (-1.8, 1.25);
                 \node[below=0.6cm, font=\small\bfseries] at (0, -1.5) {Sección $D$};

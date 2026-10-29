@@ -1,0 +1,206 @@
+% !TeX root = ../../apuntes.tex
+\section{Análisis de Tensiones en Flexión Simple: Tensiones Tangenciales y Fórmula de Collignon-Jourawski}
+
+\subsection{Planteamiento de la Flexión Simple y Relación Cortante--Flector}
+
+En la mayoría de las vigas reales (como los tramos laterales $AB$ y $CD$ de la viga biapoyada o vigas bajo cargas distribuidas), el momento flector $M_z(x)$ varía a lo largo de la directriz longitudinal $x$. En consecuencia, coexisten en la sección el momento flector $M_z(x)$ y el \textbf{esfuerzo cortante vertical $Q_y(x)$}:
+\begin{equation}
+    Q_y(x) = \frac{dM_z(x)}{dx}, \qquad Q_y = \iint_{\Omega} \tau_{xy} \, d\Omega \implies \text{\textbf{Aparición de tensiones tangenciales }}\tau_{xy}
+\end{equation}
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.88\textwidth}{%
+        \begin{tikzpicture}[>=Latex, scale=1.0]
+            % 1. Rebanada diferencial dx con Qy y Mz
+            \begin{scope}[shift={(0,0)}]
+                \node[above, font=\small\bfseries, blue!85!black] at (1.5, 3.6) {1. Rebanada Elemental $dx$ en Flexión Simple};
+                \draw[thick, fill=blue!8] (0.9, 0.2) rectangle (2.1, 3.0);
+                \draw[<->, line width=0.7pt] (0.9, 3.25) -- node[above=1pt, font=\footnotesize\bfseries] {$dx$} (2.1, 3.25);
+                % Cara izquierda: Qy hacia arriba y Mz
+                \draw[->, line width=1.5pt, red!85!black] (0.35, 0.8) -- (0.35, 2.4) node[below=2pt, pos=0.0, font=\footnotesize\bfseries] {$Q_y$};
+                \draw[<-, line width=1.4pt, purple!85!black] (-0.15, 2.3) arc (140:220:1.1) node[pos=0.8, left=2pt, font=\footnotesize\bfseries] {$M_z$};
+                % Cara derecha: Qy+dQy hacia abajo y Mz+dMz
+                \draw[->, line width=1.5pt, red!85!black] (2.65, 2.4) -- (2.65, 0.8) node[below right=-1pt, font=\footnotesize\bfseries] {$Q_y + dQ_y$};
+                \draw[->, line width=1.4pt, purple!85!black] (3.35, 0.9) arc (-40:40:1.1) node[pos=0.5, right=2pt, font=\footnotesize\bfseries] {$M_z + dM_z$};
+                % Tensiones tangenciales en las caras
+                \foreach \yy in {0.6, 1.4, 2.2} {
+                        \draw[->, thin, blue!85!black] (0.78, \yy) -- (0.78, \yy+0.45);
+                        \draw[->, thin, blue!85!black] (2.22, \yy+0.45) -- (2.22, \yy);
+                    }
+                \node[right=1pt, font=\footnotesize\bfseries, blue!85!black] at (2.25, 1.9) {$\tau$};
+            \end{scope}
+
+            % 2. Reciprocidad de tensiones tangenciales de Cauchy
+            \begin{scope}[shift={(8.4, 0.3)}]
+                \node[above, font=\small\bfseries, blue!85!black] at (2.2, 3.3) {2. Reciprocidad de Tensiones Tangenciales ($\tau_{xy} = \tau_{yx}$)};
+                \draw[thick, fill=orange!10] (0.8, 0.6) rectangle (2.8, 2.4);
+                \node[above=2pt, font=\footnotesize] at (1.8, 0.6) {$dx$};
+                \node[right=2pt, font=\footnotesize] at (0.82, 1.5) {$dy$};
+                % Flechas tau_xy y tau_yx
+                \draw[->, thick, red!85!black] (0.55, 2.1) -- (0.55, 0.9) node[midway, left=2pt, font=\footnotesize\bfseries] {$\tau_{xy}$};
+                \draw[->, thick, red!85!black] (3.05, 0.9) -- (3.05, 2.1) node[midway, right=2pt, font=\footnotesize\bfseries] {$\tau_{xy} + \mathcal{O}(dx)$};
+                \draw[->, thick, blue!85!black] (2.4, 0.35) -- (1.2, 0.35) node[midway, below=2pt, font=\footnotesize\bfseries] {$\tau_{yx}$};
+                \draw[->, thick, blue!85!black] (1.2, 2.65) -- (2.4, 2.65) node[midway, above=2pt, font=\footnotesize\bfseries] {$\tau_{yx} + \mathcal{O}(dy)$};
+                \node[right=4pt, font=\small\bfseries, purple!85!black] at (5.0, 1.5) {$\boxed{\tau_{xy} = \tau_{yx}}$};
+            \end{scope}
+        \end{tikzpicture}%
+    }
+    \caption{Equilibrio diferencial en flexión simple y teorema de reciprocidad de las tensiones tangenciales ($\tau_{xy} = \tau_{yx}$).}
+    \label{fig:flexion_simple_reciprocidad}
+\end{figure}
+
+\subsection{Hipótesis y Deducción de la Fórmula de Collignon-Jourawski}
+
+Para determinar la tensión tangencial $\tau(y)$ a una ordenada genérica $y$ respecto al eje neutro, adoptamos:
+\begin{enumerate}
+    \item \textbf{Principio de reciprocidad de tensiones tangenciales ($\tau_{xy} = \tau_{yx}$):} La tensión tangencial vertical $\tau_{xy}$ contenida en el plano de la sección transversal es idéntica en módulo a la tensión tangencial rasante horizontal $\tau_{yx}$ que actúa sobre el plano longitudinal paralelo al eje neutro a cota $y$.
+    \item \textbf{Hipótesis de Collignon:} La distribución de tensión tangencial $\tau(y)$ se supone uniforme a lo largo de toda la anchura o cuerda horizontal $b(y)$ de la sección en la cota $y$.
+    \item \textbf{Ausencia de acciones torsoras o transversales según el eje $Z$.}
+\end{enumerate}
+
+Aislamos el bloque superior de la rebanada de longitud $dx$ situado por encima de la ordenada $y$, cuya área frontal es el \textbf{área reducida o área rayada $\Omega^*(y)$}. Debido al incremento de momento flector de $M_z$ (cara izquierda) a $M_z + dM_z$ (cara derecha), las fuerzas normales de compresión no se equilibran por sí solas, apareciendo en la base horizontal de ancho $b(y)$ y longitud $dx$ la fuerza rasante $\tau(y) \cdot b(y) \, dx$:
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.92\textwidth}{%
+        \begin{tikzpicture}[>=Latex, scale=0.95]
+            % 1. Equilibrio horizontal de la rebanada superior Omega*
+            \begin{scope}[shift={(0,0)}]
+                \node[above, font=\small\bfseries, blue!85!black] at (2.2, 3.8) {1. Desequilibrio de Tensiones Normales en $\Omega^*$};
+                % Bloque superior aislado
+                \draw[thick, fill=orange!12] (1.6, 1.4) rectangle (2.6, 3.0);
+                \draw[<->, line width=0.7pt] (1.6, 3.25) -- node[above=1pt, font=\footnotesize\bfseries] {$dx$} (2.6, 3.25);
+                % Trapecio de tensiones izquierdo sigma(Mz)
+                \draw[thick, red!80!black, fill=red!10] (1.6, 1.4) -- (1.0, 1.4) -- (0.5, 3.0) -- (1.6, 3.0) -- cycle;
+                \foreach \yy in {1.7, 2.2, 2.7} {
+                        \draw[->, thin, red!85!black] (0.9, \yy) -- (1.58, \yy);
+                    }
+                \node[above left=-1pt, font=\scriptsize\bfseries, red!85!black] at (1.0, 3.0) {$\sigma(M_z)$};
+                % Trapecio de tensiones derecho sigma(Mz + dMz)
+                \draw[thick, red!80!black, fill=red!15] (2.6, 1.4) -- (3.4, 1.4) -- (4.0, 3.0) -- (2.6, 3.0) -- cycle;
+                \foreach \yy in {1.7, 2.2, 2.7} {
+                        \draw[<-, thin, red!85!black] (2.62, \yy) -- (3.5, \yy);
+                    }
+                \node[above right=-1pt, font=\scriptsize\bfseries, red!85!black] at (3.2, 3.0) {$\sigma(M_z + dM_z)$};
+                % Fuerza rasante tau(y) en la base del bloque
+                \draw[->, line width=1.6pt, blue!85!black] (1.6, 1.15) -- (2.6, 1.15) node[midway, below=2pt, font=\footnotesize\bfseries] {$\tau(y) \cdot b(y)\,dx$};
+            \end{scope}
+
+            % 2. Sección transversal con área rayada Omega* y cuerda b(y)
+            \begin{scope}[shift={(7.5, 0)}]
+                \node[above, font=\small\bfseries, blue!85!black] at (2.0, 3.95) {2. Área Cortada $\Omega^*$ y Ancho $b(y)$};
+                % Ejes z e y en G
+                \draw[->, thick] (2.0, 1.2) -- (0.0, 1.2) node[left, font=\footnotesize\bfseries] {$z$};
+                \draw[->, thick] (2.0, 0.0) -- (2.0, 3.65) node[right=2pt, font=\footnotesize\bfseries] {$y$};
+                % Contorno de sección general
+                \draw[thick, fill=gray!8] (0.9, 0.2) rectangle (3.1, 3.1);
+                % Parte superior rayada Omega* (por encima de y = 2.1)
+                \fill[blue!18] (0.9, 2.1) rectangle (3.1, 3.1);
+                \draw[thick, blue!85!black] (0.9, 2.1) rectangle (3.1, 3.1);
+                \node[font=\footnotesize\bfseries, blue!85!black] at (1.4, 2.6) {$\Omega^*(y)$};
+                % Tensiones tau(y) en la cuerda b(y)
+                \foreach \xx in {1.3, 2.0, 2.7} {
+                        \draw[->, thick, red!85!black] (\xx, 2.45) -- (\xx, 2.1);
+                    }
+                \node[right=2pt, font=\scriptsize\bfseries, red!85!black] at (2.1, 2.6) {$\tau(y)$};
+                % Cota b(y) e y
+                \draw[<->, line width=0.7pt] (0.9, 1.85) -- node[below=1pt, font=\scriptsize\bfseries] {$b(y)$} (3.1, 1.85);
+                \draw[<->, line width=0.7pt] (0.55, 1.2) -- node[left=1pt, font=\scriptsize\bfseries] {$y$} (0.55, 2.1);
+                \filldraw[black] (2.0, 1.2) circle (2pt) node[below right=1pt, font=\scriptsize\bfseries] {$G$};
+            \end{scope}
+        \end{tikzpicture}%
+    }
+    \caption{Equilibrio horizontal del bloque superior $\Omega^*$ aislado a la altura $y$ para la deducción de la fórmula de Collignon-Jourawski.}
+    \label{fig:deduccion_collignon}
+\end{figure}
+
+Planteando el equilibrio de fuerzas horizontales ($\sum F_h = 0$) sobre el bloque superior $\Omega^*$:
+\begin{align}
+    \sum F_h = 0 & \implies \tau(y) \, b(y) \, dx + \iint_{\Omega^*} \sigma_n(M_z) \, d\Omega - \iint_{\Omega^*} \sigma_n(M_z + dM_z) \, d\Omega = 0 \notag                 \\
+                 & \implies \tau(y) \, b(y) \, dx + \iint_{\Omega^*} \frac{M_z \, y}{I_z} \, d\Omega - \iint_{\Omega^*} \frac{(M_z + dM_z) \, y}{I_z} \, d\Omega = 0 \notag \\
+                 & \implies \tau(y) \, b(y) \, dx = \iint_{\Omega^*} \frac{dM_z \cdot y}{I_z} \, d\Omega = \frac{dM_z}{I_z} \iint_{\Omega^*} y \, d\Omega
+\end{align}
+Dividiendo por $dx$, recordando que $\frac{dM_z}{dx} = Q_y$ y definiendo el \textbf{momento estático del área cortada $\Omega^*$ respecto al eje neutro $z_G$} como $S_z^*(y) = \iint_{\Omega^*} y \, d\Omega = \Omega^* \cdot y_{G^*}$, obtenemos la \textbf{Fórmula de Collignon-Jourawski}:
+\begin{equation}
+    \boxed{\tau(y) = \frac{Q_y \cdot S_z^*(y)}{b(y) \cdot I_z}}
+    \label{eq:formula_collignon}
+\end{equation}
+
+\subsection{Distribución de Tensiones Tangenciales en Secciones Habituales}
+
+La fórmula de Collignon-Jourawski proporciona excelentes resultados en perfiles de anchura $b(y)$ pequeña o moderada:
+\begin{enumerate}
+    \item \textbf{Sección Rectangular ($b \times h$):} La ley $\tau(y)$ es \textbf{parabólica}, anulándose en los bordes superior e inferior ($\Omega^* = 0 \implies \tau = 0$) y alcanzando su valor máximo exactamente en el centro de gravedad ($y = 0$), donde supera en un $50\%$ a la tensión tangencial media:
+          \begin{equation}
+              \mathbf{\tau_{\text{máx}} = \frac{3}{2} \frac{Q_y}{\Omega} = 1.5 \, \frac{Q_y}{b \cdot h} = 1.5 \, \tau_{\text{med}}}
+          \end{equation}
+    \item \textbf{Sección en Doble T (Perfiles IPE, IPN, HEB):} Al pasar de las alas ($b = b_f$ grande) al alma ($b = t_w$ muy pequeño), la tensión tangencial experimenta un \textbf{salto brusco hacia arriba} en la unión ala-alma. Prácticamente la totalidad del esfuerzo cortante $Q_y$ es absorbida por el alma vertical, alcanzándose $\tau_{\text{máx}}$ en la fibra neutra ($G$).
+    \item \textbf{Sección Romboidal:} Debido al estrechamiento lineal del ancho $b(y)$ hacia los vértices, la tensión tangencial máxima $\tau_{\text{máx}}$ no se produce en el centroide $G$, sino en dos puntos simétricos situados a $y = \pm h/8$.
+\end{enumerate}
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.94\textwidth}{%
+        \begin{tikzpicture}[>=Latex, scale=0.88]
+            % 1. Sección Rectangular
+            \begin{scope}[shift={(0,0)}]
+                \node[above, font=\small\bfseries, blue!85!black] at (1.8, 3.5) {1. Sección Rectangular};
+                \fill[blue!10] (0, 0) rectangle (1.6, 3.0);
+                \draw[thick, blue!85!black] (0, 0) rectangle (1.6, 3.0);
+                \draw[dashed, gray!80] (-0.2, 1.5) -- (4.0, 1.5);
+                \filldraw[black] (0.8, 1.5) circle (2pt) node[below left=1pt, font=\scriptsize\bfseries] {$G$};
+                % Parábola de Collignon
+                \draw[thick] (2.2, 0) -- (2.2, 3.0);
+                \draw[thick, red!85!black, fill=red!12] (2.2, 0) parabola bend (3.6, 1.5) (2.2, 3.0) -- cycle;
+                \draw[<->, dashed, red!85!black] (2.2, 1.5) -- (3.6, 1.5);
+                \node[right=2pt, font=\scriptsize\bfseries, red!85!black] at (3.6, 1.5) {$\tau_{\text{máx}}$};
+                \node[below=2pt, font=\scriptsize\bfseries, red!85!black] at (1.8, -0.1) {$\tau_{\text{máx}} = 1.5 \dfrac{Q}{\Omega} = 1.5\,\tau_{\text{med}}$};
+            \end{scope}
+
+            % 2. Sección Doble T
+            \begin{scope}[shift={(5.4,0)}]
+                \node[above, font=\small\bfseries, blue!85!black] at (2.0, 3.5) {2. Perfil en Doble T};
+                \fill[blue!10] (0,0) -- (2.0,0) -- (2.0,0.45) -- (1.2,0.45) -- (1.2,2.55) -- (2.0,2.55) -- (2.0,3.0) -- (0,3.0) -- (0,2.55) -- (0.8,2.55) -- (0.8,0.45) -- (0,0.45) -- cycle;
+                \draw[thick, blue!85!black] (0,0) -- (2.0,0) -- (2.0,0.45) -- (1.2,0.45) -- (1.2,2.55) -- (2.0,2.55) -- (2.0,3.0) -- (0,3.0) -- (0,2.55) -- (0.8,2.55) -- (0.8,0.45) -- (0,0.45) -- cycle;
+                \draw[dashed, gray!80] (-0.2, 1.5) -- (4.5, 1.5);
+                \filldraw[black] (1.0, 1.5) circle (2pt) node[above=2pt, font=\scriptsize\bfseries, fill=blue!10, inner sep=0.8pt] {$G$};
+                % Diagrama con salto en unión ala-alma
+                \draw[thick] (2.6, 0) -- (2.6, 3.0);
+                \draw[thick, red!85!black, fill=red!12] (2.6, 0) -- (2.85, 0.45) -- (3.8, 0.45) .. controls (4.3, 1.1) and (4.3, 1.9) .. (3.8, 2.55) -- (2.85, 2.55) -- (2.6, 3.0) -- cycle;
+                \draw[<->, dashed, red!85!black] (2.6, 1.5) -- node[above=1pt, font=\scriptsize\bfseries] {$\tau_{\text{máx}}$} (4.18, 1.5);
+            \end{scope}
+
+            % 3. Sección Romboidal
+            \begin{scope}[shift={(11.0,0)}]
+                \node[above, font=\small\bfseries, blue!85!black] at (1.8, 3.5) {3. Sección Romboidal};
+                \fill[blue!10] (0.9, 0) -- (1.8, 1.5) -- (0.9, 3.0) -- (0, 1.5) -- cycle;
+                \draw[thick, blue!85!black] (0.9, 0) -- (1.8, 1.5) -- (0.9, 3.0) -- (0, 1.5) -- cycle;
+                \draw[dashed, gray!80] (-0.2, 1.5) -- (4.2, 1.5);
+                \filldraw[black] (0.9, 1.5) circle (2pt) node[left=1pt, font=\scriptsize\bfseries] {$G$};
+                % Diagrama bilobulado
+                \draw[thick] (2.3, 0) -- (2.3, 3.0);
+                \draw[thick, red!85!black, fill=red!12] (2.3, 0) .. controls (4.1, 0.4) and (4.1, 1.2) .. (3.5, 1.5) .. controls (4.1, 1.8) and (4.1, 2.6) .. (2.3, 3.0) -- cycle;
+                \draw[dashed, red!85!black] (2.3, 2.2) -- node[above=1pt, font=\tiny\bfseries] {$\tau_{\text{máx}}$} (3.82, 2.2);
+                \draw[dashed, red!85!black] (2.3, 0.8) -- node[above=1pt, font=\tiny\bfseries] {$\tau_{\text{máx}}$} (3.82, 0.8);
+            \end{scope}
+        \end{tikzpicture}%
+    }
+    \caption{Perfiles característicos de tensiones tangenciales $\tau(y)$ según la fórmula de Collignon-Jourawski.}
+    \label{fig:perfiles_collignon}
+\end{figure}
+
+%=============================================================================
+\subsection{Hipótesis Generalizada de Navier-Bernoulli: ¿Es Válida la Ley de Navier en Flexión Simple?}
+
+En flexión simple coexisten el momento flector $M_z$ y el esfuerzo cortante $Q_y$. La presencia de tensiones tangenciales $\tau(y) \neq 0$ provoca distorsiones angulares $\gamma(y) = \frac{\tau(y)}{G}$ variables con la altura $y$, haciendo que las secciones transversales \textbf{dejen de ser rigurosamente planas y experimenten un alabeo en forma de S}.
+
+Surge entonces la cuestión fundamental: \textbf{¿Podemos seguir utilizando la Fórmula de Navier ($\sigma_{nx} = -\frac{M_z y}{I_z}$) para calcular las tensiones normales en flexión simple?}
+
+\begin{tcolorbox}[colback=blue!4!white, colframe=myb!85!black, title=\textbf{Hipótesis Generalizada de Navier-Bernoulli y Validez de Navier}]
+    \textit{``Dos secciones transversales infinitamente próximas experimentan un alabeo por efecto del cortante, pero cualquiera de ellas puede superponerse con la otra mediante una traslación y un giro''.}
+    \begin{itemize}
+        \item \textbf{Si el cortante es constante ($Q_y = \text{cte}$):} Entonces $\tau(y) = \text{cte}$ con $x \implies \gamma(y) = \text{cte} \implies \text{\textbf{alabeo idéntico en todas las secciones}}$. Al encajar exactamente el alabeo de una sección en la contigua, la distancia longitudinal entre fibras no se ve alterada por el cortante y \textbf{la fórmula de Navier es exacta}.
+        \item \textbf{Si el cortante varía ($Q_y \neq \text{cte}$):} Aunque $\tau \neq \text{cte}$ y el alabeo varía ligeramente entre secciones ($\text{alabeo} \approx \text{cte}$), en vigas esbeltas ($L \ge 10 h$) el error cometido en los alargamientos longitudinales es despreciable y \textbf{se sigue aplicando la Fórmula de Navier con total validez práctica}.
+    \end{itemize}
+\end{tcolorbox}
