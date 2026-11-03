@@ -1114,6 +1114,156 @@ Una \textbf{barra o viga infinitamente rígida} es un sólido ideal cuya rigidez
     \textbf{Conclusión ELU:} Como $\sigma_{C,d} > f_{yd}$, la sección comercial de $\phi 16$ resulta insuficiente bajo los coeficientes normativos adoptados; la estructura requiere ser redimensionada aumentando el diámetro a $\phi \ge 20\text{ mm}$.
 }
 
+\subsubsection{Problema: Carga Máxima Soportable en Barra Infinitamente Rígida con Tres Tirantes Bimetálicos}
+
+Tres tirantes verticales elásticos anclados a la misma altura superior e idéntica longitud inicial $L$ sustentan horizontalmente una barra \textbf{infinitamente rígida} ($EI \to \infty$) de peso propio total $P_{\text{propio}}$:
+\begin{itemize}
+    \item \textbf{Tirantes primero y último (1 y 3, de Acero):} Situados en los dos extremos de la barra ($x = 0$ y $x = 2a$). Tienen un diámetro $\phi_1 = \phi_3 = 2\text{ mm}$, módulo de elasticidad $E_s = 210\text{ GPa}$ y tensión admisible $\sigma_{\text{adm}, s} = 0.160\text{ GPa}$ ($160\text{ MPa}$).
+    \item \textbf{Tirante central (2, de Aluminio):} Situado en el punto medio ($x = a$). Tiene un diámetro $\phi_2 = 4\text{ mm}$, módulo de elasticidad $E_{al} = 70\text{ GPa}$ y tensión admisible $\sigma_{\text{adm}, al} = 0.080\text{ GPa}$ ($80\text{ MPa}$).
+\end{itemize}
+Justo en el centro de la barra ($x = a$, en la vertical del tirante de aluminio) actúa una carga puntual vertical hacia abajo $P$.
+
+\begin{center}
+    \adjustbox{max width=0.92\textwidth}{%
+        \begin{tikzpicture}[>=Latex, scale=1.0]
+            % Techo superior fijo
+            \draw[line width=1.5pt] (-0.8, 3.2) -- (8.8, 3.2);
+            \foreach \x in {-0.6, 0.0, 0.6, 1.2, 1.8, 2.4, 3.0, 3.6, 4.0, 4.4, 5.0, 5.6, 6.2, 6.8, 7.4, 8.0, 8.6} {
+                \draw[thick] (\x, 3.2) -- ++(-0.2, 0.25);
+            }
+            \node[above=3pt, font=\small\bfseries, gray!80!black] at (4.0, 3.45) {Forjado Superior Rígido Indeformable};
+
+            % Barra infinitamente rígida en y = 0
+            \draw[line width=1.8pt, fill=gray!30] (-0.5, -0.15) rectangle (8.5, 0.15);
+            \node[below=3pt, font=\scriptsize\bfseries, gray!75!black] at (2.0, -0.2) {Barra Infinitamente Rígida ($EI \to \infty$)};
+
+            % Tirante 1 (Acero, phi = 2 mm) en x = 0
+            \draw[line width=1.8pt, blue!85!black] (0, 3.2) -- (0, 0.15) node[pos=0.55, left=3pt, font=\scriptsize\bfseries] {Tirante 1: Acero ($\phi = 2\text{ mm}$)};
+            \draw[thick, fill=white] (0, 3.2) circle (2.5pt);
+            \draw[thick, fill=white] (0, 0.15) circle (2.5pt) node[above left=2pt, font=\footnotesize\bfseries] {$1$};
+
+            % Tirante 2 (Aluminio, phi = 4 mm) en x = 4
+            \draw[line width=2.6pt, orange!85!black] (4, 3.2) -- (4, 0.15) node[pos=0.55, right=3pt, font=\scriptsize\bfseries, orange!90!black] {Tirante 2: Aluminio ($\phi = 4\text{ mm}$)};
+            \draw[thick, fill=white] (4, 3.2) circle (2.5pt);
+            \draw[thick, fill=white] (4, 0.15) circle (2.5pt) node[above right=2pt, font=\footnotesize\bfseries] {$2$};
+
+            % Tirante 3 (Acero, phi = 2 mm) en x = 8
+            \draw[line width=1.8pt, blue!85!black] (8, 3.2) -- (8, 0.15) node[pos=0.55, right=3pt, font=\scriptsize\bfseries] {Tirante 3: Acero ($\phi = 2\text{ mm}$)};
+            \draw[thick, fill=white] (8, 3.2) circle (2.5pt);
+            \draw[thick, fill=white] (8, 0.15) circle (2.5pt) node[above right=2pt, font=\footnotesize\bfseries] {$3$};
+
+            % Carga P en el medio (x = 4)
+            \draw[->, line width=2.4pt, red!85!black] (4, -0.15) -- (4, -1.6) node[pos=1.0, below=2pt, font=\small\bfseries, red!85!black] {Carga $P$};
+
+            % Peso propio distribuido q
+            \foreach \xp in {0.8, 1.6, 2.4, 3.2, 4.8, 5.6, 6.4, 7.2} {
+                \draw[->, line width=0.9pt, purple!80!black] (\xp, 0.8) -- (\xp, 0.2);
+            }
+            \draw[line width=0.8pt, purple!80!black] (0.8, 0.8) -- (7.2, 0.8);
+            \node[above=1pt, font=\scriptsize\bfseries, purple!80!black] at (6.0, 0.85) {Peso propio barra ($q$)};
+
+            % Cotas geométricas
+            \draw[<->, line width=0.7pt] (-0.9, 0) -- node[left=1pt, font=\footnotesize] {$L$} (-0.9, 3.2);
+            \draw[<->, line width=0.7pt] (0, -0.7) -- node[below=1pt, font=\footnotesize] {$a$} (4, -0.7);
+            \draw[<->, line width=0.7pt] (4, -0.7) -- node[below=1pt, font=\footnotesize] {$a$} (8, -0.7);
+
+            % Posición deformada (traslación vertical pura paralela)
+            \draw[dashed, red!70!black, line width=1.1pt] (-0.5, -1.0) -- (8.5, -1.0) node[right=2pt, font=\scriptsize\bfseries] {Posición deformada};
+            \draw[<->, line width=0.7pt, red!80!black] (0.3, 0) -- node[right=1pt, font=\tiny\bfseries] {$\delta$} (0.3, -1.0);
+            \draw[<->, line width=0.7pt, red!80!black] (8.3, 0) -- node[right=1pt, font=\tiny\bfseries] {$\delta$} (8.3, -1.0);
+        \end{tikzpicture}%
+    }
+\end{center}
+
+\textbf{Determinar:} La \textbf{máxima carga $P$} que puede soportar la estructura.
+
+\paragraph{Resolución:}
+
+\paso{1}{Áreas y Relación de Rigideces Axiales}
+
+Calculamos la sección transversal de cada tirante cilíndrico:
+\begin{align}
+    \Omega_s  & = \frac{\pi \cdot \phi_1^2}{4} = \frac{\pi \cdot 2^2}{4} = \pi\text{ mm}^2 \approx 3.1416\text{ mm}^2 \\
+    \Omega_{al} & = \frac{\pi \cdot \phi_2^2}{4} = \frac{\pi \cdot 4^2}{4} = 4\pi\text{ mm}^2 \approx 12.5664\text{ mm}^2 = 4\,\Omega_s
+\end{align}
+Con los módulos de elasticidad dados en $\text{GPa}$, observamos que el acero es 3 veces más rígido que el aluminio:
+\begin{equation}
+    E_s = 210\text{ GPa}, \qquad E_{al} = 70\text{ GPa} \implies \frac{E_s}{E_{al}} = \frac{210}{70} = 3
+\end{equation}
+
+\paso{2}{Cinemática y Deformación: ¿Cómo se mueve la barra?}
+
+Al ser una barra infinitamente rígida, no se curva ni se deforma internamente. Además, existe una simetría perfecta:
+\begin{itemize}
+    \item Los dos tirantes de acero de los extremos son idénticos y están colocados a la misma distancia del centro.
+    \item La carga puntual $P$ y la resultante del peso propio $P_{\text{propio}}$ actúan exactamente en el centro de la barra ($x = a$).
+\end{itemize}
+Por tanto, la barra no experimenta ningún giro ni cabeceo ($\theta = 0$), sino que \textbf{desciende paralela a sí misma una cantidad vertical uniforme $\delta$}.
+
+Como los tres tirantes parten de la misma cota y tienen la misma longitud inicial $L$, todos se alargan exactamente lo mismo:
+\begin{equation}
+    \Delta L_1 = \Delta L_2 = \Delta L_3 = \delta \implies \Delta L_s = \Delta L_{al} = \delta
+\end{equation}
+
+A partir de la ley de Hooke ($\Delta L = \frac{N \cdot L}{E \cdot \Omega}$), relacionamos los esfuerzos axiles de ambos materiales:
+\begin{equation}
+    \frac{N_s \cdot L}{E_s \cdot \Omega_s} = \frac{N_{al} \cdot L}{E_{al} \cdot \Omega_{al}} \implies N_s = N_{al} \cdot \left(\frac{E_s}{E_{al}}\right) \cdot \left(\frac{\Omega_s}{\Omega_{al}}\right) = N_{al} \cdot (3) \cdot \left(\frac{1}{4}\right) = \mathbf{\frac{3}{4} N_{al}}
+\end{equation}
+
+Y si nos fijamos en las tensiones normales ($\sigma = E \cdot \varepsilon = E \cdot \frac{\delta}{L}$):
+\begin{equation}
+    \mathbf{\sigma_s = \frac{E_s}{E_{al}} \cdot \sigma_{al} = 3\,\sigma_{al}}
+\end{equation}
+\textit{Idea clave:} Al estirarse la misma longitud, el tirante de acero desarrolla siempre el triple de tensión que el de aluminio, con independencia de sus diámetros.
+
+\paso{3}{Equilibrio Estático Vertical}
+
+Hacemos el balance de fuerzas verticales sobre la barra:
+\begin{equation}
+    \sum F_y = 0 \implies 2 N_s + N_{al} = P + P_{\text{propio}}
+\end{equation}
+Sustituyendo la relación elástica $N_s = \frac{3}{4} N_{al}$:
+\begin{equation}
+    2\left(\frac{3}{4} N_{al}\right) + N_{al} = \frac{5}{2} N_{al} = P + P_{\text{propio}}
+\end{equation}
+De aquí obtenemos qué parte de la carga total gravitatoria asume cada tirante:
+\begin{align}
+    N_{al} & = \frac{2}{5}\left(P + P_{\text{propio}}\right) = 0.40\left(P + P_{\text{propio}}\right) \\
+    N_s    & = \frac{3}{4} N_{al} = \frac{3}{10}\left(P + P_{\text{propio}}\right) = 0.30\left(P + P_{\text{propio}}\right)
+\end{align}
+El tirante de aluminio del centro absorbe el $40\%$ de la carga total, y cada uno de los tirantes de acero de los extremos absorbe el $30\%$ (comprobación: $40\% + 2 \times 30\% = 100\%$).
+
+\paso{4}{¿Cuál es la Máxima Carga $P_{\text{máx}}$ que Puede Soportar?}
+
+Calculamos las tensiones de trabajo en función de la carga:
+\begin{align}
+    \sigma_s  & = \frac{N_s}{\Omega_s} = \frac{0.30\left(P + P_{\text{propio}}\right)}{\pi\text{ mm}^2} = \frac{3\left(P + P_{\text{propio}}\right)}{10\pi} \\
+    \sigma_{al} & = \frac{N_{al}}{\Omega_{al}} = \frac{0.40\left(P + P_{\text{propio}}\right)}{4\pi\text{ mm}^2} = \frac{P + P_{\text{propio}}}{10\pi}
+\end{align}
+
+Ahora comprobamos qué carga máxima admitiría cada material según sus límites admisibles dados en $\text{GPa}$ ($1\text{ GPa} = 1000\text{ N/mm}^2$):
+\begin{itemize}
+    \item \textbf{Límite por el acero} ($\sigma_{\text{adm}, s} = 0.160\text{ GPa} = 160\text{ N/mm}^2$):
+          \begin{equation}
+              \frac{3\left(P + P_{\text{propio}}\right)}{10\pi} \le 160 \implies P + P_{\text{propio}} \le \frac{10\pi}{3} \times 160 \approx 1675.52\text{ N}
+          \end{equation}
+    \item \textbf{Límite por el aluminio} ($\sigma_{\text{adm}, al} = 0.080\text{ GPa} = 80\text{ N/mm}^2$):
+          \begin{equation}
+              \frac{P + P_{\text{propio}}}{10\pi} \le 80 \implies P + P_{\text{propio}} \le 10\pi \times 80 \approx 2513.27\text{ N}
+          \end{equation}
+\end{itemize}
+
+Como $1675.52\text{ N} < 2513.27\text{ N}$, el \textbf{tirante de acero alcanza su tensión límite mucho antes que el de aluminio} (cuando el acero llega a sus $0.160\text{ GPa}$, el aluminio sólo está a $\frac{0.160}{3} \approx 0.0533\text{ GPa} = 53.33\text{ MPa}$, trabajando apenas al $66.7\%$ de su capacidad).
+
+Por lo tanto, la capacidad resistente de toda la estructura viene limitada por el acero:
+\begin{equation}
+    \mathbf{P_{\text{máx}} = 1675.52\text{ N} - P_{\text{propio}} \approx 1.68\text{ kN} - P_{\text{propio}}}
+\end{equation}
+Y si consideramos que el peso propio de la barra es despreciable frente a la carga exterior ($P_{\text{propio}} \approx 0$):
+\begin{equation}
+    \mathbf{P_{\text{máx}} = 1675.52\text{ N} \approx 1.68\text{ kN}}
+\end{equation}
+
 %-----------------------------------------------------------------------------
 \subsection{Viga Rígida Articulada en Extremo con Múltiples Tirantes Inclinados}
 

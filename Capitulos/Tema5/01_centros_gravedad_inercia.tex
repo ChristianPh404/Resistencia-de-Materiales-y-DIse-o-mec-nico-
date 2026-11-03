@@ -14,16 +14,124 @@ Las coordenadas $(y_G, z_G)$ del \textbf{centro de gravedad} $G$ (también denot
     Y_{CG} = \frac{\iint_{\Omega} y \, d\Omega}{\Omega}, \qquad Z_{CG} = \frac{\iint_{\Omega} z \, d\Omega}{\Omega}
 \end{equation}
 
-\begin{tcolorbox}[colback=blue!4!white, colframe=myb!85!black, title=\textbf{Propiedad de Simetría y Secciones Compuestas}]
-    \begin{itemize}
-        \item \textbf{Secciones con ejes de simetría:} Si una sección transversal posee un eje de simetría geométrica, el centro de gravedad $G$ se encuentra \textbf{obligatoriamente contenido en dicho eje}. Si dispone de dos ejes de simetría ortogonales, $G$ coincide exactamente con su punto de intersección.
-        \item \textbf{Secciones compuestas discretas ($\Omega = \sum_{i=1}^n \Omega_i$):} Cuando una sección compleja puede descomponerse en $n$ figuras geométricas elementales de áreas conocidas $\Omega_i$ y centroides individuales $(Y_{CG,i}, Z_{CG,i})$, las coordenadas del centro de gravedad global se determinan mediante media ponderada:
-              \begin{align}
-                  Y_{CG} \cdot \Omega = \sum_{i=1}^{n} Y_{CG,i} \cdot \Omega_i & \implies \mathbf{Y_{CG} = \frac{Y_{CG,1}\,\Omega_1 + Y_{CG,2}\,\Omega_2 + \dots + Y_{CG,n}\,\Omega_n}{\Omega_1 + \Omega_2 + \dots + \Omega_n}} \\
-                  Z_{CG} \cdot \Omega = \sum_{i=1}^{n} Z_{CG,i} \cdot \Omega_i & \implies \mathbf{Z_{CG} = \frac{Z_{CG,1}\,\Omega_1 + Z_{CG,2}\,\Omega_2 + \dots + Z_{CG,n}\,\Omega_n}{\Omega_1 + \Omega_2 + \dots + \Omega_n}}
-              \end{align}
-    \end{itemize}
-\end{tcolorbox}
+\imp{
+\textbf{Propiedades Fundamentales del Momento Estático y Centros de Gravedad:}
+\begin{enumerate}
+    \item \textbf{¿Cuándo se anula el momento estático?:} El momento estático (o de primer orden) de una sección plana respecto a un eje vale \textbf{cero si y sólo si} el centro de gravedad (o centroide $G$) se encuentra contenido en dicho eje:
+          \begin{equation}
+              S_{\text{eje}} = 0 \iff G \in \text{eje}
+          \end{equation}
+          Por esta razón, si elegimos unos ejes cartesianos que pasen justo por el propio centro de gravedad de la figura ($y_G, z_G$), los momentos estáticos respecto a ellos son idénticamente nulos:
+          \begin{equation}
+              S_{z_G} = \iint_{\Omega} (y - y_G)\, d\Omega = 0, \qquad S_{y_G} = \iint_{\Omega} (z - z_G)\, d\Omega = 0
+          \end{equation}
+    \item \textbf{Piezas compuestas: descomponer para simplificar:} El momento estático de una sección compleja se calcula de forma directa sumando los momentos estáticos de sus partes, \textbf{descomponiendo la pieza original en figuras geométricas elementales más sencillas} (rectángulos, triángulos, círculos):
+          \begin{equation}
+              S_z = \sum_{i=1}^{n} S_{z,i} = \sum_{i=1}^{n} y_{G,i} \cdot \Omega_i, \qquad S_y = \sum_{i=1}^{n} S_{y,i} = \sum_{i=1}^{n} z_{G,i} \cdot \Omega_i
+          \end{equation}
+    \item \textbf{Cálculo del centro de gravedad sumando y restando partes:} Esta última propiedad nos sirve para calcular la posición del centro de gravedad de cualquier pieza que podamos descomponer en piezas más sencillas, \textbf{tanto sumando partes macizas como restando partes huecas (vaciados, taladros o entallas)}:
+          \begin{equation}
+              \mathbf{Y_{CG} = \frac{\sum_{i} \pm Y_{CG,i} \cdot \Omega_i}{\sum_{i} \pm \Omega_i}}, \qquad \mathbf{Z_{CG} = \frac{\sum_{i} \pm Z_{CG,i} \cdot \Omega_i}{\sum_{i} \pm \Omega_i}}
+          \end{equation}
+          donde se asigna área positiva ($+\Omega$) a las partes macizas agregadas y área negativa ($-\Omega$) a los huecos o zonas que se sustraen.
+
+          \textbf{Ejemplo muy intuitivo (perfil en forma de L):} Imaginemos que queremos calcular el centro de gravedad de una pieza con forma de \textbf{L}. Tenemos dos formas totalmente equivalentes y sencillas de hacerlo:
+          \begin{itemize}
+              \item \textbf{Descomposición por suma de partes:} Dividimos la \textbf{L} en dos rectángulos independientes: el rectángulo vertical y el rectángulo horizontal. Calculamos el área y el centroide de cada uno, y aplicamos la fórmula sumando ambas partes ($\Omega_1 + \Omega_2$).
+              \item \textbf{Descomposición por resta de partes:} Imaginamos un cuadrado (o rectángulo envolvente) completo que contenga a toda la \textbf{L}, y le \textbf{restamos} el cuadrado pequeño de la esquina que queda vacío (el hueco que, de estar lleno, completaría el cuadrado inicial). En este caso, al cuadrado grande exterior le asignamos área positiva ($+\Omega_{\text{total}}$) y al hueco cuadrado pequeño le asignamos área negativa ($-\Omega_{\text{hueco}}$).
+          \end{itemize}
+          Ambos caminos conducen exactamente a las mismas coordenadas del centro de gravedad, permitiéndonos elegir en cada problema la opción que requiera menos cuentas o sea más fácil de visualizar.
+
+          \begin{center}
+              \adjustbox{max width=0.92\textwidth}{%
+                  \begin{tikzpicture}[>=Latex, scale=0.95]
+                      % ========================================================
+                      % 1. DESCOMPOSICIÓN POR SUMA DE PARTES (IZQUIERDA)
+                      % ========================================================
+                      \begin{scope}[shift={(0,0)}]
+                          \node[above, font=\small\bfseries, blue!85!black] at (1.9, 4.3) {1. Método por Suma de Partes};
+                          \node[above, font=\scriptsize, gray!80!black] at (1.9, 3.95) {$\Omega = \Omega_1 + \Omega_2$ (dos rectángulos)};
+
+                          % Ejes de referencia locales
+                          \draw[->, line width=0.8pt, gray!70] (0, 0) -- (4.3, 0) node[right, font=\tiny\bfseries] {$y$};
+                          \draw[->, line width=0.8pt, gray!70] (0, 0) -- (0, 4.3) node[above, font=\tiny\bfseries] {$z$};
+
+                          % Rectángulo vertical Omega_1 (ancho 1.2, alto 3.8)
+                          \fill[blue!15] (0, 0) rectangle (1.2, 3.8);
+                          \draw[thick, blue!85!black] (0, 0) -- (0, 3.8) -- (1.2, 3.8) -- (1.2, 1.2);
+
+                          % Rectángulo horizontal Omega_2 (ancho 2.6, alto 1.2)
+                          \fill[teal!15] (1.2, 0) rectangle (3.8, 1.2);
+                          \draw[thick, teal!85!black] (1.2, 0) -- (3.8, 0) -- (3.8, 1.2) -- (1.2, 1.2);
+
+                          % Base continua
+                          \draw[thick, blue!85!black] (0, 0) -- (1.2, 0);
+
+                          % Línea de partición discontinua entre ambos
+                          \draw[dashed, line width=1.1pt, purple!85!black] (1.2, 0) -- (1.2, 1.2);
+
+                          % Centroide local G1
+                          \filldraw[blue!90!black] (0.6, 1.9) circle (2pt) node[right=2pt, font=\scriptsize\bfseries] {$G_1$};
+                          \node[font=\footnotesize\bfseries, blue!85!black] at (0.6, 2.7) {$\Omega_1$};
+
+                          % Centroide local G2
+                          \filldraw[teal!90!black] (2.5, 0.6) circle (2pt) node[above=2pt, font=\scriptsize\bfseries] {$G_2$};
+                          \node[font=\footnotesize\bfseries, teal!85!black] at (2.5, 0.25) {$\Omega_2$};
+
+                          % Centroide global G
+                          \filldraw[red!90!black] (1.35, 1.35) circle (2.5pt) node[above right=1pt, font=\footnotesize\bfseries, red!90!black] {$G$};
+
+                          % Ecuación al pie
+                          \node[below=4pt, font=\scriptsize\bfseries, align=center] at (1.9, -0.2)
+                              {$\mathbf{Y_G = \dfrac{Y_1\,\Omega_1 + Y_2\,\Omega_2}{\Omega_1 + \Omega_2}}$};
+                      \end{scope}
+
+                      % Separador central
+                      \draw[dashdotted, line width=0.8pt, gray!45] (4.9, -0.6) -- (4.9, 4.4);
+
+                      % ========================================================
+                      % 2. DESCOMPOSICIÓN POR RESTA DE PARTES (DERECHA)
+                      % ========================================================
+                      \begin{scope}[shift={(5.9,0)}]
+                          \node[above, font=\small\bfseries, orange!90!black] at (1.9, 4.3) {2. Método por Resta de Partes};
+                          \node[above, font=\scriptsize, gray!80!black] at (1.9, 3.95) {$\Omega = \Omega_{\text{total}} - \Omega_{\text{hueco}}$};
+
+                          % Ejes de referencia locales
+                          \draw[->, line width=0.8pt, gray!70] (0, 0) -- (4.3, 0) node[right, font=\tiny\bfseries] {$y$};
+                          \draw[->, line width=0.8pt, gray!70] (0, 0) -- (0, 4.3) node[above, font=\tiny\bfseries] {$z$};
+
+                          % Perfil en L macizo (+Omega_total base)
+                          \fill[blue!15] (0, 0) -- (3.8, 0) -- (3.8, 1.2) -- (1.2, 1.2) -- (1.2, 3.8) -- (0, 3.8) -- cycle;
+                          \draw[thick, blue!85!black] (0, 0) -- (3.8, 0) -- (3.8, 1.2) -- (1.2, 1.2) -- (1.2, 3.8) -- (0, 3.8) -- cycle;
+                          \node[font=\footnotesize\bfseries, blue!85!black] at (0.6, 0.6) {$+\Omega_{\text{L}}$};
+
+                          % Hueco de la esquina que se sustrae (-Omega_hueco)
+                          \fill[red!12] (1.2, 1.2) rectangle (3.8, 3.8);
+                          \draw[dash pattern=on 4pt off 3pt, line width=1.1pt, red!80!black] (1.2, 1.2) rectangle (3.8, 3.8);
+                          \node[font=\footnotesize\bfseries, red!85!black] at (2.5, 2.5) {$-\Omega_{\text{hueco}}$};
+
+                          % Envolvente cuadrada completa punteada
+                          \draw[dotted, line width=0.9pt, gray!80] (0, 3.8) -- (3.8, 3.8) -- (3.8, 0);
+
+                          % Centroide del cuadrado total
+                          \draw[gray!60, thin] (0, 0) -- (3.8, 3.8);
+                          \filldraw[gray!60!black] (1.9, 1.9) circle (1.8pt) node[below left=-1pt, font=\tiny\bfseries, gray!70!black] {$G_{\text{tot}}$};
+
+                          % Centroide del hueco
+                          \filldraw[red!80!black] (2.5, 2.5) circle (2pt) node[below right=-1pt, font=\scriptsize\bfseries, red!80!black] {$G_{\text{hueco}}$};
+
+                          % Centroide global G (idéntica posición)
+                          \filldraw[red!90!black] (1.35, 1.35) circle (2.5pt) node[above right=1pt, font=\footnotesize\bfseries, red!90!black] {$G$};
+
+                          % Ecuación al pie
+                          \node[below=4pt, font=\scriptsize\bfseries, align=center] at (1.9, -0.2)
+                              {$\mathbf{Y_G = \dfrac{Y_{\text{tot}}\,\Omega_{\text{tot}} - Y_h\,\Omega_h}{\Omega_{\text{tot}} - \Omega_h}}$};
+                      \end{scope}
+                  \end{tikzpicture}%
+              }
+          \end{center}
+\end{enumerate}
+}
 
 \begin{figure}[H]
     \centering
@@ -168,18 +276,30 @@ Su unidad en el Sistema Internacional es el $\text{m}^4$, empleándose habitualm
 
 \subsubsection{Momentos de Inercia de Figuras Geométricas Elementales}
 
-\begin{enumerate}
-    \item \textbf{Rectángulo de base $b$ y altura $h$ respecto a ejes que pasan por su centro de gravedad ($CG$):}
+\imp{
+\textbf{Ecuaciones Clave de Inercia de Secciones Elementales y Regla de la Dimensión al Cubo:}
+\begin{itemize}
+    \item \textbf{Sección rectangular de base $b$ y altura $h$ respecto a sus ejes baricéntricos:}
           \begin{equation}
-              \mathbf{I_{y,CG} = \frac{b \cdot h^3}{12}}, \qquad \mathbf{I_{z,CG} = \frac{b^3 \cdot h}{12}}
+              \mathbf{I_y = \frac{b \cdot h^3}{12}}, \qquad \mathbf{I_z = \frac{h \cdot b^3}{12}}
           \end{equation}
-          \textit{Regla mnemotécnica esencial:} La dimensión perpendicular al eje de giro (la que corta al eje) es siempre la que se eleva \textbf{al cubo ($^3$)}.
-
-    \item \textbf{Círculo macizo de radio $r$ y corona circular hueca ($r_{\text{ext}}, r_{\text{int}}$):}
+          \textbf{Regla mnemotécnica de oro:} \textit{El eje respecto al cual se calcula la inercia corta la dimensión que va al cubo}.
+          \begin{itemize}
+              \item Si calculamos la inercia $I_y$ respecto al eje horizontal $y$, dicho eje corta a la altura vertical $h$, por lo que $h$ se eleva al cubo: $I_y = \frac{b\,h^3}{12}$.
+              \item Si calculamos la inercia $I_z$ respecto al eje vertical $z$, dicho eje corta a la base horizontal $b$, por lo que $b$ se eleva al cubo: $I_z = \frac{h\,b^3}{12}$.
+          \end{itemize}
+    \item \textbf{Sección circular respecto a cualquier eje que pase por su centro ($G$):}
           \begin{equation}
-              \mathbf{I_{\circ} = \frac{\pi \cdot r^4}{4}}, \qquad \mathbf{I_{\text{corona}} = \frac{\pi \cdot \left(r_{\text{ext}}^4 - r_{\text{int}}^4\right)}{4}}
+              \mathbf{I_{\circ} = \frac{\pi \cdot r^4}{4}} = \frac{\pi \cdot D^4}{64}
           \end{equation}
-\end{enumerate}
+          Al ser el círculo simétrico en todas las direcciones radiales, cualquier diámetro que pase por su centro tiene exactamente el mismo momento de inercia.
+          
+          Para una \textbf{corona circular hueca} de radio exterior $r_{\text{ext}}$ e interior $r_{\text{int}}$, basta con restar el círculo hueco del círculo macizo:
+          \begin{equation}
+              \mathbf{I_{\text{corona}} = \frac{\pi \cdot \left(r_{\text{ext}}^4 - r_{\text{int}}^4\right)}{4}} = \frac{\pi \cdot \left(D_{\text{ext}}^4 - D_{\text{int}}^4\right)}{64}
+          \end{equation}
+\end{itemize}
+}
 
 \begin{figure}[H]
     \centering
@@ -237,6 +357,42 @@ Cuando una sección está compuesta por varias subsecciones $\Omega_i$, el momen
     \end{equation}
     donde $d_{y,i} = |y_{G_i} - y_G|$ es la distancia perpendicular entre el eje local $z_{G_i}$ y el eje global $z_G$, y $d_{z,i} = |z_{G_i} - z_G|$ es la distancia perpendicular entre el eje local $y_{G_i}$ y el eje global $y_G$.
 \end{tcolorbox}
+
+\imp{
+\textbf{Teorema de Steiner entre Dos Ejes Paralelos Cualesquiera ($n_1$ y $n_2$):}
+
+Un problema muy habitual consiste en conocer el momento de inercia $I_{n_2}$ respecto a un eje $n_2$ y necesitar calcular la inercia $I_{n_1}$ respecto a otro eje paralelo $n_1$, \textbf{cuando ninguno de los dos pasa necesariamente por el centro de gravedad $G$}.
+
+\begin{center}
+    \textbf{¡Trampa clásica de examen!}\\
+    \textit{El Teorema de Steiner NO se puede aplicar directamente de un eje cualquiera $n_2$ a otro eje cualquiera $n_1$}:
+    \begin{equation}
+        I_{n_1} \ne I_{n_2} \pm \Omega \cdot d_{12}^2 \quad \text{(\textbf{INCORRECTO})}
+    \end{equation}
+    Steiner exige obligatoriamente que uno de los dos ejes sea el que pasa por el centro de gravedad $G$.
+\end{center}
+
+\textbf{Procedimiento en dos pasos sencillos (pasando siempre por el centro de gravedad $G$):}
+\begin{enumerate}
+    \item \textbf{Paso 1: Del eje conocido $n_2$ al centro de gravedad $G$ (restando inercia):}
+          Como el eje baricéntrico es el que tiene siempre la inercia \textbf{mínima} de todos los ejes paralelos, le restamos la distancia al cuadrado:
+          \begin{equation}
+              I_{n_2} = I_G + \Omega \cdot d_{2G}^2 \implies \mathbf{I_G = I_{n_2} - \Omega \cdot d_{2G}^2}
+          \end{equation}
+    \item \textbf{Paso 2: Del centro de gravedad $G$ al eje buscado $n_1$ (sumando inercia):}
+          Ahora que ya estamos en $G$, aplicamos Steiner hacia el eje objetivo $n_1$ sumando:
+          \begin{equation}
+              \mathbf{I_{n_1} = I_G + \Omega \cdot d_{1G}^2}
+          \end{equation}
+\end{enumerate}
+
+\textbf{Fórmula directa combinada entre ambos ejes:}
+Sustituyendo el primer paso en el segundo, obtenemos la relación directa:
+\begin{equation}
+    \mathbf{I_{n_1} = I_{n_2} + \Omega \cdot \left( d_{1G}^2 - d_{2G}^2 \right)}
+\end{equation}
+donde $d_{1G}$ y $d_{2G}$ son las distancias perpendiculares desde cada eje hasta el centro de gravedad $G$. Si $d_{1G} > d_{2G}$, el nuevo eje está más lejos de $G$ y tendrá mayor inercia; si está más cerca, tendrá menor inercia.
+}
 
 %=============================================================================
 \subsection{Ejercicios Resueltos de Centros de Gravedad y Momentos de Inercia}
