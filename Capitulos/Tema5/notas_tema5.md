@@ -1,186 +1,138 @@
-en la pagina 234 meter estas aclaraciones
-entre b y c hay flexion pura por que Q= 0 N=0 y si hay flexion
-la deformacion se mide con epsion y gamma 
-si las secciones tiene angulos rectos despues de deformarse se mantienen los angulos rectos
-no hay distorsion 
+* Calculo de desplazamientos en flexion 
+sigman = -mfz \cdoty /I_z % Formula navier en flexion pura recta mf =! 0 
+Q_y  + M_f ---> -mfz \cdoty / (I_z) & tau = Q \cdot S* / % formula navier y colignion
+
+dibujo rectangulo con 1 apoyo fijo izquierda 1 articulado derecha, sen 2 figuras una normal y la otra superpuesta con deformacion se marca en ambas la fibra neutra que sigue pasando por el centro
+
+Comprobaciones de resitencias:
+ -comprobar la resistencia con tension max mayorada <= tension admisible del material
+ - Deformaciones maximas < eps_lim 
+
+ nosotros lo comprobaremos sera que lo maximo que baje la fibra neutra sea menor de cierta cantidad 
+ es decir queremos calcular la ecuacion de la fibra neutra (linea roja) con la ecuacion de la linea elastica o deformada  (como es una ecuacion de una curva tendra forma polinomial, es decir y = ax+ bx^n-1 + cx....)
+
+si tengo la y sabemos lo que ha bajado, esa y se denomina flecha o deflexion (tambien puede ser para arriba segun como pongamos las cargas) como criterio de signos si sube para arriba y + para abajo
+
+no comprobamos elongaciones que son adimensionales, sino que la ymax sea menor que un cierto lim y se hacen sin las cargas sin mayorar (se calculara con los esfuerzos) (sin mayorar)
+
+con el giro de la seccion podremos calcular la y max, las secciones inicales (los cortes) son verticales, despues de deformar la seccion queda con cierta inclinacion, el angulo con el que queda la secciones se le llama angulo de giro theta, si el angulo es horario <0 si es antihorario >0
+punto A una vez deformado pasa a A, por bernouilli como el punto tiene que ser perpendicular a la directriz antes de la deformacion despues tambien tiene que serlo, si trazamos una perpendicular en la figura inicial y luego otra en el punto de la imagen deformada es decir en A'(que seria algo mas abajo)  se puede ver entre ambas rectas el angulo de giro, 
+tambien se puede medir haciendo una horizontal que pase por A' y corte con su perpendicular y ese angulo representar en la derecha tambien sera theta_A
+representar una figura en un apoyo fijo recta a la derecha , si se pone una carga se deforma haciendo un arco a la derecha si hacemos una horizontal en un punto x para su x' que es el punto que pertenece a la curva con la tangente del angulo theta como es algo muy pequeño se asume que es un triangulo con su pared opuesta dy  es decir tg theta = dy/d = y' cuando los angulos son muy pequeños angulo y tang se aproximan por lo que la pendiente de la tangente es aprox el angulo de giro 
+
+1/rho se define como la curvatura que es k  = mf/E\cdotI , E\cdotI es el modulo de rigidez 
+k < 0 es curva hacia arriba > 0 es curva hacia abajo , la curvatura se obtiene con la segunda derivada de la ecuacion de la linea 22 , 
+EDE ecuacion diferencial de la elastica, y'' = m_fz = EI_z 
+
+se resuelve de la siguiente manera 
+1) poner la ecuacion diferencial y integrar a ambos lados por dx % se obtiene y' 
+ y' = int m_f/E \cdot I dx + c1 % como es una constante indefinida tiene constante de integracion 
+2)se vuelve a integrar  
+y = int y' dx = int(int m_f/E \cdot I dx + c1) dx = int int m_f/E \cdot I dx + c1X + C2
+
+para resolver hay que dar condiciones de contorno  las condiciones son
+y(x=0) = 0 ya que en los apoyos ni sube ni baja 
+y(x=l) = 0  por que es el otro apoyo 
+
+ejercicio
+
+carga linealmente distribuida 10kn/m  apoyo fijo izquierda derecha movil distancia de viga 4m 
+1) calcular las reacciones que son 20 y 20 kn 
+2) calcular los momentos con la ley de momentos flectores
+mfz= 20x-5x^2
+3) poner la ecuacion diferencial de la elastica
+y'' = m_fz = EI_z  ---> y'' = -20x-5x^2 / EI % seguramente la inercia la tendremos que calcular y la E vendra dada en este problema EI = 10kn
+
+al integrar 
+y' =int  y''dx =int(-20x-5x^2/EI )dx = 1/EI ( 20x^2/2 - 5x^3/3 + c1) % esto sera aproximadamente el angulo de giro 
+4) 
+volvemos a integrar 
+y = int y'dx = int 1/EI ( 20x^2/2 - 5x^3/3 + c1) dx = 1/EI ( 10x^3/3 -5/3* x^4/4 + c1x +c2)
+5) damos las condiciones de contorno
+y (x= 0)= 0 -->1/EI ( 10*0 -5/3*0 + c1*0 +c2)=0  ---> c2 = 0---> 
+y(x=4)=0  --->1/EI (10*4^3/3 - 5*4^4/12 + c1*4 +c2) ---> c1 = -26.6
 
 
+6)calcular desplazamiento maximo
+para ello 
+ - dibujar los diagramas que se habian visto antes es decir N Q y M_f
+ -dibujar debajo de esos y' que era 1/EI ( 20x^2/2 - 5x^3/3 -26.6) (se dan valores a los extremos )
+ - debajo de la y' dibujamos 1/EI ( 10x^3/3 -5/3* x^4/4 -26.6)(dando valores en los extremos del intervalo) 
+
+ para no dar puntos hacemos uso de las curvaturas 
+ tenemos que la k = y'' mf/EI % (EI es siempre positivo por lo que y'' es proporcional al momento flector)
+
+por lo que si miramos el diagrama de Mf podemos saber como es la curvatura , es decir dibujamos la misma curvatura que en mf para dibujar la y' deberia hacer tambien la segunda derivada pero como el cortante es la derivada del momento flector sabemos que es proporcional a la segunda derivada de y' es decir y''' por lo que sabemos que la curvatura de 0 a 2 es concava y de 2 a 4 es convexa hasta -26.6 el que pase por 0 es casualidad, lo que se hace es con la ecuacion de y'= .... se iguala a 0 hay 3 raices por que es un polinomio de grado 3, 2 de ellas estaran fuera del intervalo , esto interesa por que como queremos saber cual es la flecha maxima en el punto que y'0 sera la flecha maxima 
+
+ymax = y(x=2) = -50*4^4/384 ei % iMPORTANTE VER LAS UNIDADES las cargas eran kn/m por lo que EI debe estar en kn y m lo normal es que de la E en gpa o en N/mm^4 y que la I calculada sea en mm^4 o cm^4 
+el resultado final aqui es -3.3*10^-4 m es decir 0.3mm 
+
+importante en la verificacion como ha tenido flexion hacia abajo tiene que ser  un valor negativo, no tendria sentido otra cosa, el diagrama de giros  tambien tiene sentido la explicacion es que la seccion inicial ha girado -26.6 es decir horario y en el otro 26.6 es deir antihorario positivo como se podia intuir en el dibujo y la seccion centrar  no ha girado nada sigue vertical
+
+ejercicio con voladizo
+
+empotramiento izquierda longitud de la barra 4m carga en x=4 10kn hacia abajo, en x= 0 carga puntual x= 10 hacia arriba y momento antihorario de 40knm 
+
+1) ecuacion momentos flectores 
+mf= 10x-40
+2) EDE 
+inty''dx = M/EI = int(10x-40/EI)dx
+theta = y' = 1/ei = (10X^2/2 -40X +C1)
+3) Y = Y'DX = 1/EI ( 5x^3/3 - 40x^2/2 + c1x +c2)
+4) condiciones de contorno
+y(x=0)= 0 
+y'(x=0) =0 % como hay un empotramiento el giro esta restringido y por tanto es 0 en el inicio 
+y(x=0)= 0 1/EI ( 5*0^3/3 - 40*0^2/2 + c1*0 +c2) ---> c2= 0
+y'(5*0^2 -40*0 +C1) = 0 ---> c1 = 0 
+
+flecha en x= 0  c2/EI
+giro en x= 0 c1/EI 
+
+si tenemos un empotramiento podemos sabeer que en el c1 y c2 = 0 con los apoyos se saca que y=0 = 0 c2 =0 
+
+en los extremos y' = 0 , -80/EI % el primero para 0 el segundo para cuatro
+en y'' 0, -213/EI % el primero para 0 el segundo para cuatro
+representando Q MF y' que es thetha y y 
+para representar el angulo de giro nos vamos al diagrama de Q como es constante y positivo nos dice que la segunda derivada de theta es positiva es decir que su curvatura es concava 
+para dibujar la y nos fijamos en mf que son todo valores negativos por lo que su curvatura es negativa es decir convexa 
+%el valor maximo sera -213/EI que tiene sentido por que el punto de theta = 0 es un maximo 
+% otros ejemplos de condiciones de contono 1 apoyo fijo izquierda x=2 y otro en el empotramiento x= 5
+% otro ejemplo 1 apoyo fijo en x=1 y otro movil en x=3 
+
+en hiperestatica imaginando empotramiento izquierda y apoyo fijo un punto medio se hace por vanos calculando flecha maxima en cada tramo 
+
+otro ejercicio 
+carga triangular 30kn/m extremo izquierda apoyo fijo derecha movil  distancia entre ambos puntos 5m
+
+1) calculo de reacciones y momentos 
+ reaccion de 25 en izquierda derecha 50 momento flector 25x-x^3
+2) EDE 
+int y''dx = MF/EI = int 1/EI (25x-x^3)dx
+theta = y' = 1/EI (25X^2/2 - x^4/4 +c1) 
+y = 1/EI (25X^3/6 - x^5/20 +c1x +c2)
+3) condiciones de contorno 
+y(0) =0  
+y = 1/EI (25*0^3/6 - 0^5/20 +c1*0 +c2) = 0 ---> c2 = 0
+y(x=5)= 0 
+y = y = 1/EI (25*5^3/6 - 5^5/20 +c1*5 +c2) ---> c1 = -875/12
+
+dando valores en y'(0) = -72.9/EI y'(5) = 83.3/EI
+y(0)=0 y(5) =0
+
+dibujamos Q MF theta e y 
+para Q pasan de 25 a -50 para los momentos flectores  de haber igualado Q = 0 ( se obtiene x= 2.88) % seguramente se haya necesitado para la resistencia en el Estado limite de la resistencia que es donde este el momento maximo 
+
+dibujando la y' que parte de -72.9 /EI y acaba 83.3/EI fijandonos en la curva de cortantes, desde 0 a 2.88 hay una curvatura positiva  y luego es convexa, si igualamos y' en 2.88  vemos como se dibuja 
+para la y con la ley de momentos flectores como son todo positivos la curvatura es siempre positiva 
+calculando el y'=0 (que da 2.598) sabemos cual es la y max   que si hacemos y (2.598) nos sale -122/EI 
 
 
-en la 235 
-sometida a momento flector positivo , abajo de todo se alarga arriba se acorta y en el medio
-fibra neutra que ni se alarga ni se acorta deformacion unitaria = 0 y por tanto la tension 0 
+% puede ser que nos diga que el giro sea 0 en un punto si no lo podemos dibujar por que sea un polinomio >4 
 
-desde fibra neutra y positiva hacia arriba y negativa hacia abajo 
+problema apoyo fijo en ambos extremos en x=2 carga puntual de 10 hacia abjo distancia hasta el siguiente apoyo 3m 
+cortes en ambos lados y se tiene 2 leyes de momentos , hay que poner una ecuacion diferencial para cada tramo
+y'' = M/EI integramos para y' y otra vez para y que seran ambas validas solo para entre 0 y 2 que dara una c1 y c2 y luego hacer lo mismo que sera solo valido para x € 2,5 pero tendremos c3 y c4 
 
-dibujamos un rectangulo que seria una de las secciones con base dx (en vertical) tras deformarse se hace una epecie de cono  f es el radio de curvatura de la fibra neutra , es decir buscando el centro desde donde dibujariamos los arcos es decir desde el punto O hasta donde estaria la fibra neutra en un extremo (para el otro seria igual)  a una distancia y 
-para arriba positiva abajo negativa, en un punto superior es decir Y > 0 tomamos dos puntos N el de antes de la deformacion y M el de despues, si hacemos semejanza de triangulos A B O  es semejante al BNM al tener ambos un angulo recto y la recta OB esla que pertenece tambien a MB , AB/OA = MN/NB  es decir dx/2 /rho (rho es el radio de curvatura de la fibra neutra) = -incremento de diferencial de x/2 (es un acortamiento asi que tiene que ser negativo) / y (ademas es /2 el incremento debido a que existen dos triangulos y trabajamos solo con uno)
+condiciones de contorno y(0=0) y(5=0) tambien sabemos que lo que pasa en para el tramo de la izquierda pasa tambien el de la derecha por tanto y(2) e y'(2) de ambas son igualas 
 
-ydx = -delta dx rho 
-delta dx/dx = - y /rho
-epsion_nx = sigma_nx/E = - y/rho
-sigma_nx = -rho y /rho 
-
-en la diapositiva 7 (de "Tema Flexión tensiones cma.pdf", correspondiente a la deducción N=0): al imponer flexión pura (N = 0), N = integral sigma_x dA = integral (-E*y/rho) dA = 0. Como el módulo elástico E y el radio de curvatura rho son constantes en la sección, salen fuera de la integral: (-E/rho) * integral y dA = 0 => integral y dA = Sy = 0 (el momento estático respecto al eje neutro es nulo). Por la definición y propiedades del momento estático, esto demuestra directamente que el eje neutro (fibra neutra) contiene al centro de gravedad (pasa por el centroide de la sección).
-
-*(Nota: en la diapositiva 17 de dicha presentación se expone la Hipótesis generalizada de Navier-Bernoulli para flexión simple: las secciones experimentan alabeo por cortante, pero si Q=cte o aproximadamente cte, el alabeo es cte y se puede seguir aplicando la fórmula de Navier para tensiones normales).*
-
-con la formula de navier si se puede calcular la tension y la k para calcular las deformaciones, la curvatura K se define como la inversa del radio de curvatura
-
-las tensiones maximas se dan en los extremos puesto que depende la tension dependera de Y el resto sera constante (aclarar en la figura 5.6) en el eje neutro tendra tension 0
-
-imaginando que tenemos un prisma y queremos saber la distribucion de tensiones en la seccion ( se podria tener o a lo largo de la pieza o dentro de la seccion dando un corte vertical) la vista desde la derecha seria rectangular con el centro de gravedad en su centro, la x coincidira con el centro que sera la fibra neutra (realmente hay muchas todas las que pasen por el centro) habra un momento flector positivo  saldria una tension negativa al ser y positiva I siempre es positiva , saliendo una tension negativa que tiene sentido por que seria compresion
-
-por convenio se representar las tensiones positivas a la derehca y en el ej x la escala de las tensiones 
-
-perfiles tipicos de acero
-doble T, C (se dicen en U ) en L  estan estandarizadas y hay tablas  con sus dimensiones  IPN IPE HEI  , donde vienen tabuladas h b A Iy Iz sx s W 
-
-cuando queramos dimensionar una pieza momento maximo * y max / I si estamos en un problema de dimensionamiento y no de comrpobacion ymax es una incognita y sera la pregunta ademas tampoco conoceremos su inercia ya que depende de la geometria de la pieza
-
-lo que se hace es que se engloba ambas variables I e y en una ya que estan en las tablas I/ymax = W que es el modulo resistente , imponiendo esta condicion se puede despejar
-en la formula sigma = M y /I me interesa que las tensiones sea lo menor posible por lo que tengo que buscar una geometria que minimize las tensiones en traccion lo conseguia aumentando el area, en flexion aumentando la ineria ( no basta que la pieza sea mas grande hay un ejercicio con 3 secciones y las 3 tienen la misma area pero diferente geometria una es una especie de + otra es un rectangulo vertical y otra I las 3 tienen la misma altura es decir ymax  omega1=omega2=omega3 pero las inercias seran diferente) si no cumplen los perfiles se refuerzan poniendo placas de acero en los extremos 
-ejercicio de aplicacion de la formula 
-
-una especie de TT donde hay 160 de horizontal las cotas en horizontal son 40 20 40 20 40 donde los 20 son los grosoreslas partes verticales y 40 la de horizontal altura de la pieza 80, 60 seran la parte vertical y 20 el grosor
-
-Pide distribucion de tensiones en la seccion 
-para Md = -300kn 
-Md = 200knm
-Comprobar resistencia a ELU
-fkt = 3.3n/mm^2 gamma = 1.1 (gamma es el coeficiente de minoracion)
-fkc = 11 n/mm^2
-maximo momento que puede soportar 
-
-Izg = 3020952.43 cm^4 
-
-52,86 es yG por lo que se divide la pieza en 27.14 arriba y 52.86 abajo 
-para el momento de -300
-sigma para 27.14= -(-300*10^6)*(271.4) /3020952.43 = 2.69N/mm^2
-sigma para y = -52.86 = -(-300*10^6)*-(528.6) /3020952.43 = 2.69N/mm^2 
-
-para el momento de 200 
-
-sigma para 27.14= -(-200*10^6)*(271.4) /3020952.43 = 1.79N/mm^2
-sigma para y = -52.86 = -(-300*10^6)*-(528.6) /3020952.43 = 2.69N/mm^2 
-
-ahora comprobar resistencia con los valores admisibles como me daban los momentos mayorados las tensiones ya son mayoradas, tension maxima mayorada <= tension admisible max
-traccion 2.69 y 3.5 tension admisible maxima era 3.3/1.1 por tanto solo cumple para uno de los dos momentos la de compresion que es 11/1.1  , el valor de compresion era 5.25 y 1.9 , es decir la pieza aguanta ambos de compresion pero de trccion para la tension de 3.5 no cumple 
-
-maximo momento positivo que puede aguantar la pieza: compresiones arriba tracciones abajo , incognita ahora seria M imponiendo ambos limites tmax de compresion <= tadm compresion y tmax tra <= tadm traccion 
-Md = 1113*10^6 Nmm arriba
-Md = 171.5*10^6 Nmm abajo 
-
-con el vector tension que tiene una componente normal y tangencial nos interesa la tangencial para el cortante en la flexion simple como las tensiones estan contenidas en la seccion se representan como en la figura 5.7 si en un lado tienes cortante Q por ejemplo 8 en el otro no tiene por que ser lo mismo, cortante para abajo tensiones para abajo cortante para arriba tension para arriba , 
-las tensiones tangenciales se calculan con la formula de (principio de reprocidad de las tensiones tangenciales) las tensiones en dos aristas del solido son convergentes o divergentes 
-
-** Importante en los examenes siempre se pregunta el calculo de las tensiones tangenciales**
-Como se haria si me preguntasen calcula la tension tangencial en la linea  a una distancia y = 10 de la pieza anterior, sobre el centro de gravedad
-
-tau(y= 10) = 20*S/b(y)* I  ( b es 160 en ese caso) 
-( S*(y=10)) = omega* * ygc  es decir el area es desde donde yo quiero calcular hacia fuera es decir 160*17.14 // repasar el 17.14 que es dudoso 
-luego buscar el centro de gravedad y la y de su centro de gravedad
-
-la tension tangencial maxima sera maxima en el centro de gravedad para las piezas que trabajaremo que seran o rectangulares o I o T 
-
----
-
-## Ejercicios Adicionales Resueltos (Tema 5: Flexión Pura y Simple)
-
-### Ejercicio 1: Cálculo de distribución de tensiones tangenciales en viga armada
-*(Procedencia: `inercia/CALCULO TENSIONES TANGENCIALES.pdf`)*
-
-**Enunciado:**
-Calcular la distribución de tensiones tangenciales para un esfuerzo cortante de cálculo $Q_d = 95\text{ kN}$ en la viga armada de acero S275 cuya sección es un perfil doble T asimétrico con las siguientes dimensiones:
-- **Ala superior:** anchura $b_1 = 400\text{ mm}$, espesor $t_1 = 8\text{ mm}$.
-- **Alma:** altura $h_w = 300\text{ mm}$, espesor $t_w = 6\text{ mm}$.
-- **Ala inferior:** anchura $b_2 = 200\text{ mm}$, espesor $t_2 = 8\text{ mm}$.
-- Altura total: $H = 8 + 300 + 8 = 316\text{ mm}$.
-
-**Resultados y pasos clave:**
-1. **Posición del centro de gravedad ($y_G$ medido desde la base inferior):**
-   - $A_{\text{total}} = (400 \cdot 8) + (300 \cdot 6) + (200 \cdot 8) = 3200 + 1800 + 1600 = 6600\text{ mm}^2$.
-   - $y_{cdg} = 195.33\text{ mm}$ (desde el borde inferior).
-   - Distancia del c.d.g. al borde superior: $316 - 195.33 = 120.67\text{ mm}$.
-2. **Momento de Inercia respecto al eje neutro ($I_{zG}$):**
-   - Calculado por Steiner para cada uno de los 3 rectángulos respecto al eje baricéntrico.
-3. **Distribución de tensiones tangenciales $\tau(y) = \frac{Q_d \cdot S^*(y)}{b(y) \cdot I_{zG}}$:**
-   - **En el extremo superior ($y = +120.67\text{ mm}$):** $\tau = 0\text{ N/mm}^2$.
-   - **En la unión ala superior / alma ($y = 120.67 - 8 = +112.67\text{ mm}$):**
-     - En el ala ($b = 400\text{ mm}$): $\tau = 0.75\text{ N/mm}^2$.
-     - En el alma ($b = 6\text{ mm}$): salto brusco por reducción de anchura:
-       $$\tau = 0.75 \cdot \frac{400}{6} \approx 50.03\text{ N/mm}^2$$
-   - **En la fibra neutra (Centro de Gravedad, $y = 0$):**
-     - Máximo absoluto de la sección:
-       $$\tau_{\max} = 55.13\text{ N/mm}^2$$
-   - **En la unión ala inferior / alma ($y = -187.33\text{ mm}$):**
-     - En el alma ($b = 6\text{ mm}$): $\tau = 41.02\text{ N/mm}^2$.
-     - En el ala inferior ($b = 200\text{ mm}$): $\tau = 1.23\text{ N/mm}^2$.
-   - **En el extremo inferior ($y = -195.33\text{ mm}$):** $\tau = 0\text{ N/mm}^2$.
-
----
-
-### Ejercicio 2: Flexión Pura y Comprobación ELU / Momentos Máximos Admisibles
-*(Procedencia: `inercia/EJERCICO CALCULO MOM MAX Q AGUANTA.pdf`)*
-
-**Enunciado:**
-Dada una sección transversal en forma de doble T invertida / perfil "TT" con:
-- Ala superior de anchura $160\text{ cm}$ y espesor $20\text{ cm}$.
-- Dos almas verticales de espesor $20\text{ cm}$ cada una y altura $60\text{ cm}$, separadas $40\text{ cm}$ entre sí y con voladizos de $40\text{ cm}$.
-- Altura total $80\text{ cm}$.
-- Material: $f_{ctk} = 3.3\text{ N/mm}^2$ (resistencia característica a tracción), $f_{ck} = 11\text{ N/mm}^2$ (resistencia característica a compresión).
-- Coeficientes de seguridad: $\gamma_s = 1.1$ (minoración del material), $\gamma_f = 1.5$ (mayoración de acciones).
-  - Tensiones admisibles de cálculo:
-    $$\sigma_{adm, T} = \frac{3.3}{1.1} = 3.0\text{ N/mm}^2, \quad \sigma_{adm, C} = \frac{11}{1.1} = 10.0\text{ N/mm}^2$$
-
-**Cálculos geométricos:**
-- Posición del centro de gravedad: $y_G = 52.86\text{ cm}$ desde la base inferior.
-  - Distancia a la fibra superior: $y_{\sup} = +27.14\text{ cm} = +271.4\text{ mm}$.
-  - Distancia a la fibra inferior: $y_{\inf} = -52.86\text{ cm} = -528.6\text{ mm}$.
-- Momento de inercia baricéntrico:
-  $$I_{zG} = 3020952.43\text{ cm}^4 = 3.020952 \times 10^{10}\text{ mm}^4$$
-
-**Apartados:**
-- **a) Distribución para $M_d = -300\text{ kNm} = -300 \times 10^6\text{ N}\cdot\text{mm}$ (momento negativo: tracción arriba, compresión abajo):**
-  - $\sigma_{\sup} = -\frac{(-300 \times 10^6) \cdot (+271.4)}{3.020952 \times 10^{10}} = +2.69\text{ N/mm}^2 \le 3.0\text{ N/mm}^2$ (Cumple a tracción).
-  - $\sigma_{\inf} = -\frac{(-300 \times 10^6) \cdot (-528.6)}{3.020952 \times 10^{10}} = -5.25\text{ N/mm}^2 \implies |\sigma_{\inf}| = 5.25 \le 10.0\text{ N/mm}^2$ (Cumple a compresión).
-  - **Resultado:** **Resiste** a ELU.
-- **b) Distribución para $M_d = +200\text{ kNm} = +200 \times 10^6\text{ N}\cdot\text{mm}$ (momento positivo: compresión arriba, tracción abajo):**
-  - $\sigma_{\sup} = -\frac{200 \times 10^6 \cdot (+271.4)}{3.020952 \times 10^{10}} = -1.80\text{ N/mm}^2 \implies 1.80 \le 10.0\text{ N/mm}^2$ (Cumple a compresión).
-  - $\sigma_{\inf} = -\frac{200 \times 10^6 \cdot (-528.6)}{3.020952 \times 10^{10}} = +3.50\text{ N/mm}^2 > 3.0\text{ N/mm}^2$ (**NO CUMPLE** a tracción).
-  - **Resultado:** **No resiste**. Empezaría a romper por tracción en la fibra inferior.
-- **c) Momentos máximos que puede aguantar:**
-  - **Momento positivo máximo ($M_{d}^+$):**
-    - Por compresión superior: $M_d \le \frac{10 \cdot I}{271.4} = 1113 \times 10^6\text{ N}\cdot\text{mm}$.
-    - Por tracción inferior: $M_d \le \frac{3 \cdot I}{528.6} = 171.5 \times 10^6\text{ N}\cdot\text{mm}$.
-    - El más restrictivo de cálculo es $M_d^+ = 171.5\text{ kNm}$.
-    - Momento característico aplicable: $M_k^+ = \frac{171.5}{1.5} \approx 114.3\text{ kNm}$.
-  - **Momento negativo máximo ($M_{d}^-$):**
-    - Por tracción superior: $|M_d| \le \frac{3 \cdot I}{271.4} = 333.9 \times 10^6\text{ N}\cdot\text{mm}$.
-    - Por compresión inferior: $|M_d| \le \frac{10 \cdot I}{528.6} = 571.5 \times 10^6\text{ N}\cdot\text{mm}$.
-    - El más restrictivo de cálculo es $|M_d^-| = 333.9\text{ kNm}$.
-    - Momento característico aplicable: $M_k^- = \frac{333.9}{1.5} \approx 222.6\text{ kNm}$.
-
----
-
-### Ejercicio 3: Determinación de la máxima carga repartida admisible $q$
-*(Procedencia: ejercicio del examen / foto adjunta)*
-
-**Enunciado:**
-Determinar la máxima carga repartida uniforme $q$ ($\text{kN/m}$) que puede soportar una viga continua con voladizo si la tensión admisible del material es $\sigma_{\text{adm}} = 262\text{ N/mm}^2$.
-- **Geometría y cargas:**
-  - Tramo $A-B$: $L_1 = 4\text{ m}$. Tramo en voladizo $B-C$: $L_2 = 2\text{ m}$.
-  - Carga uniforme $q$ actuando en toda la longitud ($6\text{ m}$).
-  - Momento puntual horario aplicado en $A$: $M_A = 10\text{ kNm}$.
-  - Momento puntual horario aplicado en $B$: $M_B = 10\text{ kNm}$.
-- **Sección transversal (perfil I simétrico):**
-  - Anchura de alas: $b = 60\text{ mm}$, espesor $t_f = 10\text{ mm}$.
-  - Alma central: altura libre $h_w = 200\text{ mm}$, espesor $t_w = 10\text{ mm}$.
-  - Altura total $H = 220\text{ mm}$, $y_{\max} = 110\text{ mm}$.
-- **Diagramas de esfuerzos y momentos críticos:**
-  - En el vano interior ($A-B$): $M(x) = 10 + 1.125\,q$ (en el punto de cortante nulo $x = 1.5\text{ m}$).
-  - En el apoyo $B$ (voladizo): momento negativo $|M| = 2\,q$.
-  - Condición de diseño por flexión: $\sigma_{\max} = \frac{|M_{\max}| \cdot y_{\max}}{I_z} \le \sigma_{\text{adm}}$.
-- **Solución:**
-  - Comparando los posibles puntos críticos frente al límite elástico, el momento global determinante da como resultado:
-    $$q_k = 15.8\text{ kN/m} \quad (\text{o } 19.21\text{ kN/m según criterio de combinación considerado})$$ 
+si tenemos una carga distribuida y varias cargas, no es operativo no lo haremos lo maximo es con 2 cortes
