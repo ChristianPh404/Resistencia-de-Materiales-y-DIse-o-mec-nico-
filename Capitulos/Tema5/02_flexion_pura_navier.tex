@@ -64,7 +64,7 @@ Contrastando el estado tensional con el capítulo anterior:
     \item \textbf{Tracción / Compresión Uniaxial (Tema 4):} En la sección actúa únicamente el esfuerzo axil $N \neq 0$, generando tensiones normales uniformes $\sigma_n = \frac{N}{\Omega}$ y alargamientos/acortamientos longitudinales $\Delta l = \int_A^B \frac{N}{E\Omega}\,dx$.
     \item \textbf{Flexión Plana Directa (Tema 5):} Las cargas exteriores actúan contenidas en el plano de simetría vertical $XY$ y perpendicularmente al eje de la viga. En consecuencia, en la sección transversal aparecen como esfuerzos determinantes el \textbf{momento flector $M_z$} y, en general, el \textbf{esfuerzo cortante $Q_y$}:
           \begin{enumerate}
-              \item \textbf{Flexión Pura:} En el tramo considerado actúa exclusivamente momento flector constante ($M_z \neq 0$, $Q_y = 0$, $N = 0$).
+              \item \textbf{Flexión Pura:} En el tramo considerado actúa exclusivamente momento flector constante ($M_z \neq 0$, $Q_y = 0$, $N = 0$). Como no existe cortante ($Q_y = 0$), las secciones no experimentan distorsión angular ($\gamma = 0$): si las secciones forman ángulos rectos antes de deformarse, se mantienen estrictamente perpendiculares y planas tras la deformación.
               \item \textbf{Flexión Simple:} En la sección coexisten simultáneamente el momento flector y el esfuerzo cortante ($M_z \neq 0$, $Q_y \neq 0$, $N = 0$).
           \end{enumerate}
 \end{itemize}
@@ -252,14 +252,22 @@ Sustituyendo en la Ley de Hooke ($\sigma_{nx} = E \cdot \varepsilon_x$), obtenem
 
 \subsubsection{2. Posición de la Fibra Neutra ($N = 0$)}
 
-Imponiendo que en flexión pura el esfuerzo axil resultante sobre la sección es nulo ($N = 0$):
+Imponiendo la condición de flexión pura, el esfuerzo axil resultante sobre la sección transversal debe ser idénticamente nulo ($N = 0$):
 \begin{equation}
-    N = \iint_{\Omega} \sigma_{nx} \, d\Omega = \iint_{\Omega} -\frac{E \cdot y}{\rho} \, d\Omega = -\frac{E}{\rho} \iint_{\Omega} y \, d\Omega = -\frac{E}{\rho} \cdot S_z = 0
+    N = \iint_{\Omega} \sigma_{nx} \, d\Omega = \iint_{\Omega} \left(-\frac{E \cdot y}{\rho}\right) d\Omega = 0
 \end{equation}
-Como la rigidez elástica $E$ y la curvatura $1/\rho$ no son nulas, se deduce que el momento estático respecto al eje neutro debe anularse:
+Dado que el módulo elástico del material $E$ y el radio de curvatura de la directriz deformada $\rho$ son constantes a lo largo de toda la sección $\Omega$, salen fuera de la integral de área:
 \begin{equation}
-    \mathbf{S_z = \iint_{\Omega} y \, d\Omega = 0 \implies \text{\textbf{El eje neutro ($z$) pasa obligatoriamente por el centro de gravedad $G$ de la sección.}}}
+    -\frac{E}{\rho} \iint_{\Omega} y \, d\Omega = 0 \implies \iint_{\Omega} y \, d\Omega = S_z = 0
 \end{equation}
+El momento estático de la sección respecto al eje neutro $z$ es nulo ($S_z = 0$). Por la definición y propiedades fundamentales del centro de gravedad de una superficie ($S_z = \Omega \cdot y_G = 0 \implies y_G = 0$), esto demuestra de forma directa que:
+\begin{tcolorbox}[colback=blue!4!white, colframe=myb!85!black, arc=3pt, boxrule=0.8pt]
+    \textbf{Propiedad Fundamental del Eje Neutro en Flexión Pura:}
+    \begin{equation}
+        \mathbf{S_z = \iint_{\Omega} y \, d\Omega = 0 \implies \text{\textbf{El eje neutro (fibra neutra) contiene obligatoriamente al centro de gravedad $G$ de la sección.}}}
+    \end{equation}
+    Cualquier eje neutro baricéntrico divide a la sección en dos zonas: las fibras situadas en $y > 0$ y las situadas en $y < 0$.
+\end{tcolorbox}
 
 \subsubsection{3. Relación Momento--Curvatura y Fórmula de Navier ($M_z \neq 0$)}
 
@@ -356,7 +364,15 @@ Se define el \textbf{Módulo Resistente elástico de la sección ($W_z$)} como e
 \end{equation}
 Sus unidades son de longitud al cubo ($\text{mm}^3$, $\text{cm}^3$ o $\text{m}^3$). En secciones simétricas respecto al eje $z$ ($h_1 = h_2 = h/2$), ambos módulos coinciden ($W_z = \frac{I_z}{h/2}$) y su valor se encuentra directamente tabulado en los prontuarios de perfiles metálicos laminados y conformados.
 
-\subsection{Eficiencia Estructural y Perfiles Más Usados en Edificación}
+\subsection{Eficiencia Estructural, Predimensionamiento y Perfiles Normalizados de Acero}
+
+En problemas de \textbf{comprobación}, la geometría de la sección es conocida (se conocen $I_z$ e $y_{\text{máx}}$) y el objetivo es calcular las tensiones para verificar $\sigma_{\text{máx}} \le \sigma_{\text{adm}}$.
+
+Por el contrario, en problemas de \textbf{dimensionamiento}, las dimensiones de la pieza son la incógnita: no se conoce a priori ni la inercia $I_z$ ni la distancia extrema $y_{\text{máx}}$. Por ello, se agrupan ambas variables geométricas en una sola mediante el módulo resistente $W_z = I_z / y_{\text{máx}}$:
+\begin{equation}
+    \sigma_{\text{máx}} = \frac{|M_{\text{máx}}|}{W_z} \le \sigma_{\text{adm}} \implies \mathbf{W_{z,\text{necesario}} \ge \frac{|M_{\text{máx}}|}{\sigma_{\text{adm}}}}
+\end{equation}
+Con este valor mínimo de $W_z$, se acude a las tablas normalizadas de perfiles de acero estructural (\textbf{IPN, IPE, HEB, UPN, L}) para seleccionar el perfil más ligero que satisfaga la condición. En dichas tablas vienen tabuladas directamente las dimensiones nominales ($h, b, t_w, t_f$), el área transversal $A$, los momentos de inercia ($I_y, I_z$), los módulos resistentes elásticos ($W_y, W_z$) y los radios de giro ($i_y, i_z$). Si el perfil comercial no alcanza la inercia requerida, se puede reforzar mediante platabandas o placas de acero soldadas en los extremos (alas).
 
 Dado que la tensión normal crece linealmente con la distancia $y$ al eje neutro ($\sigma \propto y$) y el momento de inercia crece con el cuadrado de dicha distancia ($I_z = \iint y^2 d\Omega$), el material situado cerca de la fibra neutra apenas aporta resistencia a flexión.
 

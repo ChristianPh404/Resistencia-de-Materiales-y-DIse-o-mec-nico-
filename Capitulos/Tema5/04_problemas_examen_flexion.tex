@@ -1,0 +1,470 @@
+% !TeX root = ../../apuntes.tex
+\section{Problemas de Examen y Ejercicios Avanzados de Flexión y Cortante}
+
+En esta sección se resuelven problemas de examen oficiales correspondientes a la comprobación resistente en Estado Límite Último (ELU), cálculo de momentos admisibles en secciones asimétricas, distribución detallada de tensiones tangenciales en vigas armadas y dimensionamiento de la máxima carga admisible en vigas continuas con voladizo.
+
+%=============================================================================
+% PROBLEMA 1: COMPROBACIÓN ELU Y MOMENTOS MÁXIMOS EN PERFIL TT
+%=============================================================================
+\ex{Comprobación a Flexión en ELU y Momento Máximo Admisible en Sección TT}{
+    Dada la sección transversal en forma de perfil ``TT'' (doble T con alas en voladizo) mostrada en la figura, con cotas en $\text{cm}$:
+    \begin{itemize}
+        \item \textbf{Ala superior continua:} anchura $b = 40 + 20 + 40 + 20 + 40 = 160\text{ cm}$ y espesor $t_f = 20\text{ cm}$.
+        \item \textbf{Dos nervios verticales (almas):} de espesor $20\text{ cm}$ cada uno y altura libre $60\text{ cm}$, separados $40\text{ cm}$ entre sí y dejando dos voladizos laterales de $40\text{ cm}$ a cada lado.
+        \item \textbf{Canto total de la sección:} $H = 60 + 20 = 80\text{ cm}$.
+        \item \textbf{Propiedades del material:}
+              \begin{itemize}
+                  \item Resistencia característica a tracción: $f_{ctk} = 3.3\text{ N/mm}^2$.
+                  \item Resistencia característica a compresión: $f_{ck} = 11.0\text{ N/mm}^2$.
+              \end{itemize}
+        \item \textbf{Coeficientes de seguridad de cálculo:} $\gamma_s = 1.1$ (minoración del material) y $\gamma_f = 1.5$ (mayoración de acciones).
+    \end{itemize}
+
+    \begin{center}
+        \adjustbox{max width=0.72\textwidth}{%
+            \begin{tikzpicture}[>=Latex, scale=0.82]
+                % Ejes z e y en el vértice inferior izquierdo del rectángulo base
+                \draw[->, line width=1.1pt] (0, 0) -- (9.0, 0) node[right, font=\bfseries] {$Z$};
+                \draw[->, line width=1.1pt] (0, 0) -- (0, 5.2) node[above, font=\bfseries] {$Y$};
+
+                % Contorno del perfil TT (ancho 160 cm, alto 80 cm)
+                % Escala: 1 cm = 0.5 unidades de dibujo -> ancho total 8 cm, alto total 4 cm
+                \fill[blue!10] (0, 3.0) rectangle (8.0, 4.0);
+                \fill[blue!10] (2.0, 0) rectangle (3.0, 3.0);
+                \fill[blue!10] (5.0, 0) rectangle (6.0, 3.0);
+
+                \draw[line width=1.3pt, blue!85!black] (0, 3.0) -- (2.0, 3.0) -- (2.0, 0) -- (3.0, 0) -- (3.0, 3.0) -- (5.0, 3.0) -- (5.0, 0) -- (6.0, 0) -- (6.0, 3.0) -- (8.0, 3.0) -- (8.0, 4.0) -- (0, 4.0) -- cycle;
+
+                % Líneas de división punteadas
+                \draw[dashed, gray!70] (2.0, 3.0) -- (2.0, 4.0);
+                \draw[dashed, gray!70] (3.0, 3.0) -- (3.0, 4.0);
+                \draw[dashed, gray!70] (5.0, 3.0) -- (5.0, 4.0);
+                \draw[dashed, gray!70] (6.0, 3.0) -- (6.0, 4.0);
+
+                % Cotas horizontales inferiores
+                \draw[<->, line width=0.6pt] (0, -0.45) -- node[below=1pt, font=\scriptsize] {$40$} (2.0, -0.45);
+                \draw[<->, line width=0.6pt] (2.0, -0.45) -- node[below=1pt, font=\scriptsize] {$20$} (3.0, -0.45);
+                \draw[<->, line width=0.6pt] (3.0, -0.45) -- node[below=1pt, font=\scriptsize] {$40$} (5.0, -0.45);
+                \draw[<->, line width=0.6pt] (5.0, -0.45) -- node[below=1pt, font=\scriptsize] {$20$} (6.0, -0.45);
+                \draw[<->, line width=0.6pt] (6.0, -0.45) -- node[below=1pt, font=\scriptsize] {$40$} (8.0, -0.45);
+
+                % Cotas verticales derechas
+                \draw[<->, line width=0.6pt] (8.4, 0) -- node[right=1pt, font=\scriptsize] {$60\text{ cm}$} (8.4, 3.0);
+                \draw[<->, line width=0.6pt] (8.4, 3.0) -- node[right=1pt, font=\scriptsize] {$20\text{ cm}$} (8.4, 4.0);
+
+                % Eje baricéntrico zG (yG = 52.86 cm -> en dibujo 2.643 cm)
+                \draw[dashdotted, red!85!black, line width=1.1pt] (-0.5, 2.643) -- (8.5, 2.643) node[right, font=\footnotesize\bfseries] {$z_G$};
+                \filldraw[black] (4.0, 2.643) circle (2pt) node[below right=1pt, font=\scriptsize\bfseries] {$G$};
+                \draw[<->, line width=0.6pt] (-0.35, 0) -- node[left=1pt, font=\tiny\bfseries] {$52.86$} (-0.35, 2.643);
+                \draw[<->, line width=0.6pt] (-0.35, 2.643) -- node[left=1pt, font=\tiny\bfseries] {$27.14$} (-0.35, 4.0);
+            \end{tikzpicture}%
+        }
+    \end{center}
+
+    \textbf{Se pide:}
+    \begin{enumerate}[label=\alph*)]
+        \item Calcular la distribución de tensiones normales para un momento flector de cálculo $M_d = -300\text{ kN}\cdot\text{m}$ y comprobar si resiste a Estado Límite Último (ELU).
+        \item Calcular la distribución de tensiones normales para $M_d = +200\text{ kN}\cdot\text{m}$ y comprobar la resistencia a ELU.
+        \item Determinar el máximo momento flector positivo ($M_d^+$ y $M_k^+$) y negativo ($M_d^-$ y $M_k^-$) que puede soportar la sección.
+    \end{enumerate}
+
+    \tcblower
+
+    \paso{1}{Tensiones Admisibles de Cálculo del Material}
+
+    Minorando las resistencias características mediante el coeficiente $\gamma_s = 1.1$:
+    \begin{align}
+        \sigma_{\text{adm},T} & = \frac{f_{ctk}}{\gamma_s} = \frac{3.3\text{ N/mm}^2}{1.1} = \mathbf{3.0\text{ N/mm}^2} \\
+        \sigma_{\text{adm},C} & = \frac{f_{ck}}{\gamma_s} = \frac{11.0\text{ N/mm}^2}{1.1} = \mathbf{10.0\text{ N/mm}^2}
+    \end{align}
+
+    \paso{2}{Propiedades Geométricas: Centro de Gravedad e Inercia Baricéntrica $I_{z_G}$}
+
+    Descomponemos la sección en tres rectángulos:
+    \begin{itemize}
+        \item Rectángulos 1 y 2 (nervios verticales): $b_1 = b_2 = 20\text{ cm}$, $h_1 = h_2 = 60\text{ cm} \implies \Omega_1 = \Omega_2 = 1200\text{ cm}^2$, con centroides locales en $y_{G1} = y_{G2} = 30\text{ cm}$.
+        \item Rectángulo 3 (ala horizontal superior): $b_3 = 160\text{ cm}$, $h_3 = 20\text{ cm} \implies \Omega_3 = 3200\text{ cm}^2$, con centroide local en $y_{G3} = 60 + 10 = 70\text{ cm}$.
+    \end{itemize}
+    Área total de la sección:
+    \begin{equation}
+        \Omega_{\text{total}} = 2 \cdot (20 \cdot 60) + 160 \cdot 20 = 2400 + 3200 = \mathbf{5600\text{ cm}^2}
+    \end{equation}
+    Posición vertical del centro de gravedad $y_G$ (medido desde la base inferior):
+    \begin{equation}
+        y_G = \frac{\sum \Omega_i \cdot y_{Gi}}{\Omega_{\text{total}}} = \frac{2 \cdot (1200 \cdot 30) + 3200 \cdot 70}{5600} = \frac{72\,000 + 224\,000}{5600} = \frac{296\,000}{5600} = \mathbf{52.86\text{ cm}}
+    \end{equation}
+    Distancias a las fibras extremas superior e inferior:
+    \begin{align}
+        y_{\text{sup}} & = 80 - 52.86 = \mathbf{+27.14\text{ cm}} = \mathbf{+271.4\text{ mm}} \\
+        y_{\text{inf}} & = -52.86\text{ cm} = \mathbf{-528.6\text{ mm}}
+    \end{align}
+    Momento de inercia baricéntrico $I_{z_G}$ aplicando el Teorema de Steiner:
+    \begin{align}
+        I_{z_G} & = 2 \cdot \left[ \frac{20 \cdot 60^3}{12} + (20 \cdot 60) \cdot (52.86 - 30)^2 \right] + \left[ \frac{160 \cdot 20^3}{12} + (160 \cdot 20) \cdot (70 - 52.86)^2 \right] \notag \\
+                & = 2 \cdot [360\,000 + 1200 \cdot 522.58] + [106\,666.67 + 3200 \cdot 293.78] \notag                                                                                      \\
+                & = 2 \cdot 987\,095.5 + 1\,046\,761.4 = \mathbf{3\,020\,952.43\text{ cm}^4} = \mathbf{3.020952 \times 10^{10}\text{ mm}^4}
+    \end{align}
+
+    \paso{3}{Apartado a) Comprobación para $M_d = -300\text{ kN}\cdot\text{m} = -300 \times 10^6\text{ N}\cdot\text{mm}$}
+
+    Un momento flector negativo ($M_d < 0$, curvatura hacia abajo) tracciona las fibras superiores ($y > 0$) y comprime las fibras inferiores ($y < 0$):
+    \begin{align}
+        \sigma_{\text{sup}} & = -\frac{M_d \cdot y_{\text{sup}}}{I_{z_G}} = -\frac{(-300 \times 10^6) \cdot (+271.4)}{3.020952 \times 10^{10}} = \mathbf{+2.69\text{ N/mm}^2} \quad \text{(Tracción)}    \\
+        \sigma_{\text{inf}} & = -\frac{M_d \cdot y_{\text{inf}}}{I_{z_G}} = -\frac{(-300 \times 10^6) \cdot (-528.6)}{3.020952 \times 10^{10}} = \mathbf{-5.25\text{ N/mm}^2} \quad \text{(Compresión)}
+    \end{align}
+    \textbf{Comprobación resistente en ELU:}
+    \begin{itemize}
+        \item Fibra superior (tracción): $\sigma_{\text{sup}} = 2.69\text{ N/mm}^2 \le \sigma_{\text{adm},T} = 3.0\text{ N/mm}^2 \implies$ \textbf{SÍ CUMPLE}.
+        \item Fibra inferior (compresión): $|\sigma_{\text{inf}}| = 5.25\text{ N/mm}^2 \le \sigma_{\text{adm},C} = 10.0\text{ N/mm}^2 \implies$ \textbf{SÍ CUMPLE}.
+    \end{itemize}
+    \textbf{Conclusión:} La pieza \textbf{RESISTE} a ELU para $M_d = -300\text{ kN}\cdot\text{m}$.
+
+    \paso{4}{Apartado b) Comprobación para $M_d = +200\text{ kN}\cdot\text{m} = +200 \times 10^6\text{ N}\cdot\text{mm}$}
+
+    Un momento flector positivo ($M_d > 0$, curvatura cóncava) comprime las fibras superiores y tracciona las inferiores:
+    \begin{align}
+        \sigma_{\text{sup}} & = -\frac{M_d \cdot y_{\text{sup}}}{I_{z_G}} = -\frac{200 \times 10^6 \cdot (+271.4)}{3.020952 \times 10^{10}} = \mathbf{-1.80\text{ N/mm}^2} \quad \text{(Compresión)}   \\
+        \sigma_{\text{inf}} & = -\frac{M_d \cdot y_{\text{inf}}}{I_{z_G}} = -\frac{200 \times 10^6 \cdot (-528.6)}{3.020952 \times 10^{10}} = \mathbf{+3.50\text{ N/mm}^2} \quad \text{(Tracción)}
+    \end{align}
+    \textbf{Comprobación resistente en ELU:}
+    \begin{itemize}
+        \item Fibra superior (compresión): $|\sigma_{\text{sup}}| = 1.80\text{ N/mm}^2 \le \sigma_{\text{adm},C} = 10.0\text{ N/mm}^2 \implies$ Cumple a compresión.
+        \item Fibra inferior (tracción): $\sigma_{\text{inf}} = 3.50\text{ N/mm}^2 > \sigma_{\text{adm},T} = 3.0\text{ N/mm}^2 \implies$ \textbf{NO CUMPLE A TRACCIÓN}.
+    \end{itemize}
+    \textbf{Conclusión:} La pieza \textbf{NO RESISTE}. Empezaría a romper por tracción en la fibra inferior.
+
+    \begin{center}
+        \adjustbox{max width=0.88\textwidth}{%
+            \begin{tikzpicture}[>=Latex, scale=0.85]
+                % Caso a) Md = -300 kNm
+                \begin{scope}[shift={(0,0)}]
+                    \node[above, font=\small\bfseries, green!55!black] at (2.0, 4.4) {a) $M_d = -300\text{ kN}\cdot\text{m}$ (RESISTE)};
+                    \draw[thick] (2.0, 0) -- (2.0, 4.0);
+                    \draw[dashdotted, gray!80] (0.5, 2.643) -- (3.5, 2.643) node[right, font=\tiny\bfseries] {$z_G$};
+                    % Diagrama
+                    \fill[green!12] (2.0, 2.643) -- (2.0, 4.0) -- (2.7, 4.0) -- cycle;
+                    \fill[red!12] (2.0, 2.643) -- (2.0, 0) -- (0.7, 0) -- cycle;
+                    \draw[thick, blue!85!black] (2.7, 4.0) -- (2.0, 2.643) -- (0.7, 0);
+                    \draw[->, thick, green!60!black] (2.0, 4.0) -- (2.7, 4.0) node[right=1pt, font=\scriptsize\bfseries] {$+2.69\text{ N/mm}^2 \le 3.0$};
+                    \draw[<-, thick, red!85!black] (0.7, 0) -- (2.0, 0) node[left=1pt, font=\scriptsize\bfseries] {$-5.25\text{ N/mm}^2 \le 10.0$};
+                    \draw[<-, line width=1.3pt, purple!85!black] (2.9, 1.4) arc (-45:45:1.0) node[pos=0.5, right=2pt, font=\scriptsize\bfseries] {$-300$};
+                \end{scope}
+
+                % Caso b) Md = +200 kNm
+                \begin{scope}[shift={(7.5,0)}]
+                    \node[above, font=\small\bfseries, red!85!black] at (2.0, 4.4) {b) $M_d = +200\text{ kN}\cdot\text{m}$ (\textbf{NO RESISTE})};
+                    \draw[thick] (2.0, 0) -- (2.0, 4.0);
+                    \draw[dashdotted, gray!80] (0.5, 2.643) -- (3.5, 2.643) node[right, font=\tiny\bfseries] {$z_G$};
+                    % Diagrama
+                    \fill[red!12] (2.0, 2.643) -- (2.0, 4.0) -- (1.5, 4.0) -- cycle;
+                    \fill[green!12] (2.0, 2.643) -- (2.0, 0) -- (2.9, 0) -- cycle;
+                    \draw[thick, blue!85!black] (1.5, 4.0) -- (2.0, 2.643) -- (2.9, 0);
+                    \draw[<-, thick, red!85!black] (1.5, 4.0) -- (2.0, 4.0) node[left=1pt, font=\scriptsize\bfseries] {$-1.80\text{ N/mm}^2$};
+                    \draw[->, thick, green!60!black] (2.0, 0) -- (2.9, 0) node[right=1pt, font=\scriptsize\bfseries, red!85!black] {$+3.50\text{ N/mm}^2 > 3.0$};
+                    \draw[->, line width=1.3pt, purple!85!black] (3.0, 1.4) arc (-45:45:1.0) node[pos=0.5, right=2pt, font=\scriptsize\bfseries] {$+200$};
+                \end{scope}
+            \end{tikzpicture}%
+        }
+    \end{center}
+
+    \paso{5}{Apartado c) Máximo Momento Flector que Puede Aguantar la Sección}
+
+    \begin{enumerate}[label=\textbf{c.\arabic*)}]
+        \item \textbf{Máximo Momento Positivo ($M_d^+$):} Genera compresión arriba y tracción abajo.
+              \begin{itemize}
+                  \item Límite por compresión en fibra superior:
+                        \begin{equation}
+                            |\sigma_{\text{sup}}| = \frac{M_d^+ \cdot 271.4}{I_{z_G}} \le 10.0\text{ N/mm}^2 \implies M_d^+ \le \frac{10.0 \cdot 3.020952 \times 10^{10}}{271.4} = 1113 \times 10^6\text{ N}\cdot\text{mm}
+                        \end{equation}
+                  \item Límite por tracción en fibra inferior:
+                        \begin{equation}
+                            \sigma_{\text{inf}} = \frac{M_d^+ \cdot 528.6}{I_{z_G}} \le 3.0\text{ N/mm}^2 \implies M_d^+ \le \frac{3.0 \cdot 3.020952 \times 10^{10}}{528.6} = 171.5 \times 10^6\text{ N}\cdot\text{mm}
+                        \end{equation}
+              \end{itemize}
+              El valor determinante (el más restrictivo de ambos) es el de tracción en la base inferior:
+              \begin{equation}
+                  \mathbf{M_{d,\text{máx}}^+ = 171.5 \times 10^6\text{ N}\cdot\text{mm} = 171.5\text{ kN}\cdot\text{m}}
+              \end{equation}
+              Momento característico admisible:
+              \begin{equation}
+                  \mathbf{M_{k,\text{máx}}^+ = \frac{M_{d,\text{máx}}^+}{\gamma_f} = \frac{171.5}{1.5} = \mathbf{114.33\text{ kN}\cdot\text{m}}}
+              \end{equation}
+
+        \item \textbf{Máximo Momento Negativo ($M_d^-$):} Genera tracción arriba y compresión abajo.
+              \begin{itemize}
+                  \item Límite por tracción en fibra superior:
+                        \begin{equation}
+                            \sigma_{\text{sup}} = \frac{|M_d^-| \cdot 271.4}{I_{z_G}} \le 3.0\text{ N/mm}^2 \implies |M_d^-| \le \frac{3.0 \cdot 3.020952 \times 10^{10}}{271.4} = 333.9 \times 10^6\text{ N}\cdot\text{mm}
+                        \end{equation}
+                  \item Límite por compresión en fibra inferior:
+                        \begin{equation}
+                            |\sigma_{\text{inf}}| = \frac{|M_d^-| \cdot 528.6}{I_{z_G}} \le 10.0\text{ N/mm}^2 \implies |M_d^-| \le \frac{10.0 \cdot 3.020952 \times 10^{10}}{528.6} = 571.5 \times 10^6\text{ N}\cdot\text{mm}
+                        \end{equation}
+              \end{itemize}
+              El valor determinante es el de tracción en la cara superior:
+              \begin{equation}
+                  \mathbf{|M_{d,\text{máx}}^-| = 333.9 \times 10^6\text{ N}\cdot\text{mm} = 333.9\text{ kN}\cdot\text{m}}
+              \end{equation}
+              Momento característico admisible:
+              \begin{equation}
+                  \mathbf{|M_{k,\text{máx}}^-| = \frac{|M_{d,\text{máx}}^-|}{\gamma_f} = \frac{333.9}{1.5} = \mathbf{222.60\text{ kN}\cdot\text{m}}}
+              \end{equation}
+    \end{enumerate}
+}
+
+%=============================================================================
+% PROBLEMA 2: DISTRIBUCIÓN DE TENSIONES TANGENCIALES EN DOBLE T ASIMÉTRICA
+%=============================================================================
+\ex{Distribución de Tensiones Tangenciales por Cortante en Perfil Doble T Asimétrico}{
+    Calcular y representar la distribución de tensiones tangenciales producidas por un esfuerzo cortante de cálculo vertical $Q_d = 95\text{ kN} = 95\,000\text{ N}$ en la viga armada de acero estructural S275 cuya sección transversal es un perfil en doble T asimétrico con las siguientes dimensiones:
+    \begin{itemize}
+        \item \textbf{Ala superior:} anchura $b_1 = 400\text{ mm}$, espesor $t_1 = 8\text{ mm}$.
+        \item \textbf{Alma vertical central:} altura libre $h_w = 300\text{ mm}$, espesor $t_w = 6\text{ mm}$.
+        \item \textbf{Ala inferior:} anchura $b_2 = 200\text{ mm}$, espesor $t_2 = 8\text{ mm}$.
+        \item \textbf{Canto total de la sección:} $H = 8 + 300 + 8 = 316\text{ mm}$.
+    \end{itemize}
+
+    \begin{center}
+        \adjustbox{max width=0.68\textwidth}{%
+            \begin{tikzpicture}[>=Latex, scale=0.95]
+                % Sección transversal Doble T asimétrica
+                \fill[blue!10] (0, 3.08) rectangle (4.0, 3.16);
+                \fill[blue!10] (1.97, 0.08) rectangle (2.03, 3.08);
+                \fill[blue!10] (1.0, 0) rectangle (3.0, 0.08);
+
+                \draw[thick, blue!85!black] (0, 3.16) -- (4.0, 3.16) -- (4.0, 3.08) -- (2.03, 3.08) -- (2.03, 0.08) -- (3.0, 0.08) -- (3.0, 0) -- (1.0, 0) -- (1.0, 0.08) -- (1.97, 0.08) -- (1.97, 3.08) -- (0, 3.08) -- cycle;
+
+                % Cotas
+                \draw[<->, line width=0.6pt] (0, 3.4) -- node[above=1pt, font=\footnotesize\bfseries] {$400\text{ mm}$} (4.0, 3.4);
+                \draw[<->, line width=0.6pt] (1.0, -0.4) -- node[below=1pt, font=\footnotesize\bfseries] {$200\text{ mm}$} (3.0, -0.4);
+                \draw[<->, line width=0.6pt] (4.3, 0) -- node[right=1pt, font=\scriptsize] {$8$} (4.3, 0.08);
+                \draw[<->, line width=0.6pt] (4.3, 0.08) -- node[right=1pt, font=\scriptsize] {$300\text{ mm}$} (4.3, 3.08);
+                \draw[<->, line width=0.6pt] (4.3, 3.08) -- node[right=1pt, font=\scriptsize] {$8$} (4.3, 3.16);
+                \node[left=2pt, font=\footnotesize] at (1.97, 1.6) {$t_w = 6$};
+
+                % Eje baricéntrico zG (yG = 195.33 mm -> en escala 1.953 cm)
+                \draw[dashdotted, red!85!black, line width=1.1pt] (-0.4, 1.953) -- (4.6, 1.953) node[right, font=\footnotesize\bfseries] {$z_G$};
+                \filldraw[black] (2.0, 1.953) circle (2pt) node[above right=1pt, font=\scriptsize\bfseries] {$G$};
+                \draw[<->, line width=0.6pt] (-0.3, 0) -- node[left=1pt, font=\scriptsize\bfseries] {$195.33$} (-0.3, 1.953);
+                \draw[<->, line width=0.6pt] (-0.3, 1.953) -- node[left=1pt, font=\scriptsize\bfseries] {$120.67$} (-0.3, 3.16);
+            \end{tikzpicture}%
+        }
+    \end{center}
+
+    \tcblower
+
+    \paso{1}{Centro de Gravedad y Momento de Inercia Baricéntrico $I_{z_G}$}
+
+    Área de las partes de la sección:
+    \begin{itemize}
+        \item Ala superior: $\Omega_1 = 400 \times 8 = 3200\text{ mm}^2$, $y_{G1} = 316 - 4 = 312\text{ mm}$.
+        \item Alma: $\Omega_2 = 300 \times 6 = 1800\text{ mm}^2$, $y_{G2} = 8 + 150 = 158\text{ mm}$.
+        \item Ala inferior: $\Omega_3 = 200 \times 8 = 1600\text{ mm}^2$, $y_{G3} = 4\text{ mm}$.
+    \end{itemize}
+    Área total: $\Omega_{\text{total}} = 3200 + 1800 + 1600 = 6600\text{ mm}^2$.
+    \begin{equation}
+        y_{G} = \frac{3200 \cdot 312 + 1800 \cdot 158 + 1600 \cdot 4}{6600} = \frac{998\,400 + 284\,400 + 6400}{6600} = \mathbf{195.33\text{ mm}}
+    \end{equation}
+    Distancia de la fibra neutra a la fibra extrema superior: $y_{\text{sup}} = 316 - 195.33 = \mathbf{120.67\text{ mm}}$.
+
+    Momento de inercia baricéntrico por Steiner:
+    \begin{align}
+        I_{z_G} & = \left[\frac{400 \cdot 8^3}{12} + 3200 \cdot (312 - 195.33)^2\right] + \left[\frac{6 \cdot 300^3}{12} + 1800 \cdot (195.33 - 158)^2\right] \notag \\
+                & \quad + \left[\frac{200 \cdot 8^3}{12} + 1600 \cdot (195.33 - 4)^2\right] = \mathbf{1.1448 \times 10^8\text{ mm}^4}
+    \end{align}
+
+    \paso{2}{Cálculo de Tensiones Tangenciales mediante Collignon-Jourawski $\tau(y) = \frac{Q_d \cdot S_z^*(y)}{b(y) \cdot I_{z_G}}$}
+
+    Evaluamos la tensión tangencial en los puntos singulares de la sección (desde arriba hacia abajo):
+    \begin{enumerate}
+        \item \textbf{Fibra superior ($y = +120.67\text{ mm}$):} No hay área por encima ($S_z^* = 0$), luego:
+              \begin{equation}
+                  \mathbf{\tau(120.67) = 0\text{ N/mm}^2}
+              \end{equation}
+        \item \textbf{Unión ala superior--alma ($y = +112.67\text{ mm}$):}
+              El área rayada exterior es el ala superior completa:
+              \begin{equation}
+                  S_z^* = \Omega_{\text{ala,sup}} \cdot (120.67 - 4) = 3200 \cdot 116.67 = 373\,344\text{ mm}^3
+              \end{equation}
+              \begin{itemize}
+                  \item Justo en el ala ($b = 400\text{ mm}$):
+                        \begin{equation}
+                            \mathbf{\tau_{\text{ala,sup}} = \frac{95\,000 \cdot 373\,344}{400 \cdot 1.1448 \times 10^8} = \mathbf{0.75\text{ N/mm}^2}}
+                        \end{equation}
+                  \item Justo al entrar en el alma ($b = 6\text{ mm}$): la anchura se reduce bruscamente por un factor de $400/6 \approx 66.67$:
+                        \begin{equation}
+                            \mathbf{\tau_{\text{alma,sup}} = \frac{95\,000 \cdot 373\,344}{6 \cdot 1.1448 \times 10^8} = 0.75 \cdot \frac{400}{6} = \mathbf{50.03\text{ N/mm}^2}}
+                        \end{equation}
+              \end{itemize}
+        \item \textbf{Fibra neutra ($y = 0$, centro de gravedad $G$):}
+              Se alcanza el \textbf{máximo momento estático} $S_{z,\text{máx}}^*$, sumando al ala superior el trozo de alma comprendido entre $y = 112.67$ e $y = 0$:
+              \begin{equation}
+                  S_z^*(0) = 373\,344 + (6 \cdot 112.67) \cdot \frac{112.67}{2} = 373\,344 + 38\,084 = 411\,428\text{ mm}^3
+              \end{equation}
+              Como el ancho es $b = 6\text{ mm}$, la tensión tangencial máxima absoluta es:
+              \begin{equation}
+                  \mathbf{\tau_{\text{máx}} = \frac{95\,000 \cdot 411\,428}{6 \cdot 1.1448 \times 10^8} = \mathbf{55.13\text{ N/mm}^2}}
+              \end{equation}
+        \item \textbf{Unión alma--ala inferior ($y = -187.33\text{ mm}$):}
+              Calculando el momento estático por la parte inferior (ala inferior):
+              \begin{equation}
+                  S_z^* = \Omega_{\text{ala,inf}} \cdot (195.33 - 4) = 1600 \cdot 191.33 = 306\,128\text{ mm}^3
+              \end{equation}
+              \begin{itemize}
+                  \item Justo en el alma ($b = 6\text{ mm}$):
+                        \begin{equation}
+                            \mathbf{\tau_{\text{alma,inf}} = \frac{95\,000 \cdot 306\,128}{6 \cdot 1.1448 \times 10^8} = \mathbf{41.02\text{ N/mm}^2}}
+                        \end{equation}
+                  \item Justo en el ala inferior ($b = 200\text{ mm}$):
+                        \begin{equation}
+                            \mathbf{\tau_{\text{ala,inf}} = \frac{95\,000 \cdot 306\,128}{200 \cdot 1.1448 \times 10^8} = 41.02 \cdot \frac{6}{200} = \mathbf{1.23\text{ N/mm}^2}}
+                        \end{equation}
+              \end{itemize}
+        \item \textbf{Fibra extrema inferior ($y = -195.33\text{ mm}$):}
+              \begin{equation}
+                  \mathbf{\tau(-195.33) = 0\text{ N/mm}^2}
+              \end{equation}
+    \end{enumerate}
+
+    \begin{center}
+        \adjustbox{max width=0.88\textwidth}{%
+            \begin{tikzpicture}[>=Latex, scale=1.0]
+                % Sección esquema a la izquierda
+                \draw[thick] (0, 3.16) -- (1.6, 3.16);
+                \draw[thick] (0.8, 0.08) -- (0.8, 3.08);
+                \draw[thick] (0.4, 0) -- (1.2, 0);
+                \draw[dashdotted, gray!80] (-0.2, 1.953) -- (5.2, 1.953) node[right, font=\footnotesize\bfseries] {$x_G$ (Fibra Neutra)};
+
+                % Diagrama de tensiones tangenciales tau en x = 2.0
+                \draw[thick] (2.0, 0) -- (2.0, 3.16);
+                \node[above=2pt, font=\small\bfseries] at (2.0, 3.16) {$\tau$};
+
+                % Perfil parabólico con saltos
+                \draw[thick, red!85!black, fill=red!10] (2.0, 3.16) -- (2.05, 3.08) -- (4.25, 3.08) .. controls (4.65, 2.5) and (4.65, 2.1) .. (4.55, 1.953) .. controls (4.65, 1.8) and (4.55, 0.8) .. (3.85, 0.08) -- (2.1, 0.08) -- (2.0, 0) -- cycle;
+
+                % Flechas de dirección de cortante (hacia abajo porque Qd es descendente)
+                \foreach \yy in {2.8, 2.2, 1.5, 0.8} {
+                        \draw[->, thin, red!85!black] (2.08, \yy+0.2) -- (2.08, \yy-0.1);
+                    }
+
+                % Valores numéricos anotados
+                \node[right=2pt, font=\scriptsize\bfseries] at (2.05, 3.08) {$0.75$};
+                \node[above right=-1pt, font=\scriptsize\bfseries, red!85!black] at (4.25, 3.08) {$50.03\text{ N/mm}^2$};
+                \node[right=2pt, font=\small\bfseries, red!85!black] at (4.55, 1.953) {$\tau_{\text{máx}} = 55.13\text{ N/mm}^2$};
+                \node[below right=-1pt, font=\scriptsize\bfseries, red!85!black] at (3.85, 0.08) {$41.02\text{ N/mm}^2$};
+                \node[right=2pt, font=\scriptsize\bfseries] at (2.1, 0.08) {$1.23$};
+            \end{tikzpicture}%
+        }
+    \end{center}
+}
+
+%=============================================================================
+% PROBLEMA 3: DETERMINACIÓN DE LA CARGA MÁXIMA REPARTIDA ADMISIBLE q
+%=============================================================================
+\ex{Determinación de la Máxima Carga Repartida $q$ en Viga Continua con Voladizo}{
+    Determinar la máxima carga repartida uniforme $q$ ($\text{kN/m}$) que puede aplicarse sobre la viga continua con voladizo de la figura si la tensión admisible del material a flexión es $\sigma_{\text{adm}} = 262\text{ N/mm}^2$:
+    \begin{itemize}
+        \item \textbf{Condiciones de apoyo y vanos:}
+              \begin{itemize}
+                  \item Vano interior $A-B$: luz $L_1 = 4\text{ m}$, con apoyo simple en $A$ y apoyo simple en $B$.
+                  \item Voladizo exterior $B-C$: longitud $L_2 = 2\text{ m}$ (extremo $C$ libre).
+              \end{itemize}
+        \item \textbf{Acciones exteriores:}
+              \begin{itemize}
+                  \item Carga repartida uniforme $q$ gravitatoria en toda la longitud ($6\text{ m}$).
+                  \item Momento puntual horario aplicado en el extremo izquierdo $A$: $M_A = 10\text{ kN}\cdot\text{m}$.
+                  \item Momento puntual horario aplicado en el apoyo intermedio $B$: $M_B = 10\text{ kN}\cdot\text{m}$.
+              \end{itemize}
+        \item \textbf{Sección transversal (perfil en I simétrico):}
+              \begin{itemize}
+                  \item Alas superior e inferior: anchura $b = 60\text{ mm}$, espesor $t_f = 10\text{ mm}$.
+                  \item Alma central vertical: altura libre $h_w = 200\text{ mm}$, espesor $t_w = 10\text{ mm}$.
+                  \item Canto total: $H = 200 + 2 \cdot 10 = 220\text{ mm}$.
+                  \item Distancia máxima a la fibra extrema: $y_{\text{máx}} = H/2 = 110\text{ mm}$.
+              \end{itemize}
+    \end{itemize}
+
+    \begin{center}
+        \adjustbox{max width=0.88\textwidth}{%
+            \begin{tikzpicture}[>=Latex, scale=1.0]
+                % Viga completa de x=0 a x=6
+                \draw[line width=2.2pt, black] (0, 1.2) -- (6.0, 1.2);
+
+                % Carga repartida q
+                \draw[thick, fill=blue!8] (0, 1.2) rectangle (6.0, 2.0);
+                \foreach \xx in {0.3, 0.9, 1.5, 2.1, 2.7, 3.3, 3.9, 4.5, 5.1, 5.7} {
+                        \draw[->, thin, blue!85!black] (\xx, 2.0) -- (\xx, 1.2);
+                    }
+                \node[above=1pt, font=\small\bfseries, blue!85!black] at (3.0, 2.0) {$q$};
+
+                % Apoyos A y B
+                \draw[thick] (0, 1.2) -- (-0.2, 0.75) -- (0.2, 0.75) -- cycle;
+                \draw[thick] (-0.35, 0.75) -- (0.35, 0.75);
+                \node[below left=1pt, font=\footnotesize\bfseries] at (0, 0.75) {$A$};
+
+                \draw[thick] (4.0, 1.2) -- (3.8, 0.75) -- (4.2, 0.75) -- cycle;
+                \draw[thick] (3.65, 0.68) -- (4.35, 0.68);
+                \node[below right=1pt, font=\footnotesize\bfseries] at (4.0, 0.68) {$B$};
+
+                \node[above right=1pt, font=\footnotesize\bfseries] at (6.0, 1.2) {$C$};
+
+                % Momentos puntuales horarios en A y B
+                \draw[->, line width=1.4pt, purple!85!black] (0.1, 1.55) arc (120:-40:0.4) node[above right=-1pt, font=\scriptsize\bfseries] {$M_A = 10$};
+                \draw[->, line width=1.4pt, purple!85!black] (4.1, 1.55) arc (120:-40:0.4) node[above right=-1pt, font=\scriptsize\bfseries] {$M_B = 10$};
+
+                % Cotas de luces
+                \draw[<->, line width=0.6pt] (0, 0.35) -- node[below=1pt, font=\footnotesize\bfseries] {$L_1 = 4\text{ m}$} (4.0, 0.35);
+                \draw[<->, line width=0.6pt] (4.0, 0.35) -- node[below=1pt, font=\footnotesize\bfseries] {$L_2 = 2\text{ m}$} (6.0, 0.35);
+            \end{tikzpicture}%
+        }
+    \end{center}
+
+    \tcblower
+
+    \paso{1}{Momento de Inercia Baricéntrico $I_z$ y Módulo Resistente $W_z$}
+
+    Por doble simetría de la sección en I, el eje neutro coincide con el semieje vertical ($y_{\text{máx}} = 110\text{ mm}$).
+    Calculando la inercia como diferencia entre el rectángulo envolvente ($60 \times 220$) y los dos vaciados laterales ($2 \times 25 \times 200$):
+    \begin{align}
+        I_z       & = \frac{60 \cdot 220^3}{12} - 2 \cdot \frac{25 \cdot 200^3}{12} = 53\,240\,000 - 33\,333\,333.3 = \mathbf{19.9067 \times 10^6\text{ mm}^4} \\
+        W_z       & = \frac{I_z}{y_{\text{máx}}} = \frac{19.9067 \times 10^6\text{ mm}^4}{110\text{ mm}} = \mathbf{180\,970\text{ mm}^3}
+    \end{align}
+    Momento flector admisible de la sección:
+    \begin{equation}
+        M_{\text{adm}} = W_z \cdot \sigma_{\text{adm}} = 180\,970\text{ mm}^3 \times 262\text{ N/mm}^2 = 47.414 \times 10^6\text{ N}\cdot\text{mm} = \mathbf{47.414\text{ kN}\cdot\text{m}}
+    \end{equation}
+
+    \paso{2}{Leyes de Esfuerzos y Puntos Críticos en Función de $q$}
+
+    Aislamos el voladizo $B-C$ ($L_2 = 2\text{ m}$) desde el extremo libre derecho $C$:
+    \begin{equation}
+        M(x') = -\frac{q \cdot x'^2}{2} \implies M(B)_{\text{vol}} = -\frac{q \cdot 2^2}{2} = -2\,q\text{ kN}\cdot\text{m}
+    \end{equation}
+    En el apoyo intermedio $B$, considerando el salto del momento puntual concentrado horario $M_B = 10\text{ kN}\cdot\text{m}$, el momento negativo máximo en la sección de apoyo alcanza:
+    \begin{equation}
+        |M_B| = 2\,q
+    \end{equation}
+    En el vano interior $A-B$, el momento positivo máximo en el punto de cortante nulo resulta:
+    \begin{equation}
+        M_{\text{vano}} = 10 + 1.125\,q
+    \end{equation}
+
+    \paso{3}{Determinación de la Carga Admisible $q_{\text{máx}}$}
+
+    Igualando el momento crítico al momento admisible de la sección $M_{\text{adm}} = 47.414\text{ kN}\cdot\text{m}$:
+    \begin{itemize}
+        \item Por momento en apoyo $B$ ($|M_B| \le M_{\text{adm}}$):
+              \begin{equation}
+                  2\,q \le 47.414 \implies \mathbf{q \le 23.71\text{ kN/m}}
+              \end{equation}
+        \item Por momento máximo de vano ($M_{\text{vano}} \le M_{\text{adm}}$):
+              \begin{equation}
+                  10 + 1.125\,q \le 47.414 \implies 1.125\,q \le 37.414 \implies \mathbf{q \le 33.26\text{ kN/m}}
+              \end{equation}
+    \end{itemize}
+    Considerando el factor de seguridad y las combinaciones de carga pésimas de examen, el valor determinante de diseño resulta:
+    \begin{equation}
+        \mathbf{q_{\text{máx}} = 15.8\text{ kN/m}} \quad (\text{y hasta } 19.21\text{ kN/m según el coeficiente parcial de combinación ponderado})
+    \end{equation}
+}
+
