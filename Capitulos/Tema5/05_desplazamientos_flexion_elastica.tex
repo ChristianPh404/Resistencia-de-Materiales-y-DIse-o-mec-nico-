@@ -1,0 +1,1109 @@
+% !TeX root = ../../apuntes.tex
+\section{Cálculo de Desplazamientos en Flexión: Ecuación Diferencial de la Elástica, Giros y Flechas}
+
+\subsection{Planteamiento General: Comprobaciones de Resistencia y de Deformación}
+
+En los apartados anteriores del tema se han establecido las leyes tensionales que gobiernan una rebanada sometida a flexión:
+\begin{itemize}
+    \item En \textbf{flexión pura recta} ($M_{f,z} \neq 0$, $Q_y = 0$), las tensiones normales se obtienen mediante la fórmula de Navier:
+          \begin{equation}
+              \sigma_n = -\frac{M_{f,z} \cdot y}{I_z}
+          \end{equation}
+    \item En \textbf{flexión simple} ($Q_y \neq 0$ y $M_{f,z} \neq 0$), coexisten las tensiones normales de Navier y las tensiones tangenciales dadas por la fórmula de Collignon-Jourawski:
+          \begin{equation}
+              \sigma_n = -\frac{M_{f,z} \cdot y}{I_z}, \qquad \tau = \frac{Q_y \cdot S_z^*}{b(y) \cdot I_z}
+          \end{equation}
+\end{itemize}
+
+El diseño completo de un elemento estructural exige verificar dos grupos de condiciones:
+\begin{enumerate}
+    \item \textbf{Comprobación de resistencia (Estado Límite Último, ELU):} La tensión máxima mayorada debe ser menor o igual que la tensión admisible de cálculo del material ($\sigma_{\text{máx},d} \le \sigma_{\text{adm}}$).
+    \item \textbf{Comprobación de deformaciones (Estado Límite de Servicio, ELS):} En el caso general de un sólido elástico se exige que las deformaciones unitarias máximas no superen un valor límite ($\varepsilon_{\text{máx}} < \varepsilon_{\text{lím}}$). Sin embargo, en las vigas trabajadas a flexión no comprobamos directamente las elongaciones unitarias $\varepsilon$ (que son magnitudes adimensionales), sino que imponemos que \textbf{lo máximo que descienda (o ascienda) la fibra neutra de la viga sea menor que un cierto valor límite admisible}:
+          \begin{equation}
+              |y_{\text{máx}}| \le y_{\text{lím}} \quad (\text{o bien } f_{\text{máx}} \le f_{\text{adm}})
+          \end{equation}
+          A diferencia del cálculo en rotura o resistencia, el cálculo de desplazamientos y flechas se realiza \textbf{con las cargas sin mayorar} (es decir, empleando los esfuerzos característicos o de servicio, con $\gamma_f = 1.0$).
+\end{enumerate}
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.92\textwidth}{%
+        \begin{tikzpicture}[>=Latex, scale=0.95]
+            % 1. Viga sin deformar (estado inicial)
+            \begin{scope}[shift={(0, 3.4)}]
+                \node[above, font=\small\bfseries, blue!85!black] at (4.0, 1.35) {1. Viga en Estado Inicial (Sin Deformar)};
+                % Rectángulo de la viga
+                \fill[blue!8] (0, 0) rectangle (8.0, 1.0);
+                \draw[thick, blue!85!black] (0, 0) rectangle (8.0, 1.0);
+                % Fibra neutra pasando por el centro
+                \draw[dashdotted, red!85!black, line width=1.3pt] (-0.3, 0.5) -- (8.3, 0.5) node[right, font=\footnotesize\bfseries] {Fibra neutra (eje central)};
+                % Apoyo fijo izquierdo
+                \draw[thick, fill=gray!25] (0, 0) -- (-0.28, -0.45) -- (0.28, -0.45) -- cycle;
+                \draw[line width=1pt] (-0.45, -0.45) -- (0.45, -0.45);
+                \foreach \xx in {-0.35, -0.15, 0.05, 0.25} \draw[thin] (\xx, -0.45) -- (\xx - 0.12, -0.6);
+                % Apoyo articulado móvil derecho con carrito
+                \draw[thick, fill=gray!25] (8.0, 0) -- (7.72, -0.36) -- (8.28, -0.36) -- cycle;
+                \draw[thick, fill=white] (7.82, -0.46) circle (2.3pt);
+                \draw[thick, fill=white] (8.18, -0.46) circle (2.3pt);
+                \draw[line width=1pt] (7.55, -0.56) -- (8.45, -0.56);
+                \foreach \xx in {7.65, 7.85, 8.05, 8.25} \draw[thin] (\xx, -0.56) -- (\xx - 0.12, -0.71);
+            \end{scope}
+
+            % 2. Viga inicial y deformada superpuestas
+            \begin{scope}[shift={(0, 0)}]
+                \node[above, font=\small\bfseries, blue!85!black] at (4.0, 1.55) {2. Configuración Inicial y Configuración Deformada Superpuestas};
+                % Posición inicial en trazo discontinuo suave
+                \draw[dashed, gray!70, line width=0.9pt] (0, 0.2) rectangle (8.0, 1.2);
+                \draw[dotted, red!60!black, line width=1.0pt] (0, 0.7) -- (8.0, 0.7);
+                % Viga deformada superpuesta
+                \fill[blue!10, opacity=0.65] (0, 1.2) .. controls (2.5, 0.1) and (5.5, 0.1) .. (8.0, 1.2) -- (8.0, 0.2) .. controls (5.5, -0.9) and (2.5, -0.9) .. (0, 0.2) -- cycle;
+                \draw[thick, blue!85!black] (0, 1.2) .. controls (2.5, 0.1) and (5.5, 0.1) .. (8.0, 1.2);
+                \draw[thick, blue!85!black] (0, 0.2) .. controls (2.5, -0.9) and (5.5, -0.9) .. (8.0, 0.2);
+                \draw[thick, blue!85!black] (0, 0.2) -- (0, 1.2);
+                \draw[thick, blue!85!black] (8.0, 0.2) -- (8.0, 1.2);
+                % Fibra neutra deformada (línea roja) que sigue pasando por el centro
+                \draw[red!85!black, line width=1.5pt] (0, 0.7) .. controls (2.5, -0.4) and (5.5, -0.4) .. (8.0, 0.7) node[right, font=\footnotesize\bfseries] {Elástica $y(x)$ (Fibra neutra)};
+                % Flecha y(x) en el centro
+                \draw[<->, thick, purple!85!black] (4.0, 0.7) -- node[right=2pt, font=\footnotesize\bfseries] {$y(x)$ (Flecha)} (4.0, -0.125);
+                % Apoyos
+                \draw[thick, fill=gray!25] (0, 0.2) -- (-0.28, -0.25) -- (0.28, -0.25) -- cycle;
+                \draw[line width=1pt] (-0.45, -0.25) -- (0.45, -0.25);
+                \foreach \xx in {-0.35, -0.15, 0.05, 0.25} \draw[thin] (\xx, -0.25) -- (\xx - 0.12, -0.4);
+
+                \draw[thick, fill=gray!25] (8.0, 0.2) -- (7.72, -0.16) -- (8.28, -0.16) -- cycle;
+                \draw[thick, fill=white] (7.82, -0.26) circle (2.3pt);
+                \draw[thick, fill=white] (8.18, -0.26) circle (2.3pt);
+                \draw[line width=1pt] (7.55, -0.36) -- (8.45, -0.36);
+                \foreach \xx in {7.65, 7.85, 8.05, 8.25} \draw[thin] (\xx, -0.36) -- (\xx - 0.12, -0.51);
+            \end{scope}
+        \end{tikzpicture}%
+    }
+    \caption{Esquema de una viga biapoyada (apoyo fijo a la izquierda y móvil a la derecha) en estado sin deformar y superpuesta con su configuración deformada, destacando en rojo la fibra neutra (línea elástica) que continúa pasando por el centroide de la sección.}
+    \label{fig:viga_deformada_superpuesta_fn}
+\end{figure}
+
+\subsection{Definición de Flecha, Ángulo de Giro y Aproximación de Pequeñas Deformaciones}
+
+Nuestro objetivo analítico es obtener la ecuación matemática que describe la posición vertical de la fibra neutra deformada (la línea roja de la Figura~\ref{fig:viga_deformada_superpuesta_fn}), denominada \textbf{ecuación de la línea elástica o deformada} $y(x)$. Al tratarse de la ecuación de una curva continua generada por cargas polinómicas, adopta habitualmente una expresión polinómica del tipo:
+\begin{equation}
+    y(x) = a\,x^n + b\,x^{n-1} + c\,x^{n-2} + \dots
+\end{equation}
+
+\begin{itemize}
+    \item \textbf{Flecha o deflexión ($y$):} Conocida la función $y(x)$ para cada abscisa $x$, sabemos exactamente cuánto ha bajado o subido la sección. Esta ordenada vertical $y$ recibe el nombre de \textbf{flecha o deflexión}. Según el criterio de signos adoptado para los desplazamientos:
+          \begin{itemize}
+              \item Si la sección se desplaza \textbf{hacia arriba}: $y > 0$ (flecha positiva).
+              \item Si la sección se desplaza \textbf{hacia abajo}: $y < 0$ (flecha negativa).
+          \end{itemize}
+    \item \textbf{Ángulo de giro de la sección ($\theta$):} El conocimiento del giro de las secciones transversales permite localizar los puntos donde la flecha alcanza su valor máximo. En el estado inicial sin carga, los cortes transversales de la viga son completamente verticales (perpendiculares al eje longitudinal horizontal). Tras la deformación por flexión, cada sección transversal queda con una cierta inclinación respecto a la vertical; el ángulo que forma la sección deformada con su orientación vertical inicial se denomina \textbf{ángulo de giro $\theta$}:
+          \begin{itemize}
+              \item Giro en \textbf{sentido horario}: $\theta < 0$ (negativo).
+              \item Giro en \textbf{sentido antihorario}: $\theta > 0$ (positivo).
+          \end{itemize}
+\end{itemize}
+
+Consideremos un punto genérico $A$ de la directriz que, una vez deformada la viga, pasa a ocupar la posición $A'$ (situada algo más abajo). Por la \textbf{hipótesis cinemática de Navier-Bernoulli}, toda sección transversal que era plana y perpendicular a la directriz antes de la deformación debe seguir siendo perpendicular a la directriz deformada después de la misma. Por tanto:
+\begin{enumerate}
+    \item Si trazamos la recta perpendicular a la directriz inicial en $A$ (que es vertical) y la recta perpendicular a la curva elástica en el punto deformado $A'$, el ángulo comprendido entre ambas perpendiculares es exactamente el ángulo de giro $\theta_A$.
+    \item De forma equivalente, por perpendicularidad entre lados, si trazamos una recta horizontal que pase por el punto deformado $A'$ y la recta tangente a la curva deformada en $A'$, el ángulo que forman ambas a la derecha es también $\theta_A$.
+\end{enumerate}
+
+\begin{figure}[H]
+    \centering
+    \adjustbox{max width=0.94\textwidth}{%
+        \begin{tikzpicture}[>=Latex, scale=1.0]
+            % Panel 1: Condición de perpendicularidad de Bernoulli en A -> A'
+            \begin{scope}[shift={(0,0)}]
+                \node[above, font=\small\bfseries, blue!85!black] at (3.2, 3.9) {1. Giro de la Sección por Hipótesis de Bernoulli};
+                % Directriz inicial horizontal
+                \draw[dashed, gray!80, line width=1.0pt] (0.2, 3.0) -- (6.2, 3.0) node[right, font=\scriptsize] {Directriz inicial};
+                % Apoyo fijo izquierdo
+                \draw[thick, fill=gray!25] (0.2, 3.0) -- (-0.05, 2.55) -- (0.45, 2.55) -- cycle;
+                \draw[line width=1pt] (-0.18, 2.55) -- (0.58, 2.55);
+                \foreach \xx in {-0.1, 0.1, 0.3, 0.5} \draw[thin] (\xx, 2.55) -- (\xx - 0.1, 2.42);
+                % Curva deformada (arco hacia abajo a la derecha)
+                \draw[red!85!black, line width=1.5pt] (0.2, 3.0) .. controls (2.2, 2.95) and (4.2, 2.1) .. (6.0, 0.8) node[right, font=\scriptsize\bfseries] {Elástica};
+                % Punto A y su sección vertical inicial
+                \filldraw[black] (3.4, 3.0) circle (1.8pt) node[above left=1pt, font=\footnotesize\bfseries] {$A$};
+                \draw[dashed, blue!80!black, line width=0.9pt] (3.4, 0.5) -- (3.4, 3.6);
+                % Punto A' en la curva deformada: en x=3.4, y approx 2.38, pendiente negativa
+                \coordinate (Ap) at (3.4, 2.32);
+                \filldraw[red!85!black] (Ap) circle (2pt) node[below left=2pt, font=\footnotesize\bfseries] {$A'$};
+                % Horizontal por A'
+                \draw[dashed, gray!80, line width=0.8pt] (2.2, 2.32) -- (5.5, 2.32);
+                % Tangente a la elástica en A' (pendiente aprox -0.45 -> ángulo -24 grados)
+                \draw[thick, purple!85!black] ($(Ap)+(-1.4, 0.63)$) -- ($(Ap)+(1.8, -0.81)$) node[right, font=\scriptsize\bfseries] {Tangente en $A'$};
+                % Normal (sección transversal girada, perpendicular a la tangente: pendiente +1/0.45 = 2.22)
+                \draw[line width=1.3pt, blue!85!black] ($(Ap)+(-0.7, -1.55)$) -- ($(Ap)+(0.55, 1.22)$) node[above right=-1pt, font=\scriptsize\bfseries] {Sección en $A'$};
+                % Símbolo de perpendicularidad entre tangente y sección girada
+                \draw[thin, blue!85!black] ($(Ap)+(0.18, -0.081)$) -- ($(Ap)+(0.261, 0.099)$) -- ($(Ap)+(0.081, 0.18)$);
+                % Arco de theta_A entre las dos perpendiculares (vertical y normal en A')
+                \draw[->, thick, orange!90!black] (3.4, 1.12) arc (-90:-114.2:1.2) node[midway, below=2pt, font=\footnotesize\bfseries] {$\theta_A$};
+                % Arco de theta_A entre la horizontal en A' y la tangente a la derecha
+                \draw[->, thick, orange!90!black] ($(Ap)+(1.25, 0)$) arc (0:-24.2:1.25) node[midway, right=2pt, font=\footnotesize\bfseries] {$\theta_A$};
+            \end{scope}
+
+            % Panel 2: Relación Diferencial entre el arco de la deformada y los desplazamientos
+            \begin{scope}[shift={(8.2,0)}]
+                \node[above, font=\small\bfseries, blue!85!black] at (2.8, 4.0) {2. Relación Diferencial $\tan\theta = \dfrac{dy}{dx} \approx \theta$};
+
+                % Ejes cartesianos locales (y vertical, eje x horizontal y=0)
+                \draw[->, thick, black] (0.2, 0.4) -- (0.2, 3.8) node[above, font=\footnotesize\bfseries] {$y$};
+                \draw[->, thick, black] (0.2, 3.1) -- (5.6, 3.1) node[right, font=\footnotesize\bfseries] {$x$ ($y=0$)};
+                \node[above left=1pt, font=\scriptsize] at (0.2, 3.1) {$O$};
+
+                % Apoyo fijo en el origen sobre y=0
+                \draw[thick, fill=gray!25] (0.2, 3.1) -- (-0.05, 2.65) -- (0.45, 2.65) -- cycle;
+                \draw[line width=1pt] (-0.18, 2.65) -- (0.58, 2.65);
+                \foreach \xx in {-0.1, 0.1, 0.3, 0.5} \draw[thin] (\xx, 2.65) -- (\xx - 0.1, 2.52);
+
+                % Coordenadas sobre la curva y en el eje
+                % A en la elástica en x=2.0, y=2.25; B' en x=3.8, y=1.35
+                \coordinate (A0) at (2.0, 3.1);
+                \coordinate (B0) at (3.8, 3.1);
+                \coordinate (Acurv) at (2.0, 2.25);
+                \coordinate (Bcurv) at (3.8, 1.35);
+                \coordinate (Ptri) at (3.8, 2.25);
+
+                % Puntos sobre el eje horizontal sin deformar (y=0) y acotación de dx
+                \filldraw[black] (A0) circle (1.8pt) node[above=2pt, font=\footnotesize\bfseries] {$A$};
+                \filldraw[black] (B0) circle (1.8pt) node[above=2pt, font=\footnotesize\bfseries] {$A'$};
+                \draw[|<->|, >=Latex, thick, blue!80!black] ($(A0)+(0, 0.35)$) -- node[above=1pt, fill=white, inner sep=1pt, font=\footnotesize\bfseries] {$dx$} ($(B0)+(0, 0.35)$);
+
+                % Líneas de proyección vertical punteadas desde el eje y=0 a la curva
+                \draw[dashed, gray!70, line width=0.7pt] (A0) -- (Acurv);
+                \draw[dashed, gray!70, line width=0.7pt] (B0) -- (Bcurv);
+
+                % Flecha vertical y(x) situada a la izquierda de la línea vertical, bien separada
+                \draw[<->, thick, purple!85!black] ($(A0)+(-0.35, 0)$) -- node[left=1pt, font=\footnotesize\bfseries] {$y(x)$} ($(Acurv)+(-0.35, 0)$);
+                \draw[dotted, gray!60] (A0) -- ($(A0)+(-0.35, 0)$);
+                \draw[dotted, gray!60] (Acurv) -- ($(Acurv)+(-0.35, 0)$);
+
+                % Curva de la elástica (línea continua roja)
+                \draw[red!85!black, line width=1.6pt] (0.2, 3.1) .. controls (1.5, 3.0) and (2.8, 1.8) .. (4.8, 0.8) node[right, font=\scriptsize\bfseries] {Elástica};
+
+                % Triángulo diferencial en A' deformado
+                \fill[orange!12] (Acurv) -- (Ptri) -- (Bcurv) -- cycle;
+                \draw[thick, dashed, green!60!black] (Acurv) -- node[above=1pt, font=\footnotesize\bfseries] {$dx$} (Ptri);
+                \draw[thick, dashed, green!60!black] (Ptri) -- node[right=2pt, font=\footnotesize\bfseries] {$dy$} (Bcurv);
+
+                % Recta tangente a la curva en A
+                \draw[thick, blue!85!black] ($(Acurv)+(-1.0, 0.50)$) -- ($(Bcurv)+(0.9, -0.45)$);
+                \node[blue!85!black, font=\scriptsize\bfseries, above right=1pt] at ($(Acurv)+(-1.0, 0.50)$) {Tangente};
+
+                % Arco diferencial ds acotado bajo la curva
+                \draw[<->, thick, green!50!black] ($(Acurv)+(-0.15, -0.22)$) to[out=-32, in=148] node[midway, below left=1pt, font=\footnotesize\bfseries] {$ds$} ($(Bcurv)+(-0.10, -0.22)$);
+
+                % Puntos en la deformada
+                \filldraw[black] (Acurv) circle (2pt) node[below left=2pt, font=\footnotesize\bfseries] {$A_1$};
+                \filldraw[black] (Bcurv) circle (1.8pt) node[below right=2pt, font=\footnotesize\bfseries] {$A'_1$};
+
+                % Ángulo theta con la horizontal
+                \draw[->, thick, orange!90!black] ($(Acurv)+(1.1,0)$) arc (0:-26.5:1.1) node[midway, right=1pt, font=\footnotesize\bfseries] {$\theta$};
+
+                % Recuadro explicativo bajado para dar holgura completa al dibujo
+                \node[align=center, font=\footnotesize, fill=yellow!10, draw=orange!80!black, rounded corners=2pt, inner sep=4pt] at (2.7, -0.3) {$\tan\theta = \dfrac{dy}{dx} = y'(x)$\\[2pt]Pequeñas deformaciones ($\theta \ll 1\text{ rad}$, $ds \approx dx$): $\mathbf{\theta(x) \approx \tan\theta = y'(x)}$};
+            \end{scope}
+        \end{tikzpicture}%
+    }
+    \caption{Interpretación geométrica del ángulo de giro $\theta$ de la sección transversal por la condición de perpendicularidad de Navier-Bernoulli y aproximación lineal $\theta(x) \approx y'(x)$ bajo la hipótesis de pequeñas deformaciones.}
+    \label{fig:giro_bernoulli_tangente}
+\end{figure}
+
+En efecto, si tomamos un punto $x'$ perteneciente a la curva deformada y trazamos desde él una horizontal de longitud diferencial $dx$, la pared vertical opuesta entre la horizontal y la tangente a la curva es el incremento diferencial de flecha $dy$. En dicho triángulo rectángulo se cumple exactamente:
+\begin{equation}
+    \tan\theta = \frac{dy}{dx} = y'(x)
+\end{equation}
+Dado que en las estructuras reales las deformaciones admisibles son muy pequeñas, los ángulos de giro $\theta$ son sumamente reducidos ($\theta \ll 1\text{ rad}$), por lo que el ángulo en radianes y su tangente coinciden ($\tan\theta \approx \theta$). Así, \textbf{la primera derivada de la ecuación de la elástica representa directamente el ángulo de giro de la sección transversal}:
+\begin{equation}
+    \boxed{\theta(x) \approx \tan\theta = \frac{dy}{dx} = y'(x)}
+\end{equation}
+
+\subsection{Curvatura y Ecuación Diferencial de la Elástica (EDE)}
+
+En la deducción de la flexión pura se demostró que la curvatura $\kappa$ de la línea deformada (inversa del radio de curvatura $\rho$) es directamente proporcional al momento flector $M_{f,z}$ e inversamente proporcional al producto $E \cdot I_z$, denominado \textbf{módulo de rigidez a la flexión}:
+\begin{equation}
+    \kappa = \frac{1}{\rho} = \frac{M_{f,z}}{E \cdot I_z}
+\end{equation}
+\begin{itemize}
+    \item Si $\kappa > 0$ ($M_{f,z} > 0$): la viga se curva cóncava ($\smile$).
+    \item Si $\kappa < 0$ ($M_{f,z} < 0$): la viga se curva convexa ($\frown$).
+\end{itemize}
+En geometría diferencial, bajo la aproximación de pequeñas pendientes ($y'^2 \ll 1$), la curvatura $\kappa$ de una curva plana $y(x)$ viene dada por su segunda derivada $y''(x) = \frac{d^2y}{dx^2}$. Igualando ambas expresiones se obtiene la \textbf{Ecuación Diferencial de la Elástica (EDE)}:
+\begin{equation}
+    \boxed{y''(x) = \frac{M_{f,z}(x)}{E \cdot I_z}} \qquad \Longleftrightarrow \qquad E \cdot I_z \cdot y''(x) = M_{f,z}(x)
+    \label{eq:ede_fundamental}
+\end{equation}
+
+\subsubsection{Procedimiento General de Integración y Condiciones de Contorno}
+
+La resolución analítica de la Ecuación Diferencial de la Elástica sigue dos integraciones sucesivas respecto a la coordenada longitudinal $x$:
+\begin{enumerate}
+    \item \textbf{Primera integración (obtención de la ley de giros $\theta = y'$):} Se escribe la ecuación diferencial y se integra respecto a $x$. Al tratarse de una integral indefinida, aparece una primera constante de integración $C_1$:
+          \begin{equation}
+              y'(x) = \theta(x) = \int \frac{M_{f,z}(x)}{E \cdot I_z} \, dx + C_1 = \frac{1}{E \cdot I_z} \left( \int M_{f,z}(x) \, dx + C_1 \right)
+          \end{equation}
+    \item \textbf{Segunda integración (obtención de la ecuación de la elástica o flecha $y$):} Se vuelve a integrar la expresión de $y'(x)$ respecto a $x$, apareciendo una segunda constante de integración $C_2$:
+          \begin{equation}
+              y(x) = \int y'(x) \, dx = \frac{1}{E \cdot I_z} \left( \iint M_{f,z}(x) \, dx \, dx + C_1 \, x + C_2 \right)
+          \end{equation}
+          (Físicamente $\frac{C_1}{E \cdot I_z} = y'(0) = \theta(0)$ es el giro en el origen $x = 0$ y $\frac{C_2}{E \cdot I_z} = y(0)$ es la flecha en el origen $x = 0$).
+\end{enumerate}
+
+Para determinar unívocamente las constantes de integración $C_1$ y $C_2$ es necesario imponer las \textbf{condiciones de contorno} (vínculos cinemáticos en los apoyos):
+\begin{itemize}
+    \item \textbf{Viga biapoyada (apoyo fijo o móvil en $x = 0$ y en $x = L$):} En un apoyo articulado fijo o móvil la sección puede girar libremente ($\theta \neq 0$), pero el desplazamiento vertical está impedido (la viga ni sube ni baja en el apoyo):
+          \begin{equation}
+              y(x = 0) = 0 \implies C_2 = 0, \qquad y(x = L) = 0
+          \end{equation}
+    \item \textbf{Empotramiento perfecto en el origen ($x = 0$):} Un empotramiento impide simultáneamente el desplazamiento vertical y el giro de la sección. Por tanto, en un empotramiento situado en $x = 0$ se anulan tanto la flecha como el giro inicial:
+          \begin{equation}
+              y(x = 0) = 0 \implies C_2 = 0, \qquad y'(x = 0) = \theta(0) = 0 \implies C_1 = 0
+          \end{equation}
+    \item \textbf{Otros ejemplos de condiciones de contorno habituales:}
+          \begin{itemize}
+              \item Si la viga tiene un apoyo fijo o móvil en una abscisa intermedia $x = 2\text{ m}$ y un empotramiento en el extremo $x = 5\text{ m}$ (siendo hiperestática, o si se conoce el momento), las condiciones cinemáticas disponibles son $y(2) = 0$, $y(5) = 0$ e $y'(5) = 0$.
+              \item Si la viga presenta voladizos y sus apoyos articulados están situados en $x = 1\text{ m}$ y en $x = 3\text{ m}$, las condiciones de contorno se imponen en las posiciones de los apoyos: $y(1) = 0$ e $y(3) = 0$ (en este caso $y(0) \neq 0$, luego $C_2 \neq 0$).
+              \item En estructuras hiperestáticas de varios vanos (por ejemplo, empotramiento a la izquierda y apoyo intermedio), el análisis de desplazamientos se efectúa tramo a tramo (por vanos), calculando la flecha máxima en cada vano e imponiendo la continuidad en los apoyos.
+          \end{itemize}
+\end{itemize}
+
+\subsubsection{Regla Práctica para el Trazado de las Curvas de Giro $\theta(x)$ y de Flecha $y(x)$ mediante Curvaturas}
+
+Para representar gráficamente los diagramas de ángulo de giro $y'(x) = \theta(x)$ y de flecha $y(x)$ debajo de los diagramas de esfuerzos ($N$, $Q$ y $M_f$) sin necesidad de evaluar una tabla exhaustiva de puntos intermedios, se emplea el \textbf{criterio de las segundas derivadas (curvaturas)}:
+\begin{enumerate}
+    \item \textbf{Curvatura de la flecha $y(x)$:} Como la rigidez $E \cdot I_z$ es siempre positiva, la segunda derivada de la elástica tiene exactamente el mismo signo que el momento flector:
+          \begin{equation}
+              \frac{d^2 y}{dx^2} = y''(x) = \frac{M_{f,z}(x)}{E \cdot I_z} \propto M_{f,z}(x)
+          \end{equation}
+          Por tanto, basta mirar el signo del diagrama de momentos flectores $M_{f,z}(x)$:
+          \begin{itemize}
+              \item Donde $M_{f,z}(x) > 0 \implies y''(x) > 0$: la curva de flecha $y(x)$ tiene \textbf{curvatura positiva o cóncava} ($\smile$).
+              \item Donde $M_{f,z}(x) < 0 \implies y''(x) < 0$: la curva de flecha $y(x)$ tiene \textbf{curvatura negativa o convexa} ($\frown$).
+          \end{itemize}
+    \item \textbf{Curvatura del diagrama de giros $\theta(x) = y'(x)$:} Para conocer la concavidad o convexidad de la gráfica de $y'(x)$, necesitamos el signo de su segunda derivada, que es la tercera derivada de la elástica $y'''(x)$. Derivando la EDE respecto a $x$ y recordando que la derivada del momento flector es el esfuerzo cortante ($\frac{dM_{f,z}}{dx} = Q_y(x)$):
+          \begin{equation}
+              \frac{d^2 \theta}{dx^2} = \frac{d^2(y')}{dx^2} = y'''(x) = \frac{1}{E \cdot I_z}\frac{dM_{f,z}(x)}{dx} = \frac{Q_y(x)}{E \cdot I_z} \propto Q_y(x)
+          \end{equation}
+          Es decir, la segunda derivada del giro es directamente proporcional al esfuerzo cortante $Q_y(x)$:
+          \begin{itemize}
+              \item Donde $Q_y(x) > 0 \implies (\theta)'' = y'''(x) > 0$: la gráfica de giros $y'(x)$ es \textbf{cóncava} ($\smile$).
+              \item Donde $Q_y(x) < 0 \implies (\theta)'' = y'''(x) < 0$: la gráfica de giros $y'(x)$ es \textbf{convexa} ($\frown$).
+              \item Donde $Q_y(x) = 0$: el diagrama de giros $y'(x)$ presenta un \textbf{punto de inflexión} (cambio de curvatura de cóncava a convexa o viceversa).
+          \end{itemize}
+    \item \textbf{Localización de la flecha máxima $|y_{\text{máx}}|$:} En un punto interior del vano, la flecha alcanza su extremo relativo (máximo descenso) allí donde la tangente a la deformada es horizontal, esto es, donde \textbf{el ángulo de giro se anula}:
+          \begin{equation}
+              y'(x^*) = \theta(x^*) = 0 \implies y_{\text{máx}} = y(x^*)
+          \end{equation}
+\end{enumerate}
+
+%=============================================================================
+% EJERCICIO 1: VIGA BIAPOYADA CON CARGA UNIFORMEMENTE DISTRIBUIDA
+%=============================================================================
+\subsection{Ejercicios Resueltos de Cálculo de Giros, Flechas y Línea Elástica}
+
+\ex{Cálculo de la Ecuación de la Elástica, Giros y Flecha Máxima en Viga Biapoyada con Carga Uniforme}{
+    Sabiendo que el módulo de rigidez a la flexión de la sección es $E \cdot I_z = 10\,000\text{ kN}\cdot\text{m}^2$ y con el siguiente diagrama, comprobar el valor de la deformación máxima.
+    \begin{enumerate}
+        \item Calcular las reacciones en los apoyos y la ley de momentos flectores $M_{f,z}(x)$.
+        \item Plantear e integrar la Ecuación Diferencial de la Elástica para obtener las ecuaciones del ángulo de giro $\theta(x) = y'(x)$ y de la flecha $y(x)$.
+        \item Determinar las constantes de integración $C_1$ y $C_2$ mediante las condiciones de contorno.
+        \item Representar conjuntamente los diagramas de esfuerzos ($Q_y$, $M_{f,z}$), de ángulo de giro $y'(x)$ y de línea elástica $y(x)$ justificando sus curvaturas, y calcular la flecha máxima en el centro del vano.
+    \end{enumerate}
+
+    \tcblower
+
+    \paso{1}{Diagrama de Cuerpo Libre (DCL) y Cálculo de Reacciones de Apoyo}
+
+    Se sustituyen los vínculos por sus correspondientes reacciones en el Diagrama de Cuerpo Libre: en el apoyo articulado fijo $A$ ($x = 0$) la reacción vertical $R_{Ay}$ y la horizontal $R_{Ax}$, y en el apoyo articulado móvil $B$ ($x = 4\text{ m}$) la reacción vertical $R_{By}$. La carga distribuida uniforme $q = 10\text{ kN/m}$ actúa en toda la longitud $L = 4\text{ m}$, con resultante total $R = q \cdot L = 10 \cdot 4 = 40\text{ kN}$ aplicada en el punto medio ($x = 2\text{ m}$).
+
+    \begin{center}
+        \adjustbox{max width=0.82\textwidth}{%
+            \begin{tikzpicture}[>=Latex, scale=1.0]
+                % Viga DCL
+                \draw[line width=2.5pt, blue!80!black] (0, 0) -- (6.0, 0);
+                \filldraw[black] (0, 0) circle (2pt) node[above left=2pt, font=\footnotesize\bfseries] {$A$};
+                \filldraw[black] (6.0, 0) circle (2pt) node[above right=2pt, font=\footnotesize\bfseries] {$B$};
+
+                % Carga distribuida
+                \fill[blue!10] (0, 0) rectangle (6.0, 0.7);
+                \draw[thick, blue!85!black] (0, 0.7) -- (6.0, 0.7);
+                \foreach \xx in {0.5, 1.5, 2.5, 3.5, 4.5, 5.5} {
+                    \draw[->, thin, blue!85!black] (\xx, 0.7) -- (\xx, 0.05);
+                }
+                \node[above=1pt, font=\footnotesize\bfseries, blue!85!black] at (3.0, 0.7) {$q = 10\text{ kN/m}$};
+
+                % Reacciones en DCL
+                \draw[->, line width=1.4pt, green!55!black] (0, -1.0) -- (0, -0.05) node[pos=0, below, font=\footnotesize\bfseries] {$R_{Ay}$};
+                \draw[->, dashed, line width=1.2pt, green!55!black] (-1.0, 0) -- (-0.05, 0) node[pos=0, left, font=\footnotesize\bfseries] {$R_{Ax}$};
+                \draw[->, line width=1.4pt, green!55!black] (6.0, -1.0) -- (6.0, -0.05) node[pos=0, below, font=\footnotesize\bfseries] {$R_{By}$};
+
+                % Cota
+                \draw[|<->|, >=Latex] (0, -1.35) -- node[midway, fill=white, font=\footnotesize] {$L = 4\text{ m}$} (6.0, -1.35);
+            \end{tikzpicture}%
+        }
+    \end{center}
+
+    Planteando las tres ecuaciones de equilibrio estático de la viga en el plano:
+    \begin{align}
+        (\rightarrow +) \quad \sum F_x = 0      & \implies \mathbf{R_{Ax} = 0}                                                                                                                    \\
+        (\circlearrowleft +) \quad \sum M_A = 0 & \implies R_{By} \cdot 4 - (10 \cdot 4) \cdot 2 = 0 \implies 4\,R_{By} = 80 \implies \mathbf{R_{By} = 20\text{ kN}} \quad (\uparrow)           \\
+        (\uparrow +) \quad \sum F_y = 0         & \implies R_{Ay} + R_{By} - 10 \cdot 4 = 0 \implies R_{Ay} + 20 - 40 = 0 \implies \mathbf{R_{Ay} = 20\text{ kN}} \quad (\uparrow)
+    \end{align}
+
+    \paso{2}{Leyes de Esfuerzos Internos por el Método de Cortes}
+
+    Al haber una única carga continua a lo largo de toda la longitud, existe un único tramo continuo:
+
+    \tramobadge{Tramo Único}{$0 \le x \le 4\text{ m}$}
+
+    Practicamos un corte transversal a una distancia genérica $x$ desde el apoyo izquierdo $A$, reteniendo la porción de la izquierda y equilibrando con los esfuerzos internos positivos:
+    \begin{align}
+        (\uparrow +) \quad \sum F_y = 0         & \implies R_{Ay} - q \cdot x - Q_y(x) = 0 \implies Q_y(x) = \mathbf{20 - 10\,x \quad (\text{kN})}                                              \\
+        (\circlearrowleft +) \quad \sum M_{\text{corte}} = 0 & \implies M_{f,z}(x) + (q \cdot x) \cdot \frac{x}{2} - R_{Ay} \cdot x = 0 \implies M_{f,z}(x) = \mathbf{20\,x - 5\,x^2 \quad (\text{kN}\cdot\text{m})}
+    \end{align}
+    (De forma simbólica general para cualquier carga uniforme $q$ y luz $L$: $R_A = R_B = \frac{qL}{2}$ y $M_{f,z}(x) = \frac{qL}{2}x - \frac{qx^2}{2}$).
+
+    \paso{3}{Planteamiento de la Ecuación Diferencial de la Elástica y Primera Integración (Giro $y'$)}
+
+    Sustituimos la ley de momentos flectores $M_{f,z}(x) = 20\,x - 5\,x^2$ en la Ecuación Diferencial de la Elástica:
+    \begin{equation}
+        y''(x) = \frac{M_{f,z}(x)}{E \cdot I_z} \implies y''(x) = \frac{20\,x - 5\,x^2}{E \cdot I_z}
+    \end{equation}
+    (Nota sobre el criterio de signos en el cuaderno: como el momento positivo produce una flecha hacia abajo, al integrar directamente $M_{f,z}(x) = 20\,x - 5\,x^2$ con signo positivo para la curvatura cóncava $y'' > 0$, la constante $C_1$ sale negativa y la flecha $y(x)$ sale negativa hacia abajo; si en algún paso intermedio de los apuntes se escribe $-20x - 5x^2$, en la línea inmediatamente siguiente se conserva el signo correcto $+20\frac{x^2}{2} - 5\frac{x^3}{3} + C_1$ que conduce a $C_1 = -26.67$ e $y_{\text{máx}} < 0$).
+
+    Integrando por primera vez respecto a $x$ obtenemos la ecuación del ángulo de giro $\theta(x) \approx y'(x)$:
+    \begin{align}
+        y'(x) = \theta(x) = \int y''(x) \, dx & = \int \frac{20\,x - 5\,x^2}{E \cdot I_z} \, dx \notag                                                            \\
+                                              & = \frac{1}{E \cdot I_z} \left( 20\,\frac{x^2}{2} - 5\,\frac{x^3}{3} + C_1 \right) = \mathbf{\frac{1}{E \cdot I_z} \left( 10\,x^2 - \frac{5}{3}\,x^3 + C_1 \right)}
+    \end{align}
+
+    \paso{4}{Segunda Integración (Ecuación de la Elástica $y(x)$)}
+
+    Volviendo a integrar respecto a $x$ obtenemos la ecuación de la flecha o línea elástica $y(x)$:
+    \begin{align}
+        y(x) = \int y'(x) \, dx & = \int \frac{1}{E \cdot I_z} \left( 10\,x^2 - \frac{5}{3}\,x^3 + C_1 \right) dx \notag \\
+                                & = \mathbf{\frac{1}{E \cdot I_z} \left( 10\,\frac{x^3}{3} - \frac{5}{3}\,\frac{x^4}{4} + C_1\,x + C_2 \right) = \frac{1}{E \cdot I_z} \left( \frac{10}{3}\,x^3 - \frac{5}{12}\,x^4 + C_1\,x + C_2 \right)}
+    \end{align}
+
+    \paso{5}{Aplicación de las Condiciones de Contorno (Cálculo de $C_1$ y $C_2$)}
+
+    Imponemos que el desplazamiento vertical en ambos apoyos ($x = 0$ y $x = 4\text{ m}$) es nulo:
+    \begin{enumerate}
+        \item \textbf{Condición en el apoyo izquierdo $A$ ($x = 0 \implies y(0) = 0$):}
+              \begin{equation}
+                  y(x = 0) = 0 \implies \frac{1}{E \cdot I_z} \left( \frac{10}{3} \cdot 0^3 - \frac{5}{3} \cdot \frac{0^4}{4} + C_1 \cdot 0 + C_2 \right) = 0 \implies \mathbf{C_2 = 0}
+              \end{equation}
+        \item \textbf{Condición en el apoyo derecho $B$ ($x = 4\text{ m} \implies y(4) = 0$):}
+              \begin{align}
+                  y(x = 4) = 0 & \implies \frac{1}{E \cdot I_z} \left( \frac{10 \cdot 4^3}{3} - \frac{5 \cdot 4^4}{12} + C_1 \cdot 4 + 0 \right) = 0 \notag \\
+                               & \implies \frac{640}{3} - \frac{1280}{12} + 4\,C_1 = 0 \implies \frac{640}{3} - \frac{320}{3} + 4\,C_1 = 0 \notag          \\
+                               & \implies \frac{320}{3} + 4\,C_1 = 0 \implies C_1 = -\frac{320}{12} = -\frac{80}{3} \approx \mathbf{-26.67\text{ kN}\cdot\text{m}^2} \quad (\text{en pizarra: } -26.6)
+              \end{align}
+              (En forma literal para una viga biapoyada de luz $L$ con carga uniforme $q$: $C_1 = -\frac{qL^3}{24}$).
+    \end{enumerate}
+
+    Sustituyendo $C_1 = -26.67$ ($-\frac{80}{3}$) y $C_2 = 0$, las ecuaciones completas del ángulo de giro y de la línea elástica quedan:
+    \begin{align}
+        \theta(x) = y'(x) & = \mathbf{\frac{1}{E \cdot I_z} \left( 10\,x^2 - \frac{5}{3}\,x^3 - 26.67 \right)}                \\
+        y(x)              & = \mathbf{\frac{1}{E \cdot I_z} \left( \frac{10}{3}\,x^3 - \frac{5}{12}\,x^4 - 26.67\,x \right)}
+    \end{align}
+
+    \paso{6}{Trazado de Diagramas por Curvaturas y Cálculo de la Flecha Máxima}
+
+    Evaluamos los giros en los extremos del intervalo ($x = 0$ y $x = 4\text{ m}$):
+    \begin{align}
+        \theta(0) = y'(0) & = \frac{-26.67}{E \cdot I_z} \quad (\text{giro negativo} \implies \text{sentido horario } \curvearrowright)              \\
+        \theta(4) = y'(4) & = \frac{1}{E \cdot I_z}\left(10 \cdot 4^2 - \frac{5}{3} \cdot 4^3 - \frac{80}{3}\right) = \frac{+26.67}{E \cdot I_z} \quad (\text{giro positivo} \implies \text{sentido antihorario } \curvearrowleft)
+    \end{align}
+
+    \textbf{Justificación de la forma de los diagramas mediante las curvaturas:}
+    \begin{itemize}
+        \item \textbf{Gráfica del ángulo de giro $y'(x)$:} Su segunda derivada es proporcional al esfuerzo cortante, $(y')'' = y''' = \frac{Q_y(x)}{E \cdot I_z}$. Como el cortante $Q_y(x) = 20 - 10x$ es positivo en la primera mitad $x \in [0, 2)$ y negativo en la segunda mitad $x \in (2, 4]$, la curva de giros $y'(x)$ es \textbf{cóncava} ($\smile$) de $x = 0$ a $x = 2\text{ m}$ y \textbf{convexa} ($\frown$) de $x = 2$ a $x = 4\text{ m}$, presentando un punto de inflexión en $x = 2\text{ m}$. En este problema concreto, por simetría, el punto de inflexión coincide además con el corte por cero $y'(2) = 0$ (en una viga no simétrica, el punto donde $Q_y = 0$ es el punto de inflexión de $y'$, pero no tiene por qué coincidir con el punto donde $y' = 0$).
+        \item \textbf{Localización del punto de flecha máxima:} Igualamos a cero la ecuación del ángulo de giro $y'(x) = 0$:
+              \begin{equation}
+                  10\,x^2 - \frac{5}{3}\,x^3 - \frac{80}{3} = 0
+              \end{equation}
+              Al tratarse de un polinomio de tercer grado, posee 3 raíces reales; sin embargo, 2 de ellas caen fuera del intervalo físico de la viga $[0, 4]\text{ m}$ y la única raíz válida dentro de la viga es el centro del vano:
+              \begin{equation}
+                  \mathbf{x = 2\text{ m}} \implies y'(2) = \frac{1}{E \cdot I_z}\left(10 \cdot 2^2 - \frac{5}{3} \cdot 2^3 - \frac{80}{3}\right) = \frac{1}{E \cdot I_z}\left(40 - \frac{40}{3} - \frac{80}{3}\right) = 0
+              \end{equation}
+        \item \textbf{Gráfica de la flecha $y(x)$:} Su segunda derivada es $y''(x) = \frac{M_{f,z}(x)}{E \cdot I_z}$. Como el momento flector $M_{f,z}(x)$ es positivo en todo el vano $(0, 4)$, la curva $y(x)$ tiene \textbf{curvatura positiva (cóncava hacia arriba, $\smile$)} en toda la longitud, partiendo de $y(0) = 0$, descendiendo hasta su mínimo negativo en $x = 2\text{ m}$ y volviendo a $y(4) = 0$.
+    \end{itemize}
+
+    \textbf{Valor de la flecha máxima en $x = 2\text{ m}$:}
+    Sustituyendo $x = 2\text{ m}$ en la ecuación de la elástica $y(x)$:
+    \begin{align}
+        y_{\text{máx}} = y(x = 2) & = \frac{1}{E \cdot I_z} \left( \frac{10 \cdot 2^3}{3} - \frac{5 \cdot 2^4}{12} - \frac{80}{3} \cdot 2 \right) = \frac{1}{E \cdot I_z} \left( \frac{80}{3} - \frac{20}{3} - \frac{160}{3} \right) \notag \\
+                                  & = \mathbf{-\frac{100}{3\,E \cdot I_z} \approx -\frac{33.33}{E \cdot I_z}}
+    \end{align}
+    Que corresponde exactamente a la fórmula canónica de prontuario para una viga biapoyada bajo carga uniforme $q$:
+    \begin{equation}
+        \boxed{y_{\text{máx}} = y\left(\frac{L}{2}\right) = -\frac{5 \cdot q \cdot L^4}{384 \cdot E \cdot I_z}} = -\frac{5 \cdot 10 \cdot 4^4}{384 \cdot E \cdot I_z} = -\frac{12\,800}{384 \cdot E \cdot I_z} = -\frac{100}{3 \cdot E \cdot I_z}
+    \end{equation}
+
+    \begin{center}
+        \adjustbox{max width=0.86\textwidth}{%
+            \begin{tikzpicture}[>=Latex, scale=0.92]
+                % 1. Esquema de la viga cargada
+                \begin{scope}[shift={(0, 8.7)}]
+                    \node[left, font=\footnotesize\bfseries, blue!85!black] at (-0.4, 0.4) {1. Viga y Carga};
+                    \draw[line width=2pt, black] (0, 0) -- (6.0, 0);
+                    \draw[thick, fill=blue!10] (0, 0) rectangle (6.0, 0.7);
+                    \foreach \xx in {0.5, 1.5, 2.5, 3.5, 4.5, 5.5} {
+                        \draw[->, thin, blue!85!black] (\xx, 0.7) -- (\xx, 0);
+                    }
+                    \node[above=1pt, font=\scriptsize\bfseries, blue!85!black] at (3.0, 0.7) {$q = 10\text{ kN/m}$};
+                    % Apoyo fijo A
+                    \draw[thick, fill=gray!25] (0, 0) -- (-0.22, -0.35) -- (0.22, -0.35) -- cycle;
+                    \draw[line width=1pt] (-0.35, -0.35) -- (0.35, -0.35);
+                    \foreach \xx in {-0.25, -0.1, 0.05, 0.2} \draw[thin] (\xx, -0.35) -- (\xx - 0.1, -0.48);
+
+                    % Apoyo móvil B con carrito
+                    \draw[thick, fill=gray!25] (6.0, 0) -- (5.78, -0.28) -- (6.22, -0.28) -- cycle;
+                    \draw[thick, fill=white] (5.86, -0.35) circle (1.8pt);
+                    \draw[thick, fill=white] (6.14, -0.35) circle (1.8pt);
+                    \draw[line width=1pt] (5.65, -0.42) -- (6.35, -0.42);
+                    \foreach \xx in {5.75, 5.95, 6.15} \draw[thin] (\xx, -0.42) -- (\xx - 0.1, -0.55);
+                    \draw[->, thick, red!80!black] (0, -0.85) -- (0, -0.4) node[pos=0, below, font=\scriptsize\bfseries] {$20\text{ kN}$};
+                    \draw[->, thick, red!80!black] (6.0, -0.85) -- (6.0, -0.4) node[pos=0, below, font=\scriptsize\bfseries] {$20\text{ kN}$};
+                    \draw[<->, thin] (0, -0.6) -- node[below=1pt, font=\scriptsize] {$L = 4\text{ m}$} (6.0, -0.6);
+                \end{scope}
+
+                % Líneas guía verticales
+                \draw[dotted, gray!60] (0, -0.8) -- (0, 8.5);
+                \draw[dotted, gray!60] (3.0, -0.8) -- (3.0, 8.5);
+                \draw[dotted, gray!60] (6.0, -0.8) -- (6.0, 8.5);
+
+                % 2. Diagrama de Cortante Q(x)
+                \begin{scope}[shift={(0, 6.2)}]
+                    \node[left, font=\footnotesize\bfseries, blue!85!black] at (-0.4, 0) {2. Cortante $Q_y(x)$};
+                    \draw[thick] (0, 0) -- (6.0, 0);
+                    \fill[blue!12] (0, 0) -- (0, 0.7) -- (3.0, 0) -- (6.0, -0.7) -- (6.0, 0) -- cycle;
+                    \draw[thick, blue!85!black] (0, 0) -- (0, 0.7) -- (6.0, -0.7) -- (6.0, 0);
+                    \node[above right=1pt, font=\scriptsize\bfseries, blue!85!black] at (0, 0.65) {$+20\text{ kN}$};
+                    \node[below left=1pt, font=\scriptsize\bfseries, blue!85!black] at (6.0, -0.65) {$-20\text{ kN}$};
+                    \node[font=\scriptsize\bfseries] at (1.1, 0.25) {$+$};
+                    \node[font=\scriptsize\bfseries] at (4.9, -0.25) {$-$};
+                \end{scope}
+
+                % 3. Diagrama de Momento Flector Mf(x) (criterio convenio positivo abajo / valores +)
+                \begin{scope}[shift={(0, 4.0)}]
+                    \node[left, font=\footnotesize\bfseries, red!85!black] at (-0.4, 0) {3. Flector $M_{f,z}(x)$};
+                    \draw[thick] (0, 0) -- (6.0, 0);
+                    \fill[red!12] (0, 0) parabola bend (3.0, -0.9) (6.0, 0) -- cycle;
+                    \draw[thick, red!85!black] (0, 0) parabola bend (3.0, -0.9) (6.0, 0);
+                    \draw[<->, dashed, red!85!black] (3.0, 0) -- (3.0, -0.9);
+                    \node[below=1pt, font=\scriptsize\bfseries, red!85!black] at (3.0, -0.9) {$M_{\text{máx}} = +20\text{ kN}\cdot\text{m}$};
+                    \node[right=4pt, font=\scriptsize, red!80!black] at (6.1, -0.45) {$M_{f,z} > 0 \implies y'' > 0$ ($\smile$)};
+                \end{scope}
+
+                % 4. Diagrama de Ángulo de Giro y'(x) = theta(x)
+                \begin{scope}[shift={(0, 1.8)}]
+                    \node[left, font=\footnotesize\bfseries, orange!85!black] at (-0.4, 0) {4. Giro $\theta(x) = y'(x)$};
+                    \draw[thick] (0, 0) -- (6.0, 0);
+                    % Cóncava de 0 a 3 (Q>0), punto de inflexión en 3, convexa de 3 a 6 (Q<0)
+                    \fill[orange!12] (0, 0) -- (0, -0.75) .. controls (1.2, -0.72) and (2.2, -0.35) .. (3.0, 0) .. controls (3.8, 0.35) and (4.8, 0.72) .. (6.0, 0.75) -- (6.0, 0) -- cycle;
+                    \draw[line width=1.3pt, orange!90!black] (0, -0.75) .. controls (1.2, -0.72) and (2.2, -0.35) .. (3.0, 0) .. controls (3.8, 0.35) and (4.8, 0.72) .. (6.0, 0.75);
+                    \draw[thick, orange!90!black] (0, 0) -- (0, -0.75);
+                    \draw[thick, orange!90!black] (6.0, 0) -- (6.0, 0.75);
+                    \filldraw[orange!90!black] (3.0, 0) circle (2pt) node[above left=1pt, font=\scriptsize\bfseries] {$x=2\text{ m}$ ($y'=0$)};
+                    \node[below right=1pt, font=\scriptsize\bfseries, orange!90!black] at (0, -0.72) {$-\dfrac{26.67}{EI}$};
+                    \node[above left=1pt, font=\scriptsize\bfseries, orange!90!black] at (6.0, 0.72) {$+\dfrac{26.67}{EI}$};
+                    \node[right=4pt, font=\scriptsize, orange!85!black, align=left] at (6.1, 0) {$[0,2]: Q>0 \implies y''' > 0$ ($\smile$)\\$[2,4]: Q<0 \implies y''' < 0$ ($\frown$)};
+                \end{scope}
+
+                % 5. Diagrama de Flecha / Línea Elástica y(x)
+                \begin{scope}[shift={(0, -0.4)}]
+                    \node[left, font=\footnotesize\bfseries, purple!85!black] at (-0.4, 0) {5. Elástica $y(x)$};
+                    \draw[thick] (0, 0) -- (6.0, 0);
+                    \fill[purple!10] (0, 0) .. controls (1.8, -1.05) and (4.2, -1.05) .. (6.0, 0) -- cycle;
+                    \draw[line width=1.5pt, purple!85!black] (0, 0) .. controls (1.8, -1.05) and (4.2, -1.05) .. (6.0, 0);
+                    \draw[<->, thick, purple!85!black] (3.0, 0) -- (3.0, -0.79);
+                    \node[below=1pt, font=\scriptsize\bfseries, purple!85!black] at (3.0, -0.8) {$y_{\text{máx}} = -\dfrac{33.33}{EI} = -0.33\text{ mm}$};
+                \end{scope}
+            \end{tikzpicture}%
+        }
+    \end{center}
+
+    \begin{comprobacion}
+        \textbf{Control dimensional y sustitución numérica:}
+        Como la carga distribuida se ha introducido en $\text{kN/m}$ y las longitudes en $\text{m}$, el producto $E \cdot I_z$ debe expresarse en $\text{kN}\cdot\text{m}^2$ (recordando que $1\text{ N}\cdot\text{mm}^2 = 10^{-9}\text{ kN}\cdot\text{m}^2$). Sustituyendo el valor del enunciado ($E \cdot I_z = 10^4\text{ kN}\cdot\text{m}^2$):
+        \begin{equation}
+            \mathbf{y_{\text{máx}} = -\frac{33.33\text{ kN}\cdot\text{m}^3}{10\,000\text{ kN}\cdot\text{m}^2} \approx -3.33 \times 10^{-4}\text{ m} \approx -0.33\text{ mm} \quad (\text{en pizarra: } -3.3 \times 10^{-4}\text{ m} \approx 0.3\text{ mm})}
+        \end{equation}
+
+        \textbf{Verificación física del resultado:}
+        \begin{itemize}
+            \item Al actuar la carga hacia abajo, la viga flecta hacia abajo, por lo que la flecha resulta necesariamente \textbf{negativa} ($y_{\text{máx}} < 0$).
+            \item El diagrama de giros es plenamente coherente con la respuesta elástica de la estructura: la sección sobre el apoyo izquierdo gira $\theta(0) = -26.67/(EI)$ (sentido horario $\curvearrowright$), la sección sobre el apoyo derecho gira $\theta(4) = +26.67/(EI)$ (sentido antihorario $\curvearrowleft$), y la sección central en $x = 2\text{ m}$ permanece horizontal con giro nulo ($\theta(2) = 0$), localizando exactamente el punto de máxima flecha.
+        \end{itemize}
+    \end{comprobacion}
+}
+
+%=============================================================================
+% EJERCICIO 2: VIGA EN VOLADIZO CON CARGA PUNTUAL EN EL EXTREMO LIBRE
+%=============================================================================
+\ex{Cálculo de la Deformación Máxima en Viga en Voladizo}{
+    Para la viga en voladizo representada en el siguiente diagrama, empotrada en $x = 0$ y con carga puntual $P = 10\text{ kN}$ en el extremo libre $x = 4\text{ m}$, calcular la deformación máxima vertical de la elástica.
+    \begin{enumerate}
+        \item Obtener la ecuación de momentos flectores $M_{f,z}(x)$.
+        \item Integrar la Ecuación Diferencial de la Elástica e imponer las condiciones de contorno del empotramiento.
+        \item Evaluar el giro y la flecha en los extremos y representar los diagramas de $Q_y$, $M_{f,z}$, $\theta = y'$ e $y$ razonando sus curvaturas.
+    \end{enumerate}
+
+    \tcblower
+
+    \paso{1}{Diagrama de Cuerpo Libre (DCL) y Cálculo de Reacciones en el Empotramiento}
+
+    En el extremo izquierdo $A$ ($x = 0$) la viga se encuentra rígidamente empotrada. Al liberar el vínculo en el DCL, se introducen tres reacciones de enlace: una fuerza horizontal $R_{Ax}$, una fuerza vertical $R_{Ay}$ y un momento de empotramiento $M_A$. En el extremo libre derecho $B$ ($x = 4\text{ m}$) actúa la carga puntual descendente $P = 10\text{ kN}$.
+
+    \begin{center}
+        \adjustbox{max width=0.82\textwidth}{%
+            \begin{tikzpicture}[>=Latex, scale=1.0]
+                % Muro empotramiento
+                \fill[pattern=north east lines, pattern color=gray!70] (-0.3, -0.7) rectangle (0, 0.7);
+                \draw[line width=1.4pt] (0, -0.7) -- (0, 0.7);
+
+                % Barra DCL
+                \draw[line width=2.5pt, blue!80!black] (0, 0) -- (6.0, 0);
+                \filldraw[black] (0, 0) circle (2pt) node[above left=2pt, font=\footnotesize\bfseries] {$A$};
+                \filldraw[black] (6.0, 0) circle (2pt) node[above right=2pt, font=\footnotesize\bfseries] {$B$};
+
+                % Carga puntual P
+                \draw[->, line width=1.6pt, red!85!black] (6.0, 1.2) -- (6.0, 0.05) node[pos=0, above, font=\footnotesize\bfseries] {$P = 10\text{ kN}$};
+
+                % Reacciones en DCL
+                \draw[->, line width=1.4pt, green!55!black] (0, -1.0) -- (0, -0.05) node[pos=0, below, font=\footnotesize\bfseries] {$R_{Ay}$};
+                \draw[->, dashed, line width=1.2pt, green!55!black] (-1.0, 0) -- (-0.05, 0) node[pos=0, left, font=\footnotesize\bfseries] {$R_{Ax}$};
+                \draw[<-, line width=1.4pt, purple!85!black] (-0.4, 0.45) arc (120:240:0.55) node[pos=0.5, left=3pt, font=\footnotesize\bfseries] {$M_A$};
+
+                % Cota
+                \draw[|<->|, >=Latex] (0, -1.35) -- node[midway, fill=white, font=\footnotesize] {$L = 4\text{ m}$} (6.0, -1.35);
+            \end{tikzpicture}%
+        }
+    \end{center}
+
+    Planteamos el equilibrio estático de la barra:
+    \begin{align}
+        (\rightarrow +) \quad \sum F_x = 0      & \implies \mathbf{R_{Ax} = 0}                                                                                                                    \\
+        (\uparrow +) \quad \sum F_y = 0         & \implies R_{Ay} - P = 0 \implies R_{Ay} - 10 = 0 \implies \mathbf{R_{Ay} = 10\text{ kN}} \quad (\uparrow)                                      \\
+        (\circlearrowleft +) \quad \sum M_A = 0 & \implies M_A - P \cdot L = 0 \implies M_A - 10 \cdot 4 = 0 \implies \mathbf{M_A = 40\text{ kN}\cdot\text{m}} \quad (\circlearrowleft)
+    \end{align}
+
+    \paso{2}{Ecuaciones de Esfuerzos Internos por el Método de Cortes}
+
+    Al no existir variaciones de carga intermedia, se considera un único tramo a lo largo de toda la longitud del voladizo:
+
+    \tramobadge{Tramo Único}{$0 \le x \le 4\text{ m}$}
+
+    Practicamos un corte transversal a una distancia $x \in [0, 4]\text{ m}$ desde el empotramiento izquierdo $A$, reteniendo la porción $[0, x]$ donde actúan la reacción vertical hacia arriba $R_{Ay} = 10\text{ kN}$ y el momento antihorario $M_A = 40\text{ kN}\cdot\text{m}$:
+    \begin{align}
+        (\uparrow +) \quad \sum F_y = 0                      & \implies R_{Ay} - Q_y(x) = 0 \implies \mathbf{Q_y(x) = +10\text{ kN}} \quad (\text{constante})                                        \\
+        (\circlearrowleft +) \quad \sum M_{\text{corte}} = 0 & \implies M_{f,z}(x) + M_A - R_{Ay} \cdot x = 0 \implies M_{f,z}(x) = 10\,x - 40 \implies \mathbf{M_{f,z}(x) = 10\,x - 40 \quad (\text{kN}\cdot\text{m})}
+    \end{align}
+    En $x = 0$, $M_{f,z}(0) = -40\text{ kN}\cdot\text{m}$; en el extremo libre $x = 4\text{ m}$, $M_{f,z}(4) = 10 \cdot 4 - 40 = 0$. El momento flector es negativo o nulo en toda la longitud de la barra.
+
+    \paso{3}{Ecuación Diferencial de la Elástica e Integraciones Sucesivas}
+
+    Planteamos la EDE e integramos una primera vez para hallar el ángulo de giro $\theta(x) = y'(x)$:
+    \begin{align}
+        \int y''(x) \, dx & = \int \frac{M_{f,z}(x)}{E \cdot I_z} \, dx = \int \frac{10\,x - 40}{E \cdot I_z} \, dx \notag                                              \\
+        \theta(x) = y'(x) & = \frac{1}{E \cdot I_z} \left( 10\,\frac{x^2}{2} - 40\,x + C_1 \right) = \mathbf{\frac{1}{E \cdot I_z} \left( 5\,x^2 - 40\,x + C_1 \right)}
+    \end{align}
+    Integramos una segunda vez para obtener la ecuación de la flecha $y(x)$:
+    \begin{equation}
+        y(x) = \int y'(x) \, dx = \mathbf{\frac{1}{E \cdot I_z} \left( 5\,\frac{x^3}{3} - 40\,\frac{x^2}{2} + C_1\,x + C_2 \right) = \frac{1}{E \cdot I_z} \left( \frac{5}{3}\,x^3 - 20\,x^2 + C_1\,x + C_2 \right)}
+    \end{equation}
+
+    \paso{4}{Condiciones de Contorno en el Empotramiento ($x = 0$)}
+
+    Como en $x = 0$ existe un empotramiento perfecto, tanto el desplazamiento vertical como el giro están impedidos en el inicio de la barra:
+    \begin{enumerate}
+        \item \textbf{Flecha nula en $x = 0$ ($y(0) = 0$):}
+              \begin{equation}
+                  y(x = 0) = \frac{1}{E \cdot I_z} \left( \frac{5 \cdot 0^3}{3} - 40\,\frac{0^2}{2} + C_1 \cdot 0 + C_2 \right) = \frac{C_2}{E \cdot I_z} = 0 \implies \mathbf{C_2 = 0}
+              \end{equation}
+        \item \textbf{Giro nulo en $x = 0$ ($y'(0) = 0$):}
+              \begin{equation}
+                  y'(x = 0) = \frac{1}{E \cdot I_z} \left( 5 \cdot 0^2 - 40 \cdot 0 + C_1 \right) = \frac{C_1}{E \cdot I_z} = 0 \implies \mathbf{C_1 = 0}
+              \end{equation}
+    \end{enumerate}
+    \textit{Propiedad general:} En cualquier problema donde el origen de coordenadas $x = 0$ coincida con un empotramiento, dado que la flecha en $x = 0$ es $y(0) = \frac{C_2}{E \cdot I_z}$ y el giro en $x = 0$ es $y'(0) = \frac{C_1}{E \cdot I_z}$, se verifica directamente que $\mathbf{C_1 = 0}$ y $\mathbf{C_2 = 0}$ (mientras que en un apoyo articulado en $x = 0$ solo se anula $C_2 = 0$).
+
+    Las leyes particulares de giro y flecha del voladizo resultan:
+    \begin{equation}
+        \theta(x) = y'(x) = \frac{1}{E \cdot I_z}\left(5\,x^2 - 40\,x\right), \qquad y(x) = \frac{1}{E \cdot I_z}\left(\frac{5}{3}\,x^3 - 20\,x^2\right)
+    \end{equation}
+
+    \paso{5}{Valores en los Extremos y Representación por Curvaturas}
+
+    Evaluamos el giro $y'(x)$ y la flecha $y(x)$ en los extremos de la barra ($x = 0$ y $x = 4\text{ m}$):
+    \begin{itemize}
+        \item \textbf{Ángulo de giro $\theta = y'$:}
+              \begin{align}
+                  y'(0) & = \mathbf{0}                                                                                                                         \\
+                  y'(4) & = \frac{1}{E \cdot I_z}\left(5 \cdot 4^2 - 40 \cdot 4\right) = \frac{80 - 160}{E \cdot I_z} = \mathbf{-\frac{80}{E \cdot I_z}} \quad (\text{rad})
+              \end{align}
+        \item \textbf{Flecha $y(x)$:}
+              \begin{align}
+                  y(0) & = \mathbf{0}                                                                                                                                                                                    \\
+                  y(4) & = \frac{1}{E \cdot I_z}\left(\frac{5 \cdot 4^3}{3} - 20 \cdot 4^2\right) = \frac{1}{E \cdot I_z}\left(\frac{320}{3} - 320\right) = \mathbf{-\frac{640}{3\,E \cdot I_z} \approx -\frac{213.33}{E \cdot I_z}} \quad (\text{en pizarra: } -\frac{213}{EI})
+              \end{align}
+    \end{itemize}
+
+    \textbf{Análisis de las curvaturas para la representación gráfica:}
+    \begin{itemize}
+        \item \textbf{Curva del ángulo de giro $\theta(x) = y'(x)$:} Nos fijamos en el diagrama de esfuerzo cortante $Q_y(x)$. Como $Q_y(x) = +10\text{ kN} > 0$ es constante y positivo en todo el tramo, la segunda derivada de $\theta(x)$ es positiva ($\theta'' = y''' = \frac{Q_y}{EI} > 0$), lo que indica que la parábola de giros tiene \textbf{curvatura positiva o cóncava} ($\smile$) desde $0$ hasta $-\frac{80}{EI}$, con su vértice en $x = 4\text{ m}$ (donde $M_{f,z}(4) = 0 \implies \theta'(4) = y''(4) = 0$).
+        \item \textbf{Curva de la flecha $y(x)$:} Nos fijamos en el diagrama de momentos flectores $M_{f,z}(x) = 10x - 40$. Como todos sus valores son negativos ($M_{f,z} \le 0$), la segunda derivada de la flecha es siempre negativa ($y'' \le 0$), por lo que la curva elástica tiene \textbf{curvatura negativa o convexa} ($\frown$) en toda la barra. Además, en el empotramiento $x = 0$ la pendiente es horizontal ($\theta(0) = 0$), alcanzándose el desplazamiento máximo absoluto en el extremo libre $x = 4\text{ m}$ con valor $y_{\text{máx}} = -\frac{213.33}{EI}$.
+    \end{itemize}
+
+    \begin{center}
+        \adjustbox{max width=0.84\textwidth}{%
+            \begin{tikzpicture}[>=Latex, scale=0.92]
+                % 1. Esquema del voladizo con reacciones en x=0
+                \begin{scope}[shift={(0, 8.2)}]
+                    \node[left, font=\footnotesize\bfseries, blue!85!black] at (-0.5, 0.2) {1. Voladizo y DCL};
+                    % Muro de empotramiento
+                    \fill[pattern=north east lines, pattern color=gray!70] (-0.25, -0.6) rectangle (0, 0.6);
+                    \draw[line width=1.4pt] (0, -0.6) -- (0, 0.6);
+                    % Barra
+                    \draw[line width=2.2pt, black] (0, 0) -- (6.0, 0);
+                    % Carga puntual en x=4 (esc. 6.0)
+                    \draw[->, line width=1.5pt, red!85!black] (6.0, 0.85) -- (6.0, 0.05) node[pos=0, above, font=\scriptsize\bfseries] {$P = 10\text{ kN}$};
+                    % Reacciones en x=0
+                    \draw[->, line width=1.4pt, green!55!black] (0, -0.85) -- (0, -0.08) node[pos=0, below, font=\scriptsize\bfseries] {$R_{Ay} = 10\text{ kN}$};
+                    \draw[<-, line width=1.3pt, purple!85!black] (-0.35, 0.4) arc (130:230:0.5) node[pos=0.5, left=4pt, yshift=-3pt, font=\scriptsize\bfseries] {$M_A = 40\text{ kN}\cdot\text{m}$};
+                    \draw[<->, thin] (0, -0.5) -- node[below=1pt, font=\scriptsize] {$L = 4\text{ m}$} (6.0, -0.5);
+                \end{scope}
+
+                \draw[dotted, gray!60] (0, -1.0) -- (0, 8.0);
+                \draw[dotted, gray!60] (6.0, -1.0) -- (6.0, 8.0);
+
+                % 2. Diagrama Q(x)
+                \begin{scope}[shift={(0, 5.9)}]
+                    \node[left, font=\footnotesize\bfseries, blue!85!black] at (-0.5, 0.3) {2. Cortante $Q_y(x)$};
+                    \draw[thick] (0, 0) -- (6.0, 0);
+                    \fill[blue!12] (0, 0) rectangle (6.0, 0.65);
+                    \draw[thick, blue!85!black] (0, 0) rectangle (6.0, 0.65);
+                    \node[font=\scriptsize\bfseries, blue!85!black] at (3.0, 0.32) {$Q_y = +10\text{ kN} = \text{cte} > 0$};
+                \end{scope}
+
+                % 3. Diagrama Mf(x) (dibujado con valores negativos)
+                \begin{scope}[shift={(0, 3.8)}]
+                    \node[left, font=\footnotesize\bfseries, red!85!black] at (-0.5, 0) {3. Flector $M_{f,z}(x)$};
+                    \draw[thick] (0, 0) -- (6.0, 0);
+                    \fill[red!12] (0, 0) -- (0, -0.85) -- (6.0, 0) -- cycle;
+                    \draw[thick, red!85!black] (0, 0) -- (0, -0.85) -- (6.0, 0);
+                    \node[below right=1pt, font=\scriptsize\bfseries, red!85!black] at (0, -0.8) {$-40\text{ kN}\cdot\text{m}$};
+                    \node[font=\scriptsize\bfseries, red!85!black] at (1.5, -0.3) {$-$};
+                    \node[right=4pt, font=\scriptsize, red!80!black] at (6.1, -0.4) {$M_{f,z} < 0 \implies y'' < 0$ ($\frown$)};
+                \end{scope}
+
+                % 4. Diagrama de giro theta(x) = y'(x) (cóncava porque Q>0)
+                \begin{scope}[shift={(0, 1.6)}]
+                    \node[left, font=\footnotesize\bfseries, orange!85!black] at (-0.5, 0) {4. Giro $\theta(x) = y'(x)$};
+                    \draw[thick] (0, 0) -- (6.0, 0);
+                    % y'(0)=0, pendiente inicial -40 (baja rápido), vértice horizontal en x=4 con valor -80/EI (curva cóncava hacia arriba)
+                    \fill[orange!12] (0, 0) .. controls (2.0, -0.65) and (4.0, -0.85) .. (6.0, -0.85) -- (6.0, 0) -- cycle;
+                    \draw[line width=1.4pt, orange!90!black] (0, 0) .. controls (2.0, -0.65) and (4.0, -0.85) .. (6.0, -0.85);
+                    \draw[thick, orange!90!black] (6.0, 0) -- (6.0, -0.85);
+                    \node[above right=1pt, font=\scriptsize\bfseries, orange!90!black] at (0, 0) {$y'(0)=0$};
+                    \node[below left=1pt, font=\scriptsize\bfseries, orange!90!black] at (6.0, -0.85) {$-\dfrac{80}{EI}$};
+                    \node[right=4pt, font=\scriptsize, orange!85!black] at (6.1, -0.4) {$Q_y > 0 \implies (\theta)'' > 0$ (Cóncava $\smile$)};
+                \end{scope}
+
+                % 5. Diagrama de flecha y(x) (convexa porque Mf<0, tangente horizontal en x=0)
+                \begin{scope}[shift={(0, -0.6)}]
+                    \node[left, font=\footnotesize\bfseries, purple!85!black] at (-0.5, 0) {5. Elástica $y(x)$};
+                    \draw[thick] (0, 0) -- (6.0, 0);
+                    % En x=0 tangente horizontal (y'=0), se curva hacia abajo cada vez más (convexa) hasta -213.3/EI
+                    \fill[purple!10] (0, 0) .. controls (2.2, 0) and (4.2, -0.45) .. (6.0, -0.95) -- (6.0, 0) -- cycle;
+                    \draw[line width=1.5pt, purple!85!black] (0, 0) .. controls (2.2, 0) and (4.2, -0.45) .. (6.0, -0.95);
+                    \draw[<->, thick, purple!85!black] (6.0, 0) -- (6.0, -0.95);
+                    \node[above right=1pt, font=\scriptsize\bfseries, purple!85!black] at (0, 0) {$y(0)=0, y'(0)=0$};
+                    \node[below left=1pt, font=\scriptsize\bfseries, purple!85!black] at (6.0, -0.95) {$y_{\text{máx}} = -\dfrac{213.33}{EI}$};
+                    \node[right=4pt, font=\scriptsize, purple!85!black] at (6.1, -0.45) {$M_{f,z} < 0 \implies y'' < 0$ (Convexa $\frown$)};
+                \end{scope}
+            \end{tikzpicture}%
+        }
+    \end{center}
+}
+
+%=============================================================================
+% EJERCICIO 3: VIGA BIAPOYADA CON CARGA TRIANGULAR (L = 5 m, q0 = 30 kN/m)
+%=============================================================================
+\ex{Ecuación de la Elástica, Punto de Giro Nulo y Flecha Máxima en Viga Biapoyada con Carga Triangular}{
+    Una viga simplemente apoyada de longitud $L = 5\text{ m}$ (apoyo articulado fijo en el extremo izquierdo $A$, $x = 0$, y apoyo articulado móvil en el extremo derecho $B$, $x = 5\text{ m}$) está sometida a una carga distribuida triangular creciente desde $q(0) = 0$ en $A$ hasta un valor máximo $q_0 = 30\text{ kN/m}$ en el apoyo derecho $B$.
+    \begin{enumerate}
+        \item Determinar las reacciones de apoyo y las leyes de esfuerzo cortante $Q_y(x)$ y momento flector $M_{f,z}(x)$, localizando la abscisa de momento flector máximo.
+        \item Integrar la Ecuación Diferencial de la Elástica y obtener las constantes $C_1$ y $C_2$ mediante las condiciones de contorno.
+        \item Evaluar los giros en los extremos $y'(0)$ e $y'(5)$, localizar la abscisa donde el giro se anula ($y'(x) = 0$), calcular la flecha máxima $y_{\text{máx}}$ y dibujar conjuntamente los cuatro diagramas ($Q_y$, $M_{f,z}$, $\theta = y'$ e $y$).
+    \end{enumerate}
+
+    \tcblower
+
+    \paso{1}{Diagrama de Cuerpo Libre (DCL) y Cálculo de Reacciones de Apoyo}
+
+    Se libera la estructura de sus enlaces externos sustituyéndolos por sus reacciones en el Diagrama de Cuerpo Libre: en el apoyo fijo izquierdo $A$ ($x = 0$) las componentes $R_{Ax}$ y $R_{Ay}$, y en el apoyo móvil derecho $B$ ($x = 5\text{ m}$) la componente vertical $R_{By}$.
+
+    La carga distribuida triangular varía linealmente con la abscisa según $q(x) = \frac{q_0}{L}\,x = \frac{30}{5}\,x = 6\,x\text{ kN/m}$. La fuerza resultante global de esta carga triangular equivale al área del triángulo:
+    \begin{equation}
+        R = \frac{1}{2} \cdot L \cdot q_0 = \frac{1}{2} \cdot 5 \cdot 30 = \mathbf{75\text{ kN}}
+    \end{equation}
+    Dicha fuerza resultante actúa verticalmente hacia abajo en el centro de gravedad del triángulo, situado a dos tercios de la longitud medidos desde el vértice izquierdo $A$:
+    \begin{equation}
+        x_R = \frac{2}{3}\,L = \frac{2}{3} \cdot 5 = \frac{10}{3}\text{ m} \approx 3.333\text{ m desde } A
+    \end{equation}
+
+    \begin{center}
+        \adjustbox{max width=0.84\textwidth}{%
+            \begin{tikzpicture}[>=Latex, scale=1.0]
+                % Barra DCL
+                \draw[line width=2.5pt, blue!80!black] (0, 0) -- (6.5, 0);
+                \filldraw[black] (0, 0) circle (2pt) node[above left=2pt, font=\footnotesize\bfseries] {$A$};
+                \filldraw[black] (6.5, 0) circle (2pt) node[above right=2pt, font=\footnotesize\bfseries] {$B$};
+
+                % Carga triangular DCL
+                \fill[blue!10] (0, 0) -- (6.5, 1.0) -- (6.5, 0) -- cycle;
+                \draw[thick, blue!85!black] (0, 0) -- (6.5, 1.0) -- (6.5, 0);
+                \foreach \xx/\hh in {1.3/0.2, 2.6/0.4, 3.9/0.6, 5.2/0.8, 6.5/1.0} {
+                    \draw[->, thin, blue!85!black] (\xx, \hh) -- (\xx, 0.05);
+                }
+                \node[above left=1pt, font=\footnotesize\bfseries, blue!85!black] at (6.5, 1.0) {$q_0 = 30\text{ kN/m}$};
+
+                % Reacciones en apoyos
+                \draw[->, line width=1.4pt, green!55!black] (0, -1.0) -- (0, -0.05) node[pos=0, below, font=\footnotesize\bfseries] {$R_{Ay}$};
+                \draw[->, dashed, line width=1.2pt, green!55!black] (-1.0, 0) -- (-0.05, 0) node[pos=0, left, font=\footnotesize\bfseries] {$R_{Ax}$};
+                \draw[->, line width=1.4pt, green!55!black] (6.5, -1.0) -- (6.5, -0.05) node[pos=0, below, font=\footnotesize\bfseries] {$R_{By}$};
+
+                % Cota L
+                \draw[|<->|, >=Latex] (0, -1.35) -- node[midway, fill=white, font=\footnotesize] {$L = 5\text{ m}$} (6.5, -1.35);
+            \end{tikzpicture}%
+        }
+    \end{center}
+
+    Planteamos el equilibrio estático de la estructura en el plano:
+    \begin{align}
+        (\rightarrow +) \quad \sum F_x = 0      & \implies \mathbf{R_{Ax} = 0}                                                                                                                                                                                \\
+        (\circlearrowleft +) \quad \sum M_A = 0 & \implies R_{By} \cdot 5 - R \cdot x_R = 0 \implies 5\,R_{By} - 75 \cdot \frac{10}{3} = 0 \implies 5\,R_{By} = 250 \implies \mathbf{R_{By} = 50\text{ kN}} \quad (\uparrow)                                \\
+        (\uparrow +) \quad \sum F_y = 0         & \implies R_{Ay} + R_{By} - R = 0 \implies R_{Ay} + 50 - 75 = 0 \implies \mathbf{R_{Ay} = 25\text{ kN}} \quad (\uparrow)
+    \end{align}
+
+    \paso{2}{Leyes de Esfuerzos Internos por el Método de Cortes}
+
+    Como la ley de carga distribuida es continua en todo el vano, se plantea un único tramo de análisis:
+
+    \tramobadge{Tramo Único}{$0 \le x \le 5\text{ m}$}
+
+    Practicamos un corte genérico a una distancia $x \in [0, 5]\text{ m}$ desde el origen $A$. La intensidad de carga en la sección de corte es $q(x) = 6\,x\text{ kN/m}$. La resultante del triángulo parcial a la izquierda del corte es su área $R(x) = \frac{1}{2} \cdot x \cdot (6x) = 3\,x^2$, y su centro de gravedad se ubica a $\frac{x}{3}$ a la izquierda del corte. Equilibrando la porción retenida:
+    \begin{align}
+        (\uparrow +) \quad \sum F_y = 0                      & \implies R_{Ay} - R(x) - Q_y(x) = 0 \implies Q_y(x) = \mathbf{25 - 3\,x^2 \quad (\text{kN})}                                              \\
+        (\circlearrowleft +) \quad \sum M_{\text{corte}} = 0 & \implies M_{f,z}(x) + R(x) \cdot \frac{x}{3} - R_{Ay} \cdot x = 0 \implies M_{f,z}(x) = 25\,x - 3x^2 \cdot \frac{x}{3} = \mathbf{25\,x - x^3 \quad (\text{kN}\cdot\text{m})}
+    \end{align}
+    En los extremos: $Q_y(0) = +25\text{ kN}$ y $Q_y(5) = 25 - 3 \cdot 5^2 = -50\text{ kN}$.
+    El esfuerzo cortante se anula en:
+    \begin{equation}
+        Q_y(x) = 25 - 3\,x^2 = 0 \implies x = \sqrt{\frac{25}{3}} = \frac{5}{\sqrt{3}} \approx \mathbf{2.887\text{ m}} \quad (\text{en pizarra: } x = 2.88\text{ m})
+    \end{equation}
+    Sección donde el momento flector alcanza su máximo: $M_{\text{máx}} = M_{f,z}(2.887) = 25(2.887) - (2.887)^3 \approx 48.11\text{ kN}\cdot\text{m}$.
+
+    \paso{3}{Planteamiento e Integración de la Ecuación Diferencial de la Elástica}
+
+    Sustituimos $M_{f,z}(x) = 25\,x - x^3$ en la Ecuación Diferencial de la Elástica e integramos dos veces sucesivas:
+    \begin{align}
+        \int y''(x) \, dx & = \int \frac{M_{f,z}(x)}{E \cdot I_z} \, dx = \int \frac{1}{E \cdot I_z} \left( 25\,x - x^3 \right) dx                                  \\
+        \theta(x) = y'(x) & = \mathbf{\frac{1}{E \cdot I_z} \left( \frac{25\,x^2}{2} - \frac{x^4}{4} + C_1 \right)}                                                 \\
+        y(x)              & = \int y'(x) \, dx = \mathbf{\frac{1}{E \cdot I_z} \left( \frac{25\,x^3}{6} - \frac{x^5}{20} + C_1\,x + C_2 \right)}
+    \end{align}
+
+    \paso{3}{Condiciones de Contorno y Determinación de $C_1$ y $C_2$}
+
+    Imponemos la anulación de la flecha en ambos apoyos ($x = 0$ y $x = 5\text{ m}$):
+    \begin{enumerate}
+        \item \textbf{En $x = 0$ ($y(0) = 0$):}
+              \begin{equation}
+                  y(0) = \frac{1}{E \cdot I_z} \left( \frac{25 \cdot 0^3}{6} - \frac{0^5}{20} + C_1 \cdot 0 + C_2 \right) = 0 \implies \mathbf{C_2 = 0}
+              \end{equation}
+        \item \textbf{En $x = 5\text{ m}$ ($y(5) = 0$):}
+              \begin{align}
+                  y(5) = 0 & \implies \frac{1}{E \cdot I_z} \left( \frac{25 \cdot 5^3}{6} - \frac{5^5}{20} + C_1 \cdot 5 + 0 \right) = 0 \notag \\
+                           & \implies \frac{3125}{6} - \frac{3125}{20} + 5\,C_1 = 0 \implies \frac{625}{6} - \frac{625}{20} + C_1 = 0 \notag   \\
+                           & \implies C_1 = -\frac{625 \cdot (10 - 3)}{60} = \mathbf{-\frac{875}{12} \approx -72.92\text{ kN}\cdot\text{m}^2} \quad (\text{en pizarra: } -72.9)
+              \end{align}
+    \end{enumerate}
+
+    Evaluando los ángulos de giro en los extremos de la viga ($x = 0$ y $x = 5\text{ m}$):
+    \begin{align}
+        y'(0) & = \frac{C_1}{E \cdot I_z} = \mathbf{-\frac{875}{12\,E \cdot I_z} \approx -\frac{72.92}{E \cdot I_z}}                                                                                                     \\
+        y'(5) & = \frac{1}{E \cdot I_z} \left( \frac{25 \cdot 5^2}{2} - \frac{5^4}{4} - \frac{875}{12} \right) = \frac{1}{E \cdot I_z} \left( 312.5 - 156.25 - 72.917 \right) = \mathbf{+\frac{1000}{12\,E \cdot I_z} \approx +\frac{83.33}{E \cdot I_z}}
+    \end{align}
+    Y en los apoyos la flecha vale $y(0) = 0$ e $y(5) = 0$.
+
+    \paso{4}{Cálculo de la Flecha Máxima y Trazado de Diagramas por Curvaturas}
+
+    \begin{itemize}
+        \item \textbf{Trazado del diagrama de giros $y'(x)$:} La curva parte de $y'(0) = -\frac{72.92}{EI}$ y termina en $y'(5) = +\frac{83.33}{EI}$. Observando la curva de esfuerzos cortantes $Q_y(x)$, vemos que $Q_y > 0$ desde $x = 0$ hasta $x = 2.88\text{ m}$ y $Q_y < 0$ desde $x = 2.88\text{ m}$ hasta $x = 5\text{ m}$. En consecuencia, la gráfica de $y'(x)$ tiene \textbf{curvatura positiva (cóncava, $\smile$)} entre $0$ y $2.88\text{ m}$, presenta su \textbf{punto de inflexión} exactamente en $x = 2.88\text{ m}$ (donde evaluando $y'(2.887)$ toma el valor $+\frac{13.89}{EI} > 0$), y pasa a tener \textbf{curvatura negativa (convexa, $\frown$)} entre $2.88\text{ m}$ y $5\text{ m}$.
+        \item \textbf{Abscisa de giro nulo ($y'(x) = 0$) y flecha máxima:} Para hallar el punto donde la flecha es máxima igualamos a cero el ángulo de giro:
+              \begin{equation}
+                  y'(x) = 0 \implies \frac{25}{2}\,x^2 - \frac{1}{4}\,x^4 - \frac{875}{12} = 0 \implies 3\,x^4 - 150\,x^2 + 875 = 0
+              \end{equation}
+              Resolviendo la ecuación bicuadrada para $x^2$:
+              \begin{equation}
+                  x^2 = \frac{150 - \sqrt{150^2 - 4 \cdot 3 \cdot 875}}{6} = \frac{150 - \sqrt{12\,000}}{6} \approx 6.7493\text{ m}^2 \implies \mathbf{x = \sqrt{6.7493} \approx 2.598\text{ m}}
+              \end{equation}
+              (Obsérvese que la sección de flecha máxima $x = 2.598\text{ m}$ \textbf{no coincide} con la sección de momento flector máximo $x = 2.887\text{ m}$, debido a la asimetría de la carga triangular).
+              \textit{Nota importante de examen:} Si en un problema el polinomio de giro $y'(x)$ resultase de grado mayor que 4 o no bicuadrado y no pudiéramos despejar analíticamente la raíz de $y'(x) = 0$, el propio enunciado nos indicaría el punto donde el giro se anula.
+        \item \textbf{Evaluación de la flecha máxima en $x = 2.598\text{ m}$:}
+              Sustituyendo $x = 2.598\text{ m}$ en la ecuación de la elástica $y(x)$:
+              \begin{align}
+                  y_{\text{máx}} = y(2.598) & = \frac{1}{E \cdot I_z} \left( \frac{25 \cdot (2.598)^3}{6} - \frac{(2.598)^5}{20} - \frac{875}{12} \cdot 2.598 \right) \notag \\
+                                            & = \frac{1}{E \cdot I_z} \left( 73.06 - 5.93 - 189.44 \right) = \mathbf{-\frac{122.31}{E \cdot I_z} \approx -\frac{122}{E \cdot I_z}}
+              \end{align}
+              En cuanto a la forma de la curva $y(x)$, como el momento flector $M_{f,z}(x)$ es positivo en todo el vano $(0, 5)$, su segunda derivada $y''(x)$ mantiene siempre signo positivo (curva cóncava vista desde arriba).
+    \end{itemize}
+
+    \begin{center}
+        \adjustbox{max width=0.88\textwidth}{%
+            \begin{tikzpicture}[>=Latex, scale=0.92]
+                % 1. Viga con carga triangular 0 -> 30 kN/m
+                \begin{scope}[shift={(0, 8.5)}]
+                    \node[left, font=\footnotesize\bfseries, blue!85!black] at (-0.4, 0.3) {1. Viga y Carga};
+                    \draw[line width=2pt, black] (0, 0) -- (6.5, 0);
+                    \fill[blue!10] (0, 0) -- (6.5, 0.85) -- (6.5, 0) -- cycle;
+                    \draw[thick, blue!85!black] (0, 0) -- (6.5, 0.85) -- (6.5, 0);
+                    \foreach \xx/\hh in {1.3/0.17, 2.6/0.34, 3.9/0.51, 5.2/0.68, 6.5/0.85} {
+                        \draw[->, thin, blue!85!black] (\xx, \hh) -- (\xx, 0);
+                    }
+                    \node[above left=1pt, font=\scriptsize\bfseries, blue!85!black] at (6.5, 0.85) {$q_0 = 30\text{ kN/m}$};
+                    % Apoyo fijo A
+                    \draw[thick, fill=gray!25] (0, 0) -- (-0.22, -0.35) -- (0.22, -0.35) -- cycle;
+                    \draw[line width=1pt] (-0.35, -0.35) -- (0.35, -0.35);
+                    \foreach \xx in {-0.25, -0.1, 0.05, 0.2} \draw[thin] (\xx, -0.35) -- (\xx - 0.1, -0.48);
+
+                    % Apoyo móvil B con carrito
+                    \draw[thick, fill=gray!25] (6.5, 0) -- (6.28, -0.28) -- (6.72, -0.28) -- cycle;
+                    \draw[thick, fill=white] (6.36, -0.35) circle (1.8pt);
+                    \draw[thick, fill=white] (6.64, -0.35) circle (1.8pt);
+                    \draw[line width=1pt] (6.15, -0.42) -- (6.85, -0.42);
+                    \foreach \xx in {6.25, 6.45, 6.65} \draw[thin] (\xx, -0.42) -- (\xx - 0.1, -0.55);
+                    \draw[->, thick, red!80!black] (0, -0.85) -- (0, -0.4) node[pos=0, below, font=\scriptsize\bfseries] {$25\text{ kN}$};
+                    \draw[->, thick, red!80!black] (6.5, -0.85) -- (6.5, -0.4) node[pos=0, below, font=\scriptsize\bfseries] {$50\text{ kN}$};
+                    \draw[<->, thin] (0, -0.58) -- node[below=1pt, font=\scriptsize] {$L = 5\text{ m}$} (6.5, -0.58);
+                \end{scope}
+
+                % Líneas verticales singulares: x=0 (0), x=2.598 (3.377), x=2.887 (3.753), x=5 (6.5)
+                \draw[dotted, gray!60] (0, -0.9) -- (0, 8.3);
+                \draw[dashed, orange!70!black] (3.377, -0.9) -- (3.377, 2.5);
+                \draw[dashed, blue!60!black] (3.753, 1.2) -- (3.753, 6.8);
+                \draw[dotted, gray!60] (6.5, -0.9) -- (6.5, 8.3);
+
+                % 2. Diagrama Q(x) = 25 - 3x^2 (parábola de 25 a -50, cero en x=2.887)
+                \begin{scope}[shift={(0, 6.0)}]
+                    \node[left, font=\footnotesize\bfseries, blue!85!black] at (-0.4, 0) {2. Cortante $Q_y(x)$};
+                    \draw[thick] (0, 0) -- (6.5, 0);
+                    \fill[blue!12] (0, 0) -- (0, 0.45) .. controls (1.9, 0.45) and (3.0, 0.22) .. (3.753, 0) .. controls (4.6, -0.25) and (5.6, -0.58) .. (6.5, -0.88) -- (6.5, 0) -- cycle;
+                    \draw[thick, blue!85!black] (0, 0) -- (0, 0.45) .. controls (1.9, 0.45) and (3.0, 0.22) .. (3.753, 0) .. controls (4.6, -0.25) and (5.6, -0.58) .. (6.5, -0.88) -- (6.5, 0);
+                    \node[above right=1pt, font=\scriptsize\bfseries, blue!85!black] at (0, 0.42) {$+25$};
+                    \node[below left=1pt, font=\scriptsize\bfseries, blue!85!black] at (6.5, -0.85) {$-50\text{ kN}$};
+                    \filldraw[blue!85!black] (3.753, 0) circle (1.8pt) node[above right=1pt, font=\scriptsize\bfseries] {$x=2.88\text{ m}$ ($Q=0$)};
+                \end{scope}
+
+                % 3. Diagrama Mf(x) = 25x - x^3 (máximo en x=2.887)
+                \begin{scope}[shift={(0, 3.8)}]
+                    \node[left, font=\footnotesize\bfseries, red!85!black] at (-0.4, 0) {3. Flector $M_{f,z}(x)$};
+                    \draw[thick] (0, 0) -- (6.5, 0);
+                    \fill[red!12] (0, 0) .. controls (1.8, -0.68) and (2.9, -0.88) .. (3.753, -0.88) .. controls (4.7, -0.88) and (5.7, -0.45) .. (6.5, 0) -- cycle;
+                    \draw[thick, red!85!black] (0, 0) .. controls (1.8, -0.68) and (2.9, -0.88) .. (3.753, -0.88) .. controls (4.7, -0.88) and (5.7, -0.45) .. (6.5, 0);
+                    \draw[<->, dashed, red!85!black] (3.753, 0) -- (3.753, -0.88);
+                    \node[below=1pt, font=\scriptsize\bfseries, red!85!black] at (3.753, -0.88) {$M_{\text{máx}}(2.88) = 48.1\text{ kN}\cdot\text{m}$};
+                \end{scope}
+
+                % 4. Diagrama de giro y'(x) (cero en x=2.598, inflexión en x=2.887)
+                \begin{scope}[shift={(0, 1.6)}]
+                    \node[left, font=\footnotesize\bfseries, orange!85!black] at (-0.4, 0) {4. Giro $\theta(x) = y'(x)$};
+                    \draw[thick] (0, 0) -- (6.5, 0);
+                    \fill[orange!12] (0, 0) -- (0, -0.72) .. controls (1.4, -0.68) and (2.5, -0.32) .. (3.377, 0) -- (3.753, 0.14) .. controls (4.7, 0.5) and (5.6, 0.78) .. (6.5, 0.82) -- (6.5, 0) -- cycle;
+                    \draw[line width=1.3pt, orange!90!black] (0, -0.72) .. controls (1.4, -0.68) and (2.5, -0.32) .. (3.377, 0) -- (3.753, 0.14) .. controls (4.7, 0.5) and (5.6, 0.78) .. (6.5, 0.82);
+                    \draw[thick, orange!90!black] (0, 0) -- (0, -0.72);
+                    \draw[thick, orange!90!black] (6.5, 0) -- (6.5, 0.82);
+                    \filldraw[orange!90!black] (3.377, 0) circle (2pt) node[above left=1pt, font=\scriptsize\bfseries] {$2.598\text{ m}$ ($y'=0$)};
+                    \filldraw[blue!80!black] (3.753, 0.14) circle (1.8pt) node[below right=0pt, font=\tiny\bfseries] {Inflexión ($2.88\text{ m}$)};
+                    \node[below right=1pt, font=\scriptsize\bfseries, orange!90!black] at (0, -0.70) {$-\dfrac{72.9}{EI}$};
+                    \node[above left=1pt, font=\scriptsize\bfseries, orange!90!black] at (6.5, 0.80) {$+\dfrac{83.3}{EI}$};
+                \end{scope}
+
+                % 5. Diagrama de flecha y(x) (máximo en x=2.598 con valor -122/EI)
+                \begin{scope}[shift={(0, -0.5)}]
+                    \node[left, font=\footnotesize\bfseries, purple!85!black] at (-0.4, 0) {5. Elástica $y(x)$};
+                    \draw[thick] (0, 0) -- (6.5, 0);
+                    \fill[purple!10] (0, 0) .. controls (1.6, -0.85) and (2.6, -0.92) .. (3.377, -0.92) .. controls (4.3, -0.92) and (5.4, -0.55) .. (6.5, 0) -- cycle;
+                    \draw[line width=1.5pt, purple!85!black] (0, 0) .. controls (1.6, -0.85) and (2.6, -0.92) .. (3.377, -0.92) .. controls (4.3, -0.92) and (5.4, -0.55) .. (6.5, 0);
+                    \draw[<->, thick, purple!85!black] (3.377, 0) -- (3.377, -0.92);
+                    \node[below=1pt, font=\scriptsize\bfseries, purple!85!black] at (3.377, -0.92) {$y_{\text{máx}}(2.598) = -\dfrac{122}{EI}$};
+                \end{scope}
+            \end{tikzpicture}%
+        }
+    \end{center}
+}
+
+%=============================================================================
+% EJERCICIO 4: VIGA CON DOS TRAMOS DE MOMENTO Y CONDICIONES DE CONTINUIDAD
+%=============================================================================
+\subsection{Vigas con Varios Tramos de Corte: Condiciones de Contorno y de Continuidad}
+
+\ex{Planteamiento de la Elástica por Tramos en Viga Biapoyada con Carga Puntual Descentrada}{
+    Para la viga representada en el siguiente diagrama, con apoyos articulados en ambos extremos ($x = 0$ y $x = 5\text{ m}$) y sometida a una carga puntual vertical hacia abajo de valor $P = 10\text{ kN}$ aplicada en la abscisa $x = 2\text{ m}$, plantear el sistema de ecuaciones diferenciales de la elástica y todas las condiciones necesarias para determinar las constantes de integración.
+
+    \begin{center}
+        \adjustbox{max width=0.84\textwidth}{%
+            \begin{tikzpicture}[>=Latex, scale=1.0]
+                % Viga de 5m (escala 6.5 cm)
+                \draw[line width=2.4pt, black] (0, 0) -- (6.5, 0);
+
+                % Apoyo A (Fijo) en x=0
+                \coordinate (Apos) at (0, 0);
+                \draw[thick, fill=gray!25] (Apos) -- ++(-0.35, -0.55) -- ++(0.7, 0) -- cycle;
+                \draw[line width=1.1pt] (-0.5, -0.55) -- (0.5, -0.55);
+                \foreach \xx in {-0.38, -0.18, 0.02, 0.22, 0.42} {
+                    \draw[thin] (\xx, -0.55) -- (\xx - 0.15, -0.73);
+                }
+                \node[above left=2pt, font=\footnotesize\bfseries] at (Apos) {$A$ ($x=0$)};
+
+                % Apoyo B (Móvil con carrito) en x=5m (pos 6.5)
+                \coordinate (Bpos) at (6.5, 0);
+                \draw[thick, fill=gray!25] (Bpos) -- ++(-0.35, -0.4) -- ++(0.7, 0) -- cycle;
+                \draw[thick, fill=white] ($(Bpos)+(-0.18, -0.50)$) circle (0.10);
+                \draw[thick, fill=white] ($(Bpos)+(0.18, -0.50)$) circle (0.10);
+                \draw[line width=1.1pt] ($(Bpos)+(-0.55, -0.62)$) -- ($(Bpos)+(0.55, -0.62)$);
+                \foreach \xx in {-0.42, -0.22, -0.02, 0.18, 0.38} {
+                    \draw[thin] ($(Bpos)+(\xx, -0.62)$) -- ($(Bpos)+(\xx - 0.15, -0.80)$);
+                }
+                \node[above right=2pt, font=\footnotesize\bfseries] at (Bpos) {$B$ ($x=5\text{ m}$)};
+
+                % Carga puntual P=10 kN en x=2m (pos 2.6)
+                \draw[->, line width=1.6pt, red!85!black] (2.6, 1.3) -- (2.6, 0.05) node[pos=0, above, font=\small\bfseries] {$P = 10\text{ kN}$};
+                \draw[dashed, purple!85!black] (2.6, -2.2) -- (2.6, 0.7);
+                \node[below=3pt, font=\scriptsize\bfseries, purple!85!black] at (2.6, -2.2) {$x = 2\text{ m}$ (Frontera de continuidad)};
+
+                % Elástica por dos tramos y1(x) e y2(x)
+                \draw[line width=1.4pt, blue!85!black] (0, 0) .. controls (1.0, -0.55) and (1.9, -0.82) .. (2.6, -0.78);
+                \draw[line width=1.4pt, orange!90!black] (2.6, -0.78) .. controls (3.6, -0.72) and (5.0, -0.42) .. (6.5, 0);
+                \filldraw[purple!85!black] (2.6, -0.78) circle (2.2pt);
+
+                % Etiquetas de tramos desplazadas hacia abajo para evitar cualquier solapamiento
+                \node[below=14pt, font=\scriptsize\bfseries, blue!85!black] at (1.1, -1.0) {Tramo 1: $y_1(x)$};
+                \node[below=14pt, font=\scriptsize\bfseries, orange!90!black] at (4.5, -1.0) {Tramo 2: $y_2(x)$};
+
+                % Cotas superiores
+                \draw[|<->|, >=Latex] (0, 0.6) -- node[above=1pt, font=\footnotesize] {$2\text{ m}$} (2.6, 0.6);
+                \draw[|<->|, >=Latex] (2.6, 0.6) -- node[above=1pt, font=\footnotesize] {$3\text{ m}$} (6.5, 0.6);
+            \end{tikzpicture}%
+        }
+    \end{center}
+
+    \tcblower
+
+    \paso{1}{Diagrama de Cuerpo Libre (DCL) y Cálculo de Reacciones de Apoyo}
+
+    Sustituimos los apoyos por sus reacciones en el Diagrama de Cuerpo Libre: $R_{Ax}$ y $R_{Ay}$ en el apoyo fijo $A$ ($x = 0$) y $R_{By}$ en el apoyo móvil $B$ ($x = 5\text{ m}$). La carga puntual $P = 10\text{ kN}$ actúa hacia abajo en $x = 2\text{ m}$.
+
+    \begin{center}
+        \adjustbox{max width=0.82\textwidth}{%
+            \begin{tikzpicture}[>=Latex, scale=1.0]
+                % Barra DCL
+                \draw[line width=2.5pt, blue!80!black] (0, 0) -- (6.5, 0);
+                \filldraw[black] (0, 0) circle (2pt) node[above left=2pt, font=\footnotesize\bfseries] {$A$};
+                \filldraw[black] (6.5, 0) circle (2pt) node[above right=2pt, font=\footnotesize\bfseries] {$B$};
+
+                % Carga puntual P en x=2m (pos 2.6)
+                \draw[->, line width=1.6pt, red!85!black] (2.6, 1.2) -- (2.6, 0.05) node[pos=0, above, font=\footnotesize\bfseries] {$P = 10\text{ kN}$};
+
+                % Reacciones en apoyos
+                \draw[->, line width=1.4pt, green!55!black] (0, -1.0) -- (0, -0.05) node[pos=0, below, font=\footnotesize\bfseries] {$R_{Ay}$};
+                \draw[->, dashed, line width=1.2pt, green!55!black] (-1.0, 0) -- (-0.05, 0) node[pos=0, left, font=\footnotesize\bfseries] {$R_{Ax}$};
+                \draw[->, line width=1.4pt, green!55!black] (6.5, -1.0) -- (6.5, -0.05) node[pos=0, below, font=\footnotesize\bfseries] {$R_{By}$};
+
+                % Cotas DCL
+                \draw[|<->|, >=Latex] (0, -1.35) -- node[midway, fill=white, font=\footnotesize] {$2\text{ m}$} (2.6, -1.35);
+                \draw[|<->|, >=Latex] (2.6, -1.35) -- node[midway, fill=white, font=\footnotesize] {$3\text{ m}$} (6.5, -1.35);
+            \end{tikzpicture}%
+        }
+    \end{center}
+
+    Planteamos el equilibrio estático global:
+    \begin{align}
+        (\rightarrow +) \quad \sum F_x = 0      & \implies \mathbf{R_{Ax} = 0}                                                                                                                    \\
+        (\circlearrowleft +) \quad \sum M_A = 0 & \implies R_{By} \cdot 5 - 10 \cdot 2 = 0 \implies 5\,R_{By} = 20 \implies \mathbf{R_{By} = 4\text{ kN}} \quad (\uparrow)                      \\
+        (\uparrow +) \quad \sum F_y = 0         & \implies R_{Ay} + R_{By} - 10 = 0 \implies R_{Ay} + 4 - 10 = 0 \implies \mathbf{R_{Ay} = 6\text{ kN}} \quad (\uparrow)
+    \end{align}
+
+    \paso{2}{División en Tramos y Leyes de Momentos Flectores por Cortes}
+
+    La discontinuidad introducida por la fuerza puntual $P = 10\text{ kN}$ en $x = 2\text{ m}$ exige dividir la viga en dos tramos diferenciados:
+
+    \tramobadge{Tramo 1}{$0 \le x \le 2\text{ m}$}
+
+    Cortando a una distancia $x \in [0, 2]\text{ m}$ desde el apoyo izquierdo $A$, donde solo interviene la reacción $R_{Ay} = 6\text{ kN}$:
+    \begin{align}
+        (\uparrow +) \quad \sum F_y = 0                      & \implies R_{Ay} - Q_{y,1}(x) = 0 \implies \mathbf{Q_{y,1}(x) = +6\text{ kN}}                                                      \\
+        (\circlearrowleft +) \quad \sum M_{\text{corte}} = 0 & \implies M_{f,1}(x) - R_{Ay} \cdot x = 0 \implies \mathbf{M_{f,1}(x) = 6\,x \quad (\text{kN}\cdot\text{m})}
+    \end{align}
+
+    \tramobadge{Tramo 2}{$2\text{ m} \le x \le 5\text{ m}$}
+
+    Cortando a una distancia $x \in [2, 5]\text{ m}$ mirando hacia la izquierda (donde intervienen $R_{Ay} = 6\text{ kN}$ y la carga puntual $P = 10\text{ kN}$ en $x = 2\text{ m}$):
+    \begin{align}
+        (\uparrow +) \quad \sum F_y = 0                      & \implies R_{Ay} - P - Q_{y,2}(x) = 0 \implies Q_{y,2}(x) = 6 - 10 = \mathbf{-4\text{ kN}}                                         \\
+        (\circlearrowleft +) \quad \sum M_{\text{corte}} = 0 & \implies M_{f,2}(x) + P\,(x - 2) - R_{Ay} \cdot x = 0 \implies M_{f,2}(x) = 6\,x - 10\,(x - 2) = \mathbf{20 - 4\,x \quad (\text{kN}\cdot\text{m})}
+    \end{align}
+
+    \paso{3}{Planteamiento de una Ecuación Diferencial de la Elástica para cada Tramo}
+
+    Como la expresión analítica del momento flector cambia en $x = 2\text{ m}$, es obligatorio plantear e integrar dos veces una Ecuación Diferencial de la Elástica independiente para cada tramo:
+    \begin{enumerate}
+        \item \textbf{Tramo 1, válido exclusivamente para $x \in [0, 2]\text{ m}$ (con constantes $C_1$ y $C_2$):}
+              \begin{align}
+                  y_1''(x) & = \frac{M_{f,1}(x)}{E \cdot I_z} = \frac{6\,x}{E \cdot I_z}                                     \\
+                  y_1'(x)  & = \int y_1''(x)\,dx = \frac{1}{E \cdot I_z}\left(3\,x^2 + C_1\right)                            \\
+                  y_1(x)   & = \int y_1'(x)\,dx = \frac{1}{E \cdot I_z}\left(x^3 + C_1\,x + C_2\right)
+              \end{align}
+        \item \textbf{Tramo 2, válido exclusivamente para $x \in [2, 5]\text{ m}$ (con constantes $C_3$ y $C_4$):}
+              \begin{align}
+                  y_2''(x) & = \frac{M_{f,2}(x)}{E \cdot I_z} = \frac{20 - 4\,x}{E \cdot I_z}                                \\
+                  y_2'(x)  & = \int y_2''(x)\,dx = \frac{1}{E \cdot I_z}\left(20\,x - 2\,x^2 + C_3\right)                    \\
+                  y_2(x)   & = \int y_2'(x)\,dx = \frac{1}{E \cdot I_z}\left(10\,x^2 - \frac{2}{3}\,x^3 + C_3\,x + C_4\right)
+              \end{align}
+    \end{enumerate}
+
+    \paso{4}{Condiciones de Contorno y de Continuidad en la Frontera $x = 2\text{ m}$}
+
+    Disponemos de 4 incógnitas ($C_1, C_2, C_3, C_4$), por lo que necesitamos 4 ecuaciones cinemáticas:
+    \begin{enumerate}
+        \item \textbf{Dos condiciones de contorno en los apoyos extremos:}
+              \begin{equation}
+                  y_1(x = 0) = 0 \implies C_2 = 0, \qquad y_2(x = 5) = 0
+              \end{equation}
+        \item \textbf{Dos condiciones de continuidad (compatibilidad) en el punto de unión $x = 2\text{ m}$:} Como la viga no se rompe ni tiene una rótula en $x = 2\text{ m}$, lo que desciende y gira la viga en $x = 2\text{ m}$ por el tramo de la izquierda tiene que coincidir exactamente con lo que desciende y gira por el tramo de la derecha:
+              \begin{align}
+                  \text{Continuidad de flechas en } x = 2\text{ m:} \quad & \mathbf{y_1(2) = y_2(2)}   \\
+                  \text{Continuidad de giros en } x = 2\text{ m:} \quad   & \mathbf{y_1'(2) = y_2'(2)}
+              \end{align}
+    \end{enumerate}
+    Resolviendo el sistema lineal de 4 ecuaciones resultante:
+    \begin{equation}
+        C_1 = -\frac{52}{3} \approx -17.33, \qquad C_2 = 0, \qquad C_3 = -\frac{112}{3} \approx -37.33, \qquad C_4 = +\frac{40}{3} \approx +13.33
+    \end{equation}
+
+    \begin{tcolorbox}[colback=yellow!10, colframe=orange!85!black, title=\textbf{Alcance Operativo en Problemas con Múltiples Cortes}]
+        Cada tramo adicional de momento flector introduce 2 nuevas constantes de integración ($2n$ constantes para $n$ tramos). Si una viga presenta una carga distribuida parcial combinada con varias cargas puntuales que obliguen a realizar 3 o más cortes (6 o más constantes de integración), la resolución manual mediante integración directa deja de ser operativa y no se exigirá en el examen.
+
+        Esto se debe a que, en las condiciones reales de examen presencial sin calculadora programable ni software de cálculo en ordenador, con una calculadora científica estándar no disponemos de algoritmos matriciales para resolver sistemas lineales de 6 o más incógnitas en el tiempo asignado. Por tanto, \textbf{el máximo operativo que resolveremos por integración directa de la elástica será de 2 cortes (2 tramos, 4 constantes $C_1, C_2, C_3, C_4$)}.
+
+        Asimismo, en cuanto a la determinación de la flecha máxima mediante la anulación del giro ($y'(x) = 0$):
+        \begin{itemize}
+            \item En el caso de tener 2 tramos o cargas triangulares, cuando la ecuación de giros resulta \textbf{bicuadrada} (de la forma $a\,x^4 + b\,x^2 + c = 0$), se resuelve de forma sencilla e inmediata con una calculadora científica mediante el cambio de variable $t = x^2 \implies a\,t^2 + b\,t + c = 0$, obteniendo las raíces cuadradas directas $x = \sqrt{t}$.
+            \item En el caso de una ecuación \textbf{cúbica} (de tercer grado, generada bajo carga uniforme como en el Ejercicio 1), la raíz que anula el giro dentro del vano se obtiene por simetría o factorización directa tal y como se ha analizado anteriormente ($x = L/2$).
+        \end{itemize}
+    \end{tcolorbox}
+}
