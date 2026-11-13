@@ -1,0 +1,330 @@
+% !TeX root = ../../apuntes_bloque1.tex
+\section{Diseño de Uniones Soldadas}
+
+La soldadura constituye el procedimiento de unión permanente más empleado en la fabricación de recipientes a presión, conducciones industriales y estructuras metálicas. Durante su ejecución se debe controlar cuidadosamente el proceso térmico para evitar defectos críticos como las \textbf{coqueras} (porosidades producidas por gases ocluidos que originan concentraciones de tensiones, fracturas y focos de corrosión) y las \textbf{tensiones residuales} generadas durante el enfriamiento localizado del metal.
+
+\subsection{Métodos de soldeo}
+Según la naturaleza física de la unión y el aporte térmico aplicado, los procedimientos de soldeo se clasifican en cuatro grandes grupos:
+\begin{enumerate}[label=\alph*)]
+    \item \textbf{Falso soldeo (soldadura heterogénea o \textit{brazing/soldering}):} El metal base no alcanza su temperatura de fusión; la unión se consigue aportando un metal o aleación fundida de menor punto de fusión que moja por capilaridad las superficies preparadas:
+          \begin{itemize}
+              \item \textit{Soldaduras blandas:} Basadas en aleaciones de plomo y estaño ($\text{Pb--Sn}$). Presentan baja resistencia mecánica y se destinan a estanqueidad o conexiones eléctricas.
+              \item \textit{Soldadura fuerte:} Realizada a base de latón (aleación $\text{Cu--Zn}$), ofreciendo una resistencia mecánica notablemente superior.
+              \item \textit{Soldadura dura:} Ejecutada a menores temperaturas relativas mediante aleaciones de cobre con proporciones variables de plata ($\text{Cu--Ag}$).
+          \end{itemize}
+    \item \textbf{Soldadura a presión a alta temperatura (forja / resistencia):} No existe metal de aportación externo; se lleva el metal base a estado plástico o fusión localizada en la interfaz de contacto y se aplica una elevada presión mecánica para consolidar la unión.
+    \item \textbf{Soldadura a presión en frío:} Aplicable a metales muy dúctiles y blandos (como aluminio y cobre). Se ejecuta aplicando gran presión superficial sin metal de aportación y en ocasiones bajo temperaturas criogénicas próximas a $-150\,^\circ\text{C}$.
+    \item \textbf{Soldadura por fusión:} Es la técnica industrial predominante. Consiste en fundir simultáneamente los bordes del metal base y un metal de aportación compatible, originando al solidificar un baño de fusión continuo con excelentes propiedades de resistencia y tenacidad. El calor se suministra mediante \textbf{arco eléctrico} entre electrodo y piezas, o mediante combustión de mezclas gaseosas de acetileno, hidrógeno o gas de alumbrado con oxígeno (\textbf{soldadura autógena o oxiacetilénica}).
+\end{enumerate}
+
+\subsection{Tipos de soldaduras y eficacia de junta ($E_S$)}
+En el diseño de equipos químicos y recipientes sometidos a presión (códigos ASME, EN 13445), la calidad constructiva e inspeccionabilidad de la costura se cuantifica mediante el parámetro denominado \textbf{Eficacia de soldadura ($E_S$)}. Para determinarlo experimentalmente, se ensaya a tracción una probeta soldada y se compara su tensión de rotura con la obtenida para una probeta idéntica del metal base continuo sin soldadura ($0 < E_S \le 1$).
+
+\begin{table}[H]
+    \centering
+    \caption{Valores normalizados de la eficacia de junta ($E_S$) según la geometría del cordón y el grado de inspección radiográfica.}
+    \adjustbox{max width=\textwidth}{%
+        \renewcommand{\arraystretch}{1.24}
+        \setlength{\tabcolsep}{7pt}
+        \small
+        \begin{tabular}{@{}lccc@{}}
+            \toprule
+            \textbf{Tipo de junta soldada} & \textbf{\shortstack{Completamente\\radiografiada}} & \textbf{\shortstack{Examinada por\\muestra}} & \textbf{\shortstack{No examinada}} \\
+            \midrule
+            Junta soldada a tope en doble V (unión cabeza a recipiente) & 1,00 & 0,85 & 0,70 -- 0,80 \\
+            Junta soldada a tope con tira de recubrimiento (unión cabeza-recipiente) & 0,90 & 0,80 & 0,65 -- 0,80 \\
+            Junta soldada a tope en V simple & --- & --- & 0,60 \\
+            Junta solapada con doble filete rasgado & --- & --- & 0,55 \\
+            Junta solapada con simple filete rasgado y soldaduras de tapón & --- & --- & 0,50 \\
+            Junta solapada con un solo filete rasgado & --- & --- & 0,45 \\
+            \bottomrule
+        \end{tabular}%
+    }
+    \label{tab:t8_eficacia_soldadura}
+\end{table}
+
+Asimismo, en el cálculo estructural con aceros, los esfuerzos admisibles dependen de la serie del electrodo utilizado (Tabla~\ref{tab:t8_electrodos}). Cuando en un problema no se especifique la calidad exacta del electrodo, se adoptan los \textbf{valores conservativos por defecto}: $\sigma_T = \sigma_c = 112\text{ MPa}$ y $\tau = 95\text{ MPa}$.
+
+\begin{table}[H]
+    \centering
+    \caption{Esfuerzos permisibles normalizados para electrodos de soldeo en acero estructural.}
+    \adjustbox{max width=0.92\textwidth}{%
+        \renewcommand{\arraystretch}{1.24}
+        \setlength{\tabcolsep}{8pt}
+        \small
+        \begin{tabular}{@{}lccl@{}}
+            \toprule
+            \textbf{Tipo de electrodo} & \textbf{\shortstack{Resistencia a tracción\\mínima (MPa)}} & \textbf{\shortstack{Esfuerzo cortante\\admisible (MPa)}} & \textbf{Metales base recomendados} \\
+            \midrule
+            E60  & 414 & 124 & Acero A36, A500 \\
+            E70  & 483 & 145 & Acero A242, A441 \\
+            E80  & 552 & 165 & Acero A572, Grado 65 \\
+            E90  & 621 & 186 & Aceros aleados de alta resistencia \\
+            E100 & 690 & 207 & Aceros aleados de alta resistencia \\
+            E110 & 758 & 228 & Acero estructural templado A514 \\
+            \bottomrule
+        \end{tabular}%
+    }
+    \label{tab:t8_electrodos}
+\end{table}
+
+\subsection{Diseño de soldaduras a tope}
+En una soldadura a tope sometida a una carga axial $P$, el plano crítico del cordón trabaja fundamentalmente a \textbf{tracción o compresión}. La sección resistente coincide con el espesor de la chapa más delgada ($t_1$) multiplicado por la longitud útil del cordón ($l$):
+\begin{equation}
+    R_{\text{tope}} = \sigma_t \cdot t_1 \cdot l \cdot (E_S)
+    \label{eq:t8_soldadura_tope}
+\end{equation}
+donde $\sigma_t$ es la tensión admisible del material de aportación (a tracción o compresión) y $E_S$ es la eficacia de junta aplicable cuando exista factor de calidad constructiva ($E_S = 1$ si no se indica minoración adicional).
+
+\subsection{Diseño de soldaduras por solape o en ángulo}
+Las soldaduras de filete o en ángulo fallan por \textbf{esfuerzo cortante}. Para su dimensionamiento se considera que la tensión cortante máxima se distribuye uniformemente sobre la sección longitudinal mínima del cordón triangular, denominada \textbf{garganta de la soldadura ($g$)}.
+
+Sea $t'$ el \textbf{ala o cateto de la soldadura} (longitud del cordón en contacto directo con las caras de las chapas, habitualmente igual al espesor de la placa soldada). En un filete estándar isósceles de lados iguales ($45^\circ$), la garganta vale $g = t'\cos 45^\circ = \frac{\sqrt{2}}{2}\,t' \approx 0{,}7071\,t'$:
+\begin{equation}
+    R_{\text{ángulo}} = \tau_{\text{adm}} \cdot (t' \cos 45^\circ) \cdot l
+    \label{eq:t8_soldadura_angulo}
+\end{equation}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[>=Latex, thick]
+        % Placa inferior y superior en esquina
+        \draw[fill=gray!15] (0,0) rectangle (6.2,0.55);
+        \draw[fill=gray!25] (1.2,0.55) rectangle (4.5,1.45);
+        % Cordon triangular de 45 grados (ala t')
+        \filldraw[fill=blue!18, draw=black] (4.5,0.55) -- (5.5,0.55) -- (4.5,1.45) -- cycle;
+        % Detalle ampliado a la derecha
+        \begin{scope}[xshift=7.6cm, yshift=0.15cm, scale=1.45]
+            \draw[line width=1.1pt, fill=blue!12] (0,0) -- (1.2,0) -- (0,1.2) -- cycle;
+            \draw[<->, red!75!black, line width=1pt] (0,0) -- (0.6,0.6) node[midway, above left, font=\footnotesize] {Garganta};
+            \draw[thin] (0.85,0) arc (180:135:0.35);
+            \node[font=\scriptsize] at (0.72,0.18) {$45^\circ$};
+            \draw[<->] (0,-0.25) -- (1.2,-0.25) node[midway, below, font=\footnotesize] {$t'$ (Ala de soldadura)};
+            \draw[<->] (-0.25,0) -- (-0.25,1.2) node[midway, left, font=\footnotesize] {$t'$};
+        \end{scope}
+        \node[font=\footnotesize] at (5.1,1.35) {Cordón de longitud $l$};
+        \draw[->, thin, dashed] (4.9,0.95) .. controls (5.8,1.2) and (6.7,1.1) .. (7.4,0.85);
+    \end{tikzpicture}
+    \caption{Geometría de un cordón de soldadura en ángulo por solape: definición del ala ($t'$) y de la garganta resistente a cortante ($t'\cos 45^\circ$).}
+    \label{fig:t8_garganta_soldadura}
+\end{figure}
+
+%=============================================================================
+\section{Diseño de Uniones Cargadas Excéntricamente}
+
+Cuando la línea de acción de la carga exterior $P$ no pasa por el centro de gravedad (C.G.) del conjunto de los $n$ roblones o tornillos sino a una distancia perpendicular $d$ (denominada \textbf{excentricidad}), la unión queda sometida simultáneamente a un esfuerzo cortante directo y a un momento torsor en el plano $M = P\cdot d$. Suponiendo fallo por cortadura de los conectores, se aplica el principio de superposición:
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[>=Latex, thick, scale=0.95]
+        % Esquema (a) carga directa P/n
+        \node[font=\bfseries\small] at (2.1, 3.35) {(a) Reacción directa al cortante};
+        \draw[fill=gray!10] (0,0) rectangle (2.6,3.0);
+        \draw[fill=blue!6] (0.5,0.4) rectangle (3.8,2.6);
+        % 6 tornillos en dos columnas x=1.2, 2.2; y=0.8, 1.5, 2.2
+        \foreach \x in {1.2, 2.2}{
+            \foreach \y in {0.8, 1.5, 2.2}{
+                \filldraw[fill=white, draw=black] (\x,\y) circle (0.11);
+                \draw[->, blue!75!black] (\x,\y) -- (\x,\y+0.42);
+            }
+        }
+        % CG
+        \node[font=\scriptsize] at (1.7,1.22) {C.G.};
+        \draw[thin] (1.62,1.5) -- (1.78,1.5) (1.7,1.42) -- (1.7,1.58);
+        % Carga P y excentricidad d
+        \draw[dashed] (1.7,1.5) -- (1.7,3.05);
+        \draw[<->] (1.7,2.85) -- (3.5,2.85) node[midway, above, font=\small] {$d$};
+        \draw[->, line width=1.6pt, red!80!black] (3.5,2.95) -- (3.5,1.85) node[right] {$P$};
+        \node[font=\scriptsize, blue!75!black] at (2.8,2.2) {$R_P = \frac{P}{n}$};
+
+        % Esquema (b) reaccion al momento M = P*d
+        \begin{scope}[xshift=6.5cm]
+            \node[font=\bfseries\small] at (2.1, 3.35) {(b) Reacción al momento $M = P\cdot d$};
+            \draw[fill=blue!6] (0.5,0.4) rectangle (3.8,2.6);
+            \coordinate (CG) at (1.7,1.5);
+            \draw[thin, dashed] (1.7,0.4) -- (1.7,2.6);
+            \draw[thin, dashed] (0.5,1.5) -- (3.8,1.5);
+            % Radios y reacciones perpendiculares (sentido antihorario en chapa para equilibrar M horario)
+            \foreach \x/\y/\dx/\dy/\lbl in {
+                1.2/2.2/-0.36/-0.25/$R_1$,
+                2.2/2.2/-0.36/0.25/$R_6$,
+                1.2/1.5/0/-0.38/$R_2$,
+                2.2/1.5/0/0.38/$R_5$,
+                1.2/0.8/0.36/-0.25/$R_3$,
+                2.2/0.8/0.36/0.25/$R_4$
+            }{
+                \draw[thin, gray] (CG) -- (\x,\y);
+                \filldraw[fill=white, draw=black] (\x,\y) circle (0.11);
+                \draw[->, myg!80!black] (\x,\y) -- (\x+\dx,\y+\dy) node[font=\scriptsize, anchor=west] {\lbl};
+            }
+            % Arco momento M horario
+            \draw[->, line width=1.3pt, red!80!black] (2.9,2.25) arc (40:-40:1.15) node[midway, right] {$M$};
+        \end{scope}
+    \end{tikzpicture}
+    \caption{Descomposición de acciones sobre los conectores de una unión cargada excéntricamente: (a) reacción cortante directa $P/n$ y (b) reacciones $R_i$ debidas al momento $M = P\cdot d$.}
+    \label{fig:t8_carga_excentrica}
+\end{figure}
+
+\begin{enumerate}
+    \item \textbf{Reacción directa a la fuerza cortante $P$:} Todos los conectores soportan una fuerza de idéntico módulo, dirección paralela a $P$ y sentido opuesto:
+          \begin{equation}
+              R_P = \frac{P}{n}
+              \label{eq:t8_reaccion_directa}
+          \end{equation}
+    \item \textbf{Reacción al momento $M = P\cdot d$:} Cada conector $i$ desarrolla una reacción $R_i$ perpendicular al radio vector $r_i$ que une su centro con el C.G. del grupo, opuesta al giro del momento aplicado y proporcional a su distancia $r_i = \sqrt{x_i^2 + y_i^2}$ al centro de gravedad ($R_i = k\cdot r_i$). Exigiendo el equilibrio de momentos respecto al C.G.:
+          \begin{equation*}
+              M = \sum_{i=1}^{n} R_i \cdot r_i = k \sum_{i=1}^{n} r_i^2 \quad \Longrightarrow \quad k = \frac{M}{\sum_{i=1}^{n} r_i^2}
+          \end{equation*}
+          de donde la reacción debida al momento en cada conector resulta:
+          \begin{equation}
+              R_i = \frac{M}{\sum_{i=1}^{n} r_i^2}\cdot r_i
+              \label{eq:t8_reaccion_momento}
+          \end{equation}
+\end{enumerate}
+
+\paragraph{Formulación en coordenadas cartesianas.}
+Ubicando el origen de coordenadas $(0,0)$ en el C.G. de los conectores, las componentes horizontal y vertical de la reacción debida al momento en el conector de coordenadas $(x_i, y_i)$ se obtienen directamente por semejanza de triángulos:
+\begin{equation}
+    R_{ix} = \frac{M}{\sum_{i=1}^{n}(x_i^2 + y_i^2)} \cdot y_i, \qquad R_{iy} = \frac{M}{\sum_{i=1}^{n}(x_i^2 + y_i^2)} \cdot x_i
+    \label{eq:t8_cartesianas_exc}
+\end{equation}
+
+\begin{ImportanteBox}[title={Procedimiento de Dimensionamiento con Carga Excéntrica}]
+    \begin{enumerate}[label=\alph*)]
+        \item Calcular las coordenadas $(x_i, y_i)$ de cada conector respecto al C.G. del grupo y evaluar la suma polar $\sum_{i=1}^{n}(x_i^2 + y_i^2)$.
+        \item Determinar la reacción directa $R_P = P/n$ y las componentes $(R_{ix}, R_{iy})$ debidas al momento $M = P\cdot d$ en los conectores potencialmente más desfavorables (los de mayor radio $r_i$ y cuya componente vertical de momento tenga el \textbf{mismo sentido} que $R_P$).
+        \item Sumar vectorialmente la reacción directa y la reacción por momento en cada conector para identificar la fuerza resultante máxima $R_{\text{máx}} = \sqrt{(R_{ix}')^2 + (R_{iy}')^2}$.
+        \item Dimensionar el diámetro mínimo del tornillo o roblón igualando a la tensión cortante admisible:
+              \begin{equation}
+                  \tau_{\text{adm}} = \frac{R_{\text{máx}}}{\frac{\pi}{4}d^2} \quad \Longrightarrow \quad d \ge \sqrt{\frac{4\,R_{\text{máx}}}{\pi\,\tau_{\text{adm}}}}
+                  \label{eq:t8_diametro_excentrica}
+              \end{equation}
+    \end{enumerate}
+\end{ImportanteBox}
+
+%=============================================================================
+\section{Problemas Resueltos del Tema 8}
+
+\ex{Problema 4: Capacidad de Carga de Tolva Suspendida (Uniones Remachada, Atornillada y Soldada)}{
+Se dispone de una tolva de peso propio $W_{\text{tolva}} = 1150\text{ kgf}$ para elevar un sólido. Suponiendo la carga repartida uniformemente entre las \textbf{cuatro uniones} de la tolva a las vigas superiores, determinar la masa máxima de sólido que es posible almacenar:
+\begin{itemize}
+    \item \textbf{Parte I:} Sin analizar la unión soldada de la orejeta.
+    \item \textbf{Parte II:} Incluyendo el análisis de los dos cordones laterales de soldadura de la orejeta ($l = 20\text{ cm}$) e indicando qué unión resulta limitante.
+\end{itemize}
+\textbf{Datos:} Perfiles, orejetas y cubrejuntas del mismo acero dispuestos simétricamente con $\sigma_{\text{trac,adm}} = 773\text{ kgf/cm}^2$, $\sigma_{\text{comp,adm}} = 1336\text{ kgf/cm}^2$ y $\tau_{\text{adm}} = 618\text{ kgf/cm}^2$. Espesor viga superior $t_{\text{viga}} = 7\text{ mm}$; espesor orejeta $t_{\text{orej}} = 8\text{ mm}$; espesor de cada cubrejuntas (doble cubrejuntas simétrico) $t_{\text{cub}} = 6\text{ mm}$; diámetro de roblones (3 unidades) $d_r = 2\text{ cm}$; diámetro de tornillos (2 unidades) $d_t = 2\text{ cm}$. Soldadura de orejeta: $\sigma_T = \sigma_c = 11{,}2\text{ kgf/mm}^2$ y $\tau_{\text{sold}} = 9{,}5\text{ kgf/mm}^2$.
+\tcblower
+\paso{1}{Análisis de la junta superior remachada (3 roblones, $d_r = 2\text{ cm}$)}
+Al disponerse un doble cubrejuntas simétrico ($2\times 6\text{ mm} = 12\text{ mm}$), cada roblón trabaja a cortadura doble y el espesor más delgado a compresión es el de la viga ($t_1 = 0{,}7\text{ cm}$):
+\begin{align*}
+    R_{1,\text{rem}} &= 3\text{ roblones} \times 2\text{ planos} \times \tau_{\text{adm}}\,\frac{\pi d_r^2}{4} = 6 \times 618 \times \frac{\pi \cdot 2^2}{4} = 11\,649{,}03\text{ kgf} \\
+    R_{2,\text{rem}} &= 3\text{ roblones} \times \sigma_{\text{comp,adm}} \cdot t_{\text{viga}} \cdot d_r = 3 \times 1336 \times 0{,}7 \times 2 = \mathbf{5\,611{,}20\text{ kgf}}
+\end{align*}
+\nt{Incluso si la junta superior se considerase en corte simple ($R_{1,\text{rem}} = 3\times 618\times \pi = 5\,824{,}5\text{ kgf}$), el aplastamiento sobre el alma de $7\text{ mm}$ ($5\,611{,}20\text{ kgf}$) seguiría siendo el modo de fallo más restrictivo.}
+
+\paso{2}{Análisis de la junta intermedia atornillada (2 tornillos, $d_t = 2\text{ cm}$)}
+La orejeta ($t_{\text{orej}} = 0{,}8\text{ cm}$) queda abrazada entre los dos cubrejuntas ($2\times 0{,}6 = 1{,}2\text{ cm}$), por lo que $t_1 = 0{,}8\text{ cm}$ y cada tornillo trabaja en doble plano de corte:
+\begin{align*}
+    R_{1,\text{torn}} &= 2\text{ tornillos} \times 2\text{ planos} \times \tau_{\text{adm}}\,\frac{\pi d_t^2}{4} = 4 \times 618 \times \pi = 7\,766{,}02\text{ kgf} \\
+    R_{2,\text{torn}} &= 2\text{ tornillos} \times \sigma_{\text{comp,adm}} \cdot t_{\text{orej}} \cdot d_t = 2 \times 1336 \times 0{,}8 \times 2 = \mathbf{4\,275{,}20\text{ kgf}}
+\end{align*}
+
+\paso{3}{Capacidad de carga de la Parte I}
+Comparando ambas juntas mecánicas, la junta limitante es la \textbf{unión atornillada por aplastamiento de la orejeta}:
+\begin{equation*}
+    P_{\text{u,lím}} = \text{mín}(5\,611{,}20;\; 4\,275{,}20) = 4\,275{,}20\text{ kgf/unión}
+\end{equation*}
+Con 4 uniones portantes y restando el peso propio de la tolva:
+\begin{equation*}
+    W_{\text{total,máx}} = 4 \times 4\,275{,}20 = 17\,100{,}80\text{ kgf} \implies M_{\text{sólido,I}} = 17\,100{,}80 - 1\,150 = \mathbf{15\,950{,}8\text{ kg}}
+\end{equation*}
+\nt{Si en lugar de doble cubrejuntas los tornillos se modelasen a corte simple de 1 plano, $R_{1,\text{torn}} = 2 \times 618 \times \pi = 3\,883{,}0\text{ kgf/unión}$, resultando entonces $M_{\text{sólido}} = 4\times 3\,883{,}0 - 1\,150 = 14\,382{,}0\text{ kg}$.}
+
+\paso{4}{Análisis de la unión soldada de la orejeta (Parte II)}
+Cada orejeta de espesor $t_{\text{orej}} = 8\text{ mm}$ se fija mediante 2 cordones laterales en ángulo de longitud $l = 20\text{ cm} = 200\text{ mm}$ y ala $t' = 8\text{ mm}$, que trabajan a cortante con $\tau_{\text{sold}} = 9{,}5\text{ kgf/mm}^2$:
+\begin{equation*}
+    R_{\text{sold}} = 2 \times \tau_{\text{sold}} \cdot (t'\cos 45^\circ) \cdot l = 2 \times 9{,}5 \times (8\cos 45^\circ) \times 200 = \mathbf{21\,496{,}05\text{ kgf/unión}}
+\end{equation*}
+Como $21\,496{,}05\text{ kgf} \gg 4\,275{,}20\text{ kgf}$, la soldadura posee una reserva resistente muy superior; \textbf{la unión limitante sigue siendo la junta atornillada} y la masa máxima de sólido almacenable permanece en $\mathbf{15\,950{,}8\text{ kg}}$.
+}
+
+\vspace{1em}
+
+\ex{Ejercicio 9: Dimensionamiento de Tornillos en Ménsula con Carga Excéntrica}{
+Una columna lleva atornillada una ménsula mediante $n = 6$ tornillos ASTM A325 (dispuestos en 2 columnas separadas $200\text{ mm}$ y 3 filas separadas $75\text{ mm}$ entre sí, Figura~\ref{fig:t8_ej9_mensula}) para soportar un motor cuya carga total vertical de $P = 26{,}4\text{ kN}$ actúa con una excentricidad horizontal de $a = 75\text{ cm} = 0{,}75\text{ m}$ respecto al eje vertical del grupo de tornillos. Suponiendo fallo en cortante con $\tau_{\text{adm}} = 121\text{ MPa}$, determinar el diámetro mínimo requerido de los tornillos.
+\tcblower
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[>=Latex, thick, scale=0.9]
+        \draw[fill=blue!5] (-1.8,-1.5) rectangle (1.8,1.5);
+        \draw[thin, dashed] (-2.1,0) -- (2.1,0);
+        \draw[thin, dashed] (0,-1.8) -- (0,1.8);
+        % 6 tornillos (100 mm -> +/-1.0, 75 mm -> +/-0.85, 0)
+        \foreach \sx/\tagA/\tagB/\tagC in {-1.0/3/2/1, 1.0/4/5/6}{
+            \filldraw[fill=white] (\sx, 0.85) circle (0.12);
+            \filldraw[fill=white] (\sx, 0.0) circle (0.12);
+            \filldraw[fill=white] (\sx,-0.85) circle (0.12);
+        }
+        \node[above left, font=\scriptsize] at (-1.05,0.88) {1};
+        \node[above right, font=\scriptsize] at (1.05,0.88) {6};
+        \node[above left, font=\scriptsize] at (-1.05,0.02) {2};
+        \node[above right, font=\scriptsize] at (1.05,0.02) {5};
+        \node[below left, font=\scriptsize] at (-1.05,-0.88) {3};
+        \node[below right, font=\scriptsize] at (1.05,-0.88) {4};
+        % Cotas
+        \draw[<->] (-1.0,-1.85) -- (0,-1.85) node[midway, below, font=\scriptsize] {$100\text{ mm}$};
+        \draw[<->] (0,-1.85) -- (1.0,-1.85) node[midway, below, font=\scriptsize] {$100\text{ mm}$};
+        \draw[<->] (-2.25,0) -- (-2.25,0.85) node[midway, left, font=\scriptsize] {$75\text{ mm}$};
+        \draw[<->] (-2.25,-0.85) -- (-2.25,0) node[midway, left, font=\scriptsize] {$75\text{ mm}$};
+        % Carga P y momento M
+        \draw[->, line width=1.4pt, red!80!black] (3.3,1.2) -- (3.3,-0.6) node[midway, right] {$P = 26{,}4\text{ kN}$};
+        \draw[<->] (0,1.65) -- (3.3,1.65) node[midway, above, font=\footnotesize] {$a = 75\text{ cm}$};
+        % Vectores criticos en tornillo 6 (mas solicitado a la derecha: R_6y y R_P hacia arriba)
+        \draw[->, blue!75!black] (1.0,0.85) -- (1.0,1.28) node[right, font=\scriptsize] {$R_P$};
+        \draw[->, myg!80!black] (1.0,0.85) -- (1.0,1.65) node[right, font=\scriptsize] {$R_{6y}$};
+        \draw[->, myg!80!black] (1.0,0.85) -- (0.35,0.85) node[below, font=\scriptsize] {$R_{6x}$};
+    \end{tikzpicture}
+    \caption{Geometría coordenada de los 6 tornillos respecto al C.G. y reacciones en el tornillo más solicitado.}
+    \label{fig:t8_ej9_mensula}
+\end{figure}
+
+\paso{1}{Reacción directa a la carga cortante ($R_P$)}
+Cada uno de los 6 tornillos soporta la sexta parte de la carga vertical $P$, dirigida verticalmente hacia arriba:
+\begin{equation*}
+    R_P = \frac{P}{6} = \frac{26{,}4\text{ kN}}{6} = \mathbf{4{,}40\text{ kN}} \quad (\uparrow)
+\end{equation*}
+
+\paso{2}{Momento aplicado y suma polar de coordenadas}
+El momento flector respecto al C.G. de los tornillos vale:
+\begin{equation*}
+    M = P \cdot a = 26{,}4\text{ kN} \times 0{,}75\text{ m} = \mathbf{19{,}80\text{ kN}\cdot\text{m}} = 19{,}80 \times 10^3\text{ kN}\cdot\text{mm}
+\end{equation*}
+Las coordenadas de los 6 tornillos respecto al C.G. son $x_i = \pm 100\text{ mm}$ (todos) e $y_i \in \{+75, 0, -75\}\text{ mm}$, por lo que:
+\begin{equation*}
+    \sum_{i=1}^{6}\left(x_i^2 + y_i^2\right) = 6 \times (100)^2 + 4 \times (75)^2 = 60\,000 + 22\,500 = \mathbf{82\,500\text{ mm}^2}
+\end{equation*}
+
+\paso{3}{Componentes del momento y fuerza resultante máxima}
+Los tornillos situados en la columna derecha ($x = +100\text{ mm}$) y en las filas extremas ($y = \pm 75\text{ mm}$, esquinas) sufren las mayores solicitaciones porque su componente vertical por momento $R_{iy}$ actúa hacia arriba, sumándose directamente a $R_P$:
+\begin{align*}
+    R_{\text{esquina},x} &= \frac{M \cdot |y|}{\sum(x_i^2 + y_i^2)} = \frac{19{,}80 \times 10^3 \times 75}{82\,500} = \mathbf{18{,}00\text{ kN}} \\
+    R_{\text{esquina},y} &= \frac{M \cdot |x|}{\sum(x_i^2 + y_i^2)} = \frac{19{,}80 \times 10^3 \times 100}{82\,500} = \mathbf{24{,}00\text{ kN}} \quad (\uparrow)
+\end{align*}
+Sumando la componente vertical directa $R_P = 4{,}40\text{ kN}$ ($\uparrow$):
+\begin{equation*}
+    R'_y = R_{\text{esquina},y} + R_P = 24{,}00 + 4{,}40 = \mathbf{28{,}40\text{ kN}}
+\end{equation*}
+La reacción total resultante máxima en los tornillos de las esquinas derechas resulta:
+\begin{equation*}
+    R_{\text{máx}} = \sqrt{R_{\text{esquina},x}^2 + (R'_y)^2} = \sqrt{18{,}00^2 + 28{,}40^2} = \sqrt{324 + 806{,}56} = \mathbf{33{,}62\text{ kN}} = 33\,624\text{ N}
+\end{equation*}
+
+\paso{4}{Cálculo del diámetro mínimo del tornillo}
+Imponiendo $\tau_{\text{adm}} = 121\text{ MPa} = 121\text{ N/mm}^2$:
+\begin{equation*}
+    \tau_{\text{adm}} = \frac{R_{\text{máx}}}{\frac{\pi}{4}d^2} \quad \Longrightarrow \quad d = \sqrt{\frac{4 \times 33\,624\text{ N}}{\pi \times 121\text{ N/mm}^2}} = \mathbf{18{,}81\text{ mm}} \approx \mathbf{18{,}9\text{ mm}}
+\end{equation*}
+Se adoptaría un tornillo comercial normalizado de diámetro mínimo $\mathbf{M20}$ ($d = 20\text{ mm}$).
+}
+
+\nt{\textbf{Problemas adicionales del manual de referencia (Jurado Alameda E. y Vicaria J.M., 2021, Tema 4):}
+Los enunciados y desarrollos complementarios corresponden a los Problemas Resueltos 1 (unión por solape con 1 y 2 filas enfrentadas y al tresbolillo), 2 y 3 (unión a tope con 1 y 2 filas), 5 y 6 (soldaduras por solape) y 7 y 8 (uniones remachadas excéntricas sin y con coordenadas cartesianas).}

@@ -1,0 +1,62 @@
+\documentclass{report}
+
+\input{preamble} % revisar en preamble \setcounter{tocdepth}{3}
+\input{macros}
+\input{letterfonts}
+\usepackage[utf8]{inputenc}  % para PDFLaTeX
+\usepackage[T1]{fontenc}
+
+\usepackage{chemfig}
+\usepackage{multicol}
+\usepackage{booktabs}
+\usepackage{siunitx}
+\usepackage{cancel}
+\usepackage{adjustbox}
+\usepackage{pdflscape}  % permite páginas horizontales que se ven rotadas en el PDF
+\usepackage[backend=biber, style=apa]{biblatex}
+\usepackage{caption}
+\usepackage[spanish,es-noindentfirst]{babel}
+\usepackage{lmodern}
+\usepackage{multirow}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning, calc, decorations.pathreplacing, babel, shapes.geometric, patterns, patterns.meta}
+\usepackage{amsmath}
+\usepackage{minted}
+\usepackage{csquotes}
+\usepackage{subcaption}
+\usepackage{float} % Para usar [H]
+\addto\captionsspanish{
+  \renewcommand{\contentsname}{Índice}
+}
+
+\definecolor{darkgreen}{rgb}{0,0.6,0}
+\title{\Huge{Resistencia de Materiales y Diseño Mecánico}\\[0.35em]
+\LARGE{Bloque I: Propiedades, Corrosión y Diseño Mecánico}\\[0.25em]
+\large\textit{Temas 1, 2, 8, 9, 10, 11 y 12}}
+\author{\huge{Christian Pérez Hita}}
+\date{}
+
+\begin{document}
+\spanishdeactivate{.<>}
+\setcounter{tocdepth}{3}
+\maketitle
+\newpage
+\pdfbookmark[section]{\contentsname}{contenidos}
+
+\tableofcontents
+\pagebreak
+\graphicspath{ {./Imagenes/} }
+
+% Bloque I: Temas 1, 2, 8, 9, 10, 11 y 12
+\include{Capitulos/Tema1}
+\include{Capitulos/Tema2}
+\setcounter{chapter}{7} % El siguiente capítulo será el Tema 8
+\include{Capitulos/Tema8}
+\include{Capitulos/Tema9}
+
+% Temas del Bloque I pendientes de elaboración:
+% \include{Capitulos/Tema10}
+% \include{Capitulos/Tema11}
+% \include{Capitulos/Tema12}
+
+\end{document}

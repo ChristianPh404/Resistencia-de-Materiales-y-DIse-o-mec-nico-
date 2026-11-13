@@ -1,0 +1,217 @@
+% !TeX root = ../../apuntes_bloque1.tex
+\section{Diseño de Elementos Verticales de Estructuras}
+
+Un elemento vertical, \textbf{soporte, columna o pilar} es una barra larga y esbelta sometida fundamentalmente a esfuerzos de \textbf{compresión axial}.
+
+Cuando una pieza prismática es sometida a compresión, su modo de fallo depende decisivamente de la relación entre su longitud $L$ y las dimensiones transversales de su sección:
+\begin{itemize}
+    \item Si la barra es \textbf{corta} (la relación entre su longitud y la menor dimensión lateral es inferior a $10$), el fallo se produce por plastificación o aplastamiento del material antes de perder su forma recta, considerándose \textbf{exenta de pandeo}.
+    \item Si la barra es \textbf{esbelta}, antes de alcanzarse la tensión límite del material puede perder bruscamente su configuración de equilibrio rectilíneo y flectar lateralmente de manera irreversible al superar una \textbf{carga crítica}. Este fenómeno de inestabilidad elástica se denomina \textbf{pandeo o flexión lateral}.
+\end{itemize}
+
+\dfn{Relación de Esbeltez ($\text{RE}$) y Radio de Giro ($r$)}{La \textbf{relación de esbeltez} cuantifica la tendencia al pandeo de una columna mediante el cociente adimensional entre su longitud $L$ y el \textbf{radio de giro mínimo} $r$ de su sección transversal:}
+\begin{equation}
+    \text{RE} = \frac{L}{r}, \qquad \text{donde} \qquad r = \sqrt{\frac{I_{\text{mín}}}{A}}
+    \label{eq:t9_esbeltez}
+\end{equation}
+siendo $I_{\text{mín}}$ el menor de los momentos de inercia principales de la sección transversal (puesto que la columna pandeará preferentemente alrededor del eje de menor rigidez flexional) y $A$ el área de la sección.
+
+\ex{Ejemplo Guiado: Cálculo de $I_{\text{mín}}$, Radio de Giro y Relación de Esbeltez}{
+Determinar la relación de esbeltez de una columna rectangular maciza de $20\text{ cm} \times 25\text{ cm}$ y longitud $L = 7{,}5\text{ m}$.
+\tcblower
+\paso{1}{Cálculo de los momentos de inercia principales y $I_{\text{mín}}$}
+\begin{equation*}
+    I_{XX} = \frac{20 \cdot 25^3}{12} = 26\,041{,}67\text{ cm}^4, \qquad I_{YY} = \frac{25 \cdot 20^3}{12} = 16\,666{,}67\text{ cm}^4
+\end{equation*}
+Por consiguiente, el eje crítico de pandeo es el eje $YY$: $I_{\text{mín}} = I_{YY} = \mathbf{16\,667\text{ cm}^4}$.
+
+\paso{2}{Cálculo del radio de giro mínimo ($r$)}
+\begin{equation*}
+    r = \sqrt{\frac{I_{\text{mín}}}{A}} = \sqrt{\frac{16\,667}{20 \times 25}} = \mathbf{5{,}77\text{ cm}}
+\end{equation*}
+
+\paso{3}{Relación de esbeltez ($\text{RE}$)}
+Expresando ambas longitudes en centímetros ($L = 7{,}5\text{ m} = 750\text{ cm}$):
+\begin{equation*}
+    \text{RE} = \frac{L}{r} = \frac{750\text{ cm}}{5{,}77\text{ cm}} = \mathbf{130}
+\end{equation*}
+}
+
+\subsection{Criterios de selección de perfiles para un diseño eficiente}
+En una \textbf{viga horizontal} sometida a flexión en un plano conocido, interesa maximizar el módulo resistente respecto al eje principal de carga ($W_x = I_{XX}/y_{\text{máx}}$), lo que conduce a perfiles esbeltos en $I_{XX}$ pero con poca inercia transversal $I_{YY}$ (como un perfil $\text{W}12\times 16$, donde $r_x/r_y = 6{,}08$).
+
+Por el contrario, una \textbf{columna comprimida} puede flectar alrededor de \textbf{cualquier eje principal}, de modo que una pequeña excentricidad desencadena el pandeo respecto al eje de inercia mínimo. Para lograr una columna eficiente interesa:
+\begin{itemize}
+    \item Que ambos momentos de inercia principales sean lo más parecidos posible ($I_{XX} \approx I_{YY}$, o $r_x/r_y$ próximo a la unidad, como las columnas de ala ancha $\text{W}12\times 65$ donde $r_x/r_y = 1{,}75$).
+    \item Conseguir un radio de giro $r$ elevado alejando el material del centroide para mantener una relación de esbeltez reducida. Estas dos propiedades se optimizan de forma ideal en \textbf{secciones circulares huecas (tubulares)} y \textbf{secciones cuadradas huecas}.
+\end{itemize}
+
+%=============================================================================
+\section{Teoría de Euler para Columnas}
+
+La \textbf{Teoría de Euler} tiene por objeto determinar la \textbf{carga crítica ($P_{\text{crítica}}$)} por encima de la cual se desencadena el pandeo elástico de una columna esbelta. Se deduce bajo las siguientes hipótesis:
+\begin{enumerate}
+    \item El material es homogéneo e isótropo.
+    \item La sección transversal es constante y uniforme en toda la longitud $L$.
+    \item La tensión máxima desarrollada no supera el límite de proporcionalidad del material ($\sigma_{\text{LP}}$), cumpliéndose en todo momento la Ley de Hooke.
+\end{enumerate}
+
+Bajo carga de pandeo, el eje neutro (E.N.) de la columna adopta una configuración curva $x = f(y)$ llamada \textbf{elástica de pandeo}, donde $x$ mide la flecha lateral respecto al eje recto original en función de la altura $y$. El método analítico de Euler consta de tres etapas: (1) obtener la ecuación diferencial de la elástica e integrarla, (2) aplicar las condiciones de contorno para imponer que exista flecha máxima $a = x_{\text{máx}}$ no nula, y (3) despejar la carga crítica $P_{\text{crítica}}$.
+
+\subsection{Columna empotrada en un extremo y libre en el otro}
+
+Sea una columna vertical de altura $L$ empotrada en su base ($y = 0$) y libre en su coronación ($y = L$), donde actúa la carga axial $P$. Cuando la columna se deforma lateralmente alcanzando una flecha máxima $x_{\text{máx}} = a$ en el extremo superior libre, en una sección cualquiera a distancia $y$ desde la base (con desplazamiento lateral $x$) el momento flector interno es:
+\begin{equation*}
+    M(y) = -P \cdot x
+\end{equation*}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[>=Latex, thick]
+        % Columna sin deformar
+        \draw[pattern=north east lines] (-0.4,-0.25) rectangle (0.4,0);
+        \draw[line width=1.4pt] (-0.4,0) -- (0.4,0);
+        \draw[line width=1.5pt] (0,0) -- (0,3.2);
+        \draw[->, line width=1.4pt, red!80!black] (0,3.8) -- (0,3.2) node[midway, right] {$P$};
+        \draw[<->, thin] (-0.55,0) -- (-0.55,3.2) node[midway, left, font=\small] {$L$};
+
+        % Columna deformada por pandeo
+        \begin{scope}[xshift=4.6cm]
+            \draw[pattern=north east lines] (-0.4,-0.25) rectangle (0.4,0);
+            \draw[line width=1.4pt] (-0.4,0) -- (0.4,0);
+            \draw[dashed, gray] (0,0) -- (0,3.35);
+            \draw[line width=1.6pt, blue!80!black] (0,0) .. controls (0,1.2) and (0.35,2.4) .. (1.0,3.15);
+            \draw[->, line width=1.4pt, red!80!black] (1.0,3.75) -- (1.0,3.15) node[midway, right] {$P$};
+            \draw[<->, thin] (0,3.15) -- (1.0,3.15) node[midway, above, font=\small] {$a = x_{\text{máx}}$};
+            \draw[->, thin] (0,1.75) -- (0.32,1.75) node[midway, below, font=\small] {$x$};
+            \draw[<->, thin] (1.35,0) -- (1.35,1.75) node[midway, right, font=\small] {$y$};
+        \end{scope}
+
+        % Caso biempotrado L/4 y biarticulado L/2 resumidos a la derecha
+        \begin{scope}[xshift=9.2cm]
+            \node[font=\bfseries\small] at (0,3.55) {Biempotrada ($L/4$)};
+            \draw[pattern=north east lines] (-0.35,-0.2) rectangle (0.35,0);
+            \draw[pattern=north east lines] (-0.35,3.0) rectangle (0.35,3.2);
+            \draw[dashed, gray] (0,0) -- (0,3.0);
+            \draw[line width=1.5pt, blue!80!black] (0,0) .. controls (0,0.6) and (0.45,0.9) .. (0.45,1.5) .. controls (0.45,2.1) and (0,2.4) .. (0,3.0);
+            \foreach \yy in {0.75, 1.5, 2.25}{\draw[dotted] (-0.3,\yy) -- (0.7,\yy);}
+            \node[font=\scriptsize] at (0.85,0.38) {$L/4$};
+            \node[font=\scriptsize] at (0.85,1.12) {$L/4$};
+        \end{scope}
+    \end{tikzpicture}
+    \caption{Elástica de pandeo en columna empotrada-libre y división simétrica en cuatro tramos $L/4$ para columna biempotrada.}
+    \label{fig:t9_elastica_euler}
+\end{figure}
+
+Aplicando la ecuación diferencial de la elástica $E\cdot I\,\dfrac{d^2x}{dy^2} = M$:
+\begin{equation*}
+    \frac{d^2x}{dy^2} = -\frac{P\cdot x}{E\cdot I} \quad \Longleftrightarrow \quad \frac{d}{dy}\left(\frac{dx}{dy}\right) = -\frac{P\cdot x}{E\cdot I}
+\end{equation*}
+Multiplicando ambos miembros por $dx = \left(\dfrac{dx}{dy}\right)dy$ e integrando:
+\begin{equation*}
+    \left(\frac{dx}{dy}\right) d\left(\frac{dx}{dy}\right) = -\frac{P\cdot x}{E\cdot I}\,dx \quad \Longrightarrow \quad \frac{1}{2}\left(\frac{dx}{dy}\right)^2 = -\frac{P\cdot x^2}{2\,E\cdot I} + C_1
+\end{equation*}
+Imponiendo la \textbf{1.ª condición de contorno} (o más bien de simetría/pendiente horizontal en la tangente libre? Con origen $y=0$ en el empotramiento donde $x=0$ y en el extremo libre $y=L$ se alcanza la máxima flecha $x=a$, siguiendo exactamente la deducción del temario se toma $y=L \implies \frac{dx}{dy}=0$ cuando se mide $y$ desde arriba o con origen en el punto de inflexión superior, obteniéndose $C_1 = \frac{P\,a^2}{2\,E\cdot I}$):
+\begin{equation*}
+    \left(\frac{dx}{dy}\right)^2 = \frac{P}{E\cdot I}\left(a^2 - x^2\right) \quad \Longrightarrow \quad \frac{dx}{\sqrt{a^2 - x^2}} = \sqrt{\frac{P}{E\cdot I}}\,dy
+\end{equation*}
+Integrando por variables separables:
+\begin{equation*}
+    \arcsin\left(\frac{x}{a}\right) = \sqrt{\frac{P}{E\cdot I}}\,y + C_2
+\end{equation*}
+Aplicando la \textbf{2.ª condición de contorno} en el empotramiento ($y = 0 \implies x = 0$), resulta $\arcsin(0) = C_2 = 0$, por lo que la ecuación de la elástica es:
+\begin{equation}
+    x = a \sin\left(\sqrt{\frac{P}{E\cdot I}}\,y\right)
+    \label{eq:t9_elastica_seno}
+\end{equation}
+Evaluando en el extremo superior libre ($y = L$, donde $x = a$):
+\begin{equation*}
+    a = a\sin\left(\sqrt{\frac{P}{E\cdot I}}\,L\right) \quad \Longrightarrow \quad \sqrt{\frac{P}{E\cdot I}}\,L = \frac{\pi}{2}, \;\frac{3\pi}{2}, \dots
+\end{equation*}
+Tomando el primer modo de pandeo ($\pi/2$, que proporciona la menor carga de inestabilidad) y despejando $P$, se obtiene la \textbf{carga crítica de Euler para columna empotrada en un extremo y libre en el otro}:
+\begin{equation}
+    P_{\text{crítica}} = \frac{\pi^2 \cdot E \cdot I}{4 \cdot L^2}
+    \label{eq:t9_Pcrit_empotrada_libre}
+\end{equation}
+Dividiendo entre el área $A$ de la sección y un coeficiente de seguridad ($n_{\text{seg}}$), se define la \textbf{tensión admisible o de trabajo según Euler}:
+\begin{equation}
+    \sigma_T = \frac{P_{\text{crítica}}}{A \cdot n_{\text{seg}}} \qquad \text{debiendo verificarse} \qquad \sigma_{\text{real}} = \frac{P_{\text{real}}}{A} < \sigma_T
+    \label{eq:t9_sigmaT_euler}
+\end{equation}
+
+\subsection{Columna empotrada en los dos extremos}
+Por simetría de apoyos, la elástica deformada presenta dos puntos de inflexión ($M=0$) situados a $L/4$ de cada empotramiento (tramos $a$, $b$, $c$ y $d$ de longitud $L/4$ cada uno, Figura~\ref{fig:t9_elastica_euler}). Cada cuarto de columna equivale geométricamente a la columna empotrada-libre anterior sustituyendo $L$ por $L/4$:
+\begin{equation}
+    P_{\text{crítica}} = \frac{\pi^2 \cdot E \cdot I}{4 \cdot (L/4)^2} = \frac{4\,\pi^2 \cdot E \cdot I}{L^2}
+    \label{eq:t9_Pcrit_biempotrada}
+\end{equation}
+
+\subsection{Columna articulada en los dos extremos}
+En apoyos biarticulados no se desarrollan momentos reactivos en los extremos y la deformación es simétrica respecto al punto medio ($L/2$). Cada mitad equivale al caso fundamental empotrada-libre sustituyendo $L$ por $L/2$:
+\begin{equation}
+    P_{\text{crítica}} = \frac{\pi^2 \cdot E \cdot I}{4 \cdot (L/2)^2} = \frac{\pi^2 \cdot E \cdot I}{L^2}
+    \label{eq:t9_Pcrit_biarticulada}
+\end{equation}
+
+\subsection{Límite de aplicación de la Teoría de Euler}
+Dado que la deducción de Euler exige validez de la Ley de Hooke, la tensión crítica $\sigma_{\text{crít}} = P_{\text{crítica}}/A$ no puede superar el \textbf{límite de proporcionalidad} del material ($\sigma_{\text{LP}}$). Sustituyendo $I = A\cdot r^2$, se obtiene la \textbf{relación de esbeltez mínima $(L/r)_{\text{mín}}$} a partir de la cual es aplicable la fórmula de Euler en cada tipo de vinculación:
+
+\begin{table}[H]
+    \centering
+    \caption{Resumen de cargas críticas de Euler, esbeltez mínima límite y longitud efectiva equivalente ($L_{\text{ef}} = K\cdot L$) según las condiciones de apoyo.}
+    \adjustbox{max width=\textwidth}{%
+        \renewcommand{\arraystretch}{1.28}
+        \setlength{\tabcolsep}{7pt}
+        \small
+        \begin{tabular}{@{}lcccc@{}}
+            \toprule
+            \textbf{Condición de Apoyo} & \textbf{\shortstack{Factor\\$K$}} & \textbf{\shortstack{Carga Crítica\\$P_{\text{crítica}}$}} & \textbf{\shortstack{Esbeltez Mínima\\$(L/r)_{\text{mín}}$}} & \textbf{\shortstack{Validez de\\Euler}} \\
+            \midrule
+            Empotrada en un extremo y libre en otro & $2{,}0$ & $\dfrac{\pi^2 E I}{4 L^2}$ & $\dfrac{\pi}{2}\sqrt{\dfrac{E}{\sigma_{\text{LP}}}}$ & $\dfrac{L}{r} \ge \dfrac{\pi}{2}\sqrt{\dfrac{E}{\sigma_{\text{LP}}}}$ \\
+            \addlinespace[4pt]
+            Articulada en ambos extremos & $1{,}0$ & $\dfrac{\pi^2 E I}{L^2}$ & $\pi\sqrt{\dfrac{E}{\sigma_{\text{LP}}}}$ & $\dfrac{L}{r} \ge \pi\sqrt{\dfrac{E}{\sigma_{\text{LP}}}}$ \\
+            \addlinespace[4pt]
+            Empotrada en ambos extremos & $0{,}5$ & $\dfrac{4\pi^2 E I}{L^2}$ & $2\pi\sqrt{\dfrac{E}{\sigma_{\text{LP}}}}$ & $\dfrac{L}{r} \ge 2\pi\sqrt{\dfrac{E}{\sigma_{\text{LP}}}}$ \\
+            \bottomrule
+        \end{tabular}%
+    }
+    \label{tab:t9_casos_euler}
+\end{table}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[>=Latex, thick]
+        \draw[->] (0,0) -- (6.8,0) node[right] {$L/r$};
+        \draw[->] (0,0) -- (0,3.6) node[above] {$\sigma$};
+        % Meseta sigma_LP
+        \draw[dashed, red!75!black] (0,2.2) node[left, black] {$\sigma_{\text{LP}}$} -- (2.6,2.2);
+        \draw[dashed, gray] (2.6,2.2) -- (2.6,0) node[below, black, font=\small] {$(L/r)_{\text{mín}}$};
+        % Curva hiperbolica de Euler valida para L/r >= (L/r)_min
+        \draw[line width=1.6pt, blue!80!black, domain=2.6:6.3, samples=50] plot (\x, {14.87/(\x*\x)});
+        \draw[dotted, blue!60!black, domain=2.05:2.6, samples=20] plot (\x, {14.87/(\x*\x)});
+        \node[font=\footnotesize, align=center, blue!80!black] at (4.8,1.85) {Zona válida de\\Teoría de Euler};
+        \node[font=\footnotesize, align=center, gray!80!black] at (1.3,1.2) {Zona intermedia\\(Fórmulas empíricas)};
+    \end{tikzpicture}
+    \caption{Dominio de aplicabilidad de la Teoría de Euler limitado superiormente por la tensión límite de proporcionalidad $\sigma_{\text{LP}}$.}
+    \label{fig:t9_limite_euler}
+\end{figure}
+
+\ex{Ejemplo Guiado: Longitud Mínima de Aplicabilidad de la Teoría de Euler}{
+Considerar una barra esbelta de acero de sección circular maciza de $D = 5\text{ cm}$ de diámetro, con $E = 2{,}1 \times 10^6\text{ kgf/cm}^2$ y $\sigma_{\text{LP}} = 2450\text{ kgf/cm}^2$ (recuérdese que para un círculo $I = \frac{\pi D^4}{64}$). Determinar la longitud mínima a partir de la cual puede aplicarse la ecuación de Euler si la columna se encuentra articulada en los dos extremos (y comparar con el caso biempotrado).
+\tcblower
+\paso{1}{Cálculo del radio de giro de la sección circular}
+\begin{equation*}
+    r = \sqrt{\frac{I}{A}} = \sqrt{\frac{\pi D^4 / 64}{\pi D^2 / 4}} = \frac{D}{4} = \frac{5\text{ cm}}{4} = \mathbf{1{,}25\text{ cm}}
+\end{equation*}
+
+\paso{2}{Esbeltez mínima límite y longitud mínima ($L_{\text{mín}}$)}
+Para columna \textbf{articulada en ambos extremos}:
+\begin{equation*}
+    \left(\frac{L}{r}\right)_{\text{mín}} = \pi \sqrt{\frac{E}{\sigma_{\text{LP}}}} = \pi \sqrt{\frac{2{,}1 \times 10^6}{2450}} = \pi \sqrt{857{,}14} = \mathbf{91{,}98}
+\end{equation*}
+Despejando la longitud mínima de aplicación de Euler:
+\begin{equation*}
+    L_{\text{mín}} = 91{,}98 \times 1{,}25\text{ cm} = \mathbf{114{,}97\text{ cm} \approx 115\text{ cm}}
+\end{equation*}
+\nt{Si la barra estuviese \textbf{empotrada en ambos extremos} (como menciona el enunciado original de la transparencia), la constante de apoyo pasaría de $\pi$ a $2\pi$, duplicándose la longitud límite hasta $L_{\text{mín}} = 230\text{ cm}$. Por debajo de esta longitud habrá que emplear fórmulas empíricas.}
+}

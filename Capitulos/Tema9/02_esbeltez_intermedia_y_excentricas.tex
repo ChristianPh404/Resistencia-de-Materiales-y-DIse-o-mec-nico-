@@ -1,0 +1,194 @@
+% !TeX root = ../../apuntes_bloque1.tex
+\section{Expresiones para Columnas con Relaciones de Esbeltez Intermedias}
+
+Cuando la relación de esbeltez de una columna resulta inferior al límite $(L/r)_{\text{mín}}$, el fallo se produce por combinación de pandeo inelástico y compresión antes de cumplirse las hipótesis elásticas de Euler. En esta zona intermedia, la tensión de trabajo admisible $\sigma_T$ se evalúa mediante correlaciones empíricas dependientes del material y de la esbeltez efectiva $K\cdot (L/r)$ (Tabla~\ref{tab:t9_empiricas}).
+
+\begin{table}[H]
+    \centering
+    \caption{Ecuaciones empíricas habituales para columnas con relaciones de esbeltez intermedias ($\sigma_T$ expresada en $\text{kgf/cm}^2$).}
+    \adjustbox{max width=\textwidth}{%
+        \renewcommand{\arraystretch}{1.38}
+        \setlength{\tabcolsep}{8pt}
+        \small
+        \begin{tabular}{@{}lll@{}}
+            \toprule
+            \textbf{Tipo de Expresión} & \textbf{Ecuación de diseño ($\sigma_T$ en $\text{kgf/cm}^2$)} & \textbf{Rango / Observaciones} \\
+            \midrule
+            Ecuaciones lineales & $\sigma_T = a - b \cdot K \cdot \dfrac{L}{r}$ & $a$ y $b$ dependen del material \\
+            \addlinespace[4pt]
+            Ecuaciones parabólicas & $\sigma_T = a - b \left(\dfrac{K \cdot L}{r}\right)^2$ & $a$ y $b$ dependen del material \\
+            \addlinespace[4pt]
+            Columnas de acero (lineal) & $\sigma_T = 1120 - 4{,}9 \cdot K \cdot \dfrac{L}{r}$ & Válida para $30 < \dfrac{L}{r} < 120$ \\
+            \addlinespace[4pt]
+            Columnas de acero (parabólica) & $\sigma_T = 1190 - 0{,}034 \left(\dfrac{K \cdot L}{r}\right)^2$ & Válida para $\dfrac{L}{r} < 120$ \\
+            \addlinespace[4pt]
+            Columnas de acero (Rankine-Gordon) & $\sigma_T = \dfrac{1260}{1 + \dfrac{1}{1260}\left(\dfrac{K \cdot L}{r}\right)^2}$ & Válida para $120 < \dfrac{L}{r} < 200$ \\
+            \bottomrule
+        \end{tabular}%
+    }
+    \label{tab:t9_empiricas}
+\end{table}
+
+\nt{El factor de longitud efectiva \textbf{$K$} depende de las condiciones de sujeción en los extremos: $K = 0{,}5$ para ambos extremos empotrados; $K = 1{,}0$ para ambos extremos articulados; y $K = 2{,}0$ para un extremo empotrado y el otro libre.}
+
+%=============================================================================
+\section{Procedimiento General de Diseño de una Columna}
+
+Para seleccionar o comprobar un perfil estructural capaz de resistir una carga axial de compresión $P_{\text{real}}$ se sigue un procedimiento iterativo en cinco pasos:
+\begin{enumerate}
+    \item \textbf{Selección de perfil tentativo:} Elegir un perfil comercial del prontuario del fabricante (anotando su área $A$ y su radio de giro mínimo $r_{\text{mín}}$).
+    \item \textbf{Cálculo de la esbeltez del perfil:} Evaluar $(L/r)_{\text{perfil}}$ con la longitud real de la columna.
+    \item \textbf{Determinación del límite de Euler:} Calcular $(L/r)_{\text{mín}}$ según el material ($E, \sigma_{\text{LP}}$) y las condiciones de vinculación de los extremos (Tabla~\ref{tab:t9_casos_euler}).
+    \item \textbf{Evaluación de la tensión admisible $\sigma_T$:}
+          \begin{itemize}
+              \item Si $\left(\dfrac{L}{r}\right)_{\text{perfil}} > \left(\dfrac{L}{r}\right)_{\text{mín}}$, se aplica la \textbf{Teoría de Euler}: $\sigma_T = \dfrac{P_{\text{crítica}}}{A \cdot n_{\text{seg}}}$.
+              \item Si $\left(\dfrac{L}{r}\right)_{\text{perfil}} < \left(\dfrac{L}{r}\right)_{\text{mín}}$, se emplean las \textbf{correlaciones empíricas} de la Tabla~\ref{tab:t9_empiricas}.
+          \end{itemize}
+    \item \textbf{Comprobación tensional:} Verificar que la tensión real actuante no supera la tensión admisible:
+          \begin{equation}
+              \sigma_{\text{real}} = \frac{P_{\text{real}}}{A} < \sigma_T
+              \label{eq:t9_comprobacion_columna}
+          \end{equation}
+          En caso contrario, se selecciona un perfil de mayor sección y radio de giro y se repite el proceso.
+\end{enumerate}
+
+%=============================================================================
+\section{Diseño de Columnas con Cargas Excéntricas}
+
+Cuando las cargas de compresión no actúan exactamente sobre el eje baricéntrico longitudinal de la columna, aparecen simultáneamente una \textbf{compresión axial uniforme} y \textbf{momentos flectores} respecto a los ejes principales de inercia de la sección. En este análisis se desprecia habitualmente el peso propio del soporte.
+
+\subsection{Columna con una carga con doble excentricidad ($e_1, e_2$)}
+
+Consideremos una sección rectangular de dimensiones $b \times h$ sometida a una carga vertical de compresión $P$ aplicada con excentricidad $e_1$ respecto al Eje 1-1 y excentricidad $e_2$ respecto al Eje 2-2 (en el Cuadrante 1). Por superposición, el sistema es estáticamente equivalente a la suma de tres estados elementales:
+\begin{enumerate}
+    \item \textbf{Carga centrada $P$ (compresión pura):} Genera una tensión uniforme de compresión en toda la sección:
+          \begin{equation*}
+              \sigma_{\text{comp}} = \frac{P}{b \cdot h}
+          \end{equation*}
+    \item \textbf{Momento $M_2 = P\cdot e_2$ respecto al Eje 2-2:} Flexiona la columna alrededor del Eje 2-2 ($y_{\text{máx}} = b/2$, $I_{\text{Eje 2}} = \frac{h\cdot b^3}{12}$):
+          \begin{equation*}
+              \sigma_{2-2} = \frac{M_2 \cdot y_{\text{máx}}}{I_{\text{Eje 2}}} = \frac{P \cdot e_2 \cdot (b/2)}{\frac{h\cdot b^3}{12}} = \frac{6\,P\cdot e_2}{h\cdot b^2}
+          \end{equation*}
+    \item \textbf{Momento $M_1 = P\cdot e_1$ respecto al Eje 1-1:} Flexiona la columna alrededor del Eje 1-1 ($y_{\text{máx}} = h/2$, $I_{\text{Eje 1}} = \frac{b\cdot h^3}{12}$):
+          \begin{equation*}
+              \sigma_{1-1} = \frac{M_1 \cdot y_{\text{máx}}}{I_{\text{Eje 1}}} = \frac{P \cdot e_1 \cdot (h/2)}{\frac{b\cdot h^3}{12}} = \frac{6\,P\cdot e_1}{b\cdot h^2}
+          \end{equation*}
+\end{enumerate}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[>=Latex, thick]
+        % Seccion con ejes 1-1 y 2-2 y cuadrantes
+        \draw[fill=blue!4] (-2.0,-1.4) rectangle (2.0,1.4);
+        \draw[dotted, black] (-2.4,0) -- (2.4,0) node[right, font=\footnotesize] {Eje 1-1};
+        \draw[dotted, black] (0,-1.7) -- (0,1.7) node[above, font=\footnotesize] {Eje 2-2};
+        \node[font=\footnotesize] at (1.05,0.85) {Cuadrante 1};
+        \node[font=\footnotesize] at (-1.05,0.85) {Cuadrante 2};
+        \node[font=\footnotesize] at (-1.05,-0.85) {Cuadrante 3};
+        \node[font=\footnotesize] at (1.05,-0.85) {Cuadrante 4};
+        % Carga P en cuadrante 1
+        \filldraw[red!80!black] (1.3,0.45) circle (2.2pt) node[below right, font=\small] {$P$};
+        \draw[<->, thin] (0,0.45) -- (1.3,0.45) node[midway, above, font=\scriptsize] {$e_2$};
+        \draw[<->, thin] (1.3,0) -- (1.3,0.45) node[midway, right, font=\scriptsize] {$e_1$};
+        \draw[<->, thin] (-2.0,-1.65) -- (2.0,-1.65) node[midway, below, font=\footnotesize] {$b$};
+        \draw[<->, thin] (-2.25,-1.4) -- (-2.25,1.4) node[midway, left, font=\footnotesize] {$h$};
+    \end{tikzpicture}
+    \caption{División en cuadrantes de la sección transversal respecto a los ejes principales 1-1 y 2-2 para una carga con doble excentricidad.}
+    \label{fig:t9_cuadrantes}
+\end{figure}
+
+Analizando el signo (compresión o tracción) que produce cada efecto en los cuatro cuadrantes (Tabla~\ref{tab:t9_cuadrantes_doble}), el \textbf{Cuadrante 1} acumula todas las tensiones en compresión:
+
+\begin{table}[H]
+    \centering
+    \caption{Distribución de esfuerzos por cuadrante en columna sometida a carga única en el Cuadrante 1 (doble excentricidad $e_1, e_2$).}
+    \adjustbox{max width=0.92\textwidth}{%
+        \renewcommand{\arraystretch}{1.24}
+        \setlength{\tabcolsep}{8pt}
+        \small
+        \begin{tabular}{@{}lcccc@{}}
+            \toprule
+            \textbf{Componente} & \textbf{Cuadrante 1} & \textbf{Cuadrante 2} & \textbf{Cuadrante 3} & \textbf{Cuadrante 4} \\
+            \midrule
+            $\sigma_{\text{comp}}$ & \textbf{Compresión} & Compresión & Compresión & Compresión \\
+            $\sigma_{1-1}$ & \textbf{Compresión} & Compresión & Tracción   & Tracción \\
+            $\sigma_{2-2}$ & \textbf{Compresión} & Tracción   & Tracción   & Compresión \\
+            \bottomrule
+        \end{tabular}%
+    }
+    \label{tab:t9_cuadrantes_doble}
+\end{table}
+
+Por tanto, la tensión máxima resultante ($\sigma_R$) se produce en el vértice del Cuadrante 1 y debe mantenerse inferior a la tensión admisible $\sigma_T$:
+\begin{equation}
+    \sigma_R = \sigma_{\text{comp}} + \sigma_{1-1} + \sigma_{2-2} < \sigma_T
+    \label{eq:t9_sigmaR_doble}
+\end{equation}
+
+\subsection{Columna sometida a dos cargas excéntricas ($P_1$ y $P_2$)}
+Supongamos dos cargas verticales $P_1 > P_2$ aplicadas en la parte superior de la sección (misma excentricidad $e_1$ respecto al Eje 1-1): $P_1$ situada en el Cuadrante 2 a distancia $e_2$ a la izquierda del Eje 2-2, y $P_2$ en el Cuadrante 1 a distancia $e_3$ a la derecha del Eje 2-2, con $e_2 > e_3$:
+\begin{itemize}
+    \item \textbf{Compresión axial:} $\sigma_{\text{comp}} = \dfrac{P_1 + P_2}{b\cdot h}$.
+    \item \textbf{Flexión respecto al Eje 2-2:} Al generar momentos opuestos con $P_1 e_2 > P_2 e_3$, el momento neto comprime los cuadrantes izquierdos (2 y 3):
+          \begin{equation*}
+              M_2 = P_1 e_2 - P_2 e_3 \quad \Longrightarrow \quad \sigma_{2-2} = \frac{(P_1 e_2 - P_2 e_3)\cdot (b/2)}{\frac{h\cdot b^3}{12}}
+          \end{equation*}
+    \item \textbf{Flexión respecto al Eje 1-1:} Ambas cargas suman sus momentos comprimiendo los cuadrantes superiores (1 y 2):
+          \begin{equation*}
+              M_1 = P_1 e_1 + P_2 e_1 \quad \Longrightarrow \quad \sigma_{1-1} = \frac{(P_1 e_1 + P_2 e_1)\cdot (h/2)}{\frac{b\cdot h^3}{12}}
+          \end{equation*}
+\end{itemize}
+El punto más desfavorable es el vértice del \textbf{Cuadrante 2}, donde coinciden las tres compresiones: $\sigma_R = \sigma_{\text{comp}} + \sigma_{1-1} + \sigma_{2-2} < \sigma_T$.
+
+\subsection{Columna con carga central ($P_0$) y otra excéntrica ($P$)}
+Cuando la columna soporta una carga centrada $P_0$ y una carga excéntrica $P$ situada sobre el Eje 1-1 a distancia $e$ hacia la derecha (en la frontera entre los Cuadrantes 1 y 4):
+\begin{itemize}
+    \item \textbf{Compresión axial:} $\sigma_{\text{comp}} = \dfrac{P_0 + P}{b\cdot h}$.
+    \item \textbf{Flexión respecto al Eje 2-2:} $M_2 = P\cdot e \implies \sigma_{2-2} = \dfrac{P\cdot e\cdot(b/2)}{\frac{h\cdot b^3}{12}}$ (comprime Cuadrantes 1 y 4; tracciona 2 y 3).
+    \item \textbf{Flexión respecto al Eje 1-1:} Como $e_1 = 0$, $M_1 = 0 \implies \sigma_{1-1} = 0$.
+\end{itemize}
+La tensión máxima de compresión se alcanza simultáneamente en los \textbf{Cuadrantes 1 y 4}:
+\begin{equation}
+    \sigma_R = \sigma_{\text{comp}} + \sigma_{2-2} < \sigma_T
+    \label{eq:t9_central_excentrica}
+\end{equation}
+
+%=============================================================================
+\section{Problemas Resueltos del Tema 9}
+
+\ex{Problema Resuelto 1: Columna Corta con Carga Central y Carga con Doble Excentricidad}{
+La columna de sección rectangular $b = 24{,}5\text{ cm}$ y $h = 20{,}3\text{ cm}$ soporta una carga centrada en el centro de simetría de $P_0 = 7\,300\text{ kgf}$ y otra carga excéntrica $P$ aplicada a distancias $e_1 = 5{,}1\text{ cm}$ (respecto al eje horizontal 1-1) y $e_2 = 10{,}2\text{ cm}$ (respecto al eje vertical 2-2). Determinar la carga máxima $P$ que puede aplicarse para no superar la tensión límite del material de $140\text{ MPa}$ aplicada con un coeficiente de seguridad $n_{\text{seg}} = 3$.
+\tcblower
+\paso{1}{Propiedades geométricas de la sección y tensión admisible}
+\begin{equation*}
+    A = b \cdot h = 24{,}5 \times 20{,}3 = \mathbf{497{,}35\text{ cm}^2}
+\end{equation*}
+\begin{equation*}
+    I_1 = \frac{b\,h^3}{12} = \frac{24{,}5 \times 20{,}3^3}{12} = \mathbf{17\,079{,}41\text{ cm}^4}, \qquad I_2 = \frac{h\,b^3}{12} = \frac{20{,}3 \times 24{,}5^3}{12} = \mathbf{24\,877{,}86\text{ cm}^4}
+\end{equation*}
+Aplicando el coeficiente de seguridad $n_{\text{seg}} = 3$ sobre $140\text{ MPa}$ (con $1\text{ MPa} = 10{,}1972\text{ kgf/cm}^2$):
+\begin{equation*}
+    \sigma_T = \frac{140\text{ MPa}}{3} = 46{,}67\text{ MPa} = \mathbf{475{,}87\text{ kgf/cm}^2}
+\end{equation*}
+
+\paso{2}{Planteamiento de tensiones en el vértice más desfavorable}
+Las dos cargas suman compresión en el cuadrante donde actúa $P$ ($e_1 = 5{,}1\text{ cm}$, $e_2 = 10{,}2\text{ cm}$), mientras que $P_0$ no produce momento al estar centrada:
+\begin{equation*}
+    \sigma_R = \frac{P_0 + P}{A} + \frac{P\cdot e_1\cdot (h/2)}{I_1} + \frac{P\cdot e_2\cdot (b/2)}{I_2} \le \sigma_T
+\end{equation*}
+Sustituyendo los datos geométricos en $\text{cm}$:
+\begin{align*}
+    \frac{P_0}{A} &= \frac{7\,300}{497{,}35} = 14{,}68\text{ kgf/cm}^2 \\
+    \frac{1}{A} + \frac{e_1 (h/2)}{I_1} + \frac{e_2 (b/2)}{I_2} &= \frac{1}{497{,}35} + \frac{5{,}1 \times 10{,}15}{17\,079{,}41} + \frac{10{,}2 \times 12{,}25}{24\,877{,}86} \\
+    &= 0{,}002011 + 0{,}003031 + 0{,}005023 = \mathbf{0{,}010064\text{ cm}^{-2}}
+\end{align*}
+
+\paso{3}{Despeje de la carga excéntrica máxima $P$}
+\begin{equation*}
+    14{,}68 + 0{,}010064 \cdot P = 475{,}87 \quad \Longrightarrow \quad P_{\text{máx}} = \frac{475{,}87 - 14{,}68}{0{,}010064} = \mathbf{45\,825{,}5\text{ kgf} \approx 449{,}4\text{ kN}}
+\end{equation*}
+\nt{Si en la interpretación del enunciado el valor $\sigma_T = 140\text{ MPa}$ ($\approx 1\,427{,}60\text{ kgf/cm}^2$) ya llevase incorporado el coeficiente de seguridad $3$, la carga máxima resultaría $P_{\text{máx}} = \frac{1427{,}60 - 14{,}68}{0{,}010064} = 140\,393{,}5\text{ kgf}$.}
+}
+
+\nt{\textbf{Problemas adicionales del manual de referencia (Jurado Alameda E. y Vicaria J.M., 2021, Tema 6):}
+Se complementa el tema con los Problemas Resueltos 2 y 3 (columnas con extremos articulados sometidas a carga centrada y carga excéntrica) y el Problema Resuelto 4 (selección de perfil de columna biarticulada sometida a carga centrada y dos cargas excéntricas).}

@@ -1,0 +1,303 @@
+% !TeX root = ../../apuntes_bloque1.tex
+\section{Definiciones y Esfuerzos en Secciones Inclinadas}
+
+En un elemento estructural sometido a solicitaciones exteriores se pueden desarrollar distintos tipos de tensiones según la orientación relativa entre la fuerza aplicada y la sección resistente considerada:
+\begin{itemize}
+    \item \textbf{Esfuerzos normales ($\sigma$):} Se desarrollan en barras sometidas a cargas axiales aplicadas a lo largo de su eje longitudinal y actúan perpendicularmente a la sección transversal de la barra.
+    \item \textbf{Esfuerzos cortantes o tangenciales ($\tau$):} Una barra soporta un esfuerzo cortante cuando las cargas transversales tienden a producir un corte o deslizamiento relativo a través de una sección $C$ comprendida entre los puntos de aplicación de las fuerzas.
+\end{itemize}
+
+\dfn{Tensión Cortante Media ($\tau$)}{Es la resistencia interna tangencial por unidad de área que desarrolla una sección resistente para equilibrar un esfuerzo de corte $P$ paralelo al plano de dicha sección:}
+\begin{equation}
+    \tau = \frac{P}{A}
+    \label{eq:t8_tau_media}
+\end{equation}
+donde $P$ es la carga en cortante y $A$ es el área de la sección transversal sometida al corte. Ejemplos característicos en Ingeniería Química son los pasadores, chavetas, uniones remachadas (roblonadas) y uniones atornilladas.
+
+\subsection{Tensiones en secciones inclinadas bajo carga axial}
+Incluso cuando una barra está sometida únicamente a dos fuerzas axiales $P$ iguales y de sentido contrario a lo largo de su eje longitudinal, si en lugar de considerar la sección recta transversal $A_0$ se estudia una sección inclinada $A_\theta$ que forma un ángulo $\theta$ respecto al plano normal, aparecen simultáneamente tensiones normales y tensiones cortantes.
+
+Cortando la barra por el plano inclinado $A_\theta$ y planteando el equilibrio del sólido libre de la izquierda, la carga axial $P$ se descompone en una componente normal $F$ perpendicular a la sección y una componente tangencial o cortante $V$ contenida en el plano de la sección:
+\begin{equation}
+    F = P \cos\theta, \qquad V = P \sin\theta
+    \label{eq:t8_decomp_FV}
+\end{equation}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[>=Latex, thick]
+        % Barra izquierda con corte inclinado theta
+        \draw[fill=blue!6, draw=black] (0,-0.85) -- (3.8,-0.85) -- (4.7,0.85) -- (0,0.85) -- cycle;
+        \draw[dashed, gray] (0,0) -- (5.3,0);
+        \draw[dashed, black!70] (4.25,-1.1) -- (4.25,1.1);
+        % Angulo theta (plano inclinado forma angulo 28 deg con la vertical)
+        \draw[thin, red!70!black] (4.25,0) ++(90:0.65) arc (90:62:0.65);
+        \node[red!70!black, font=\small] at (4.44,0.82) {$\theta$};
+        % Fuerza axial P izquierda
+        \draw[->, line width=1.4pt, blue!75!black] (-1.2,0) -- (0,0) node[pos=0.35, above] {$P$};
+        % Componentes F (normal al plano inclinado: dir -28 deg) y V (tangencial al plano inclinado: dir -118 deg)
+        \coordinate (M) at (4.25,0);
+        \draw[->, line width=1.4pt, blue!75!black] (M) -- ++(0:1.65) node[right] {$P$};
+        \draw[->, line width=1.4pt, myg!80!black] (M) -- ++(-28:1.45) node[below right] {$F = P\cos\theta$};
+        \draw[->, line width=1.4pt, myr!85!black] (M) -- ++(62:0.95) node[above right] {$V = P\sin\theta$};
+        \node[above left, font=\footnotesize] at (4.55,0.68) {$A_\theta$};
+        \node[below, font=\footnotesize] at (2.0,-0.9) {Sección recta $A_0$};
+    \end{tikzpicture}
+    \caption{Descomposición de una fuerza axial $P$ sobre una sección inclinada $A_\theta$ en sus componentes normal $F$ y cortante $V$.}
+    \label{fig:t8_seccion_inclinada}
+\end{figure}
+
+\nt{En la Figura~\ref{fig:t8_seccion_inclinada}, si el ángulo del plano inclinado respecto a la normal es $\theta$, la normal exterior al plano forma un ángulo $\theta$ con el eje de la barra, mientras que el plano de corte forma un ángulo $\theta$ con el plano vertical $A_0$. Por geometría básica, la relación entre áreas es $\cos\theta = \dfrac{A_0}{A_\theta} \implies A_\theta = \dfrac{A_0}{\cos\theta}$.}
+
+Sustituyendo $F$, $V$ y $A_\theta = A_0/\cos\theta$, se obtienen las tensiones normal y tangencial en el plano inclinado:
+\begin{align}
+    \sigma(\theta) &= \frac{F}{A_\theta} = \frac{P \cos\theta}{A_0 / \cos\theta} = \frac{P}{A_0}\cos^2\theta \label{eq:t8_sigma_theta}\\
+    \tau(\theta)   &= \frac{V}{A_\theta} = \frac{P \sin\theta}{A_0 / \cos\theta} = \frac{P}{A_0}\sin\theta\cos\theta = \frac{P}{2A_0}\sin(2\theta) \label{eq:t8_tau_theta}
+\end{align}
+
+De las ecuaciones~\eqref{eq:t8_sigma_theta} y~\eqref{eq:t8_tau_theta} se deducen dos casos límite fundamentales:
+\begin{itemize}
+    \item \textbf{Sección transversal recta ($\theta = 0^\circ$):} La tensión cortante es nula ($\tau = 0$) y la tensión normal alcanza su valor máximo absoluto:
+          \begin{equation*}
+              \sigma_{\text{máx}} = \frac{P}{A_0}
+          \end{equation*}
+    \item \textbf{Sección a $45^\circ$ ($\theta = 45^\circ$, donde $\sin\theta = \cos\theta = \frac{\sqrt{2}}{2}$):} La tensión cortante alcanza su valor máximo absoluto, igualándose en magnitud a la tensión normal sobre ese plano:
+          \begin{equation*}
+              \tau_{\text{máx}} = \sigma(45^\circ) = \frac{P}{2A_0}
+          \end{equation*}
+\end{itemize}
+
+%=============================================================================
+\section{Diseño de Uniones Atornilladas y Remachadas}
+
+Muchas estructuras y recipientes de proceso están formados por chapas o perfiles que deben unirse entre sí. En materiales metálicos los medios de unión más habituales son los \textbf{tornillos}, los \textbf{remaches (roblones)} y las \textbf{soldaduras}.
+
+\begin{itemize}
+    \item \textbf{Uniones atornilladas:} Se ejecutan mediante tornillos (espiga roscada y cabeza), tuerca y arandela introducidos en agujeros practicados sobre las piezas a unir. Sus dimensiones geométricas y calidades están normalizadas (en España, tradicionalmente mediante la norma MV-106-1968 y posteriormente el Código Técnico y Eurocódigo 3). Permiten un montaje y desmontaje sencillo para mantenimiento.
+    \item \textbf{Uniones remachadas o roblonadas:} Se realizan mediante roblones formados por una espiga cilíndrica lisa y una \textbf{cabeza de asiento}. El roblón se calienta a unos $1000\,^\circ\text{C}$, se introduce en caliente a través de los taladros alineados de las chapas y mediante golpeo o prensado del extremo libre de la espiga se conforma una segunda cabeza (cabeza de cierre), asegurando una unión permanente y muy ajustada al enfriar.
+\end{itemize}
+
+\subsection{Tipologías constructivas y parámetros geométricos}
+Las uniones atornilladas y remachadas trabajan fundamentalmente a cortadura. En función de la línea de acción de la carga pueden estar \textbf{centradas} respecto al centroide del grupo de conectores o sometidas a \textbf{cargas excéntricas}. Atendiendo a la disposición de las chapas, se distinguen dos grandes familias (Figura~\ref{fig:t8_tipos_uniones}):
+\begin{enumerate}
+    \item \textbf{Uniones por solape:} Una chapa se monta directamente sobre la otra.
+    \item \textbf{Uniones a tope:} Las dos piezas principales se enfrentan en el mismo plano y se enlazan mediante uno o dos \textbf{cubrejuntas} (en diseño industrial se emplea doble cubrejuntas para evitar excentricidades fuera del plano y duplicar los planos de corte).
+\end{enumerate}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[>=Latex, thick, scale=0.95]
+        % Solape 1 fila (corte lateral)
+        \node[font=\bfseries\small] at (2.2, 2.3) {Unión por solape (1 fila)};
+        \draw[fill=gray!18] (0.5, 1.35) rectangle (3.0, 1.65);
+        \draw[fill=gray!28] (1.6, 1.05) rectangle (4.1, 1.35);
+        \filldraw[fill=black!80] (2.2, 0.90) rectangle (2.4, 1.80);
+        \filldraw[black] (2.3, 1.80) ellipse (0.18 and 0.08);
+        \filldraw[black] (2.3, 0.90) ellipse (0.18 and 0.08);
+        \draw[->, blue!70!black] (0.4, 1.50) -- (-0.2, 1.50) node[left] {$P$};
+        \draw[->, blue!70!black] (4.2, 1.20) -- (4.8, 1.20) node[right] {$P$};
+        \node[font=\footnotesize] at (0.8, 1.82) {$t_2$};
+        \node[font=\footnotesize] at (3.8, 0.85) {$t_1$};
+
+        % A tope 1 fila doble cubrejuntas (corte lateral)
+        \node[font=\bfseries\small] at (8.7, 2.3) {Unión a tope con doble cubrejuntas (1 fila)};
+        \draw[fill=gray!18] (6.2, 1.20) rectangle (8.65, 1.50);
+        \draw[fill=gray!18] (8.75, 1.20) rectangle (11.2, 1.50);
+        % Cubrejuntas superior e inferior
+        \draw[fill=blue!12] (7.2, 1.50) rectangle (10.2, 1.72);
+        \draw[fill=blue!12] (7.2, 0.98) rectangle (10.2, 1.20);
+        % Dos roblones (uno a cada lado)
+        \foreach \rx in {7.9, 9.5}{
+            \filldraw[fill=black!80] (\rx-0.09, 0.85) rectangle (\rx+0.09, 1.85);
+            \filldraw[black] (\rx, 1.85) ellipse (0.16 and 0.07);
+            \filldraw[black] (\rx, 0.85) ellipse (0.16 and 0.07);
+        }
+        \draw[->, blue!70!black] (6.1, 1.35) -- (5.5, 1.35) node[left] {$P$};
+        \draw[->, blue!70!black] (11.3, 1.35) -- (11.9, 1.35) node[right] {$P$};
+    \end{tikzpicture}
+    \caption{Esquema en sección de una unión por solape (corte simple) y una unión a tope con doble cubrejuntas (corte doble).}
+    \label{fig:t8_tipos_uniones}
+\end{figure}
+
+Los parámetros geométricos característicos de una unión remachada o atornillada son:
+\begin{itemize}
+    \item \textbf{Diámetro del roblón ($d$):} Diámetro nominal de la espiga una vez remachada, coincidente con el diámetro del taladro practicado en la chapa.
+    \item \textbf{Paso ($p$):} Distancia entre los centros de dos remaches consecutivos de una misma fila.
+    \item \textbf{Paso entre filas ($p_t$):} Distancia transversal entre las líneas de centros de dos filas consecutivas.
+    \item \textbf{Paso diagonal en unión al tresbolillo ($p_d$):} Distancia entre centros de remaches alternados de dos filas adyacentes dispuestas al tresbolillo.
+    \item \textbf{Módulo repetitivo:} Porción mínima elemental de la unión (conjunto de remaches y ancho de chapa $p$) que se repite periódicamente a lo largo de la costura.
+    \item \textbf{Espesores de las chapas ($t_1, t_2$):} En los desarrollos se toma por convenio $t_1 < t_2$, por lo que la chapa de espesor $t_1$ es la limitante en aplastamiento y tracción.
+    \item \textbf{Número de módulos repetitivos ($n$):} Coincide en general con el número de roblones por fila.
+\end{itemize}
+
+\subsection{Hipótesis de diseño y tensiones admisibles}
+Para el cálculo analítico de uniones remachadas o atornilladas se asumen las siguientes hipótesis simplificativas:
+\begin{enumerate}
+    \item El rozamiento existente entre las superficies de las chapas es despreciable.
+    \item Los remaches llenan completamente los agujeros practicados.
+    \item El reparto de esfuerzos entre conectores es uniforme: cada área resistente toma una fracción proporcional de la carga total.
+    \item La resistencia al corte se evalúa mediante la tensión cortante media uniforme en la sección transversal del roblón.
+\end{enumerate}
+
+De los materiales que conforman los conectores y las placas se requieren tres tensiones admisibles:
+\begin{itemize}
+    \item Tensión cortante admisible del roblón o tornillo: $\tau_{\text{adm}}$.
+    \item Tensión admisible a tracción de las chapas: $\sigma_{\text{trac,adm}}$.
+    \item Tensión admisible a compresión o aplastamiento de las chapas: $\sigma_{\text{comp,adm}}$.
+\end{itemize}
+
+Toda unión trabajando bajo una carga total $P$ repartida entre $n$ módulos repetitivos ($P_M = P/n$) puede fallar por cuatro mecanismos diferenciados:
+\begin{enumerate}[label=\alph*)]
+    \item \textbf{Fallo por cortadura} de los vástagos de los remaches.
+    \item \textbf{Fallo por compresión o aplastamiento} de la chapa más delgada tras el remache.
+    \item \textbf{Fallo por tracción} de la sección neta de chapa comprendida entre agujeros consecutivos.
+    \item \textbf{Fallo por desgarramiento marginal} de la chapa en la zona posterior entre el agujero y el borde libre de la placa.
+\end{enumerate}
+
+%-----------------------------------------------------------------------------
+\subsection{Unión solapada con una fila de remaches}
+
+Sea una unión por solape con 1 fila de remaches y $n$ módulos repetitivos sometida a una carga centrada total $P$. Cada módulo soporta $P_M = P/n$.
+
+\paragraph{a) Fallo del roblón por cortadura ($R_1$).}
+Cada módulo presenta 1 remache con 1 sola sección transversal de corte ($\frac{\pi}{4}d^2$). La tensión cortante actuante y la resistencia máxima por módulo en cortadura son:
+\begin{equation}
+    \tau = \frac{R_1}{\frac{\pi}{4}d^2} \quad \Longrightarrow \quad R_1 = \tau_{\text{adm}} \cdot 1\text{ fila} \cdot \frac{\pi}{4}d^2
+    \label{eq:t8_R1_solape1}
+\end{equation}
+La capacidad total del sistema de $n$ módulos frente a cortadura es $n \cdot R_1$, y el número mínimo de módulos (o remaches) necesarios para resistir $P$ resulta:
+\begin{equation}
+    n_{\text{mín}} = \frac{P}{\tau_{\text{adm}} \cdot \frac{\pi}{4}d^2}
+\end{equation}
+
+\paragraph{b) Fallo de la chapa por compresión o aplastamiento ($R_2$).}
+La fuerza se transmite del vástago a la chapa de menor espesor ($t_1$) proyectada sobre un rectángulo equivalente de área $t_1 \cdot d$:
+\begin{equation}
+    \sigma_{\text{comp}} = \frac{R_2}{t_1 \cdot d} \quad \Longrightarrow \quad R_2 = \sigma_{\text{comp,adm}} \cdot 1\text{ fila} \cdot t_1 \cdot d
+    \label{eq:t8_R2_solape1}
+\end{equation}
+El sistema completo resiste $n \cdot R_2$, siendo el número mínimo de módulos frente a aplastamiento:
+\begin{equation}
+    n_{\text{mín}} = \frac{P}{\sigma_{\text{comp,adm}} \cdot t_1 \cdot d}
+\end{equation}
+
+\paragraph{c) Rotura por tracción entre remaches ($R_3$).}
+En un ancho de módulo igual al paso $p$, la sección transversal neta de la chapa delgada descontando el taladro es $(p - d) \cdot t_1$:
+\begin{equation}
+    \sigma_{\text{trac}} = \frac{R_3}{(p - d)\cdot t_1} \quad \Longrightarrow \quad R_3 = \sigma_{\text{trac,adm}} \cdot (p - d) \cdot t_1
+    \label{eq:t8_R3_general}
+\end{equation}
+Por tanto, la resistencia global a tracción de la chapa perforada es $n \cdot R_3$, y el número mínimo de módulos para resistir $P$ vale:
+\begin{equation}
+    n_{\text{mín}} = \frac{P}{\sigma_{\text{trac,adm}} \cdot (p - d) \cdot t_1}
+\end{equation}
+
+\paragraph{d) Rotura por desgarramiento del borde de la chapa.}
+Para evitar que el remache arranque o desgarre la lengüeta final de chapa situada detrás del agujero, las normas de diseño establecen como distancia mínima al borde libre:
+\begin{equation}
+    D \ge 2\,d
+    \label{eq:t8_distancia_borde}
+\end{equation}
+
+\begin{ImportanteBox}[title={Procedimiento General de Diseño Óptimo y Rendimiento de la Unión ($\mu$)}]
+    Conocidos el diámetro del roblón $d$, los espesores $t_1, t_2$ y las tensiones admisibles ($\tau_{\text{adm}}, \sigma_{\text{trac,adm}}, \sigma_{\text{comp,adm}}$):
+    \begin{enumerate}
+        \item Evaluar la resistencia de cada módulo repetitivo a cortadura ($R_1$) y a aplastamiento ($R_2$).
+        \item Igualar la menor de las dos anteriores a la resistencia de la chapa a tracción ($R_3$):
+              \begin{equation*}
+                  \text{mín}(R_1, R_2) = R_3 = \sigma_{\text{trac,adm}} \cdot (p - d) \cdot t_1
+              \end{equation*}
+              De esta igualdad se despeja el \textbf{paso óptimo $p$} entre roblones de una misma fila, equilibrando los mecanismos de fallo.
+        \item Calcular el \textbf{rendimiento o eficacia de la unión ($\mu$)}, definido como la relación porcentual entre la resistencia de la chapa taladrada y la de la chapa continua sin agujeros:
+              \begin{equation}
+                  \mu = \frac{\sigma_{\text{trac,adm}} \cdot (p - d)\cdot t_1}{\sigma_{\text{trac,adm}} \cdot p \cdot t_1}\cdot 100 = \frac{p - d}{p}\cdot 100
+                  \label{eq:t8_rendimiento_union}
+              \end{equation}
+    \end{enumerate}
+\end{ImportanteBox}
+
+%-----------------------------------------------------------------------------
+\subsection{Unión solapada con dos filas de remaches enfrentados}
+Cada módulo repetitivo engloba \textbf{dos roblones} dispuestos en dos filas paralelas, de modo que para $n$ módulos habrá un total de $2n$ remaches:
+\begin{itemize}
+    \item \textbf{Cortadura:} La carga $R_1$ del módulo se reparte entre los 2 roblones en corte simple:
+          \begin{equation*}
+              R_1 = (2\text{ filas}) \cdot \tau_{\text{adm}} \cdot \frac{\pi}{4}d^2
+          \end{equation*}
+    \item \textbf{Aplastamiento:} Cada módulo cuenta con 2 áreas proyectadas de aplastamiento en la chapa delgada $t_1$:
+          \begin{equation*}
+              R_2 = (2\text{ filas}) \cdot \sigma_{\text{comp,adm}} \cdot t_1 \cdot d
+          \end{equation*}
+    \item \textbf{Tracción en la chapa:} La sección neta crítica por módulo sigue siendo $(p - d)t_1$ a lo largo de la fila exterior, por lo que:
+          \begin{equation*}
+              R_3 = \sigma_{\text{trac,adm}} \cdot (p - d) \cdot t_1
+          \end{equation*}
+\end{itemize}
+\nt{Si la unión tuviera $k$ filas de remaches enfrentados, basta multiplicar las resistencias $R_1$ y $R_2$ del módulo por $k$ filas, manteniéndose invariable la expresión de $R_3$ para la fila más solicitada.}
+
+%-----------------------------------------------------------------------------
+\subsection{Unión a tope con una fila de remaches}
+Al enfrentar las dos chapas principales con \textbf{doble cubrejuntas} (uno arriba y otro abajo, dimensionados para no ser limitantes frente a la chapa principal de espesor $t_1$), cada lado de la junta transmite la totalidad de la carga $P$, y \textbf{cada roblón ofrece dos secciones transversales de corte} (cortadura doble):
+\begin{itemize}
+    \item \textbf{Cortadura doble:} Cada remache aporta $2$ planos resistentes:
+          \begin{equation*}
+              R_1 = (1\text{ fila}) \cdot 2 \cdot \tau_{\text{adm}} \cdot \frac{\pi}{4}d^2
+          \end{equation*}
+    \item \textbf{Aplastamiento en chapa principal:} La carga se apoya en una sola chapa principal de espesor $t_1$:
+          \begin{equation*}
+              R_2 = (1\text{ fila}) \cdot \sigma_{\text{comp,adm}} \cdot t_1 \cdot d
+          \end{equation*}
+    \item \textbf{Tracción en chapa principal:} $R_3 = \sigma_{\text{trac,adm}} \cdot (p - d) \cdot t_1$.
+\end{itemize}
+
+%-----------------------------------------------------------------------------
+\subsection{Unión a tope con dos filas de remaches}
+Cada módulo repetitivo posee 2 roblones por lado de chapa principal, trabajando cada uno de ellos en cortadura doble gracias al doble cubrejuntas:
+\begin{itemize}
+    \item \textbf{Cortadura doble con 2 filas:} $R_1 = (2\text{ filas}) \cdot 2 \cdot \tau_{\text{adm}} \cdot \frac{\pi}{4}d^2 = 4\,\tau_{\text{adm}}\frac{\pi}{4}d^2$.
+    \item \textbf{Aplastamiento:} $R_2 = (2\text{ filas}) \cdot \sigma_{\text{comp,adm}} \cdot t_1 \cdot d$.
+    \item \textbf{Tracción:} $R_3 = \sigma_{\text{trac,adm}} \cdot (p - d) \cdot t_1$.
+\end{itemize}
+
+\begin{table}[H]
+    \centering
+    \caption{Resumen comparativo de resistencias por módulo repetitivo en uniones remachadas o atornilladas centradas (para $n$ módulos, $P_{\text{total}} = n\cdot \text{mín}(R_1,R_2,R_3)$).}
+    \adjustbox{max width=\textwidth}{%
+        \renewcommand{\arraystretch}{1.28}
+        \setlength{\tabcolsep}{7pt}
+        \small
+        \begin{tabular}{@{}lcccc@{}}
+            \toprule
+            \textbf{Tipo de Unión} & \textbf{\shortstack{Cortadura\\($R_1$)}} & \textbf{\shortstack{Aplastamiento\\($R_2$)}} & \textbf{\shortstack{Tracción neta\\($R_3$)}} & \textbf{\shortstack{Roblones totales\\en la junta}} \\
+            \midrule
+            Solape (1 fila) & $\tau_{\text{adm}}\,\frac{\pi}{4}d^2$ & $\sigma_{\text{comp,adm}}\,t_1 d$ & $\sigma_{\text{trac,adm}}(p-d)t_1$ & $n$ \\
+            Solape (2 filas enfrentadas) & $2\,\tau_{\text{adm}}\,\frac{\pi}{4}d^2$ & $2\,\sigma_{\text{comp,adm}}\,t_1 d$ & $\sigma_{\text{trac,adm}}(p-d)t_1$ & $2n$ \\
+            A tope doble cubrejuntas (1 fila) & $2\,\tau_{\text{adm}}\,\frac{\pi}{4}d^2$ & $\sigma_{\text{comp,adm}}\,t_1 d$ & $\sigma_{\text{trac,adm}}(p-d)t_1$ & $2n$ ($n$ por lado) \\
+            A tope doble cubrejuntas (2 filas) & $4\,\tau_{\text{adm}}\,\frac{\pi}{4}d^2$ & $2\,\sigma_{\text{comp,adm}}\,t_1 d$ & $\sigma_{\text{trac,adm}}(p-d)t_1$ & $4n$ ($2n$ por lado) \\
+            \bottomrule
+        \end{tabular}%
+    }
+    \label{tab:t8_resumen_uniones}
+\end{table}
+
+\begin{table}[H]
+    \centering
+    \caption{Esfuerzos permisibles de diseño para conectores de acero estructural (remaches ASTM A502 y tornillos ASTM A325 / A490).}
+    \adjustbox{max width=0.88\textwidth}{%
+        \renewcommand{\arraystretch}{1.24}
+        \setlength{\tabcolsep}{9pt}
+        \small
+        \begin{tabular}{@{}llcc@{}}
+            \toprule
+            \textbf{Tipo de Conector} & \textbf{Designación / Grado} & \textbf{\shortstack{Esfuerzo cortante\\permisible $\tau_{\text{adm}}$ (MPa)}} & \textbf{\shortstack{Esfuerzo de tracción\\permisible $\sigma_{\text{trac,adm}}$ (MPa)}} \\
+            \midrule
+            \multirow{2}{*}{\textbf{Remaches}} & ASTM A502 Grado 1 & 121 & 159 \\
+                                               & ASTM A502 Grado 2 & 152 & 200 \\
+            \midrule
+            \multirow{2}{*}{\textbf{Tornillos}} & ASTM A325 & 121 & 303 \\
+                                                & ASTM A490 & 152 & 372 \\
+            \bottomrule
+        \end{tabular}%
+    }
+    \label{tab:t8_esfuerzos_astm}
+\end{table}

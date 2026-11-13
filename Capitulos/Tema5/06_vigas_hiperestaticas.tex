@@ -1,0 +1,791 @@
+% !TeX root = ../../apuntes.tex
+\section{Resolución de Vigas Hiperestáticas por el Método de la Ecuación Diferencial de la Elástica}
+
+\subsection{Concepto de Hiperestatismo y Grado de Hiperestaticidad}
+
+Una estructura se denomina \textbf{estáticamente indeterminada o hiperestática} cuando el número total de incógnitas de enlace externo (reacciones de apoyo) o esfuerzos internos supera el número de ecuaciones independientes que proporciona la estática del sólido rígido.
+
+En problemas planos de vigas sometidas a flexión recta contenidas en el plano $XY$, el equilibrio estático global aporta únicamente $3$ ecuaciones independientes:
+\begin{equation}
+    \sum F_x = 0, \qquad \sum F_y = 0, \qquad \sum M_{(z)} = 0
+\end{equation}
+
+Si el sistema posee $r$ incógnitas de reacción externa en sus apoyos, el \textbf{grado de hiperestaticidad} ($GH$) viene dado por:
+\begin{equation}
+    GH = r - 3
+\end{equation}
+
+\begin{itemize}
+    \item Si $GH = 0$: la viga es \textbf{isostática}. Las reacciones y las leyes de esfuerzos internos ($N, Q, M_f$) se determinan de forma unívoca y directa aplicando exclusivamente el equilibrio estático.
+    \item Si $GH > 0$: la viga es \textbf{hiperestática} de grado $GH$. Las 3 ecuaciones de la estática resultan insuficientes para despejar las $r$ reacciones de apoyo, por lo que es estrictamente necesario formular \textbf{$GH$ ecuaciones suplementarias de compatibilidad cinemática o deformación}.
+\end{itemize}
+
+\begin{tcolorbox}[colback=blue!5, colframe=blue!75!black, title=\textbf{Tipologías Estructurales con 1 Grado de Hiperestaticidad ($GH = 1$)}]
+    En el marco de la asignatura, el alcance de evaluación se centra en sistemas con \textbf{un único grado de hiperestaticidad} ($GH = 1$). Las configuraciones clásicas más representativas son:
+    \begin{enumerate}
+        \item \textbf{Viga apoyada-empotrada (o empotrada con apoyo móvil):} Presenta un empotramiento rígido en un extremo ($3$ reacciones: $H_A, V_A, M_A$) y un apoyo móvil en el otro o en un punto intermedio ($1$ reacción: $V_B$). Total $r = 4$ incógnitas $\implies GH = 4 - 3 = 1$.
+        \item \textbf{Viga continua de dos vanos sobre tres apoyos simples:} Cuenta con un apoyo fijo articulado ($2$ reacciones) y dos apoyos móviles con rodillos ($2 \times 1 = 2$ reacciones). Total $r = 4$ reacciones $\implies GH = 4 - 3 = 1$.
+        \item \textbf{Viga biempotrada:} Cuenta con empotramientos rígidos en ambos extremos ($2 \times 3 = 6$ reacciones, $GH = 3$), cuya resolución mediante la EDE se reduce imponiendo compatibilidad nula en giros y flechas en ambos extremos.
+    \end{enumerate}
+\end{tcolorbox}
+
+%-----------------------------------------------------------------------------
+\subsection{Metodología de Resolución: Liberación de Enlaces y Compatibilidad de Deformaciones}
+
+El procedimiento analítico sistemático para resolver vigas hiperestáticas mediante la Ecuación Diferencial de la Elástica consta de los siguientes pasos rigurosos:
+
+\begin{enumerate}
+    \item \textbf{Elección del sistema base isostático (Liberación de incógnitas hiperestáticas):}
+          Se liberan tantas incógnitas de reacción como indique el grado de hiperestaticidad ($GH$). Liberar un enlace significa retirar físicamente la coacción del apoyo y \textbf{sustituirla por su correspondiente fuerza o momento de reacción, tratada formalmente como una carga externa incógnita} (llamada \textit{fuerza redundante} o \textit{hiperestática}). Al hacer esto, la viga pasa a ser cinemáticamente determinada (isostática), pero su valor numérico sigue condicionado a la deformación del vínculo real.
+    \item \textbf{Formulación de la Ecuación de Compatibilidad Cinemática:}
+          Para que el sistema isostático modificado sea mecánicamente equivalente al problema hiperestático original, el punto liberado no puede moverse libremente: debe satisfacer con exactitud la restricción cinemática que imponía el apoyo original.
+          \begin{itemize}
+              \item Si liberamos un apoyo móvil o fijo que impedía el descenso vertical (por ejemplo, $V_B$ en $x = L$ o en $x = b$), la ecuación de compatibilidad exige que la flecha en ese punto sea nula:
+                    \begin{equation}
+                        \mathbf{y(x = L) = 0} \qquad (\text{o bien } \mathbf{y(x = b) = 0})
+                    \end{equation}
+              \item Si en lugar de la reacción vertical liberamos el momento de empotramiento $M_A$ en un apoyo rígido $x = 0$, el empotramiento pasa a comportarse como un apoyo articulado fijo exterior, y la ecuación de compatibilidad cinemática exige que el ángulo de giro de la sección en ese extremo sea rigurosamente cero:
+                    \begin{equation}
+                        \mathbf{\theta(x = 0) = y'(x = 0) = 0}
+                    \end{equation}
+          \end{itemize}
+    \item \textbf{Integración de la Ecuación Diferencial de la Elástica (EDE):}
+          Se corta la viga en el tramo correspondiente expresando la ley de momentos flectores $M_{f,z}(x)$ en función de las cargas activas y de las reacciones redundantes. Planteando la ecuación diferencial:
+          \begin{equation}
+              y''(x) = \frac{M_{f,z}(x)}{E \cdot I_z}
+          \end{equation}
+          se efectúa una doble integración indefinida respecto a $x$, generando las funciones analíticas del giro $y'(x)$ y de la flecha $y(x)$, las cuales contienen dos constantes de integración $C_1$ y $C_2$ por cada tramo analizado.
+    \item \textbf{Determinación de Constantes y Resolución del Sistema Acoplado:}
+          Se imponen las condiciones de contorno naturales de los apoyos reales que se conservaron (por ejemplo, en un empotramiento rígido en el origen $x = 0$, $y(0) = 0 \implies C_2 = 0$ e $y'(0) = 0 \implies C_1 = 0$).
+
+          Al evaluar la flecha en el punto liberado e igualarla a cero mediante la ecuación de compatibilidad, se obtiene una relación algebraica directa entre las reacciones desconocidas. Resolviendo conjuntamente esta ecuación con las de equilibrio estático global, se despejan todas las reacciones de apoyo sin ambigüedad.
+\end{enumerate}
+
+%-----------------------------------------------------------------------------
+\subsection{Criterios de Comprobación Estructural: ELU frente a ELS}
+
+Una vez conocidas todas las leyes de esfuerzos internos definitivas ($Q(x), M_f(x)$), el dimensionamiento y verificación estructural distingue estrictamente dos estados límite:
+
+\begin{enumerate}
+    \item \textbf{Estado Límite Último de Resistencia (ELU):}
+          \begin{itemize}
+              \item Las acciones exteriores se \textbf{minoran o mayoran mediante coeficientes de seguridad de cálculo} ($\gamma_f$, comúnmente $\gamma_f = 1.5$ en acciones permanentes/variables o según normativa Eurocódigo/CTE).
+              \item Los esfuerzos determinantes de flexión y cortante se calculan con dichas cargas mayoradas: $M_{f,d} = \gamma_f \cdot M_{f,k}$ y $Q_d = \gamma_f \cdot Q_k$.
+              \item Se comprueba que la tensión normal máxima no sobrepase la resistencia admisible de cálculo del material ($f_{yd} = f_{yk}/\gamma_M$):
+                    \begin{equation}
+                        \sigma_{\text{máx},d} = \frac{|M_{f,d}| \cdot y_{\text{máx}}}{I_z} \le \sigma_{\text{adm}} = f_{yd} = \frac{f_{yk}}{\gamma_M}
+                    \end{equation}
+              \item En materiales con idéntico comportamiento a tracción y compresión (como el acero estructural), basta con verificar el valor absoluto del momento flector máximo en toda la barra ($|M_{f,d,\text{máx}}|$). En materiales asimétricos o secciones asimétricas (como perfiles en T), es obligatorio analizar por separado la fibra superior e inferior bajo el momento positivo máximo y el momento negativo máximo.
+              \item Se comprueba la tensión tangencial máxima debida a $Q_{d,\text{máx}}$ mediante la fórmula de Collignon-Jourawski:
+                    \begin{equation}
+                        \tau_{\text{máx},d} = \frac{Q_{d,\text{máx}} \cdot S_z^*}{b \cdot I_z} \le \tau_{\text{adm}} = \frac{f_{yd}}{\sqrt{3}}
+                    \end{equation}
+          \end{itemize}
+    \item \textbf{Estado Límite de Servicio de Deformación (ELS):}
+          \begin{itemize}
+              \item Se analiza bajo \textbf{combinación casi permanente o característica de servicio, sin mayorar las cargas} ($\gamma_f = 1.0$), empleando los esfuerzos reales de funcionamiento $M_{f,k}$ y las propiedades elásticas nominales $E \cdot I_z$.
+              \item Se evalúa la flecha máxima $|y_{\text{máx}}|$ en el vano o en los extremos libres en voladizo (buscando los puntos donde el giro se anula, $y'(x) = 0$, o en los extremos donde la deformada alcanza su mayor amplitud cinemática).
+              \item Se comprueba que no se supere la flecha límite admisible estipulada por funcionalidad, confort o estética:
+                    \begin{equation}
+                        |y_{\text{máx}}| \le y_{\text{lím}} \qquad (\text{por ejemplo, } y_{\text{lím}} = 3\text{ mm, o criterios } L/300, L/500)
+                    \end{equation}
+          \end{itemize}
+\end{enumerate}
+
+%=============================================================================
+% EJERCICIO 1: VIGA APOYADA-EMPOTRADA CON CARGA UNIFORMEMENTE DISTRIBUIDA
+%=============================================================================
+\subsection{Ejercicios Resueltos de Vigas Hiperestáticas}
+
+\ex{Viga Hiperestática Apoyada-Empotrada con Carga Uniformemente Distribuida}{
+    Consideremos una viga de longitud total $L = 6\text{ m}$ rígidamente empotrada en su extremo izquierdo $A$ ($x = 0$) y apoyada sobre un apoyo articulado móvil en su extremo derecho $B$ ($x = 6\text{ m}$). La viga se encuentra sometida a una carga uniforme descendente repartida en toda su longitud de valor $q = 10\text{ kN/m}$.
+
+    Se pide:
+    \begin{enumerate}[label=\alph*)]
+        \item Determinar el grado de hiperestaticidad y las reacciones en todos los enlaces mediante la integración de la Ecuación Diferencial de la Elástica, liberando la reacción vertical en el apoyo móvil $B$.
+        \item Discutir el planteamiento alternativo liberando el momento de empotramiento $M_A$.
+        \item Obtener las leyes analíticas y los diagramas de esfuerzo cortante $Q(x)$ y momento flector $M_f(x)$, determinando el momento máximo positivo de vano y el momento negativo en el empotramiento.
+        \item Indicar los criterios de comprobación a Estado Límite Último (ELU) de resistencia y a Estado Límite de Servicio (ELS) de deformaciones.
+    \end{enumerate}
+
+    \begin{center}
+        \adjustbox{max width=0.88\textwidth}{%
+            \begin{tikzpicture}[>=Latex, scale=1.0]
+                % Muro empotramiento A
+                \fill[pattern=north east lines, pattern color=gray!70] (-0.3, -0.8) rectangle (0, 0.8);
+                \draw[line width=1.5pt] (0, -0.8) -- (0, 0.8);
+
+                % Barra de viga
+                \draw[line width=2.5pt, blue!80!black] (0, 0) -- (7.2, 0);
+                \filldraw[black] (0, 0) circle (2.2pt) node[above left=2pt, font=\small\bfseries] {$A$};
+                \filldraw[black] (7.2, 0) circle (2.2pt) node[above right=2pt, font=\small\bfseries] {$B$};
+
+                % Carga distribuida q
+                \fill[blue!10] (0, 0) rectangle (7.2, 0.8);
+                \draw[thick, blue!85!black] (0, 0.8) -- (7.2, 0.8);
+                \foreach \xx in {0.6, 1.4, 2.2, 3.0, 3.8, 4.6, 5.4, 6.2, 7.0} {
+                    \draw[->, thin, blue!85!black] (\xx, 0.8) -- (\xx, 0.05);
+                }
+                \node[above=1pt, font=\footnotesize\bfseries, blue!85!black] at (3.6, 0.8) {$q = 10\text{ kN/m}$};
+
+                % Apoyo móvil B en x=6 (7.2 en dibujo)
+                \coordinate (Bpos) at (7.2, 0);
+                \draw[thick, fill=gray!25] (Bpos) -- ++(-0.25, -0.38) -- ++(0.5, 0) -- cycle;
+                \draw[thick, fill=white] (7.05, -0.47) circle (2pt);
+                \draw[thick, fill=white] (7.35, -0.47) circle (2pt);
+                \draw[line width=1pt] (6.8, -0.56) -- (7.6, -0.56);
+                \foreach \xx in {6.9, 7.1, 7.3, 7.5} \draw[thin] (\xx, -0.56) -- (\xx - 0.1, -0.68);
+
+                % Cota
+                \draw[<->, line width=0.6pt] (0, -0.9) -- node[below=1pt, font=\footnotesize\bfseries] {$L = 6\text{ m}$} (7.2, -0.9);
+            \end{tikzpicture}%
+        }
+    \end{center}
+
+    \paso{1}{Grado de Hiperestaticidad y Diagrama de Cuerpo Libre (DCL)}
+
+    En el empotramiento izquierdo $A$ ($x = 0$) existen $3$ reacciones de enlace: la reacción horizontal $H_A$, la reacción vertical $V_A$ y el momento de empotramiento $M_A$. En el apoyo articulado móvil derecho $B$ ($x = 6\text{ m}$) existe $1$ reacción vertical $V_B$.
+
+    Total de incógnitas de reacción: $r = 4$.
+    Como disponemos de $3$ ecuaciones de la estática en el plano:
+    \begin{equation}
+        GH = r - 3 = 4 - 3 = \mathbf{1 \quad (\text{Hiperestática de grado 1})}
+    \end{equation}
+
+    \begin{center}
+        \adjustbox{max width=0.88\textwidth}{%
+            \begin{tikzpicture}[>=Latex, scale=1.0]
+                % Barra DCL
+                \draw[line width=2.5pt, blue!80!black] (0, 0) -- (7.2, 0);
+                \filldraw[black] (0, 0) circle (2pt) node[above left=2pt, font=\footnotesize\bfseries] {$A$};
+                \filldraw[black] (7.2, 0) circle (2pt) node[above right=2pt, font=\footnotesize\bfseries] {$B$};
+
+                % Carga distribuida
+                \fill[blue!10] (0, 0) rectangle (7.2, 0.7);
+                \draw[thick, blue!85!black] (0, 0.7) -- (7.2, 0.7);
+                \foreach \xx in {0.8, 1.8, 2.8, 3.8, 4.8, 5.8, 6.8} {
+                    \draw[->, thin, blue!85!black] (\xx, 0.7) -- (\xx, 0.05);
+                }
+                \node[above=1pt, font=\footnotesize\bfseries, blue!85!black] at (3.6, 0.7) {$q = 10\text{ kN/m}$};
+
+                % Reacciones en A
+                \draw[->, line width=1.4pt, green!55!black] (0, -1.0) -- (0, -0.05) node[pos=0, below, font=\footnotesize\bfseries] {$V_A$};
+                \draw[->, dashed, line width=1.2pt, green!55!black] (-1.0, 0) -- (-0.05, 0) node[pos=0, left, font=\footnotesize\bfseries] {$H_A$};
+                \draw[->, line width=1.3pt, purple!80!black] (-0.35, -0.35) arc (-140:140:0.45) node[above=2pt, font=\footnotesize\bfseries] {$M_A$};
+
+                % Reacción liberada en B como carga externa
+                \draw[->, line width=1.5pt, red!85!black] (7.2, -1.0) -- (7.2, -0.05) node[pos=0, below, font=\footnotesize\bfseries] {$V_B$ (\text{redundante})};
+
+                % Cota
+                \draw[<->, line width=0.6pt] (0, -1.3) -- node[below=1pt, font=\footnotesize\bfseries] {$L = 6\text{ m}$} (7.2, -1.3);
+            \end{tikzpicture}%
+        }
+    \end{center}
+
+    Planteando las tres ecuaciones universales del equilibrio estático global en el plano:
+    \begin{align}
+        (\rightarrow +) \quad \sum F_x = 0             & \implies \mathbf{H_A = 0}                                                                                                                    \\
+        (\uparrow +) \quad \sum F_y = 0                & \implies V_A + V_B - q \cdot L = 0 \implies V_A + V_B - 10 \cdot 6 = 0 \implies \mathbf{V_A + V_B = 60\text{ kN}} \label{eq:hiper1_fy}      \\
+        (\circlearrowleft +) \quad \sum M_{(A)} = 0    & \implies M_A + V_B \cdot L - q \cdot L \cdot \frac{L}{2} = 0 \implies M_A + 6\,V_B - 10 \cdot 6 \cdot 3 = 0 \nonumber                      \\
+                                                       & \implies \mathbf{M_A + 6\,V_B = 180\text{ kN}\cdot\text{m}} \implies \mathbf{M_A = 180 - 6\,V_B} \label{eq:hiper1_ma}
+    \end{align}
+    Tenemos 2 ecuaciones (\ref{eq:hiper1_fy}) y (\ref{eq:hiper1_ma}) para 3 incógnitas ($V_A, V_B, M_A$). Necesitamos una condición cinemática adicional.
+
+    \paso{2}{Liberación de $V_B$ y Ecuación de Compatibilidad de Deformaciones}
+
+    Liberamos el apoyo móvil en $B$ ($x = 6\text{ m}$), transformándolo en una fuerza incógnita exterior $V_B$. La viga resultante es un voladizo isostático empotrado en $A$ sometido a la carga $q$ y a la fuerza puntual ascendente $V_B$ en su extremo.
+
+    Para que este problema sea exactamente equivalente a la viga real, imponemos la \textbf{ecuación de compatibilidad cinemática}: en el apoyo $B$ el desplazamiento vertical debe ser estrictamente nulo:
+    \begin{equation}
+        \mathbf{y(x = 6\text{ m}) = 0}
+    \end{equation}
+
+    \paso{3}{Ecuación Diferencial de la Elástica y Ley de Flectores}
+
+    Realizamos un corte a una distancia genérica $x \in [0, 6]\text{ m}$ mirando hacia la izquierda (donde intervienen la fuerza vertical $V_A$, el momento de empotramiento $M_A$ y la carga distribuida $q \cdot x$):
+    \begin{align}
+        M_{f,z}(x) & = V_A \cdot x - q \cdot x \cdot \frac{x}{2} - M_A = \mathbf{V_A \cdot x - 5\,x^2 - M_A}
+    \end{align}
+
+    Planteamos la Ecuación Diferencial de la Elástica (EDE) e integramos dos veces:
+    \begin{align}
+        y''(x)           & = \frac{M_{f,z}(x)}{E \cdot I_z} = \frac{1}{E \cdot I_z}\left(V_A \cdot x - 5\,x^2 - M_A\right)                                           \\
+        \theta(x) = y'(x)& = \int y''(x)\,dx = \frac{1}{E \cdot I_z}\left(\frac{V_A\,x^2}{2} - \frac{5\,x^3}{3} - M_A\,x + C_1\right)                               \\
+        y(x)             & = \int y'(x)\,dx = \frac{1}{E \cdot I_z}\left(\frac{V_A\,x^3}{6} - \frac{5\,x^4}{12} - \frac{M_A\,x^2}{2} + C_1\,x + C_2\right)
+    \end{align}
+
+    \paso{4}{Condiciones de Contorno en el Empotramiento ($x = 0$)}
+
+    Al tratarse de un empotramiento perfecto en el extremo izquierdo $A$ ($x = 0$), tanto el desplazamiento vertical como el giro de la sección están impedidos por la coacción rígida:
+    \begin{align}
+        y(0) = 0   & \implies \frac{1}{E \cdot I_z}(0 - 0 - 0 + 0 + C_2) = 0 \implies \mathbf{C_2 = 0}  \\
+        y'(0) = 0  & \implies \frac{1}{E \cdot I_z}(0 - 0 - 0 + C_1) = 0 \implies \mathbf{C_1 = 0}
+    \end{align}
+    \textit{Nota de examen:} En todo empotramiento situado en el origen $x = 0$, se puede justificar directamente que $C_1 = 0$ y $C_2 = 0$ debido a la ausencia simultánea de giro y de flecha en el apoyo rígido.
+
+    \paso{5}{Resolución del Sistema con la Ecuación de Compatibilidad}
+
+    Imponemos la condición de compatibilidad en el apoyo liberado $x = 6\text{ m}$:
+    \begin{equation}
+        y(6) = \frac{1}{E \cdot I_z}\left(\frac{V_A \cdot 6^3}{6} - \frac{5 \cdot 6^4}{12} - \frac{M_A \cdot 6^2}{2}\right) = 0
+    \end{equation}
+    Operando numéricamente los coeficientes:
+    \begin{align}
+        \frac{216}{6}\,V_A - \frac{5 \cdot 1296}{12} - \frac{36}{2}\,M_A = 0 & \implies 36\,V_A - 540 - 18\,M_A = 0 \nonumber \\
+                                                                              & \implies \mathbf{2\,V_A - M_A = 30} \label{eq:compat_1}
+    \end{align}
+
+    Sustituyendo en (\ref{eq:compat_1}) las expresiones estáticas en función de $V_B$ ($V_A = 60 - V_B$ y $M_A = 180 - 6\,V_B$):
+    \begin{align}
+        2\,(60 - V_B) - (180 - 6\,V_B) = 30 & \implies 120 - 2\,V_B - 180 + 6\,V_B = 30 \nonumber \\
+                                            & \implies 4\,V_B - 60 = 30 \implies 4\,V_B = 90 \implies \mathbf{V_B = 22.5\text{ kN}}
+    \end{align}
+    Obtenido $V_B$, despejamos inmediatamente el resto de reacciones:
+    \begin{align}
+        \mathbf{V_A} & = 60 - 22.5 = \mathbf{37.5\text{ kN}}                              \\
+        \mathbf{M_A} & = 180 - 6 \cdot (22.5) = 180 - 135 = \mathbf{45\text{ kN}\cdot\text{m}}
+    \end{align}
+
+    \begin{tcolorbox}[colback=purple!5, colframe=purple!75!black, title=\textbf{Discusión: Planteamiento Alternativo Liberando el Momento $M_A$}]
+        Si en lugar de liberar la reacción vertical $V_B$, se decide liberar el \textbf{momento de empotramiento $M_A$}:
+        \begin{enumerate}
+            \item El extremo izquierdo $A$ pasa a ser un apoyo articulado fijo exterior, y $M_A$ actúa formalmente como un par concentrado exterior aplicado en $x = 0$.
+            \item La viga isostática base es una viga biapoyada de vano $L = 6\text{ m}$.
+            \item Las condiciones de contorno de flecha nula en ambos apoyos simples son:
+                  \begin{equation}
+                      y(0) = 0 \implies C_2 = 0, \qquad y(6) = 0 \implies C_1 \text{ en función de } M_A
+                  \end{equation}
+            \item La \textbf{ecuación de compatibilidad cinemática} para recuperar el empotramiento original exige que el giro en $x = 0$ sea estrictamente cero:
+                  \begin{equation}
+                      \mathbf{\theta(x = 0) = y'(0) = 0} \implies C_1 = 0
+                  \end{equation}
+                  Ambos caminos conducen a idéntico resultado numérico ($M_A = 45\text{ kN}\cdot\text{m}$, $V_A = 37.5\text{ kN}$, $V_B = 22.5\text{ kN}$).
+        \end{enumerate}
+    \end{tcolorbox}
+
+    \paso{6}{Leyes de Esfuerzos y Diagramas $Q(x)$ y $M_f(x)$}
+
+    Sustituyendo los valores de las reacciones en las expresiones analíticas:
+    \begin{align}
+        Q(x)   & = V_A - q \cdot x = \mathbf{37.5 - 10\,x \quad (\text{kN})}                     \\
+        M_f(x) & = V_A \cdot x - 5\,x^2 - M_A = \mathbf{37.5\,x - 5\,x^2 - 45 \quad (\text{kN}\cdot\text{m})}
+    \end{align}
+
+    \begin{itemize}
+        \item \textbf{Valores notables de esfuerzo cortante:}
+              \begin{itemize}
+                  \item En $x = 0$: $Q(0) = +37.5\text{ kN}$.
+                  \item En $x = 6\text{ m}$: $Q(6) = 37.5 - 60 = -22.5\text{ kN}$ (cierra a cero con $V_B = 22.5\text{ kN}$).
+                  \item Anulación de cortante: $Q(x) = 0 \implies 37.5 - 10\,x = 0 \implies \mathbf{x_0 = 3.75\text{ m}}$.
+              \end{itemize}
+        \item \textbf{Valores notables de momento flector:}
+              \begin{itemize}
+                  \item En el empotramiento ($x = 0$): $\mathbf{M_f(0) = -45\text{ kN}\cdot\text{m}}$ (\textbf{Momento máximo negativo}, tracciona la fibra superior).
+                  \item En el punto de cortante nulo ($x = 3.75\text{ m}$):
+                        \begin{equation}
+                            M_f(3.75) = 37.5 \cdot (3.75) - 5 \cdot (3.75)^2 - 45 = 140.625 - 70.3125 - 45 = \mathbf{+25.31\text{ kN}\cdot\text{m}}
+                        \end{equation}
+                        (\textbf{Momento máximo positivo de vano}, tracciona la fibra inferior).
+                  \item En el apoyo móvil ($x = 6\text{ m}$): $M_f(6) = 37.5 \cdot 6 - 5 \cdot 36 - 45 = 225 - 180 - 45 = \mathbf{0}$.
+              \end{itemize}
+    \end{itemize}
+
+    \begin{center}
+        \adjustbox{max width=0.88\textwidth}{%
+            \begin{tikzpicture}[>=Latex, scale=1.0]
+                % Diagrama Cortante Q(x)
+                \begin{scope}[shift={(0, 3.2)}]
+                    \node[left, font=\footnotesize\bfseries, blue!85!black] at (-0.4, 0) {$Q(x)$ [kN]};
+                    \draw[thick] (0, 0) -- (6.0, 0);
+                    \fill[blue!12] (0, 0) -- (0, 1.25) -- (3.75, 0) -- cycle;
+                    \fill[red!12] (3.75, 0) -- (6.0, -0.75) -- (6.0, 0) -- cycle;
+                    \draw[line width=1.3pt, blue!85!black] (0, 1.25) -- (6.0, -0.75);
+                    \draw[thick, blue!85!black] (0, 0) -- (0, 1.25);
+                    \draw[thick, blue!85!black] (6.0, 0) -- (6.0, -0.75);
+                    \node[left=1pt, font=\scriptsize\bfseries] at (0, 1.25) {$+37.5$};
+                    \node[right=1pt, font=\scriptsize\bfseries] at (6.0, -0.75) {$-22.5$};
+                    \filldraw[black] (3.75, 0) circle (1.8pt) node[above right=1pt, font=\tiny\bfseries] {$x_0 = 3.75\text{ m}$ ($Q=0$)};
+                \end{scope}
+
+                % Diagrama Flector Mf(x)
+                \begin{scope}[shift={(0, 0)}]
+                    \node[left, font=\footnotesize\bfseries, red!85!black] at (-0.4, 0) {$M_{f}(x)$ [kN$\cdot$m]};
+                    \draw[thick] (0, 0) -- (6.0, 0);
+                    % Parábola con Mf(0)=-45, cero en x=1.5, max en x=3.75 (val +25.31), cero en x=6
+                    % Escala dibujo: 1 unidad = 30 kN*m -> -45 = -1.5, +25.31 = +0.84
+                    \fill[red!12] (0, 0) -- (0, -1.5) .. controls (0.8, -1.1) and (1.2, -0.4) .. (1.5, 0) -- cycle;
+                    \fill[green!12] (1.5, 0) .. controls (2.5, 0.84) and (3.2, 0.84) .. (3.75, 0.84) .. controls (4.5, 0.84) and (5.4, 0.35) .. (6.0, 0) -- cycle;
+                    \draw[line width=1.4pt, red!85!black] (0, -1.5) .. controls (1.5, -0.5) and (3.0, 0.84) .. (3.75, 0.84) .. controls (4.5, 0.84) and (5.5, 0.35) .. (6.0, 0);
+                    \draw[thick, red!85!black] (0, 0) -- (0, -1.5);
+                    \node[left=1pt, font=\scriptsize\bfseries, red!85!black] at (0, -1.5) {$-45.0$};
+                    \node[above=1pt, font=\scriptsize\bfseries, green!50!black] at (3.75, 0.84) {$+25.31$};
+                    \draw[dashed, gray!70] (3.75, 0) -- (3.75, 0.84);
+                \end{scope}
+            \end{tikzpicture}%
+        }
+    \end{center}
+
+    \paso{7}{Comprobación a Estados Límites: ELU y ELS}
+
+    \begin{enumerate}
+        \item \textbf{Comprobación de Resistencia en Estado Límite Último (ELU):}
+              \begin{itemize}
+                  \item Se mayoran las acciones nominales con el coeficiente de seguridad $\gamma_f = 1.5$.
+                  \item El momento determinante en valor absoluto se sitúa en el empotramiento: $|M_{f,k,\text{máx}}| = 45\text{ kN}\cdot\text{m}$.
+                  \item Momento de cálculo mayorado:
+                        \begin{equation}
+                            M_{f,d,\text{máx}} = 1.5 \cdot 45 = \mathbf{67.5\text{ kN}\cdot\text{m}}
+                        \end{equation}
+                  \item Se verifica que la tensión normal máxima cumpla:
+                        \begin{equation}
+                            \sigma_{\text{máx},d} = \frac{M_{f,d,\text{máx}} \cdot y_{\text{máx}}}{I_z} \le \sigma_{\text{adm}} = \frac{f_{yk}}{\gamma_M}
+                        \end{equation}
+              \end{itemize}
+        \item \textbf{Comprobación de Deformación en Estado Límite de Servicio (ELS):}
+              \begin{itemize}
+                  \item Se realiza con las cargas características reales \textbf{sin mayorar} ($q = 10\text{ kN/m}$, $\gamma_f = 1.0$).
+                  \item La flecha máxima de vano se localiza igualando la ley de giros a cero ($y'(x) = 0$). Como no se exige calcular la flecha máxima salvo indicación expresa de la cota de giro nulo, no es necesario integrar numéricamente ni representar la elástica si solo se solicitan las reacciones y diagramas.
+                  \item Se verifica finalmente que $|y_{\text{máx}}| \le y_{\text{lím}}$.
+              \end{itemize}
+    \end{enumerate}
+}
+
+%=============================================================================
+% EJERCICIO 2: VIGA CON APOYO INTERMEDIO Y VOLADIZO (COMPROBACIÓN ELU Y ELS)
+%=============================================================================
+\ex{Viga Hiperestática con Apoyo Intermedio y Voladizo: Comprobación ELU, ELS y Cortante}{
+    Se considera una viga continua de longitud total $L = 7\text{ m}$ rígidamente empotrada en su extremo izquierdo $A$ ($x = 0$), con un apoyo articulado móvil en una sección intermedia $B$ ($x = 4\text{ m}$) y con el extremo derecho $C$ ($x = 7\text{ m}$) completamente libre en voladizo (longitud de voladizo $3\text{ m}$).
+
+    La viga soporta una carga uniforme descendente de valor nominal $q_k = 20\text{ kN/m}$ distribuida a lo largo de toda su longitud ($0 \le x \le 7\text{ m}$).
+
+    La sección transversal de la viga es un perfil en T de acero estructural con las siguientes características:
+    \begin{itemize}
+        \item \textbf{Dimensiones geométricas de la sección en T:} Ala superior de anchura $b_f = 50\text{ cm} = 500\text{ mm}$ y espesor $t_f = 10\text{ cm} = 100\text{ mm}$ ($A_{\text{ala}} = 50 \times 10 = 500\text{ cm}^2$). Alma vertical (cuerpo) de altura $h_w = 50\text{ cm} = 500\text{ mm}$ y espesor $b_w = 10\text{ cm} = 100\text{ mm}$ ($A_{\text{alma}} = 50 \times 10 = 500\text{ cm}^2$). Altura total de la sección $H = 60\text{ cm} = 600\text{ mm}$.
+        \item \textbf{Propiedades mecánicas del acero:} Límite elástico característico $f_{yk} = 275\text{ N/mm}^2$ (acero S275), coeficiente de mayoración de acciones $\gamma_f = 1.5$, coeficiente de minoración de la resistencia del acero $\gamma_M = 1.05$. Módulo de elasticidad longitudinal $E = 210\,000\text{ N/mm}^2 = 2.1 \times 10^8\text{ kN/m}^2$.
+    \end{itemize}
+
+    \begin{center}
+        \adjustbox{max width=0.88\textwidth}{%
+            \begin{tikzpicture}[>=Latex, scale=1.0]
+                % Muro empotramiento A
+                \fill[pattern=north east lines, pattern color=gray!70] (-0.3, -0.8) rectangle (0, 0.8);
+                \draw[line width=1.5pt] (0, -0.8) -- (0, 0.8);
+
+                % Barra completa (escala: 1 m = 1.2 cm -> 7 m = 8.4 cm)
+                \draw[line width=2.5pt, blue!80!black] (0, 0) -- (8.4, 0);
+                \filldraw[black] (0, 0) circle (2.2pt) node[above left=2pt, font=\small\bfseries] {$A$ ($x=0$)};
+                \filldraw[black] (4.8, 0) circle (2.2pt) node[above=2pt, font=\small\bfseries] {$B$ ($x=4\text{ m}$)};
+                \filldraw[black] (8.4, 0) circle (2.2pt) node[above right=2pt, font=\small\bfseries] {$C$ ($x=7\text{ m}$)};
+
+                % Carga distribuida q = 20 kN/m
+                \fill[blue!10] (0, 0) rectangle (8.4, 0.8);
+                \draw[thick, blue!85!black] (0, 0.8) -- (8.4, 0.8);
+                \foreach \xx in {0.6, 1.4, 2.2, 3.0, 3.8, 4.6, 5.4, 6.2, 7.0, 7.8} {
+                    \draw[->, thin, blue!85!black] (\xx, 0.8) -- (\xx, 0.05);
+                }
+                \node[above=1pt, font=\footnotesize\bfseries, blue!85!black] at (4.2, 0.8) {$q = 20\text{ kN/m}$};
+
+                % Apoyo móvil intermedio B en x=4.8 (4 m)
+                \coordinate (Bpos) at (4.8, 0);
+                \draw[thick, fill=gray!25] (Bpos) -- ++(-0.25, -0.38) -- ++(0.5, 0) -- cycle;
+                \draw[thick, fill=white] (4.65, -0.47) circle (2pt);
+                \draw[thick, fill=white] (4.95, -0.47) circle (2pt);
+                \draw[line width=1pt] (4.4, -0.56) -- (5.2, -0.56);
+                \foreach \xx in {4.5, 4.7, 4.9, 5.1} \draw[thin] (\xx, -0.56) -- (\xx - 0.1, -0.68);
+
+                % Cotas
+                \draw[<->, line width=0.6pt] (0, -0.9) -- node[below=1pt, font=\footnotesize\bfseries] {$4\text{ m}$} (4.8, -0.9);
+                \draw[<->, line width=0.6pt] (4.8, -0.9) -- node[below=1pt, font=\footnotesize\bfseries] {$3\text{ m}$ (voladizo)} (8.4, -0.9);
+            \end{tikzpicture}%
+        }
+    \end{center}
+
+    Se pide:
+    \begin{enumerate}[label=\alph*)]
+        \item Calcular las reacciones de apoyo ($H_A, V_A, M_A, V_B$) liberando el apoyo móvil $B$.
+        \item Obtener las leyes de esfuerzos internos por el método de cortes para los dos tramos ($x \in [0, 4]\text{ m}$ y $x \in [4, 7]\text{ m}$), trazando los diagramas de esfuerzo cortante $Q(x)$ y momento flector $M_f(x)$.
+        \item Determinar las propiedades de la sección en T (posición del centro de gravedad e inercia $I_z$) y comprobar el Estado Límite Último (ELU) de resistencia a flexión bajo las acciones mayoradas.
+        \item Comprobar el ELU frente a tensiones tangenciales de cortante en la sección más desfavorable ($Q_{\text{máx}}$).
+        \item Comprobar el Estado Límite de Servicio (ELS) de deformaciones con las cargas reales sin mayorar, sabiendo que el giro se anula en $x = 0$ y en $x \approx 2.95\text{ m}$, siendo la flecha límite admisible $y_{\text{lím}} = 3\text{ mm}$.
+    \end{enumerate}
+
+    \paso{1}{Diagrama de Cuerpo Libre (DCL) y Equilibrio Estático Global}
+
+    Liberamos los apoyos en el Diagrama de Cuerpo Libre. En el empotramiento rígido $A$ se generan tres reacciones ($H_A, V_A, M_A$) y en el apoyo móvil $B$ la reacción vertical $V_B$.
+    La carga distribuida uniforme total es $R = q \cdot L = 20 \cdot 7 = 140\text{ kN}$, con punto de aplicación en el centro de gravedad del reparto ($x = 3.5\text{ m}$).
+
+    \begin{center}
+        \adjustbox{max width=0.88\textwidth}{%
+            \begin{tikzpicture}[>=Latex, scale=1.0]
+                % Barra DCL
+                \draw[line width=2.5pt, blue!80!black] (0, 0) -- (8.4, 0);
+                \filldraw[black] (0, 0) circle (2pt) node[above left=2pt, font=\footnotesize\bfseries] {$A$};
+                \filldraw[black] (4.8, 0) circle (2pt) node[above=2pt, font=\footnotesize\bfseries] {$B$};
+                \filldraw[black] (8.4, 0) circle (2pt) node[above right=2pt, font=\footnotesize\bfseries] {$C$};
+
+                % Carga distribuida
+                \fill[blue!10] (0, 0) rectangle (8.4, 0.7);
+                \draw[thick, blue!85!black] (0, 0.7) -- (8.4, 0.7);
+                \foreach \xx in {0.8, 2.0, 3.2, 4.4, 5.6, 6.8, 8.0} {
+                    \draw[->, thin, blue!85!black] (\xx, 0.7) -- (\xx, 0.05);
+                }
+                \node[above=1pt, font=\footnotesize\bfseries, blue!85!black] at (4.2, 0.7) {$q = 20\text{ kN/m}$};
+
+                % Reacciones en A
+                \draw[->, line width=1.4pt, green!55!black] (0, -1.0) -- (0, -0.05) node[pos=0, below, font=\footnotesize\bfseries] {$V_A$};
+                \draw[->, dashed, line width=1.2pt, green!55!black] (-1.0, 0) -- (-0.05, 0) node[pos=0, left, font=\footnotesize\bfseries] {$H_A$};
+                \draw[->, line width=1.3pt, purple!80!black] (-0.35, -0.35) arc (-140:140:0.45) node[above=2pt, font=\footnotesize\bfseries] {$M_A$};
+
+                % Reacción redundante en B
+                \draw[->, line width=1.5pt, red!85!black] (4.8, -1.0) -- (4.8, -0.05) node[pos=0, below, font=\footnotesize\bfseries] {$V_B$};
+
+                % Cotas
+                \draw[<->, line width=0.6pt] (0, -1.3) -- node[below=1pt, font=\footnotesize\bfseries] {$4\text{ m}$} (4.8, -1.3);
+                \draw[<->, line width=0.6pt] (4.8, -1.3) -- node[below=1pt, font=\footnotesize\bfseries] {$3\text{ m}$} (8.4, -1.3);
+            \end{tikzpicture}%
+        }
+    \end{center}
+
+    Ecuaciones de equilibrio estático global:
+    \begin{align}
+        (\rightarrow +) \quad \sum F_x = 0             & \implies \mathbf{H_A = 0}                                                                                                                    \\
+        (\uparrow +) \quad \sum F_y = 0                & \implies V_A + V_B - q \cdot L = 0 \implies V_A + V_B - 20 \cdot 7 = 0 \implies \mathbf{V_A + V_B = 140\text{ kN}} \label{eq:ex2_fy}         \\
+        (\circlearrowleft +) \quad \sum M_{(A)} = 0    & \implies M_A + V_B \cdot 4 - q \cdot L \cdot \frac{L}{2} = 0 \implies M_A + 4\,V_B - 20 \cdot 7 \cdot 3.5 = 0 \nonumber                    \\
+                                                       & \implies M_A + 4\,V_B - 490 = 0 \implies \mathbf{M_A = 490 - 4\,V_B} \label{eq:ex2_ma}
+    \end{align}
+
+    \paso{2}{Ecuación de Compatibilidad y Resolución de la EDE en el Tramo 1}
+
+    Liberamos la coacción vertical del apoyo móvil $B$. Para que la viga libre recupere la configuración geométrica del apoyo real, imponemos la condición de compatibilidad en deformación:
+    \begin{equation}
+        \mathbf{y(x = 4\text{ m}) = 0}
+    \end{equation}
+
+    Como el punto $x = 4\text{ m}$ pertenece a la frontera del \textbf{Tramo 1} ($x \in [0, 4]\text{ m}$), basta con formular la EDE para este primer tramo sin necesidad de resolver simultáneamente las constantes del tramo en voladizo:
+
+    \tramobadge{Tramo 1}{$0 \le x \le 4\text{ m}$}
+    Efectuando un corte en $x \in [0, 4]\text{ m}$ mirando a la izquierda:
+    \begin{equation}
+        M_{f,1}(x) = V_A \cdot x - q \cdot \frac{x^2}{2} - M_A = \mathbf{V_A \cdot x - 10\,x^2 - M_A}
+    \end{equation}
+
+    Integrando dos veces la Ecuación Diferencial de la Elástica:
+    \begin{align}
+        y_1''(x)           & = \frac{1}{E \cdot I_z}\left(V_A \cdot x - 10\,x^2 - M_A\right)                                                \\
+        \theta_1(x) = y_1'(x)& = \frac{1}{E \cdot I_z}\left(\frac{V_A\,x^2}{2} - \frac{10\,x^3}{3} - M_A\,x + C_1\right)                     \\
+        y_1(x)             & = \frac{1}{E \cdot I_z}\left(\frac{V_A\,x^3}{6} - \frac{10\,x^4}{12} - \frac{M_A\,x^2}{2} + C_1\,x + C_2\right)
+    \end{align}
+
+    Aplicando las condiciones de contorno rígidas en el empotramiento $x = 0$:
+    \begin{align}
+        y_1(0) = 0  & \implies \mathbf{C_2 = 0} \\
+        y_1'(0) = 0 & \implies \mathbf{C_1 = 0}
+    \end{align}
+
+    Imponiendo la compatibilidad de flecha nula en el apoyo intermedio $B$ ($x = 4\text{ m}$):
+    \begin{equation}
+        y_1(4) = \frac{1}{E \cdot I_z}\left(\frac{V_A \cdot 4^3}{6} - \frac{10 \cdot 4^4}{12} - \frac{M_A \cdot 4^2}{2}\right) = 0
+    \end{equation}
+    Operando numéricamente:
+    \begin{align}
+        \frac{64}{6}\,V_A - \frac{2560}{12} - 8\,M_A = 0 & \implies \frac{32}{3}\,V_A - 8\,M_A = \frac{640}{3} \nonumber \\
+                                                         & \implies \mathbf{4\,V_A - 3\,M_A = 80} \label{eq:ex2_compat}
+    \end{align}
+
+    Sustituyendo $V_A = 140 - V_B$ de (\ref{eq:ex2_fy}) y $M_A = 490 - 4\,V_B$ de (\ref{eq:ex2_ma}) en (\ref{eq:ex2_compat}):
+    \begin{align}
+        4\,(140 - V_B) - 3\,(490 - 4\,V_B) = 80 & \implies 560 - 4\,V_B - 1470 + 12\,V_B = 80 \nonumber \\
+                                                & \implies 8\,V_B - 910 = 80 \implies 8\,V_B = 990 \implies \mathbf{V_B = 123.75\text{ kN}}
+    \end{align}
+
+    Con el valor de la reacción redundante $V_B$, se determinan de inmediato las reacciones en el empotramiento:
+    \begin{align}
+        \mathbf{V_A} & = 140 - 123.75 = \mathbf{16.25\text{ kN}}                                        \\
+        \mathbf{M_A} & = 490 - 4 \cdot (123.75) = 490 - 495 = \mathbf{-5\text{ kN}\cdot\text{m}}
+    \end{align}
+    \textit{Significado físico de $M_A = -5\text{ kN}\cdot\text{m}$:} Al haber planteado $M_A$ en sentido antihorario en el DCL, el signo negativo indica que el momento de empotramiento real actúa en sentido horario (es decir, en $x = 0$ la fibra inferior queda traccionada con un flector inicial positivo $M_f(0) = -M_A = +5\text{ kN}\cdot\text{m}$).
+
+    \paso{3}{Leyes de Esfuerzos Internos por Cortes en Ambos Tramos}
+
+    \tramobadge{Tramo 1}{$0 \le x \le 4\text{ m}$}
+    Mirando a la izquierda desde la sección $x$:
+    \begin{align}
+        Q_1(x)   & = V_A - q \cdot x = \mathbf{16.25 - 20\,x \quad (\text{kN})}                                       \\
+        M_{f,1}(x)& = V_A \cdot x - 10\,x^2 - M_A = 16.25\,x - 10\,x^2 - (-5) = \mathbf{16.25\,x - 10\,x^2 + 5 \quad (\text{kN}\cdot\text{m})}
+    \end{align}
+    \begin{itemize}
+        \item Extremo $x = 0$: $Q_1(0) = +16.25\text{ kN}$, \quad $M_{f,1}(0) = +5\text{ kN}\cdot\text{m}$.
+        \item Anulación de cortante: $Q_1(x) = 0 \implies 16.25 - 20\,x = 0 \implies \mathbf{x_0 = 0.8125\text{ m}}$.
+        \item \textbf{Momento máximo positivo de vano (en $x_0 = 0.8125\text{ m}$):}
+              \begin{equation}
+                  M_{f,\text{máx}}^{(+)} = 16.25 \cdot (0.8125) - 10 \cdot (0.8125)^2 + 5 = 13.203 - 6.602 + 5 = \mathbf{+11.60\text{ kN}\cdot\text{m}}
+              \end{equation}
+        \item Extremo $x = 4^-\text{ m}$ (justo a la izquierda del apoyo $B$):
+              \begin{align}
+                  Q_1(4^-)   & = 16.25 - 20 \cdot 4 = \mathbf{-63.75\text{ kN}} \\
+                  M_{f,1}(4) & = 16.25 \cdot 4 - 10 \cdot 16 + 5 = 65 - 160 + 5 = \mathbf{-90\text{ kN}\cdot\text{m}}
+              \end{align}
+    \end{itemize}
+
+    \tramobadge{Tramo 2 (Voladizo)}{$4\text{ m} \le x \le 7\text{ m}$}
+    Mirando a la derecha utilizando la distancia $u = 7 - x \in [0, 3]\text{ m}$ medida desde el extremo libre:
+    \begin{align}
+        Q_2(u)    & = q \cdot u = \mathbf{20\,(7 - x) \quad (\text{kN})}                                     \\
+        M_{f,2}(u)& = -q \cdot \frac{u^2}{2} = -10\,u^2 = \mathbf{-10\,(7 - x)^2 \quad (\text{kN}\cdot\text{m})}
+    \end{align}
+    \begin{itemize}
+        \item En $x = 4^+\text{ m}$ (justo a la derecha del apoyo $B$, $u = 3\text{ m}$):
+              \begin{align}
+                  Q_2(4^+)   & = 20 \cdot 3 = \mathbf{+60\text{ kN}} \\
+                  M_{f,2}(4) & = -10 \cdot 3^2 = \mathbf{-90\text{ kN}\cdot\text{m}}
+              \end{align}
+              \textit{Comprobación del salto en $B$:} $\Delta Q = Q_2(4^+) - Q_1(4^-) = 60 - (-63.75) = \mathbf{123.75\text{ kN} = V_B}$. El momento flector es continuo ($M_f(4) = -90\text{ kN}\cdot\text{m}$).
+        \item En el extremo libre $x = 7\text{ m}$ ($u = 0$): $Q_2(7) = 0$, \quad $M_{f,2}(7) = 0$.
+    \end{itemize}
+
+    \begin{center}
+        \adjustbox{max width=0.88\textwidth}{%
+            \begin{tikzpicture}[>=Latex, scale=1.0]
+                % Diagrama Cortante Q(x)
+                \begin{scope}[shift={(0, 3.4)}]
+                    \node[left, font=\footnotesize\bfseries, blue!85!black] at (-0.4, 0) {$Q(x)$ [kN]};
+                    \draw[thick] (0, 0) -- (7.0, 0);
+
+                    % Tramo 1 (0 a 4 m -> 0 a 4.0 cm): de +16.25 a -63.75
+                    % Escala vertical: 1 cm = 40 kN
+                    \fill[blue!12] (0, 0) -- (0, 0.406) -- (0.8125, 0) -- cycle;
+                    \fill[red!12] (0.8125, 0) -- (4.0, -1.594) -- (4.0, 0) -- cycle;
+                    \draw[line width=1.3pt, blue!85!black] (0, 0.406) -- (4.0, -1.594);
+                    \draw[thick, blue!85!black] (0, 0) -- (0, 0.406);
+
+                    % Salto en x=4.0 debido a VB = 123.75 kN
+                    \draw[line width=1.3pt, green!55!black] (4.0, -1.594) -- (4.0, 1.50);
+
+                    % Tramo 2 (4 a 7 m -> 4.0 a 7.0 cm): de +60 a 0
+                    \fill[blue!12] (4.0, 0) -- (4.0, 1.50) -- (7.0, 0) -- cycle;
+                    \draw[line width=1.3pt, blue!85!black] (4.0, 1.50) -- (7.0, 0);
+
+                    % Etiquetas
+                    \node[left=1pt, font=\scriptsize\bfseries] at (0, 0.406) {$+16.25$};
+                    \node[below left=1pt, font=\scriptsize\bfseries, red!85!black] at (4.0, -1.594) {$-63.75$};
+                    \node[above right=1pt, font=\scriptsize\bfseries, blue!85!black] at (4.0, 1.50) {$+60.0$};
+                    \node[above=1pt, font=\tiny\bfseries] at (0.8125, 0) {$x_0 = 0.81$};
+                    \node[above=1pt, font=\tiny\bfseries] at (7.0, 0) {$0$};
+                \end{scope}
+
+                % Diagrama Flector Mf(x)
+                \begin{scope}[shift={(0, 0)}]
+                    \node[left, font=\footnotesize\bfseries, red!85!black] at (-0.4, 0) {$M_{f}(x)$ [kN$\cdot$m]};
+                    \draw[thick] (0, 0) -- (7.0, 0);
+
+                    % Escala vertical: 1 cm = 45 kN*m -> -90 = -2.0, +11.6 = +0.26, +5 = +0.11
+                    \fill[green!12] (0, 0) -- (0, 0.11) .. controls (0.4, 0.26) and (0.81, 0.26) .. (1.0, 0.24) .. controls (1.5, 0.1) .. (1.89, 0) -- cycle;
+                    \fill[red!12] (1.89, 0) .. controls (2.5, -0.4) and (3.3, -1.2) .. (4.0, -2.0) -- cycle;
+                    \fill[red!12] (4.0, 0) -- (4.0, -2.0) .. controls (5.0, -0.9) and (6.0, -0.2) .. (7.0, 0) -- cycle;
+
+                    \draw[line width=1.4pt, red!85!black] (0, 0.11) .. controls (0.4, 0.26) and (0.81, 0.26) .. (1.0, 0.24) .. controls (2.2, -0.3) and (3.2, -1.2) .. (4.0, -2.0) .. controls (5.0, -0.9) and (6.0, -0.2) .. (7.0, 0);
+
+                    \draw[thick, red!85!black] (0, 0) -- (0, 0.11);
+                    \node[left=1pt, font=\scriptsize\bfseries, green!50!black] at (0, 0.11) {$+5.0$};
+                    \node[above=1pt, font=\scriptsize\bfseries, green!50!black] at (0.81, 0.26) {$+11.60$};
+                    \node[below=1pt, font=\scriptsize\bfseries, red!85!black] at (4.0, -2.0) {$-90.0$};
+                    \draw[dashed, gray!70] (4.0, 0) -- (4.0, -2.0);
+                \end{scope}
+            \end{tikzpicture}%
+        }
+    \end{center}
+
+    \paso{4}{Propiedades Geométricas de la Sección en T (Centro de Gravedad e Inercia)}
+
+    La sección transversal en T se divide en dos figuras rectangulares elementales, tomando como referencia el eje $Z$ situado en la base inferior del alma:
+    \begin{enumerate}
+        \item \textbf{Figura 1 (Alma vertical o cuerpo):}
+              \begin{itemize}
+                  \item Dimensiones: espesor $b_w = 10\text{ cm}$, altura $h_w = 50\text{ cm}$.
+                  \item Área: $A_1 = 10 \times 50 = \mathbf{500\text{ cm}^2 = 0.05\text{ m}^2 = 50\,000\text{ mm}^2}$.
+                  \item Coordenada del centro de gravedad propio: $y_{G,1} = \frac{50}{2} = 25\text{ cm} = 250\text{ mm}$.
+              \end{itemize}
+        \item \textbf{Figura 2 (Ala superior):}
+              \begin{itemize}
+                  \item Dimensiones: anchura $b_f = 50\text{ cm}$, espesor $t_f = 10\text{ cm}$.
+                  \item Área: $A_2 = 50 \times 10 = \mathbf{500\text{ cm}^2 = 0.05\text{ m}^2 = 50\,000\text{ mm}^2}$.
+                  \item Coordenada del centro de gravedad propio: $y_{G,2} = 50 + \frac{10}{2} = 55\text{ cm} = 550\text{ mm}$.
+              \end{itemize}
+    \end{enumerate}
+
+    \begin{center}
+        \adjustbox{max width=0.72\textwidth}{%
+            \begin{tikzpicture}[>=Latex, scale=1.0]
+                % Sección T
+                \fill[blue!10] (1.0, 5.0) rectangle (6.0, 6.0);
+                \fill[blue!10] (3.0, 0) rectangle (4.0, 5.0);
+                \draw[line width=1.3pt, blue!85!black] (1.0, 6.0) -- (6.0, 6.0) -- (6.0, 5.0) -- (4.0, 5.0) -- (4.0, 0) -- (3.0, 0) -- (3.0, 5.0) -- (1.0, 5.0) -- cycle;
+
+                % Eje neutro en y=40 cm (4.0 en dibujo)
+                \draw[dashdotted, red!85!black, line width=1.2pt] (0.2, 4.0) -- (6.8, 4.0) node[right, font=\footnotesize\bfseries] {Eje Neutro ($y_G = 40\text{ cm}$)};
+                \filldraw[black] (3.5, 4.0) circle (2pt) node[above right=1pt, font=\scriptsize\bfseries] {$G$};
+
+                % Cotas
+                \draw[<->, line width=0.6pt] (1.0, 6.3) -- node[above=1pt, font=\footnotesize\bfseries] {$b_f = 50\text{ cm}$} (6.0, 6.3);
+                \draw[<->, line width=0.6pt] (6.3, 5.0) -- node[right=1pt, font=\footnotesize\bfseries] {$t_f = 10\text{ cm}$} (6.3, 6.0);
+                \draw[<->, line width=0.6pt] (4.3, 0) -- node[right=1pt, font=\footnotesize\bfseries] {$h_w = 50\text{ cm}$} (4.3, 5.0);
+                \draw[<->, line width=0.6pt] (3.0, -0.4) -- node[below=1pt, font=\footnotesize\bfseries] {$b_w = 10\text{ cm}$} (4.0, -0.4);
+
+                % Cotas a fibras extremas
+                \draw[<->, line width=0.7pt, purple!80!black] (0.5, 0) -- node[left=1pt, font=\scriptsize\bfseries] {$c_{\text{inf}} = 40\text{ cm}$} (0.5, 4.0);
+                \draw[<->, line width=0.7pt, purple!80!black] (0.5, 4.0) -- node[left=1pt, font=\scriptsize\bfseries] {$c_{\text{sup}} = 20\text{ cm}$} (0.5, 6.0);
+            \end{tikzpicture}%
+        }
+    \end{center}
+
+    \begin{itemize}
+        \item \textbf{Centro de Gravedad global ($y_G$) desde la base:}
+              \begin{equation}
+                  y_G = \frac{A_1 \cdot y_{G,1} + A_2 \cdot y_{G,2}}{A_1 + A_2} = \frac{500 \cdot 25 + 500 \cdot 55}{500 + 500} = \frac{12\,500 + 27\,500}{1\,000} = \mathbf{40\text{ cm} = 400\text{ mm}}
+              \end{equation}
+        \item \textbf{Distancias a las fibras extremas desde el eje neutro:}
+              \begin{equation}
+                  c_{\text{sup}} = H - y_G = 60 - 40 = \mathbf{20\text{ cm} = 200\text{ mm}}, \qquad c_{\text{inf}} = y_G = \mathbf{40\text{ cm} = 400\text{ mm}}
+              \end{equation}
+        \item \textbf{Momento de Inercia $I_z$ respecto al eje neutro baricéntrico (Teorema de Steiner):}
+              \begin{align}
+                  I_{z,\text{alma}} & = \frac{b_w \cdot h_w^3}{12} + A_1 \cdot (y_G - y_{G,1})^2 = \frac{10 \cdot 50^3}{12} + 500 \cdot (40 - 25)^2 \nonumber \\
+                                   & = 104\,166.67 + 500 \cdot 225 = 104\,166.67 + 112\,500 = \mathbf{216\,666.67\text{ cm}^4}                       \\
+                  I_{z,\text{ala}}  & = \frac{b_f \cdot t_f^3}{12} + A_2 \cdot (y_{G,2} - y_G)^2 = \frac{50 \cdot 10^3}{12} + 500 \cdot (55 - 40)^2 \nonumber \\
+                                   & = 4\,166.67 + 500 \cdot 225 = 4\,166.67 + 112\,500 = \mathbf{116\,666.67\text{ cm}^4}                           \\
+                  \mathbf{I_z}     & = I_{z,\text{alma}} + I_{z,\text{ala}} = 216\,666.67 + 116\,666.67 = \mathbf{333\,333.33\text{ cm}^4} \nonumber \\
+                                   & = \mathbf{3.333 \times 10^{-3}\text{ m}^4 = 3.333 \times 10^8\text{ mm}^4}
+              \end{align}
+    \end{itemize}
+
+    \paso{5}{Comprobación a Estado Límite Último (ELU) de Resistencia a Flexión}
+
+    \begin{enumerate}
+        \item \textbf{Resistencia de cálculo admisible del material:}
+              \begin{equation}
+                  f_{yd} = \sigma_{\text{adm}} = \frac{f_{yk}}{\gamma_M} = \frac{275\text{ N/mm}^2}{1.05} = \mathbf{261.90\text{ N/mm}^2 = 261.90\text{ MPa}}
+              \end{equation}
+        \item \textbf{Mayoración de esfuerzos flectores con $\gamma_f = 1.5$:}
+              \begin{itemize}
+                  \item Momento de vano positivo máximo: $M_{d}^{(+)} = 1.5 \times (+11.60\text{ kN}\cdot\text{m}) = \mathbf{+17.40\text{ kN}\cdot\text{m}}$.
+                  \item Momento de apoyo negativo máximo: $M_{d}^{(-)} = 1.5 \times (-90.00\text{ kN}\cdot\text{m}) = \mathbf{-135.00\text{ kN}\cdot\text{m}}$.
+              \end{itemize}
+        \item \textbf{Análisis de tensiones normales bajo el momento determinante ($M_{d} = -135\text{ kN}\cdot\text{m}$):}
+              Al ser un momento negativo, comprime las fibras inferiores (alma) y tracciona las fibras superiores (ala):
+              \begin{align}
+                  \text{Fibra superior } (y = +c_{\text{sup}} = +200\text{ mm}): \quad & \sigma_{\text{sup}} = -\frac{M_d \cdot (+c_{\text{sup}})}{I_z} = -\frac{(-135 \times 10^6\text{ N}\cdot\text{mm}) \cdot 200\text{ mm}}{3.333 \times 10^8\text{ mm}^4} \nonumber \\
+                                                                                       & = \mathbf{+81.00\text{ N/mm}^2 \quad (\text{Tracción})} \le 261.90\text{ N/mm}^2                                                                                          \\
+                  \text{Fibra inferior } (y = -c_{\text{inf}} = -400\text{ mm}): \quad & \sigma_{\text{inf}} = -\frac{M_d \cdot (-c_{\text{inf}})}{I_z} = -\frac{(-135 \times 10^6\text{ N}\cdot\text{mm}) \cdot (-400\text{ mm})}{3.333 \times 10^8\text{ mm}^4} \nonumber \\
+                                                                                       & = \mathbf{-162.00\text{ N/mm}^2 \quad (\text{Compresión})} \le 261.90\text{ N/mm}^2
+              \end{align}
+        \item \textbf{Análisis bajo el momento positivo de vano ($M_d = +17.40\text{ kN}\cdot\text{m}$):}
+              \begin{align}
+                  \sigma_{\text{sup}} & = -\frac{(+17.40 \times 10^6) \cdot 200}{3.333 \times 10^8} = \mathbf{-10.44\text{ N/mm}^2 \quad (\text{Compresión})} \\
+                  \sigma_{\text{inf}} & = -\frac{(+17.40 \times 10^6) \cdot (-400)}{3.333 \times 10^8} = \mathbf{+20.88\text{ N/mm}^2 \quad (\text{Tracción})}
+              \end{align}
+    \end{enumerate}
+
+    \begin{center}
+        \adjustbox{max width=0.88\textwidth}{%
+            \begin{tikzpicture}[>=Latex, scale=1.0]
+                % Diagrama para M(-) = -135 kNm
+                \begin{scope}[shift={(0,0)}]
+                    \node[above, font=\small\bfseries, red!85!black] at (2.0, 6.3) {Bajo $M_d^{(-)} = -135\text{ kN}\cdot\text{m}$ (Apoyo $B$)};
+                    % Eje vertical de la sección
+                    \draw[thick] (2.0, 0) -- (2.0, 6.0);
+                    \draw[dashdotted, gray!80] (0.5, 4.0) -- (4.5, 4.0) node[right, font=\tiny\bfseries] {Eje Neutro};
+
+                    % Triángulos de tensiones
+                    \fill[blue!12] (2.0, 4.0) -- (2.0, 6.0) -- (3.2, 6.0) -- cycle;
+                    \fill[red!12] (2.0, 4.0) -- (2.0, 0) -- (0.0, 0) -- cycle;
+                    \draw[line width=1.3pt, blue!85!black] (3.2, 6.0) -- (2.0, 4.0) -- (0.0, 0);
+
+                    % Flechas de tensión
+                    \draw[->, thick, blue!85!black] (2.0, 6.0) -- (3.2, 6.0) node[right=1pt, font=\scriptsize\bfseries] {$\sigma_{\text{tracc}} = +81.0\text{ N/mm}^2$};
+                    \draw[<-, thick, red!85!black] (0.0, 0) -- (2.0, 0) node[left=1pt, font=\scriptsize\bfseries] {$\sigma_{\text{comp}} = -162.0\text{ N/mm}^2$};
+                \end{scope}
+
+                % Diagrama para M(+) = +17.40 kNm
+                \begin{scope}[shift={(7.5, 0)}]
+                    \node[above, font=\small\bfseries, green!50!black] at (2.0, 6.3) {Bajo $M_d^{(+)} = +17.40\text{ kN}\cdot\text{m}$ (Vano $x=0.81\text{ m}$)};
+                    \draw[thick] (2.0, 0) -- (2.0, 6.0);
+                    \draw[dashdotted, gray!80] (0.5, 4.0) -- (4.5, 4.0) node[right, font=\tiny\bfseries] {Eje Neutro};
+
+                    \fill[red!12] (2.0, 4.0) -- (2.0, 6.0) -- (1.6, 6.0) -- cycle;
+                    \fill[blue!12] (2.0, 4.0) -- (2.0, 0) -- (2.8, 0) -- cycle;
+                    \draw[line width=1.3pt, red!85!black] (1.6, 6.0) -- (2.0, 4.0) -- (2.8, 0);
+
+                    \draw[<-, thick, red!85!black] (1.6, 6.0) -- (2.0, 6.0) node[left=1pt, font=\scriptsize\bfseries] {$\sigma_{\text{comp}} = -10.44\text{ N/mm}^2$};
+                    \draw[->, thick, blue!85!black] (2.0, 0) -- (2.8, 0) node[right=1pt, font=\scriptsize\bfseries] {$\sigma_{\text{tracc}} = +20.88\text{ N/mm}^2$};
+                \end{scope}
+            \end{tikzpicture}%
+        }
+    \end{center}
+
+    Como la máxima tensión en valor absoluto es $|\sigma_{\text{máx},d}| = 162.00\text{ N/mm}^2 < f_{yd} = 261.90\text{ N/mm}^2$, la viga \textbf{cumple holgadamente el Estado Límite Último de resistencia a flexión}.
+
+    \paso{6}{Comprobación a Cortante en ELU (Tensión Tangencial Máxima de Collignon)}
+
+    El esfuerzo cortante característico máximo absoluto se produce en la sección a la izquierda del apoyo $B$: $|Q_{k,\text{máx}}| = 63.75\text{ kN}$.
+    Mayorando con $\gamma_f = 1.5$:
+    \begin{equation}
+        Q_{d,\text{máx}} = 1.5 \times 63.75\text{ kN} = \mathbf{95.625\text{ kN} = 95\,625\text{ N}}
+    \end{equation}
+
+    La máxima tensión tangencial $\tau_{\text{máx}}$ se localiza en la fibra neutra ($y = 0$, que coincide con el centro de gravedad $y_G = 40\text{ cm}$ situado dentro del alma):
+    \begin{itemize}
+        \item \textbf{Momento estático $S_z^*$ respecto al eje neutro:}
+              Tomando la porción de sección situada por debajo de la fibra neutra (rectángulo del alma de ancho $b_w = 10\text{ cm}$ y altura $40\text{ cm}$):
+              \begin{equation}
+                  S_z^* = (b_w \cdot y_G) \cdot \frac{y_G}{2} = (10 \times 40) \cdot 20 = \mathbf{8\,000\text{ cm}^3 = 8.0 \times 10^6\text{ mm}^3}
+              \end{equation}
+              (Nótese que por la parte superior se obtiene exactamente el mismo valor: $A_{\text{ala}} \cdot 15 + A_{\text{alma,sup}} \cdot 5 = 500 \cdot 15 + 100 \cdot 5 = 7500 + 500 = 8\,000\text{ cm}^3$).
+        \item \textbf{Anchura de corte:} $b = b_w = 10\text{ cm} = 100\text{ mm}$.
+        \item \textbf{Tensión tangencial máxima (Collignon-Jourawski):}
+              \begin{equation}
+                  \tau_{\text{máx},d} = \frac{Q_{d,\text{máx}} \cdot S_z^*}{b_w \cdot I_z} = \frac{95\,625\text{ N} \cdot 8.0 \times 10^6\text{ mm}^3}{100\text{ mm} \cdot 3.333 \times 10^8\text{ mm}^4} = \mathbf{2.30\text{ N/mm}^2 = 2.30\text{ MPa}}
+              \end{equation}
+    \end{itemize}
+    Comparando con la resistencia admisible a cortante del acero:
+    \begin{equation}
+        \tau_{\text{adm}} = \frac{f_{yd}}{\sqrt{3}} = \frac{261.90}{\sqrt{3}} = \mathbf{151.21\text{ N/mm}^2} \gg 2.30\text{ N/mm}^2 \implies \mathbf{CUMPLE\ ELU\ sobradamente}
+    \end{equation}
+
+    \paso{7}{Comprobación a Estado Límite de Servicio (ELS) de Deformaciones}
+
+    En el ELS se trabaja con las cargas de servicio reales \textbf{sin mayorar} ($q = 20\text{ kN/m}$, $\gamma_f = 1.0$).
+    La rigidez a flexión de la sección transversal de acero es:
+    \begin{equation}
+        E \cdot I_z = (2.1 \times 10^8\text{ kN/m}^2) \cdot (3.333 \times 10^{-3}\text{ m}^4) = \mathbf{700\,000\text{ kN}\cdot\text{m}^2}
+    \end{equation}
+
+    \begin{enumerate}
+        \item \textbf{Flecha máxima en el primer vano ($x \in [0, 4]\text{ m}$):}
+              El giro se anula en el empotramiento ($x = 0$) y en el interior del vano en la abscisa donde $y_1'(x) = 0$. Resolviendo la ecuación cúbica de giros (\ref{eq:ex2_compat}) con $V_A = 16.25\text{ kN}$ y $M_A = -5\text{ kN}\cdot\text{m}$:
+              \begin{equation}
+                  y_1'(x) = \frac{1}{E \cdot I_z}\left(\frac{16.25\,x^2}{2} - \frac{10\,x^3}{3} + 5\,x\right) = 0 \implies x \approx \mathbf{2.947\text{ m}} \approx \mathbf{2.95\text{ m}}
+              \end{equation}
+              Sustituyendo $x = 2.95\text{ m}$ en la ecuación de flecha $y_1(x)$:
+              \begin{align}
+                  y_1(2.95) & = \frac{1}{E \cdot I_z}\left(\frac{16.25 \cdot (2.95)^3}{6} - \frac{10 \cdot (2.95)^4}{12} + \frac{5 \cdot (2.95)^2}{2}\right) \nonumber \\
+                            & = \frac{69.52 - 63.07 + 21.76}{700\,000} = \frac{+28.17\text{ kN}\cdot\text{m}^3}{700\,000\text{ kN}\cdot\text{m}^2} = \mathbf{+4.02 \times 10^{-5}\text{ m} = +0.040\text{ mm}}
+              \end{align}
+        \item \textbf{Flecha máxima en la punta del voladizo ($x = 7\text{ m}$):}
+              El extremo libre $C$ experimenta un descenso debido al giro de la sección sobre el apoyo $B$ más la deformación intrínseca de voladizo con carga repartida:
+              \begin{align}
+                  \text{Giro en } B \ (x = 4\text{ m}): \quad & \theta_B = y_1'(4) = \frac{1}{E \cdot I_z}\left(\frac{16.25 \cdot 16}{2} - \frac{10 \cdot 64}{3} + 5 \cdot 4\right) = \mathbf{-\frac{63.33\text{ kN}\cdot\text{m}^2}{E \cdot I_z}} \nonumber \\
+                  \text{Descenso cinemático:} \quad           & \Delta y_{\theta} = \theta_B \cdot L_{\text{vol}} = \left(-\frac{63.33}{E \cdot I_z}\right) \cdot 3 = -\frac{190.00}{E \cdot I_z}                                                  \\
+                  \text{Descenso por carga en voladizo:} \quad& \Delta y_{q} = -\frac{q \cdot L_{\text{vol}}^4}{8\,E \cdot I_z} = -\frac{20 \cdot 3^4}{8\,E \cdot I_z} = -\frac{202.50}{E \cdot I_z}                                                    \\
+                  \mathbf{y(7\text{ m})}                      & = \Delta y_{\theta} + \Delta y_{q} = \frac{-190.00 - 202.50}{E \cdot I_z} = \mathbf{-\frac{392.50\text{ kN}\cdot\text{m}^3}{E \cdot I_z}} \nonumber                               \\
+                                                              & = \frac{-392.50}{700\,000} = \mathbf{-5.61 \times 10^{-4}\text{ m} = -0.561\text{ mm}}
+              \end{align}
+    \end{enumerate}
+
+    \begin{tcolorbox}[colback=green!5, colframe=green!60!black, title=\textbf{Verificación Final de Flechas en ELS}]
+        La flecha máxima de toda la estructura se localiza en la punta del voladizo ($x = 7\text{ m}$):
+        \begin{equation}
+            |y_{\text{máx}}| = |-0.561\text{ mm}| = \mathbf{0.561\text{ mm} \le y_{\text{lím}} = 3.0\text{ mm}} \implies \mathbf{CUMPLE\ EL\ DE\ SERVICIO}
+        \end{equation}
+    \end{tcolorbox}
+}
+
